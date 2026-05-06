@@ -61,7 +61,7 @@ set -euo pipefail
 
 readonly SCRIPT_NAME="$(basename "$0")"
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-readonly VERSION="0.0.2-implement-partial"
+readonly VERSION="0.0.3-implement-partial"
 
 # Source of policy files = the directory containing install.sh (i.e., a
 # checkout of the root-ghostproxy repo). Destination defaults to $HOME.
@@ -88,6 +88,7 @@ WITH_BRIDGE=""
 WITH_WIFI=""
 WITH_INTEGRITY=""
 WITH_CCSTATUSLINE="" # M011 ccstatusline integration (npm-based)
+WITH_TOOLS=""        # /tools/*.py — autopilot Python modules (tools.cycle, tools.stamp, etc.)
 
 # Detected OS family (set by detect_os_family)
 OS_ID=""
@@ -119,27 +120,62 @@ log_check() { printf '[install.sh][CHECK] %s: %s\n' "$1" "$2" >&2; }
 
 print_help() {
     cat <<EOF
-${SCRIPT_NAME} ${VERSION} — root-ghostproxy foundation installer (greenfield, scaffold-stage)
+${SCRIPT_NAME} ${VERSION} — root-ghostproxy foundation installer (greenfield, implement-stage)
 
 USAGE:
     ${SCRIPT_NAME} [FLAGS]
 
 FLAGS:
-    --dry-run        Preview operations; no state changes.
-    --check          Verify installed state matches expected. Exit non-zero on drift.
-    --dest <path>    Install to alternate prefix (default: \$HOME). For testing.
-    --verbose        Verbose logging.
-    --yes, -y        Assume yes for any prompts.
-    --help, -h       Show this help.
-    --version        Print version + exit.
+    --dry-run                 Preview operations; no state changes.
+    --check                   Verify installed state matches expected. Exit non-zero on drift.
+    --dest <path>             Install to alternate prefix (default: \$HOME).
+    --profile <name>          Install profile: base | full | project | interactive (default: base)
+    --mode <name>             Ghostproxy runtime mode: bridge | endpoint | hybrid | auto (default: auto)
+    --with-hooks / --no-hooks       Include/exclude agent brain (settings + hooks + rules + commands + agents + modes + skills)
+    --with-opencode / --no-opencode Include/exclude opencode bridge plugin
+    --with-bridge / --no-bridge     Include/exclude network bridge config
+    --with-wifi / --no-wifi         Include/exclude management wifi (outbound-only)
+    --with-integrity / --no-integrity Include/exclude integrity sentinel + baselines
+    --with-ccstatusline / --no-ccstatusline Include/exclude ccstatusline (Features tier)
+    --with-tools / --no-tools       Include/exclude /tools/*.py Python autopilot modules
+    --verbose                 Verbose logging.
+    --yes, -y                 Assume yes for any prompts.
+    --help, -h                Show this help.
+    --version                 Print version + exit.
+
+PROFILES:
+    base         Foundation only (hooks + bridge + wifi + integrity); no Features.
+    full         Base + ALL facultative modules (ccstatusline, future Suricata/PolarProxy).
+    project      Per-project deploy: agent brain + tools to a sister project.
+                   Disables OS-level ops (bridge/wifi/integrity/ccstatusline/opencode).
+                   Use with --dest <project-path>. Slash command equivalent:
+                   /install-agent-brain <project-path>
+    interactive  TUI prompts per-operation (STUB; falls through to base).
 
 OPERATIONS (executed in sequence on real install):
-    1. Endpoint AI agent safety policy (~/.claude/settings.json + hooks)
+    1. Endpoint AI agent brain (settings + hooks + rules + commands + agents + modes + skills)
+    1b. /tools/*.py Python autopilot modules
     2. Opencode bridge plugin (~/.config/opencode/)
-    3. Network bridge topology + nftables rules
-    4. Management wifi config (outbound-only)
-    5. Integrity sentinel registration
-    6. Post-install verification
+    3. Network bridge topology + nftables rules (bridge mode only)
+    4. Management wifi config + outbound-only nftables (bridge/hybrid mode only)
+    5. Integrity sentinel registration (SHA256 baselines)
+    6. ccstatusline (Features tier; npm-based; full profile only)
+    7. Post-install verification (op_verify — runs same checks as --check)
+
+EXAMPLES:
+    # OS-root install (this dev host, default)
+    ${SCRIPT_NAME} --dry-run --profile base
+    ${SCRIPT_NAME} --profile full --with-ccstatusline
+
+    # Project install (deploy agent brain into a sister project)
+    ${SCRIPT_NAME} --profile project --dest /opt/devops-solutions-information-hub --dry-run
+    ${SCRIPT_NAME} --profile project --dest /home/jfortin/openarms
+
+    # Endpoint-only host (no bridge config; just safety + opencode)
+    ${SCRIPT_NAME} --profile base --mode endpoint
+
+    # Drift check after install
+    ${SCRIPT_NAME} --check
 
 EXIT CODES:
     0   success or no-op (idempotent re-run, --check passed)
@@ -152,7 +188,9 @@ NOTES:
     - This installer is IDEMPOTENT: re-run = no-op when state matches.
     - Out-of-sync files are backed up to <path>${BACKUP_SUFFIX} before overwrite.
     - For uninstall, use companion ${SCRIPT_DIR}/uninstall.sh.
-    - SCAFFOLD STAGE: operations are STUBS. Implement-stage work fills them.
+    - Pending implement-stage gaps: bridge FORWARD/OUTPUT nftables rules
+      (operator-decision: default-accept vs default-drop FORWARD policy per
+      T013 threat model); shellcheck pass; idempotency invariant test (T016).
 
 REFERENCES:
     - Foundation hardening module: wiki/backlog/modules/root-ghostproxy-m003-*.md
@@ -185,6 +223,8 @@ parse_args() {
             --no-integrity)    WITH_INTEGRITY=0; shift ;;
             --with-ccstatusline) WITH_CCSTATUSLINE=1; shift ;;
             --no-ccstatusline)   WITH_CCSTATUSLINE=0; shift ;;
+            --with-tools)        WITH_TOOLS=1; shift ;;
+            --no-tools)          WITH_TOOLS=0; shift ;;
             --verbose)         VERBOSE=1; shift ;;
             --yes|-y)          ASSUME_YES=1; shift ;;
             --version)         printf '%s %s\n' "${SCRIPT_NAME}" "${VERSION}"; exit 0 ;;
@@ -255,21 +295,34 @@ apply_profile() {
         base)
             # Foundation operations only — no Features modules. ccstatusline=0 since it's Features-tier.
             d_hooks=1; d_opencode=1; d_bridge=1; d_wifi=1; d_integrity=1
-            d_ccstatusline=0
+            d_ccstatusline=0; d_tools=1
             ;;
         full)
             # Base + ALL facultative modules including Features (ccstatusline, future Suricata/PolarProxy).
             # Per operator: "if I do a full install they would all be installed."
             d_hooks=1; d_opencode=1; d_bridge=1; d_wifi=1; d_integrity=1
-            d_ccstatusline=1
+            d_ccstatusline=1; d_tools=1
+            ;;
+        project)
+            # Per-project install — operator opts in to deploy the agent brain
+            # (settings + hooks + rules + commands + agents + modes + skills +
+            # tools) INTO a sister project, NOT at OS-root level. Disables
+            # OS-level ops (bridge/wifi/integrity/ccstatusline/opencode-bridge)
+            # since those are scope=root-only. Per operator directive 2026-05-06:
+            # "this should also probably be part of the things we can chose to
+            # install into project and not only the root... not necessarily a
+            # by default since hooks are bit more intrusive". Explicit opt-in
+            # via `--profile project --dest <project-path>`.
+            d_hooks=1; d_opencode=0; d_bridge=0; d_wifi=0; d_integrity=0
+            d_ccstatusline=0; d_tools=1
             ;;
         interactive)
             log_warn "STUB: interactive profile prompts not implemented (scaffold stage); falling through to base defaults"
             d_hooks=1; d_opencode=1; d_bridge=1; d_wifi=1; d_integrity=1
-            d_ccstatusline=0
+            d_ccstatusline=0; d_tools=1
             ;;
         *)
-            log_error "unknown profile: ${p}. Valid: base / full / interactive"; exit 2
+            log_error "unknown profile: ${p}. Valid: base / full / project / interactive"; exit 2
             ;;
     esac
     # Apply profile defaults only where per-op flag wasn't set
@@ -279,10 +332,11 @@ apply_profile() {
     : "${WITH_WIFI:=${d_wifi}}"
     : "${WITH_INTEGRITY:=${d_integrity}}"
     : "${WITH_CCSTATUSLINE:=${d_ccstatusline}}"
+    : "${WITH_TOOLS:=${d_tools}}"
     # Filter via mode_includes — profile-on AND mode-applicable
     mode_includes bridge || WITH_BRIDGE=0
     mode_includes wifi   || WITH_WIFI=0
-    log_info "profile=${p} mode=${MODE} → hooks=${WITH_HOOKS} opencode=${WITH_OPENCODE} bridge=${WITH_BRIDGE} wifi=${WITH_WIFI} integrity=${WITH_INTEGRITY} ccstatusline=${WITH_CCSTATUSLINE}"
+    log_info "profile=${p} mode=${MODE} → hooks=${WITH_HOOKS} opencode=${WITH_OPENCODE} bridge=${WITH_BRIDGE} wifi=${WITH_WIFI} integrity=${WITH_INTEGRITY} ccstatusline=${WITH_CCSTATUSLINE} tools=${WITH_TOOLS}"
 }
 
 # Operation 6: ccstatusline (M011 — Features tier; npm-based)
@@ -569,6 +623,46 @@ op_install_endpoint_safety_policy() {
             done
         done
     fi
+}
+
+# Operation 1b: /tools/ Python modules (autopilot infrastructure)
+#
+# Deploys /tools/*.py to ${DEST_HOME}/tools/. Slash commands (/cycle, /stamp-*,
+# /handoff, /audit, etc.) invoke `python3 -m tools.<module>`, so the modules
+# must be importable from the project's working directory. For Path A install
+# (SRC == DEST_HOME, e.g., /root install on this dev host), this op is a no-op
+# because tools/ is already in place. For non-Path-A or project-profile
+# installs, this op deploys tools/ alongside the agent brain so slash commands
+# work out-of-the-box.
+#
+# Includes both top-level *.py and the package marker __init__.py.
+op_install_tools() {
+    local src_tools="${SRC}/tools"
+    local tgt_tools="${DEST_HOME}/tools"
+
+    if [[ ! -d "${src_tools}" ]]; then
+        log_warn "source ${src_tools} not found — skipping tools deploy"
+        return 0
+    fi
+
+    # Path A short-circuit: src == dest, nothing to copy.
+    if [[ "${src_tools}" == "${tgt_tools}" ]]; then
+        log_info "tools/ already in place (Path A, SRC==DEST); no-op"
+        return 0
+    fi
+
+    if [[ "${DRY_RUN}" -eq 1 ]]; then
+        log_dry "ensure ${tgt_tools} exists + install tools/*.py"
+    else
+        mkdir -p "${tgt_tools}"
+    fi
+
+    local f basename
+    for f in "${src_tools}"/*.py; do
+        [[ -e "${f}" ]] || continue
+        basename="$(basename "${f}")"
+        install_file "${f}" "${tgt_tools}/${basename}" 0644
+    done
 }
 
 # Operation 2: Opencode bridge plugin (IMPLEMENT-stage cycle 27)
@@ -1332,7 +1426,7 @@ install_file() {
 main() {
     parse_args "$@"
 
-    log_info "${SCRIPT_NAME} ${VERSION} starting (scaffold-stage stub)"
+    log_info "${SCRIPT_NAME} ${VERSION} starting (implement-stage)"
 
     # OS family + mode detection + profile application BEFORE --check or
     # real-install branch. --check mode needs WITH_* toggles set so the
@@ -1349,6 +1443,7 @@ main() {
     require_dependencies
 
     [[ "${WITH_HOOKS}"        == "1" ]] && op_install_endpoint_safety_policy || log_info "skip: endpoint safety policy (per profile/toggle)"
+    [[ "${WITH_TOOLS}"        == "1" ]] && op_install_tools                  || log_info "skip: tools/ (per profile/toggle)"
     [[ "${WITH_OPENCODE}"     == "1" ]] && op_install_opencode_bridge        || log_info "skip: opencode bridge (per profile/toggle)"
     [[ "${WITH_BRIDGE}"       == "1" ]] && op_install_network_bridge         || log_info "skip: network bridge (per profile/toggle)"
     [[ "${WITH_WIFI}"         == "1" ]] && op_install_management_wifi        || log_info "skip: management wifi (per profile/toggle)"
@@ -1357,7 +1452,6 @@ main() {
     op_verify
 
     log_info "${SCRIPT_NAME} done${DRY_RUN:+ (dry-run; no state changes)}"
-    log_info "stage=scaffold; operations are STUBS — implement-stage required for real install"
 }
 
 main "$@"

@@ -53,6 +53,19 @@ For root-ghostproxy specifically:
 
 When operator addresses you in /root, they're addressing root-ghostproxy's AI. Not the second brain's AI. Not a fleet agent.
 
+## Bidirectional inheritance — /root and the second brain (and sisters)
+
+The relationship between /root and /opt second-brain is NOT peer-to-peer. It is bidirectional with different layers flowing different directions. Operator correction 2026-05-06 (SB-115): *"second-brain take everything from you"*.
+
+| Direction | Layer | Examples |
+|---|---|---|
+| /root **consumes** from second-brain | **Knowledge / authoritative resources** | source-syntheses (Suricata, PolarProxy), identity profile, methodology engine config, adoption guide, sister-projects.yaml, MCP tool catalog. (See "When to consume from the second brain" below.) |
+| /root **authors**; second-brain (and other sisters) **inherit/adapt** | **Operational tooling at root/host level** | hook patterns (session-orient, end-of-cycle-stamp, pre-compact, post-compact), slash-command patterns (/orient, /cycle, /handoff, /stamp-*), tool patterns (tools.cycle, tools.stamp, tools.state), settings.json hook-wiring conventions, ANSI-fence + diff-fence rendering patterns. /root is type=root + group=operating-system-setup — root-level tooling lives here as canonical. |
+
+**Anti-pattern (SB-115 instance)**: when investigating an inconsistency between /root's and /opt's hooks, agent framed them as independent peers ("/opt has its own hook, separate from /root's"). That obscured the fact that /opt's hook is a copy/adaptation of /root's pattern (per /opt's hook header comment: "Adapted from the parallel root-ghostproxy hook pattern"). When /root's hook evolves (e.g., SB-115 redesign of stamp config from prompt-marker to slash-command + persistent JSON), /opt should track the improvement, not maintain a divergent copy.
+
+**Operationally**: when /root authors a new operational pattern (hook, command, tool), the agent should note "candidate for sister-project inheritance" so the second-brain side can adapt or be informed. Cross-project propagation is NOT automatic; it's a deliberate sync the operator coordinates.
+
 ## When to consume from the second brain
 
 | /root agent needs | Where to look in /opt |

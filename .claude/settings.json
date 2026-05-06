@@ -299,11 +299,6 @@
             "type": "command",
             "command": "python3 $HOME/.claude/hooks/output-discipline-guard.sh",
             "timeout": 5
-          },
-          {
-            "type": "command",
-            "command": "python3 $HOME/.claude/hooks/stamp-control.sh",
-            "timeout": 5
           }
         ]
       }

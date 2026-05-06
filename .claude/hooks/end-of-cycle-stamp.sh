@@ -79,40 +79,41 @@ def main() -> None:
             sys.exit(0)
     # If unset → fail-OPEN (fire), per operator priority: visibility > cross-fire-prevention
 
-    # SB-114: read per-prompt flags written by stamp-control.sh on UserPromptSubmit
-    stamp_flags: dict = {}
-    flag_file = Path(f"/tmp/stamp-flags/{session_id}.json")
-    if flag_file.exists():
+    # SB-115 redesign: read persistent stamp config (slash-command-driven via
+    # tools/stamp.py). Replaces failed prompt-marker mechanism (SB-114 v1).
+    # Schema: {"layout": "horizontal"|"vertical", "enabled": "on"|"off"|"auto"}
+    stamp_cfg = {"layout": "vertical", "enabled": "auto"}
+    cfg_file = PROJECT_ROOT / ".claude" / "stamp-config.json"
+    if cfg_file.exists():
         try:
-            stamp_flags = json.loads(flag_file.read_text())
+            loaded = json.loads(cfg_file.read_text())
+            if isinstance(loaded, dict):
+                stamp_cfg.update(loaded)
         except Exception:
             pass
-        # Consume flag (delete after read so it doesn't persist)
+
+    # enabled=off → suppress
+    if stamp_cfg.get("enabled") == "off":
+        _trace("exit-config-off")
+        sys.exit(0)
+
+    # enabled=auto → mode-conditional (SB-114 sub-req c)
+    if stamp_cfg.get("enabled") == "auto":
+        active_mode = ""
         try:
-            flag_file.unlink()
+            mode_file = PROJECT_ROOT / ".claude" / "active-mode"
+            if mode_file.exists():
+                active_mode = mode_file.read_text().strip()
         except Exception:
             pass
+        if not active_mode:
+            _trace("exit-auto-no-mode")
+            sys.exit(0)
 
-    # Sub-req (b): per-prompt opt-out
-    if stamp_flags.get("suppress"):
-        _trace("exit-operator-suppressed")
-        sys.exit(0)
+    # enabled=on falls through to render unconditionally
 
-    # Sub-req (c): default-hide-when-no-mode-active (unless opted in)
-    active_mode = ""
-    try:
-        mode_file = PROJECT_ROOT / ".claude" / "active-mode"
-        if mode_file.exists():
-            active_mode = mode_file.read_text().strip()
-    except Exception:
-        pass
-
-    if not active_mode and not stamp_flags.get("opt_in"):
-        _trace("exit-no-mode-no-opt-in")
-        sys.exit(0)
-
-    # Sub-req (a): mode flag determines render layout
-    render_mode = stamp_flags.get("mode", "vertical")  # default vertical (ansi-fence)
+    # Layout determines cycle.py flag
+    render_mode = stamp_cfg.get("layout", "vertical")
 
     # Invoke tools.cycle with mode-appropriate flag.
     # vertical = --ansi-fence (default, stacked sections)

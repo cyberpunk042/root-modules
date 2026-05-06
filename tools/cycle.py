@@ -139,17 +139,53 @@ def evaluate_cycle() -> dict:
 from tools._paths import SYSTEMIC_BUGS_DOC as SYSTEMIC_BUGS_PATH
 
 
+def get_sb_short_desc(sb_id: str, max_len: int = 60) -> str:
+    """Return short description for an SB row from the tracker.
+
+    Reads the bold `**short**` portion of the bug-description column. Returns
+    empty string if not found. Used by horizontal stamp Cursor line for context.
+    """
+    if not SYSTEMIC_BUGS_PATH.exists():
+        return ""
+    import re
+    content = SYSTEMIC_BUGS_PATH.read_text()
+    pattern = rf"^\| {re.escape(sb_id)} \| \*\*(.+?)\*\*"
+    m = re.search(pattern, content, re.MULTILINE)
+    if not m:
+        # Fallback: bug-description is plain text (no bold) — take first phrase
+        plain = re.search(rf"^\| {re.escape(sb_id)} \| ([^|]+?) \|", content, re.MULTILINE)
+        if plain:
+            text = plain.group(1).strip()
+            # Stop at em-dash, period, or first parenthesis to get the head
+            for sep in [" — ", " - ", ". ", " ("]:
+                if sep in text:
+                    text = text.split(sep, 1)[0]
+                    break
+            return text[:max_len]
+        return ""
+    desc = m.group(1).strip()
+    return desc[:max_len]
+
+
 def parse_systemic_bugs_status() -> dict:
-    """Parse status counts from systemic-bugs.md tracker."""
+    """Parse status counts from systemic-bugs.md tracker.
+
+    Status field may contain parenthetical annotations like
+    "structurally-fixed (DRAFT)" or "structurally-fixed (covered by SB-090)";
+    we extract the canonical first word for counting.
+    """
     if not SYSTEMIC_BUGS_PATH.exists():
         return {"open": 0, "structurally-fixed": 0, "verified": 0, "recurring": 0, "total": 0}
     content = SYSTEMIC_BUGS_PATH.read_text()
     import re
-    rows = re.findall(r"^\| (SB-\d+) \| .+? \| ([a-z\-]+) \|", content, re.MULTILINE)
+    # Match: | SB-XXX | <bug-desc> | <status with possible parens> | <fix-evidence> | <verified> |
+    rows = re.findall(r"^\| (SB-[\w-]+) \| .+? \| ([^|]+?) \| .+? \| .+? \|\s*$", content, re.MULTILINE)
     counts: dict = {}
     open_ids: list = []
     recurring_ids: list = []
-    for sb_id, status in rows:
+    for sb_id, status_raw in rows:
+        # Canonical status = first whitespace-separated word, lowercased
+        status = status_raw.strip().split()[0].lower() if status_raw.strip() else "unknown"
         counts[status] = counts.get(status, 0) + 1
         if status == "open":
             open_ids.append(sb_id)
@@ -174,9 +210,11 @@ class C:
 
 
 def emit_status_block_ansi_horizontal(result: dict, fence: bool = True) -> None:
-    """Compact horizontal stamp — single-line-per-section, ~6 lines total.
-    Per SB-114 sub-req (a): operator wants horizontal mode that puts sections
-    horizontally instead of vertically (stacked).
+    """Horizontal stamp — single-line-per-section with consistent padded labels.
+    Per SB-114 sub-req (a) + SB-116 UX iteration: aligned `@@ Label @@` headers,
+    spelled-out count words instead of cryptic single-letter codes, multi-space
+    breathing room between fields, honest verified-vs-claimed separation.
+    Iteration #1 of horizontal-layout UX work (SB-116 Epic placeholder).
     """
     from datetime import datetime as _dt_h
     cycle = result["cycle"]
@@ -194,52 +232,105 @@ def emit_status_block_ansi_horizontal(result: dict, fence: bool = True) -> None:
     )
     ts = _dt_h.now().strftime("%H:%M:%S")
 
+    LABEL_WIDTH = 8  # widest = "Progress"
+    # Semantic glyph per section for visual scanning at line-start
+    GLYPHS = {
+        "Status":   "●",   # filled circle = current state
+        "Journey":  "↺",   # history loop
+        "Plan":     "◆",   # diamond = priority
+        "Blocked":  "⊘",   # circle-slash = blocker
+        "Progress": "▰",   # filled block = progress
+        "Cursor":   "▶",   # play/now-pointer
+    }
+    def lbl(name: str) -> str:
+        glyph = GLYPHS.get(name, "·")
+        return f"{M}{BO}{glyph} {name:<{LABEL_WIDTH}}{X}"
+
     if fence:
         print("```ansi")
 
-    # STATUS line: timestamp + mode + LOOP + MODE
+    # Status — timestamp · mode · loop state
     loop_state = "alive" if cycle.get("valid") else "no-mode"
     loop_color = G if cycle.get("valid") else R
-    print(f"{BO}{K}[STATUS]{X} {D}{ts}{X} · mode={cycle.get('mode', 'none')} · {loop_color}LOOP:{loop_state}{X} · {BO}MODE:{cycle.get('name', '(none)')}{X}")
+    print(f"{lbl('Status')}  {D}{ts}{X}  ·  {cycle.get('mode', 'none')}  ·  {loop_color}loop {loop_state}{X}")
 
-    # JOURNEY line: deduped recent log slugs joined by · separator
+    # Journey — deduped recent log slugs (top 5)
     journey_slugs = []
     try:
         from tools.progress import collect_recent_logs
         seen: dict[str, int] = {}
         ordered: list[str] = []
         for fname in collect_recent_logs(10):
-            short = fname.replace(".md", "").lstrip("0123456789-")[:50]
+            raw_short = fname.replace(".md", "").lstrip("0123456789-")
+            if len(raw_short) <= 35:
+                short = raw_short
+            else:
+                # Truncate at last word-boundary within 35 chars (no trailing hyphen)
+                short = raw_short[:35].rstrip("-")
+                # If we cut mid-word, drop the partial word
+                if "-" in short:
+                    short = short.rsplit("-", 1)[0] + "…"
+                else:
+                    short = short + "…"
             if short not in seen:
                 seen[short] = 1
                 ordered.append(short)
             else:
                 seen[short] += 1
-        for short in ordered[:5]:
+        for short in ordered[:3]:  # 3 entries — less density per line
             count = seen[short]
-            suffix = f"×{count}" if count > 1 else ""
+            suffix = f" ×{count}" if count > 1 else ""
             journey_slugs.append(f"{short}{suffix}")
     except Exception:
         journey_slugs = ["(unavailable)"]
-    print(f"{M}{BO}[JOURNEY]{X} {D}" + " · ".join(journey_slugs) + f"{X}")
+    print(f"{lbl('Journey')}  {D}" + "  ·  ".join(journey_slugs) + f"{X}")
 
-    # PLAN line: 3 priorities inline
-    sb_pct = round(100 * (sbs.get("verified", 0) + sbs.get("structurally-fixed", 0)) / max(1, sbs.get("total", 1)))
-    print(f"{M}{BO}[PLAN]{X} {Y}SB:{sb_pct}%({sbs.get('open', 0)}o/{sbs.get('recurring', 0)}r){X} · {D}M011:prelim · M014:prelim-done{X}")
+    # Plan — systemic-bugs progress + module quick-status
+    sb_total = max(1, sbs.get("total", 1))
+    sb_open = sbs.get("open", 0)
+    sb_rec = sbs.get("recurring", 0)
+    sb_verified = sbs.get("verified", 0)
+    sb_fixed = sb_verified + sbs.get("structurally-fixed", 0)
+    sb_pct = round(100 * sb_fixed / sb_total)
+    filled = round(sb_pct / 10)  # round, not floor — 79% → 8 blocks
+    bar = "█" * filled + "░" * (10 - filled)
+    plan_modules = f"{D}ccstatusline (M011 prelim)  ·  pipelock (M014 prelim done){X}"
+    # `║` between logical groups (sb-progress | modules) — distinguishes from ` · ` within-group separator
+    print(f"{lbl('Plan')}  {Y}systemic-bugs  {bar}  {sb_pct}%{X}  {D}({sb_open} open · {sb_rec} recurring){X}  {D}║{X}  {plan_modules}")
 
-    # BLOCKED line: pending + open + recurring all inline
-    pending_str = f"{G}0p{X}" if not pending_tasks else f"{R}{len(pending_tasks)}p{X}"
-    open_str = f"{G}0o{X}" if not open_sbs else f"{R}{len(open_sbs)}o{X}({','.join(open_sbs[:3])}{'...' if len(open_sbs) > 3 else ''})"
-    rec_str = f"{G}0r{X}" if not recurring_sbs else f"{R}{len(recurring_sbs)}r{X}({','.join(recurring_sbs[:3])}{'...' if len(recurring_sbs) > 3 else ''})"
-    print(f"{M}{BO}[BLOCKED]{X} {pending_str} · {open_str} · {rec_str}")
+    # Blocked — count + ID examples; show all if ≤4, else top 3 + "+N more"
+    def _fmt_count(label: str, ids: list, color: str) -> str:
+        n = len(ids)
+        if n == 0:
+            return f"{G}0 {label}{X}"
+        if n <= 4:
+            head = " ".join(ids)
+            return f"{color}{n} {label}{X}{D}: {head}{X}"
+        head = " ".join(ids[:3])
+        return f"{color}{n} {label}{X}{D}: {head} +{n-3} more{X}"
+    pending_part = _fmt_count("pending", pending_tasks, R)
+    open_part = _fmt_count("open", open_sbs, R)
+    rec_part = _fmt_count("recurring", recurring_sbs, R)
+    # `║` separates pending (decisions) from open+recurring (SBs) — different categories
+    print(f"{lbl('Blocked')}  {pending_part}  {D}║{X}  {open_part}  ·  {rec_part}")
 
-    # PROGRESS line: all counts inline
+    # Progress — counts with verified separated (the "real" done) from
+    # structurally-fixed (rule-layer claim, behavioral pending)
     p = progress
-    print(f"{M}{BO}[PROGRESS]{X} {G}epic:{p['epic_readiness']}% · mod:{p['module_count']} · tasks:{p['task_total']}({p['task_counts'].get('done', 0)}d/{p['task_counts'].get('not-started', 0)}n/{p['task_counts'].get('pending-operator-decision', 0)}p) · SB:{sbs.get('total', 0)}({sbs.get('verified', 0)}v/{sbs.get('structurally-fixed', 0)}f/{sbs.get('open', 0)}o/{sbs.get('recurring', 0)}r){X}")
+    tasks_done = p["task_counts"].get("done", 0)
+    tasks_ns = p["task_counts"].get("not-started", 0)
+    sb_struct = sbs.get("structurally-fixed", 0)
+    # `║` separates project-deliverable metrics (stage/modules/tasks) from systemic-bugs-tracker metrics
+    print(f"{lbl('Progress')}  {G}epic {p['epic_readiness']}%{X}  ·  {p['module_count']} modules  ·  {p['task_total']} tasks {D}({tasks_done} done · {tasks_ns} todo){X}  {D}║{X}  {sbs.get('total', 0)} SB {D}({X}{G}{sb_verified}✓ verified{X}{D} · {sb_struct} fixed · {sb_rec} recurring · {sb_open} open){X}")
 
-    # NEXT line: cursor pick + branches
-    next_pick = open_sbs[0] if open_sbs else (recurring_sbs[0] if recurring_sbs else "(none)")
-    print(f"{M}{BO}[NEXT]{X} {Y}{next_pick}{X} · {B}branches:wiki/log+governance{X}")
+    # Cursor — current pick + short description + reference paths
+    next_pick = open_sbs[0] if open_sbs else (recurring_sbs[0] if recurring_sbs else "")
+    if next_pick:
+        desc = get_sb_short_desc(next_pick)
+        desc_part = f" {D}—{X} {desc}" if desc else ""
+        print(f"{lbl('Cursor')}  {Y}{next_pick}{X}{desc_part}  {D}· wiki/log + governance/{{progress,blockers,systemic-bugs}}.md{X}")
+    else:
+        print(f"{lbl('Cursor')}  {D}(no open or recurring SBs){X}")
 
     if fence:
         print("```")
