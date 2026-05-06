@@ -115,6 +115,11 @@ def main() -> None:
 
     active_mode = safe_read(str(PROJECT_ROOT / ".claude" / "active-mode"), "(none)")
     active_task = safe_read(str(PROJECT_ROOT / ".claude" / "active-task"), "(none)")
+    # Objective layer (SB-118) + priorities (SB-127)
+    active_mission = safe_read(str(PROJECT_ROOT / ".claude" / "active-mission"), "(unset)")
+    active_focus = safe_read(str(PROJECT_ROOT / ".claude" / "active-focus"), "(unset)")
+    active_impediment = safe_read(str(PROJECT_ROOT / ".claude" / "active-impediment"), "(none — focus unblocked)")
+    active_priorities = safe_read(str(PROJECT_ROOT / ".claude" / "active-priorities"), "(none set)")
 
     cycle_json = safe_run(
         [PYTHON, "-m", "tools.cycle", "--json"],
@@ -145,6 +150,18 @@ def main() -> None:
 ## Active task
 
 {active_task}
+
+## Objective (mission · focus · impediment) — SB-118
+
+- **Mission**:    {active_mission}
+- **Focus**:      {active_focus}
+- **Impediment**: {active_impediment}
+
+## Priorities (imminent-work — SB-127)
+
+```
+{active_priorities}
+```
 
 ## Cycle state (tools.cycle --json)
 

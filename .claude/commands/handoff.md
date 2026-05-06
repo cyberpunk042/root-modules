@@ -46,6 +46,14 @@ The PreCompact hook (`$HOME/.claude/hooks/pre-compact.sh`) auto-fires on compact
    ## Active task
    <active-task>
 
+   ## Objective (mission · focus · impediment) — SB-118
+   - Mission:    <`cat $HOME/.claude/active-mission`>
+   - Focus:      <`cat $HOME/.claude/active-focus`>
+   - Impediment: <`cat $HOME/.claude/active-impediment` or "(none — focus unblocked)">
+
+   ## Priorities (imminent-work — SB-127)
+   <`cat $HOME/.claude/active-priorities` numbered as P1, P2, ...>
+
    ## Cycle state (tools.cycle --json)
    ```json
    <cycle output>

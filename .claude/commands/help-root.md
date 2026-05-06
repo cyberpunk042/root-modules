@@ -1,4 +1,4 @@
-Show all 22 root-ghostproxy slash commands with one-line description + when-to-use.
+Show all 26 root-ghostproxy slash commands with one-line description + when-to-use.
 
 > Slash-invoked. Operator types `/help-root` literally. Read-only. Distinct from Claude Code's built-in `/help` (which lists harness-level commands).
 
@@ -60,13 +60,27 @@ STAMP CONTROL (per SB-114/115 — DRAFT, see SB-116 UX Epic):
   /stamp-auto        Default: render only when active-mode set (mode-conditional).
   /stamp-status      Show current stamp config (layout + enabled).
 
+OBJECTIVE LAYER (per SB-118 — multi-cycle objective tracking):
+  /mission           Manage active-mission state file (multi-cycle objective).
+                     Verbs: set <text> | clear | show. Surfaces in mode-enforcement
+                     banner + stamp.
+  /focus             Manage active-focus state file (sub-objective within mission).
+                     Verbs: set <text> | clear | show.
+  /impediment        Manage active-impediment state file (block on focus when stuck).
+                     Verbs: set <text> | clear | show. Empty = focus unblocked.
+
+PRIORITIES LAYER (per SB-127 — imminent-work hot-queue, surfaces ABOVE PM tier):
+  /priorities        Manage active-priorities list (operator-authored top-priorities).
+                     Verbs: add <text> | show | clear | remove <N> |
+                     promote <N> | demote <N> | set <semicolon-sep>.
+
 INSTALL:
   /install-agent-brain  Deploy $HOME agent brain (settings + hooks + rules +
                         commands + agents + modes + skills + tools) into a
                         sister project (operator-opt-in propagation).
 
 SUMMARY:
-  Total: 22 commands (15 governance/cycle/mode + 6 stamp config + 1 install).
+  Total: 26 commands (15 governance/cycle/mode + 6 stamp config + 3 objective + 1 priorities + 1 install).
   Hook directs to /orient on every fresh session.
   PostCompact directs to /orient again after compaction.
   Modes deliver autopilot via /loop /cycle.
@@ -104,7 +118,7 @@ MCP server (when wired via .mcp.json):
 - First time using the project (onboarding)
 - Forgetting which command does what
 - Comparing mode-* commands or governance commands at a glance
-- Sub-agents that need to discover available commands without reading 22 separate files
+- Sub-agents that need to discover available commands without reading 26 separate files
 
 ## What `/help-root` is NOT
 

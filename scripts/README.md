@@ -54,7 +54,7 @@ root-ghostproxy supports two checkout modes for getting the repo onto a target m
 - Repo lands at `$TARGET/` (default `$HOME/root-ghostproxy/`)
 - `$HOME` is **completely untouched**
 - No conflict handling needed
-- `install.sh` later handles deployment (when M003+M004+M012 land)
+- `install.sh` handles deployment via `--profile {base|full|project|interactive}` (implement-stage; `--dry-run` + `--check` available)
 
 **Choose MODE=B when:**
 - You want to read / inspect / test the repo without touching your live config
@@ -295,7 +295,7 @@ These scripts ship as part of the project's deliverable. Authoring conventions:
 - Bootstrap guide: [`/BOOTSTRAP.md`](../BOOTSTRAP.md) — cold-pickup orientation
 - Architecture: [`/ARCHITECTURE.md`](../ARCHITECTURE.md) — system design
 - Security envelope: [`/SECURITY.md`](../SECURITY.md) — host-level safety controls
-- `install.sh` / `uninstall.sh` at repo root — host configuration deployers (currently scaffold-tier)
+- `install.sh` / `uninstall.sh` at repo root — host configuration deployers (implement-stage 98%; `--profile {base|full|project|interactive}` × `--mode {bridge|endpoint|hybrid|auto}` × per-op toggles; `--dry-run` + `--check`; shellcheck PASS)
 - `.gitignore` whitelist for `/scripts/` lives in section 4.7 of [`/.gitignore`](../.gitignore)
 - Cross-project channel for second-brain notifications: [`/wiki/log/`](../wiki/log/) — second-brain agent writes handoff notes here, picked up by `/orient` step 11
 
