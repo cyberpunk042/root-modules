@@ -6,8 +6,9 @@ slash-command-driven config. Slash commands invoke this tool; tool writes to
 
 Schema of stamp-config.json:
     {
-      "layout": "horizontal" | "vertical",     # default: vertical
-      "enabled": "on" | "off" | "auto"         # default: auto (mode-conditional)
+      "layout":  "horizontal" | "vertical",            # default: vertical
+      "enabled": "on" | "off" | "auto",                # default: auto (mode-conditional)
+      "density": "minified" | "standard" | "extended"  # default: standard (SB-124c)
     }
 
 Semantics of `enabled`:
@@ -17,6 +18,14 @@ Semantics of `enabled`:
              (per SB-114 sub-req c: default-hide-when-no-mode)
 
 Layout `horizontal` selects --ansi-horizontal output; `vertical` selects --ansi-fence.
+
+Semantics of `density` (SB-124c profile-variants per operator directive 2026-05-06:
+    *"we can also create configuration of profiles too ? like one that is more
+    minified ? or less minified ? for different resolution and such"*):
+    "minified" — drop Journey + Plan rows; keep Status + Tracker + Cursor +
+                 Mission/Focus/Impediment + (top 2) Priorities. Suits narrow terminals.
+    "standard" — current default; all rows visible.
+    "extended" — adds extra detail (full priority list, recent commits inline, more SBs).
 
 Slash commands in $HOME/.claude/commands/ (thin wrappers):
     /stamp-horizontal → set layout=horizontal
@@ -39,10 +48,12 @@ CONFIG_PATH = Path.home() / ".claude" / "stamp-config.json"
 DEFAULT_CONFIG: dict = {
     "layout": "vertical",
     "enabled": "auto",
+    "density": "standard",
 }
 
 VALID_LAYOUTS = {"horizontal", "vertical"}
 VALID_ENABLED = {"on", "off", "auto"}
+VALID_DENSITY = {"minified", "standard", "extended"}
 
 
 def load_config() -> dict:
@@ -56,6 +67,8 @@ def load_config() -> dict:
                     merged["layout"] = DEFAULT_CONFIG["layout"]
                 if merged.get("enabled") not in VALID_ENABLED:
                     merged["enabled"] = DEFAULT_CONFIG["enabled"]
+                if merged.get("density") not in VALID_DENSITY:
+                    merged["density"] = DEFAULT_CONFIG["density"]
                 return merged
         except Exception:
             pass
@@ -84,6 +97,13 @@ def cmd_set(args: argparse.Namespace) -> int:
         if cfg.get("enabled") != args.enabled:
             cfg["enabled"] = args.enabled
             changed.append(f"enabled → {args.enabled}")
+    if getattr(args, "density", None):
+        if args.density not in VALID_DENSITY:
+            print(f"ERROR: --density must be one of {sorted(VALID_DENSITY)}", file=sys.stderr)
+            return 2
+        if cfg.get("density") != args.density:
+            cfg["density"] = args.density
+            changed.append(f"density → {args.density}")
     save_config(cfg)
     if changed:
         print(f"OK: stamp config updated ({', '.join(changed)}) at {CONFIG_PATH}")
@@ -101,6 +121,7 @@ def cmd_show(args: argparse.Namespace) -> int:
         print(f"Stamp config ({CONFIG_PATH}):")
         print(f"  layout:  {cfg['layout']}  (horizontal=compact 6-line | vertical=stacked sections)")
         print(f"  enabled: {cfg['enabled']}  (on=always | off=never | auto=mode-conditional)")
+        print(f"  density: {cfg.get('density', 'standard')}  (minified=narrow-terminal | standard=full | extended=detail-heavy) [SB-124c]")
     return 0
 
 
@@ -120,6 +141,7 @@ def main() -> int:
     p_set = sub.add_parser("configure", help="configure layout and/or enabled fields")
     p_set.add_argument("--layout", choices=sorted(VALID_LAYOUTS))
     p_set.add_argument("--enabled", choices=sorted(VALID_ENABLED))
+    p_set.add_argument("--density", choices=sorted(VALID_DENSITY))
     p_set.set_defaults(func=cmd_set)
 
     p_show = sub.add_parser("show", help="show current config")

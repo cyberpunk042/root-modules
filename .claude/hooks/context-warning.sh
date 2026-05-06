@@ -64,6 +64,14 @@ DEFAULT_WINDOW = 200_000
 # Threshold name IS the threshold value — no invented severity labels.
 THRESHOLDS = [5.0, 3.0, 2.0]
 
+# Absolute-token thresholds per SB-119 (operator directive 2026-05-06):
+# *"when its 1m context its not at all the same impact as a 200k or less. we
+# should almost not talk of it in terms of pourcent but 25-50k threshold"*.
+# Per-model-window-aware: 5% of 1M = 50k (substantial budget); 5% of 200k =
+# 10k (tight). Same % → different absolute reality. Fire whichever threshold
+# (% or absolute-tokens-remaining) triggers FIRST. Shown in stamp alongside %.
+ABSOLUTE_THRESHOLDS_TOKENS = [50_000, 25_000, 10_000]
+
 
 def _trace(tag: str, extra: str = "") -> None:
     try:
@@ -252,34 +260,63 @@ def main() -> None:
            f"used={used} window={window} pct_remaining={pct_remaining:.2f} "
            f"window_src={window_source} used_src={used_source}")
 
-    # Pick the lowest threshold the current % remaining crosses.
-    triggered_threshold = None
+    # Pick the lowest % threshold the current % remaining crosses.
+    triggered_pct_threshold = None
     for threshold_pct in THRESHOLDS:
         if pct_remaining < threshold_pct:
-            triggered_threshold = threshold_pct
+            triggered_pct_threshold = threshold_pct
 
-    if triggered_threshold is None:
+    # SB-119: also check ABSOLUTE-TOKEN thresholds (model-window-aware).
+    # Per operator: 5% of 1M = 50k (substantial); 5% of 200k = 10k (tight).
+    # Whichever fires FIRST (% or absolute) triggers the warning. Both
+    # surface in the stamp so operator + agent see real budget, not just %.
+    tokens_remaining = window - used
+    triggered_abs_threshold = None
+    for threshold_tokens in ABSOLUTE_THRESHOLDS_TOKENS:
+        if tokens_remaining < threshold_tokens:
+            triggered_abs_threshold = threshold_tokens
+
+    if triggered_pct_threshold is None and triggered_abs_threshold is None:
         sys.exit(0)
 
     # Color graduates with proximity to limit (visual only, no severity claim).
+    # Tightest of either threshold type drives color (red for the bottom tier).
     R = "\033[31m"; Y = "\033[33m"; D = "\033[2m"; BO = "\033[1m"; X = "\033[0m"
-    color = R if triggered_threshold <= 2.0 else Y
+    is_critical = (
+        (triggered_pct_threshold is not None and triggered_pct_threshold <= 2.0)
+        or (triggered_abs_threshold is not None and triggered_abs_threshold <= 10_000)
+    )
+    color = R if is_critical else Y
+
+    # Build header — surface BOTH thresholds when either fires, so the
+    # absolute-budget reality (per SB-119) is visible alongside the %.
+    header_parts = []
+    if triggered_pct_threshold is not None:
+        header_parts.append(f"<{triggered_pct_threshold:g}% threshold")
+    if triggered_abs_threshold is not None:
+        header_parts.append(f"<{triggered_abs_threshold//1000}k tokens threshold")
+    header = " + ".join(header_parts) + " crossed"
 
     # Per SB-078 verbatim (operator 2026-05-05 cycle 41): the realization-
     # mechanism this hook IS — surfaces context % so the operator's strategic
     # decision (synthesis 4 modes) is informed. Reference SB-078's literal
     # framing for context, no prescription.
+    # Per SB-119 (operator 2026-05-06): show absolute remaining + total
+    # alongside % so the "5% of 1M ≠ 5% of 200k" reality is visible.
     msg = (
         f"```ansi\n"
-        f"{color}{BO}⚠ CONTEXT-WINDOW · <{triggered_threshold:g}% threshold crossed{X}    "
-        f"{BO}{pct_remaining:.1f}% remaining{X}    "
-        f"{D}({used:,} / {window:,} tokens){X}\n"
+        f"{color}{BO}⚠ CONTEXT-WINDOW · {header}{X}    "
+        f"{BO}{pct_remaining:.1f}% remaining{X}  ·  "
+        f"{BO}{tokens_remaining:,} tokens left{X}    "
+        f"{D}({used:,} / {window:,} used){X}\n"
         f"{D}SB-078 framing: prepare for compact · strong handoff document · register knowledge/learnings{X}\n"
         f"```"
     )
 
     print(json.dumps({"systemMessage": msg}))
-    _trace("fired", f"threshold={triggered_threshold} pct={pct_remaining:.2f}")
+    _trace("fired",
+           f"pct_threshold={triggered_pct_threshold} abs_threshold={triggered_abs_threshold} "
+           f"pct={pct_remaining:.2f} tokens_left={tokens_remaining}")
     sys.exit(0)
 
 

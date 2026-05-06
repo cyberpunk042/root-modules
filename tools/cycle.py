@@ -269,6 +269,16 @@ def emit_status_block_ansi_horizontal(result: dict, fence: bool = True) -> None:
         glyph = GLYPHS.get(name, "·")
         return f"{M}{BO}{glyph} {name:<{LABEL_WIDTH}}{X}"
 
+    # Density variant per SB-124c (operator directive 2026-05-06: minified | standard | extended)
+    density = "standard"
+    try:
+        import json as _json
+        cfg_path = Path.home() / ".claude" / "stamp-config.json"
+        if cfg_path.exists():
+            density = _json.loads(cfg_path.read_text()).get("density", "standard")
+    except Exception:
+        pass
+
     if fence:
         print("```ansi")
 
@@ -329,7 +339,8 @@ def emit_status_block_ansi_horizontal(result: dict, fence: bool = True) -> None:
             journey_slugs.append(f"{short}{suffix}")
     except Exception:
         journey_slugs = ["(unavailable)"]
-    print(f"{lbl('Journey')}  {D}" + "  ·  ".join(journey_slugs) + f"{X}")
+    if density != "minified":
+        print(f"{lbl('Journey')}  {D}" + "  ·  ".join(journey_slugs) + f"{X}")
 
     # Plan — systemic-bugs progress + module quick-status
     sb_total = max(1, sbs.get("total", 1))
@@ -342,7 +353,8 @@ def emit_status_block_ansi_horizontal(result: dict, fence: bool = True) -> None:
     bar = "█" * filled + "░" * (10 - filled)
     plan_modules = f"{D}ccstatusline (M011 prelim)  ·  pipelock (M014 prelim done){X}"
     # `║` between logical groups (sb-progress | modules) — distinguishes from ` · ` within-group separator
-    print(f"{lbl('Plan')}  {Y}systemic-bugs  {bar}  {sb_pct}%{X}  {D}({sb_open} open · {sb_rec} recurring){X}  {D}║{X}  {plan_modules}")
+    if density != "minified":
+        print(f"{lbl('Plan')}  {Y}systemic-bugs  {bar}  {sb_pct}%{X}  {D}({sb_open} open · {sb_rec} recurring){X}  {D}║{X}  {plan_modules}")
 
     # Priorities — imminent-work hot-queue (SB-127), surfaces ABOVE PM-decision-tier
     # per operator directive 2026-05-06: "imminent work, even before the PM work"
@@ -466,32 +478,43 @@ def emit_status_block_ansi(result: dict, fence: bool = True) -> None:
         pass
     print(f"{loop_color}LOOP   {loop_state}{X}    {BO}MODE   {cycle.get('name', '(none)')}{X}{task_extra}")
     print()
-    print(f"{M}{BO}@@ JOURNEY (recent wiki/log/) @@{X}")
+    # Density variant per SB-124c (operator directive 2026-05-06: minified | standard | extended)
+    density = "standard"
     try:
-        from tools.progress import collect_recent_logs
-        seen: dict[str, int] = {}
-        ordered: list[str] = []
-        for fname in collect_recent_logs(10):
-            short = fname.replace(".md", "").lstrip("0123456789-")[:60]
-            if short not in seen:
-                seen[short] = 1
-                ordered.append(short)
-            else:
-                seen[short] += 1
-        for short in ordered[:5]:
-            count = seen[short]
-            suffix = f"  ×{count}" if count > 1 else ""
-            print(f"{D}· {short}{suffix}{X}")
+        import json as _json2
+        cfg_path = Path.home() / ".claude" / "stamp-config.json"
+        if cfg_path.exists():
+            density = _json2.loads(cfg_path.read_text()).get("density", "standard")
     except Exception:
-        print(f"{D}· (recent-logs read unavailable){X}")
-    print()
-    print(f"{M}{BO}@@ PLAN (operator's logical order) @@{X}")
+        pass
+    if density != "minified":
+        print(f"{M}{BO}@@ JOURNEY (recent wiki/log/) @@{X}")
+        try:
+            from tools.progress import collect_recent_logs
+            seen: dict[str, int] = {}
+            ordered: list[str] = []
+            for fname in collect_recent_logs(10):
+                short = fname.replace(".md", "").lstrip("0123456789-")[:60]
+                if short not in seen:
+                    seen[short] = 1
+                    ordered.append(short)
+                else:
+                    seen[short] += 1
+            for short in ordered[:5]:
+                count = seen[short]
+                suffix = f"  ×{count}" if count > 1 else ""
+                print(f"{D}· {short}{suffix}{X}")
+        except Exception:
+            print(f"{D}· (recent-logs read unavailable){X}")
+        print()
+        print(f"{M}{BO}@@ PLAN (operator's logical order) @@{X}")
     sb_pct = round(100 * (sbs.get("verified", 0) + sbs.get("structurally-fixed", 0)) / max(1, sbs.get("total", 1)))
     sb_bar = ("█" * (sb_pct // 7)).ljust(14, "░")
-    print(f"{Y}1. systemic bugs       {sb_bar}  ~{sb_pct}% · {sbs.get('open', 0)} open · {sbs.get('recurring', 0)} recurring{X}")
-    print(f"{D}2. ccstatusline (M011) ░░░░░░░░░░░░░░  prelim · impl=operator-driven future-session{X}")
-    print(f"{D}3. pipelock   (M014)   ░░░░░░░░░░░░░░  prelim done · impl=operator-driven future-session{X}")
-    print()
+    if density != "minified":
+        print(f"{Y}1. systemic bugs       {sb_bar}  ~{sb_pct}% · {sbs.get('open', 0)} open · {sbs.get('recurring', 0)} recurring{X}")
+        print(f"{D}2. ccstatusline (M011) ░░░░░░░░░░░░░░  prelim · impl=operator-driven future-session{X}")
+        print(f"{D}3. pipelock   (M014)   ░░░░░░░░░░░░░░  prelim done · impl=operator-driven future-session{X}")
+        print()
     # Priorities — imminent-work hot-queue (SB-127), surfaces ABOVE PM-decision-tier
     try:
         prio_path = Path.home() / ".claude" / "active-priorities"

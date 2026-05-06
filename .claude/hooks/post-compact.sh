@@ -77,9 +77,11 @@ CRITICAL — read the pre-compact handoff to recover in-flight state:
   {handoff}
 
 That file was written by pre-compact.sh just BEFORE this compaction event. It
-contains: active mode, active task, cycle state JSON, blockers JSON, recent
-logs by mtime, git state. The summarizer will have erased nuance from those —
-this handoff is the deterministic snapshot. Read it AFTER /orient completes."""
+contains: active mode, active task, **objective layer** (mission · focus · impediment
+per SB-118), **priorities** (imminent-work queue per SB-127), cycle state JSON,
+blockers JSON, recent logs by mtime, git state. The summarizer will have erased
+nuance from those — this handoff is the deterministic snapshot. Read it AFTER
+/orient completes."""
 
     additional_context = f"""═══════════════════════════════════════════════════════════════════════════
 ROOT-GHOSTPROXY — POST-COMPACT REMINDER

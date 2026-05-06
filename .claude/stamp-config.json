@@ -1,4 +1,5 @@
 {
   "layout": "horizontal",
-  "enabled": "auto"
+  "enabled": "auto",
+  "density": "standard"
 }

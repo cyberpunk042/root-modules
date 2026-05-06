@@ -303,7 +303,7 @@ These are not committed work; they are the kind of extensibility the modular arc
 
 The project is at the **scaffold + partial-implement** SFIF stage. Concretely, this means:
 
-> **Note (added cycle 62, 2026-05-05; refreshed 2026-05-06)**: the "barely started" framing comes from operator's verbatim 2026-05-04 directive (preserved sacrosanct in section "Operator Directives Captured This Session"). Substantial scaffolding has landed since: 14 modules + 66 atomic tasks + 8 brain files + 26 decisions logbook entries (latest D026 captures today's audit + Phase A/B/C deliverables) + install.sh dry-run-passing + 13 hooks across 8 events (PreToolUse, PostToolUse, SessionStart, UserPromptSubmit, PreCompact, PostCompact, Stop, SessionEnd) + 9 custom statusline widgets (operator visually verified) + 3 brain-loaded subagents + trigger-model.md unified rule + ccstatusline integration + deployment scripts at $HOME/scripts/ + hook regression tests at .claude/hooks/tests/ + 22 slash commands (incl. /stamp-* config + /install-agent-brain) + 7 deterministic Python tools (state/blockers/progress/decisions/cycle/tasks/stamp) + 118-row systemic-bugs tracker (post-2026-05-06 audit: 17 verified, 13 recurring, 4 open, 76 structurally-fixed, 5 partial, 3 in-progress). The project-lifecycle macro stage is still scaffold (foundation gate met for install.sh dry-run; advance to implement-stage is operator-decision).
+> **Note (added cycle 62, 2026-05-05; refreshed 2026-05-06 post-handoff iteration)**: the "barely started" framing comes from operator's verbatim 2026-05-04 directive (preserved sacrosanct in section "Operator Directives Captured This Session"). Substantial scaffolding has landed since: 14 modules + 66 atomic tasks + 8 brain files + 30 decisions logbook entries (latest D030 captures the compound+waterfall integration block) + install.sh dry-run-passing + 14 hooks across 8 events (PreToolUse, PostToolUse, SessionStart, UserPromptSubmit ×4 incl. mindfulness SB-126, PreCompact, PostCompact, Stop, SessionEnd) + 9 custom statusline widgets (operator visually verified) + 3 brain-loaded subagents + trigger-model.md + compound-and-waterfall.md unified rules + ccstatusline integration + deployment scripts at $HOME/scripts/ + hook regression tests at .claude/hooks/tests/ (6 test files / 72 cases / all green) + 26 slash commands (incl. /stamp-* config + /install-agent-brain + /mission /focus /impediment SB-118 + /priorities SB-127) + 11 deterministic Python tools (state/blockers/progress/decisions/cycle/tasks/stamp/objective/priorities) + MCP server with 7 tools incl. root_objective + 129-row systemic-bugs tracker (9 open Epic-pending, 13 behavioral recurring, 17 verified, 81 structurally-fixed). The project-lifecycle macro stage is still scaffold (foundation gate met for install.sh dry-run; advance to implement-stage is operator-decision).
 
 ### What exists right now (refreshed 2026-05-06)
 
@@ -652,10 +652,21 @@ The second brain's three governing principles (Infrastructure Over Instructions,
 git clone <url> /tmp/root-ghostproxy
 cd /tmp/root-ghostproxy
 
-# 2. Preview the foundation install
+# 2. Wizard mode — state-aware "where you are + what to do next" report
+#    Safe to run from any state (curl-bootstrap / post-clone / post-install / drift / maintenance)
+./install.sh --wizard                   # detects route + offers prioritized next-best-actions
+
+# 3. Preview the foundation install
 ./install.sh --dry-run                  # base profile, default mode=auto
 ./install.sh --dry-run --profile full   # base + facultative modules (ccstatusline)
 ./install.sh --check                    # drift-check existing install state (read-only)
+
+# 3b. Granular install — group-level selection (composes with --profile)
+./install.sh --profile base --no-group wifi --no-group integrity   # base minus 2 groups
+./install.sh --profile base --with-group ccstatusline              # base + 1 Features group
+# Available groups: security, session-lifecycle, agent-discipline, stamp,
+#                   bridge, opencode, wifi, integrity, ccstatusline,
+#                   tools-{core,cycle,stamp,objective,all}
 
 # 3. Execute foundation install (idempotent — re-runs are no-ops where state matches)
 sudo ./install.sh                       # base profile (hooks + opencode + bridge + wifi + integrity)

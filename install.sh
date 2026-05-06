@@ -79,6 +79,7 @@ DEST_OPENCODE="${DEST_HOME}/.config/opencode"
 # Flags
 DRY_RUN=0
 CHECK_MODE=0
+WIZARD_MODE=0   # --wizard: state-aware frame + suggested-next-actions report (no install action)
 # shellcheck disable=SC2034  # VERBOSE: documented in --help; logging hooks pending wire-up
 VERBOSE=0
 # shellcheck disable=SC2034  # ASSUME_YES: documented in --help; --interactive prompt wire-up pending
@@ -93,6 +94,32 @@ WITH_WIFI=""
 WITH_INTEGRITY=""
 WITH_CCSTATUSLINE="" # M011 ccstatusline integration (npm-based)
 WITH_TOOLS=""        # /tools/*.py — autopilot Python modules (tools.cycle, tools.stamp, etc.)
+
+# Granular install — group selection (P5 of wizard design).
+# Format: comma-separated group names. Empty = profile-default selection.
+# See GROUP_DEFINITIONS in granular_select_groups() for the 16 groups.
+WITH_GROUPS=""       # comma-sep: --with-group security,stamp → "security,stamp"
+NO_GROUPS=""         # comma-sep: --no-group commands-mode → "commands-mode"
+
+# Granular install — item-level inclusion/exclusion (P6 of wizard design).
+# Comma-separated lists of file basenames (without extension for hooks: e.g.
+# `policy-block` or `policy-block.sh` both accepted; for commands/rules/agents/
+# modes: stem of *.md). Item-level filters compose with profile + groups:
+# whitelist = "only these"; blacklist = "these excluded" (blacklist wins on conflict).
+WITH_HOOKS_LIST=""    # --with-hook policy-block --with-hook malware-block → "policy-block,malware-block"
+NO_HOOKS_LIST=""      # --no-hook opt-write-block → "opt-write-block"
+WITH_COMMANDS_LIST="" # --with-command orient
+NO_COMMANDS_LIST=""
+WITH_RULES_LIST=""
+NO_RULES_LIST=""
+WITH_AGENTS_LIST=""
+NO_AGENTS_LIST=""
+WITH_MODES_LIST=""
+NO_MODES_LIST=""
+WITH_SKILLS_LIST=""
+NO_SKILLS_LIST=""
+WITH_TOOLS_LIST=""
+NO_TOOLS_LIST=""
 
 # Detected OS family (set by detect_os_family)
 OS_ID=""
@@ -133,6 +160,7 @@ USAGE:
 FLAGS:
     --dry-run                 Preview operations; no state changes.
     --check                   Verify installed state matches expected. Exit non-zero on drift.
+    --wizard                  State-aware "where you are" + "what to do next" report (read-only; no install action). Detects route (curl-bootstrap / post-clone / partial / drift / maintenance) and surfaces prioritized next-best-actions.
     --dest <path>             Install to alternate prefix (default: \$HOME).
     --profile <name>          Install profile: base | full | project | interactive (default: base)
     --mode <name>             Ghostproxy runtime mode: bridge | endpoint | hybrid | auto (default: auto)
@@ -143,6 +171,22 @@ FLAGS:
     --with-integrity / --no-integrity Include/exclude integrity sentinel + baselines
     --with-ccstatusline / --no-ccstatusline Include/exclude ccstatusline (Features tier)
     --with-tools / --no-tools       Include/exclude /tools/*.py Python autopilot modules
+    --with-group <name>             Granular: enable a group (security / session-lifecycle / agent-discipline / stamp / bridge / opencode / wifi / integrity / ccstatusline / tools-{core,cycle,stamp,objective,all}). Repeatable.
+    --no-group <name>               Granular: disable a group. Repeatable.
+    --with-hook <name>              Granular item-level: whitelist a specific hook by name (basename or stem). Sets whitelist mode — only listed hooks deploy. Repeatable.
+    --no-hook <name>                Granular item-level: blacklist a specific hook (always wins over whitelist). Repeatable.
+    --with-command <name>           Whitelist a specific command (.md file stem). Repeatable.
+    --no-command <name>             Blacklist a specific command. Repeatable.
+    --with-rule <name>              Whitelist a specific rule. Repeatable.
+    --no-rule <name>                Blacklist a specific rule. Repeatable.
+    --with-agent <name>             Whitelist a specific subagent. Repeatable.
+    --no-agent <name>               Blacklist a specific subagent. Repeatable.
+    --with-mode <name>              Whitelist a specific mode. Repeatable.
+    --no-mode <name>                Blacklist a specific mode. Repeatable.
+    --with-skill <name>             Whitelist a specific skill (directory name). Repeatable.
+    --no-skill <name>               Blacklist a specific skill. Repeatable.
+    --with-tool <name>              Whitelist a specific tool (.py file stem). Repeatable.
+    --no-tool <name>                Blacklist a specific tool. Repeatable.
     --verbose                 Verbose logging.
     --yes, -y                 Assume yes for any prompts.
     --help, -h                Show this help.
@@ -168,6 +212,9 @@ OPERATIONS (executed in sequence on real install):
     7. Post-install verification (op_verify — runs same checks as --check)
 
 EXAMPLES:
+    # Wizard: state-aware "where you are + what to do next" report
+    ${SCRIPT_NAME} --wizard                     # safe to run from any state (curl-bootstrap / clone / partial / maintenance)
+
     # OS-root install (this dev host, default)
     ${SCRIPT_NAME} --dry-run --profile base
     ${SCRIPT_NAME} --profile full --with-ccstatusline
@@ -178,6 +225,16 @@ EXAMPLES:
 
     # Endpoint-only host (no bridge config; just safety + opencode)
     ${SCRIPT_NAME} --profile base --mode endpoint
+
+    # Granular group-level (composes with --profile)
+    ${SCRIPT_NAME} --profile base --no-group wifi --no-group integrity   # base minus 2 groups
+    ${SCRIPT_NAME} --profile base --with-group ccstatusline              # add a Features group
+
+    # Granular item-level (whitelist + blacklist; blacklist wins)
+    ${SCRIPT_NAME} --profile project --dest /opt/proj \\
+        --no-hook opt-write-block                            # exclude one hook
+    ${SCRIPT_NAME} --profile project --dest /opt/proj \\
+        --with-command orient --with-command handoff         # whitelist: only those commands
 
     # Drift check after install
     ${SCRIPT_NAME} --check
@@ -214,6 +271,7 @@ parse_args() {
         case "$1" in
             --dry-run)         DRY_RUN=1; shift ;;
             --check)           CHECK_MODE=1; shift ;;
+            --wizard)          WIZARD_MODE=1; shift ;;
             --dest)            DEST_HOME="$2"; DEST_CLAUDE="${DEST_HOME}/.claude"; DEST_OPENCODE="${DEST_HOME}/.config/opencode"; shift 2 ;;
             --profile)         PROFILE="$2"; shift 2 ;;
             --mode)            MODE="$2"; shift 2 ;;
@@ -231,6 +289,22 @@ parse_args() {
             --no-ccstatusline)   WITH_CCSTATUSLINE=0; shift ;;
             --with-tools)        WITH_TOOLS=1; shift ;;
             --no-tools)          WITH_TOOLS=0; shift ;;
+            --with-group)        WITH_GROUPS="${WITH_GROUPS:+${WITH_GROUPS},}$2"; shift 2 ;;
+            --no-group)          NO_GROUPS="${NO_GROUPS:+${NO_GROUPS},}$2"; shift 2 ;;
+            --with-hook)         WITH_HOOKS_LIST="${WITH_HOOKS_LIST:+${WITH_HOOKS_LIST},}$2"; shift 2 ;;
+            --no-hook)           NO_HOOKS_LIST="${NO_HOOKS_LIST:+${NO_HOOKS_LIST},}$2"; shift 2 ;;
+            --with-command)      WITH_COMMANDS_LIST="${WITH_COMMANDS_LIST:+${WITH_COMMANDS_LIST},}$2"; shift 2 ;;
+            --no-command)        NO_COMMANDS_LIST="${NO_COMMANDS_LIST:+${NO_COMMANDS_LIST},}$2"; shift 2 ;;
+            --with-rule)         WITH_RULES_LIST="${WITH_RULES_LIST:+${WITH_RULES_LIST},}$2"; shift 2 ;;
+            --no-rule)           NO_RULES_LIST="${NO_RULES_LIST:+${NO_RULES_LIST},}$2"; shift 2 ;;
+            --with-agent)        WITH_AGENTS_LIST="${WITH_AGENTS_LIST:+${WITH_AGENTS_LIST},}$2"; shift 2 ;;
+            --no-agent)          NO_AGENTS_LIST="${NO_AGENTS_LIST:+${NO_AGENTS_LIST},}$2"; shift 2 ;;
+            --with-mode)         WITH_MODES_LIST="${WITH_MODES_LIST:+${WITH_MODES_LIST},}$2"; shift 2 ;;
+            --no-mode)           NO_MODES_LIST="${NO_MODES_LIST:+${NO_MODES_LIST},}$2"; shift 2 ;;
+            --with-skill)        WITH_SKILLS_LIST="${WITH_SKILLS_LIST:+${WITH_SKILLS_LIST},}$2"; shift 2 ;;
+            --no-skill)          NO_SKILLS_LIST="${NO_SKILLS_LIST:+${NO_SKILLS_LIST},}$2"; shift 2 ;;
+            --with-tool)         WITH_TOOLS_LIST="${WITH_TOOLS_LIST:+${WITH_TOOLS_LIST},}$2"; shift 2 ;;
+            --no-tool)           NO_TOOLS_LIST="${NO_TOOLS_LIST:+${NO_TOOLS_LIST},}$2"; shift 2 ;;
             --verbose)         VERBOSE=1; shift ;;
             --yes|-y)          ASSUME_YES=1; shift ;;
             --version)         printf '%s %s\n' "${SCRIPT_NAME}" "${VERSION}"; exit 0 ;;
@@ -575,17 +649,23 @@ op_install_endpoint_safety_policy() {
         mkdir -p "${tgt_hooks_dir}"
     fi
 
+    # Hooks — apply P6 item-level filter (--with-hook / --no-hook).
     local f
     for f in "${src_hooks_dir}"/*.sh "${src_hooks_dir}"/*.py; do
         [[ -e "${f}" ]] || continue
         local basename
         basename="$(basename "${f}")"
+        if ! should_install_item "${basename}" "${WITH_HOOKS_LIST}" "${NO_HOOKS_LIST}"; then
+            log_info "skip hook (item-filter): ${basename}"
+            continue
+        fi
         local mode=0644
         [[ "${basename}" =~ \.sh$ ]] && mode=0755
         install_file "${f}" "${tgt_hooks_dir}/${basename}" "${mode}"
     done
 
     # Brain pieces — flat *.md per dir (rules, commands, agents, modes).
+    # Each dir uses its own item-level WITH/NO list per P6.
     local subdir basename
     for subdir in rules commands agents modes; do
         local src_subdir="${SRC}/.claude/${subdir}"
@@ -596,15 +676,28 @@ op_install_endpoint_safety_policy() {
         else
             mkdir -p "${tgt_subdir}"
         fi
+        # Pick the right WITH/NO list per subdir
+        local _with _no
+        case "${subdir}" in
+            rules)    _with="${WITH_RULES_LIST}";    _no="${NO_RULES_LIST}" ;;
+            commands) _with="${WITH_COMMANDS_LIST}"; _no="${NO_COMMANDS_LIST}" ;;
+            agents)   _with="${WITH_AGENTS_LIST}";   _no="${NO_AGENTS_LIST}" ;;
+            modes)    _with="${WITH_MODES_LIST}";    _no="${NO_MODES_LIST}" ;;
+        esac
         for f in "${src_subdir}"/*.md; do
             [[ -e "${f}" ]] || continue
             basename="$(basename "${f}")"
+            if ! should_install_item "${basename}" "${_with}" "${_no}"; then
+                log_info "skip ${subdir%s} (item-filter): ${basename}"
+                continue
+            fi
             install_file "${f}" "${tgt_subdir}/${basename}" 0644
         done
     done
 
     # Skills — nested: each skill is a subdir containing SKILL.md (+ optional
     # supporting markdown). Per Claude Code skills convention.
+    # P6 filter applies per-skill (skill name = directory basename).
     local src_skills="${SRC}/.claude/skills"
     local tgt_skills="${DEST_CLAUDE}/skills"
     if [[ -d "${src_skills}" ]]; then
@@ -617,6 +710,10 @@ op_install_endpoint_safety_policy() {
         for skill_dir in "${src_skills}"/*/; do
             [[ -d "${skill_dir}" ]] || continue
             skill_name="$(basename "${skill_dir}")"
+            if ! should_install_item "${skill_name}" "${WITH_SKILLS_LIST}" "${NO_SKILLS_LIST}"; then
+                log_info "skip skill (item-filter): ${skill_name}"
+                continue
+            fi
             if [[ "${DRY_RUN}" -eq 1 ]]; then
                 log_dry "ensure ${tgt_skills}/${skill_name}/ exists"
             else
@@ -663,10 +760,15 @@ op_install_tools() {
         mkdir -p "${tgt_tools}"
     fi
 
+    # Apply P6 item-level filter (--with-tool / --no-tool).
     local f basename
     for f in "${src_tools}"/*.py; do
         [[ -e "${f}" ]] || continue
         basename="$(basename "${f}")"
+        if ! should_install_item "${basename}" "${WITH_TOOLS_LIST}" "${NO_TOOLS_LIST}"; then
+            log_info "skip tool (item-filter): ${basename}"
+            continue
+        fi
         install_file "${f}" "${tgt_tools}/${basename}" 0644
     done
 }
@@ -1447,6 +1549,306 @@ install_file() {
 }
 
 # ────────────────────────────────────────────────────────────────────────
+# Granular install — group definitions + selector (P5 of wizard design).
+# Per /wiki/log/2026-05-06-install-wizard-granular-state-aware-design.md.
+# Composes with profile-level toggles: profile sets baseline; --with-group /
+# --no-group narrows; --with-X / --no-X further override individual items.
+# ────────────────────────────────────────────────────────────────────────
+
+# Group → toggle expansions. When a group is selected via --with-group <name>,
+# the listed WITH_* toggles are forced to 1; when unselected via --no-group,
+# forced to 0. Item-level flags (--with-bridge / --no-wifi / etc.) compose
+# AFTER group expansion (item-level wins). Hooks/commands/rules/agents/modes/
+# skills/tools are deployed by op_install_endpoint_safety_policy + op_install_tools
+# whenever WITH_HOOKS=1; the `brain-*` and `commands-*` and `tools-*` group
+# names below are documentation pointers for future fine-grained P6 (item-level
+# per-file selection inside the brain dirs — pending).
+group_apply() {
+    # group_apply <group_name> <on_off>  (on_off = 1 to enable, 0 to disable)
+    local g="$1" v="$2"
+    case "${g}" in
+        # Hook groups (force WITH_HOOKS on, since hooks are atomic in current op)
+        security|session-lifecycle|agent-discipline|stamp)
+            [[ "${v}" == "1" ]] && WITH_HOOKS=1 ;;  # group enables hook deploy
+        # Brain-piece groups (commands/rules/agents/modes/skills) — currently
+        # all-or-nothing per op_install_endpoint_safety_policy. P6 will split.
+        brain-rules-core|brain-rules-all|commands-core|commands-mode|commands-stamp|commands-objective|commands-all)
+            [[ "${v}" == "1" ]] && WITH_HOOKS=1 ;;  # brain pieces co-deploy with hooks
+        # Tool groups
+        tools-core|tools-cycle|tools-stamp|tools-objective|tools-all)
+            WITH_TOOLS="${v}" ;;
+        # OS-level op groups (1:1 with toggles)
+        bridge|opencode|wifi|integrity|ccstatusline)
+            case "${g}" in
+                bridge)        WITH_BRIDGE="${v}" ;;
+                opencode)      WITH_OPENCODE="${v}" ;;
+                wifi)          WITH_WIFI="${v}" ;;
+                integrity)     WITH_INTEGRITY="${v}" ;;
+                ccstatusline)  WITH_CCSTATUSLINE="${v}" ;;
+            esac ;;
+        *)
+            log_warn "unknown group: ${g} — valid: security session-lifecycle agent-discipline stamp brain-rules-{core,all} commands-{core,mode,stamp,objective,all} tools-{core,cycle,stamp,objective,all} bridge opencode wifi integrity ccstatusline"
+            return 1 ;;
+    esac
+    return 0
+}
+
+# Item-level filter helper. Returns 0 (install) or 1 (skip) for a given
+# basename + categorized include/exclude lists. Logic:
+#   - If a NO_*_LIST entry matches → skip (blacklist wins).
+#   - Else if WITH_*_LIST is non-empty AND no entry matches → skip (whitelist mode).
+#   - Else → install.
+#
+# Stem-tolerant matching: accepts both "policy-block" and "policy-block.sh"
+# (or "orient" / "orient.md") — strips the extension before comparing.
+should_install_item() {
+    # should_install_item <basename> <with_list> <no_list>
+    local item="$1"
+    local with="$2"
+    local no="$3"
+
+    # Strip common extensions for tolerant matching
+    local item_stem="${item%.sh}"
+    item_stem="${item_stem%.py}"
+    item_stem="${item_stem%.md}"
+
+    # Blacklist wins
+    if [[ -n "${no}" ]]; then
+        IFS=',' read -ra _arr <<<"${no}"
+        for x in "${_arr[@]}"; do
+            local x_stem="${x%.sh}"; x_stem="${x_stem%.py}"; x_stem="${x_stem%.md}"
+            [[ "${x_stem}" == "${item_stem}" ]] && return 1
+        done
+    fi
+
+    # Whitelist mode (only when WITH list is non-empty)
+    if [[ -n "${with}" ]]; then
+        IFS=',' read -ra _arr <<<"${with}"
+        for x in "${_arr[@]}"; do
+            local x_stem="${x%.sh}"; x_stem="${x_stem%.py}"; x_stem="${x_stem%.md}"
+            [[ "${x_stem}" == "${item_stem}" ]] && return 0
+        done
+        return 1  # whitelist set + no match → skip
+    fi
+
+    return 0  # default: install
+}
+
+# Apply --with-group / --no-group selections after apply_profile (so groups
+# override profile defaults; per-op flags then override groups).
+apply_groups() {
+    local g
+    if [[ -n "${WITH_GROUPS}" ]]; then
+        IFS=',' read -ra _arr <<<"${WITH_GROUPS}"
+        for g in "${_arr[@]}"; do
+            [[ -z "${g}" ]] && continue
+            group_apply "${g}" 1
+        done
+    fi
+    if [[ -n "${NO_GROUPS}" ]]; then
+        IFS=',' read -ra _arr <<<"${NO_GROUPS}"
+        for g in "${_arr[@]}"; do
+            [[ -z "${g}" ]] && continue
+            group_apply "${g}" 0
+        done
+    fi
+}
+
+# ────────────────────────────────────────────────────────────────────────
+# Wizard mode (per /wiki/log/2026-05-06-install-wizard-granular-state-aware-design.md)
+# P1+P2 MVP: state detection + position frame + options offer (non-interactive).
+# Triggered via --wizard flag. Writes a structured "where you are + what to do
+# next" report; takes no install action. Operator runs the suggested commands
+# afterward.
+# ────────────────────────────────────────────────────────────────────────
+
+# Layer 1 — State detection. Reads filesystem; sets WIZARD_STATE_* vars.
+# Pure read-only (no state changes). Designed to run safely from any route
+# (curl-bootstrap, post-clone, post-install, drift, etc.).
+detect_install_state() {
+    # Repo state
+    WIZARD_STATE_REPO_PRESENT=$([[ -f "${SRC}/install.sh" ]] && echo 1 || echo 0)
+
+    # Base install state — settings.json + hooks
+    WIZARD_STATE_BASE_INSTALLED=$([[ -f "${DEST_CLAUDE}/settings.json" ]] && echo 1 || echo 0)
+    WIZARD_STATE_HOOKS_DEPLOYED=$(find "${DEST_CLAUDE}/hooks" -maxdepth 1 -type f \( -name "*.sh" -o -name "*.py" \) 2>/dev/null | wc -l)
+
+    # Brain pieces deployed counts
+    local d
+    WIZARD_STATE_RULES_DEPLOYED=$(find "${DEST_CLAUDE}/rules" -maxdepth 1 -name "*.md" -type f 2>/dev/null | wc -l)
+    WIZARD_STATE_COMMANDS_DEPLOYED=$(find "${DEST_CLAUDE}/commands" -maxdepth 1 -name "*.md" -type f 2>/dev/null | wc -l)
+    WIZARD_STATE_AGENTS_DEPLOYED=$(find "${DEST_CLAUDE}/agents" -maxdepth 1 -name "*.md" -type f 2>/dev/null | wc -l)
+    WIZARD_STATE_MODES_DEPLOYED=$(find "${DEST_CLAUDE}/modes" -maxdepth 1 -name "*.md" -type f 2>/dev/null | wc -l)
+    WIZARD_STATE_SKILLS_DEPLOYED=$(find "${DEST_CLAUDE}/skills" -maxdepth 2 -name "SKILL.md" -type f 2>/dev/null | wc -l)
+    WIZARD_STATE_TOOLS_DEPLOYED=$(find "${DEST_HOME}/tools" -maxdepth 1 -name "*.py" -type f 2>/dev/null | wc -l)
+
+    # OS-level deployment state
+    WIZARD_STATE_BRIDGE_CONFIGURED=$([[ -f /etc/systemd/network/30-ghostproxy-bridge.netdev ]] && echo 1 || echo 0)
+    WIZARD_STATE_WIFI_CONFIGURED=$([[ -f /etc/wpa_supplicant/wpa_supplicant-mgmt0.conf ]] && echo 1 || echo 0)
+    WIZARD_STATE_INTEGRITY_REGISTERED=$([[ -f "${DEST_CLAUDE}/integrity.json" ]] && echo 1 || echo 0)
+    WIZARD_STATE_CCSTATUSLINE_INSTALLED=$(command -v ccstatusline >/dev/null 2>&1 && echo 1 || echo 0)
+    WIZARD_STATE_OPENCODE_BRIDGE_DEPLOYED=$([[ -f "${DEST_OPENCODE}/plugin/claude-bridge.ts" ]] && echo 1 || echo 0)
+
+    # Drift detection (only meaningful when base installed)
+    WIZARD_STATE_HOOKS_DRIFTED=0
+    if [[ "${WIZARD_STATE_BASE_INSTALLED}" == "1" ]]; then
+        for d in "${SRC}/.claude/hooks/"*.{sh,py}; do
+            [[ -e "${d}" ]] || continue
+            local b
+            b="${DEST_CLAUDE}/hooks/$(basename "${d}")"
+            if [[ -f "${b}" ]]; then
+                local h_src h_dst
+                h_src=$(sha256sum "${d}" 2>/dev/null | awk '{print $1}')
+                h_dst=$(sha256sum "${b}" 2>/dev/null | awk '{print $1}')
+                [[ "${h_src}" != "${h_dst}" ]] && WIZARD_STATE_HOOKS_DRIFTED=$((WIZARD_STATE_HOOKS_DRIFTED + 1))
+            fi
+        done
+    fi
+
+    # Route detection (Q7 — conservative heuristic)
+    if [[ "${WIZARD_STATE_REPO_PRESENT}" != "1" ]]; then
+        WIZARD_ROUTE="repo-incomplete"
+    elif [[ "${WIZARD_STATE_BASE_INSTALLED}" != "1" ]]; then
+        WIZARD_ROUTE="post-clone-pre-install"
+    elif [[ "${WIZARD_STATE_HOOKS_DRIFTED}" != "0" ]]; then
+        WIZARD_ROUTE="drift-detected"
+    elif [[ "${WIZARD_STATE_INTEGRITY_REGISTERED}" != "1" || "${WIZARD_STATE_WIFI_CONFIGURED}" != "1" ]]; then
+        WIZARD_ROUTE="partial-install"
+    else
+        WIZARD_ROUTE="post-install-maintenance"
+    fi
+}
+
+# Layer 2 — Position frame. "Where you are" report, terse default.
+frame_position() {
+    local bar="═══════════════════════════════════════════════════════════════════════"
+    echo
+    echo "${bar}"
+    echo "INSTALL WIZARD · root-ghostproxy · type=root + group=operating-system-setup"
+    echo "${bar}"
+    echo
+    echo "Where you are: route=${WIZARD_ROUTE}"
+    echo
+
+    local sym_ok="✓" sym_warn="⚠" sym_off="⊘"
+    [[ "${WIZARD_STATE_REPO_PRESENT}" == "1" ]] \
+        && echo "  ${sym_ok} Repo present at ${SRC}" \
+        || echo "  ${sym_warn} Repo NOT detected (install.sh missing at SRC=${SRC})"
+
+    if [[ "${WIZARD_STATE_BASE_INSTALLED}" == "1" ]]; then
+        echo "  ${sym_ok} Base install at ${DEST_CLAUDE}/ (${WIZARD_STATE_HOOKS_DEPLOYED} hooks · ${WIZARD_STATE_RULES_DEPLOYED} rules · ${WIZARD_STATE_COMMANDS_DEPLOYED} commands · ${WIZARD_STATE_AGENTS_DEPLOYED} agents · ${WIZARD_STATE_MODES_DEPLOYED} modes · ${WIZARD_STATE_SKILLS_DEPLOYED} skills · ${WIZARD_STATE_TOOLS_DEPLOYED} tools)"
+        if [[ "${WIZARD_STATE_HOOKS_DRIFTED}" != "0" ]]; then
+            echo "  ${sym_warn} ${WIZARD_STATE_HOOKS_DRIFTED} hook(s) drifted from spec — run \`install.sh --check\` for detail"
+        fi
+    else
+        echo "  ${sym_off} Base install NOT yet performed (no settings.json at ${DEST_CLAUDE}/)"
+    fi
+
+    [[ "${WIZARD_STATE_BRIDGE_CONFIGURED}" == "1" ]] \
+        && echo "  ${sym_ok} Network bridge config deployed (/etc/systemd/network/)" \
+        || echo "  ${sym_off} Network bridge NOT configured"
+
+    [[ "${WIZARD_STATE_WIFI_CONFIGURED}" == "1" ]] \
+        && echo "  ${sym_ok} Management wifi configured (/etc/wpa_supplicant/wpa_supplicant-mgmt0.conf)" \
+        || echo "  ${sym_off} Management wifi NOT configured (--with-wifi disabled)"
+
+    [[ "${WIZARD_STATE_INTEGRITY_REGISTERED}" == "1" ]] \
+        && echo "  ${sym_ok} Integrity sentinel registered" \
+        || echo "  ${sym_off} Integrity sentinel NOT registered (--with-integrity disabled)"
+
+    [[ "${WIZARD_STATE_CCSTATUSLINE_INSTALLED}" == "1" ]] \
+        && echo "  ${sym_ok} ccstatusline installed (Features tier)" \
+        || echo "  ${sym_off} ccstatusline NOT installed"
+
+    [[ "${WIZARD_STATE_OPENCODE_BRIDGE_DEPLOYED}" == "1" ]] \
+        && echo "  ${sym_ok} opencode bridge plugin deployed" \
+        || echo "  ${sym_off} opencode bridge plugin NOT deployed"
+
+    echo
+    echo "Host context: OS=${OS_ID:-unknown} ${OS_VERSION_ID:-} (family=${OS_FAMILY:-unknown}) · Mode=${MODE:-auto}${DETECTED_MODE:+ (detected=${DETECTED_MODE})} · EUID=${EUID}"
+    echo
+}
+
+# Layer 3 — Options offer. "What you can do next" prioritized recommendations.
+offer_options() {
+    local bar="═══════════════════════════════════════════════════════════════════════"
+    echo "${bar}"
+    echo "What you can do next:"
+    echo "${bar}"
+    echo
+
+    local n=1
+
+    case "${WIZARD_ROUTE}" in
+        repo-incomplete)
+            echo "  [${n}] Re-clone the repo (install.sh missing at expected SRC)"
+            echo "        → git clone <url> && cd <repo> && ./install.sh --wizard"
+            n=$((n + 1))
+            ;;
+        post-clone-pre-install)
+            echo "  [${n}] Run base install (foundation tier — recommended first step)"
+            echo "        → ./install.sh --dry-run --profile base   # preview first"
+            echo "        → sudo ./install.sh --profile base         # apply"
+            n=$((n + 1))
+            echo "  [${n}] Run full install (base + ccstatusline Features tier)"
+            echo "        → sudo ./install.sh --profile full"
+            n=$((n + 1))
+            echo "  [${n}] Endpoint-only install (no bridge/wifi ops; Claude Code + opencode safety only)"
+            echo "        → sudo ./install.sh --profile base --mode endpoint"
+            n=$((n + 1))
+            ;;
+        drift-detected)
+            echo "  [${n}] Run drift-check for full diff between repo + deployed state"
+            echo "        → ./install.sh --check"
+            n=$((n + 1))
+            echo "  [${n}] Re-apply install (idempotent; will back up divergent files)"
+            echo "        → sudo ./install.sh"
+            n=$((n + 1))
+            ;;
+        partial-install|post-install-maintenance)
+            if [[ "${WIZARD_STATE_WIFI_CONFIGURED}" != "1" ]]; then
+                echo "  [${n}] Enable management wifi (recommended for type=root install)"
+                echo "        → sudo ./install.sh --with-wifi"
+                n=$((n + 1))
+            fi
+            if [[ "${WIZARD_STATE_INTEGRITY_REGISTERED}" != "1" ]]; then
+                echo "  [${n}] Register integrity sentinel (SHA256 baselines for safety policy)"
+                echo "        → sudo ./install.sh --with-integrity"
+                n=$((n + 1))
+            fi
+            if [[ "${WIZARD_STATE_CCSTATUSLINE_INSTALLED}" != "1" ]]; then
+                echo "  [${n}] Install ccstatusline (Features tier; npm-based)"
+                echo "        → sudo ./install.sh --with-ccstatusline"
+                n=$((n + 1))
+            fi
+            echo "  [${n}] Deploy agent brain into a sister project (per-project install)"
+            echo "        → ./install.sh --profile project --dest <target-path>"
+            echo "        → /install-agent-brain <target-path>   # slash-command equivalent"
+            n=$((n + 1))
+            echo "  [${n}] Run drift-check on current install state"
+            echo "        → ./install.sh --check"
+            n=$((n + 1))
+            ;;
+    esac
+
+    echo "  [${n}] Granular install (pick specific hooks/commands/rules/tools or groups)"
+    echo "        → ./install.sh --granular   # interactive group-picker (P4 — pending)"
+    echo "        → ./install.sh --with-hook policy-block --no-hook opt-write-block ..."
+    n=$((n + 1))
+
+    echo "  [Q] Quit (no changes)"
+    echo
+    echo "Pending operator decisions (T013 et al — see wiki/governance/blockers.md for full list):"
+    echo "  · Bridge FORWARD/OUTPUT default policy (default-accept vs default-drop, threat-model)"
+    echo "  · See: wiki/governance/blockers.md + wiki/governance/decisions.md"
+    echo
+    echo "${bar}"
+    echo "(MVP wizard P1+P2: report-only. Interactive picker = P4 pending.)"
+    echo "${bar}"
+    echo
+}
+
+# ────────────────────────────────────────────────────────────────────────
 # Main
 # ────────────────────────────────────────────────────────────────────────
 
@@ -1462,6 +1864,18 @@ main() {
     detect_os_family
     detect_ghostproxy_mode
     apply_profile
+    # Apply --with-group / --no-group selections AFTER profile so groups override
+    # profile defaults; per-op --with-X / --no-X flags then compose on top.
+    apply_groups
+
+    # Wizard mode (P1+P2 MVP): state-aware position frame + suggested-next-actions.
+    # Read-only — no install action. Operator runs the suggested commands themselves.
+    if [[ "${WIZARD_MODE}" -eq 1 ]]; then
+        detect_install_state
+        frame_position
+        offer_options
+        exit 0
+    fi
 
     if [[ "${CHECK_MODE}" -eq 1 ]]; then
         run_check

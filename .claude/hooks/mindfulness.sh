@@ -45,7 +45,9 @@ REMINDER = (
     "(1) one-notch-not-extreme — operator correction → adjust ONE dimension, not full opposite swing (SB-082/093). "
     "(2) confirm-don't-construct — operator's literal words are the premise; agent-interpretations need confirmation (SB-090). "
     "(3) artifacts-flagged-as-agent-draft — never treat agent-authored artifacts as operator-known (SB-095). "
-    "(4) forward-not-freeze — when corrected, fix-and-continue; \"standing by\" without subject = freezing (SB-099)."
+    "(4) forward-not-freeze — when corrected, fix-and-continue; \"standing by\" without subject = freezing (SB-099). "
+    "(5) P1-first — address top priority FIRST per cycle; jumping to lower-priority items because they feel easier = short-circuit; operator-caught pattern (SB-128 family). "
+    "(6) substance-per-cycle — each cron-fire must produce real work (SB closure / verified edit / drift-fix-with-empirical / explicit-standby-with-reason); thin \"standby\" output IS the bug."
 )
 
 

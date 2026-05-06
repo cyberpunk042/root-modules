@@ -118,7 +118,9 @@ run_install_and_statusline() {
 
   if [ "$INSTALL_PROFILE" = "skip" ]; then
     info "INSTALL_PROFILE=skip — install.sh NOT invoked. Run it manually when ready:"
-    info "  cd $repo_dir && ./install.sh --help"
+    info "  cd $repo_dir && ./install.sh --wizard       # state-aware 'where you are + what to do next' report"
+    info "  cd $repo_dir && ./install.sh --help         # all flags + profiles + examples"
+    info "  cd $repo_dir && ./install.sh --dry-run      # preview default base profile install"
     return 0
   fi
 
@@ -136,8 +138,20 @@ run_install_and_statusline() {
   info "command: $install_sh ${install_args[*]}"
   if bash "$install_sh" "${install_args[@]}"; then
     ok "install.sh completed"
+
+    # P7 of wizard design: post-install handoff. Surface the state-aware
+    # "where you are + what to do next" report so operator sees the natural
+    # progression from base install → optional follow-ups (wifi, integrity,
+    # ccstatusline, per-project install, drift-check). Skip in --dry-run since
+    # post-install state isn't real.
+    if [ "$INSTALL_DRY_RUN" != "1" ]; then
+      hdr "Wizard handoff"
+      info "Running: $install_sh --wizard (state-aware next-best-actions report)"
+      bash "$install_sh" --wizard 2>&1 || true
+    fi
   else
     warn "install.sh exited non-zero — review output above"
+    info "Try: $install_sh --wizard (state-aware report) OR $install_sh --check (drift report)"
   fi
 
   if [ "$STATUSLINE_PROFILE" != "none" ]; then
@@ -258,7 +272,7 @@ if [ -z "$INSTALL_PROFILE" ]; then
     [base]         foundation only — endpoint AI safety policy + opencode bridge
                    + integrity sentinel. No facultative network/IPS modules.
     [full]         base + ALL facultative modules (Suricata IPS, PolarProxy TLS,
-                   ccstatusline, etc.) — currently scaffold-tier per M005/M011/M014.
+                   ccstatusline, etc.) — currently implement-stage per M005/M011/M014.
     [interactive]  install.sh prompts per-operation (TUI inside install.sh).
 
   Note: install.sh is currently SCAFFOLD-TIER. Implementations are stubs (TODOs).
@@ -366,7 +380,7 @@ if [ "$MODE" = "B" ]; then
   say "Top-level entries:"
   ls -A | head -25 | sed 's/^/    /'
   if [ -f BOOTSTRAP.md ]; then say "BOOTSTRAP.md present — read first for cold-pickup orientation"; fi
-  if [ -f install.sh ];   then say "install.sh present (currently scaffold-tier; --dry-run works)"; fi
+  if [ -f install.sh ];   then say "install.sh present (currently implement-stage; --dry-run works)"; fi
   if [ -f LICENSE ];      then say "LICENSE present"; fi
 
   # Run install.sh with chosen profile/mode/options + activate statusline
@@ -505,7 +519,7 @@ cat <<EOF
     cd \$HOME
     git status                                   # should show clean
     less BOOTSTRAP.md
-    ./install.sh --dry-run                       # preview install.sh (scaffold-tier)
+    ./install.sh --dry-run                       # preview install.sh (implement-stage)
 
   Recovery if anything looks wrong:
     bash \$HOME/scripts/merge-from-backup.sh --validate     # check JSON

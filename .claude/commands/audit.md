@@ -64,7 +64,7 @@ Run the deterministic checks below, in sequence. Report each pass/fail with cont
    ```bash
    ls $HOME/.claude/commands/ | wc -l
    ```
-   Expected: 22 (orient, cycle, mode-{pm,architect,dual,status,clear}, blockers, progress, decisions, log, audit, sync-progress, help-root, handoff, stamp-{horizontal,vertical,on,off,auto,status}, install-agent-brain)
+   Expected: 26 (orient, cycle, mode-{pm,architect,dual,status,clear}, blockers, progress, decisions, log, audit, sync-progress, help-root, handoff, stamp-{horizontal,vertical,on,off,auto,status}, install-agent-brain, mission, focus, impediment, priorities)
 
 9. **All modes present**:
    ```bash
@@ -76,6 +76,22 @@ Run the deterministic checks below, in sequence. Report each pass/fail with cont
     ```bash
     python3 -m tools.decisions verify
     ```
+
+11. **Objective + priorities state files** (SB-118 + SB-127 — files may exist or be absent; tools accept either):
+    ```bash
+    for f in active-mode active-mission active-focus active-impediment active-priorities; do
+      if [ -e "$HOME/.claude/$f" ]; then echo "  present: $f ($(wc -c < "$HOME/.claude/$f") bytes)"
+      else echo "  absent:  $f (tool defaults handle)"
+      fi
+    done
+    ```
+    Both states (present + absent) are valid. The tools `tools.objective` + `tools.priorities` handle absent gracefully. Audit just confirms current state visible.
+
+12. **Compound + waterfall coverage** (SB-123 — every layer surfaces in at least 3 channels):
+    ```bash
+    grep -l "active-mission\|active-priorities" $HOME/.claude/hooks/*.sh $HOME/.claude/commands/*.md $HOME/tools/*.py 2>/dev/null | sort -u | wc -l
+    ```
+    Expected: ≥6 files (mode-enforcement.sh, pre-compact.sh, post-compact.sh, orient.md, handoff.md, cycle.py, mcp_server.py, objective.py, priorities.py, ...).
 
 ## Output
 

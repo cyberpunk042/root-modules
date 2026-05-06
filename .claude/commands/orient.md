@@ -35,15 +35,17 @@ Execute the chain below in order. Each step is a deterministic Read / Bash invoc
 17. Bash: `cd $HOME && git status --short` — git state (commit/uncommit summary)
 18. (Optional, costly) Bash: `cd <second-brain>/ && <second-brain>/.venv/bin/python -m tools.gateway orient --orient-as sister` — second-brain agent's orient view of $HOME as sister project
 
-### Step 3.5 — Detect active mode
+### Step 3.5 — Detect active mode + objective + priorities (compound layer)
 
 19. Bash: `cat $HOME/.claude/active-mode 2>/dev/null || echo "(none)"` — read the active mode (or report none)
 20. If a mode is active: Read `$HOME/.claude/modes/<mode-name>.md` — load persona, primary brain pieces, scope, /cycle sequence
 21. If no mode active: don't auto-enable; surface the option in the report (per operator directive 2026-05-05: mode-entry is operator-choice)
+22. Bash: `cat $HOME/.claude/active-mission $HOME/.claude/active-focus $HOME/.claude/active-impediment 2>/dev/null` — read objective layer (SB-118)
+23. Bash: `cat $HOME/.claude/active-priorities 2>/dev/null` — read priorities queue (SB-127)
 
 ### Step 4 — Compose intel report
 
-After all 21 steps complete, emit a structured report (terse — operator reads diff, not novel):
+After all 23 steps complete, emit a structured report (terse — operator reads diff, not novel):
 
 ```
 ROOT-GHOSTPROXY ORIENT REPORT
@@ -53,6 +55,10 @@ SFIF stage:      <stage> (<readiness>%)
 Modules:         <count> total, <done> done, <pending> pending-op-decision, <not-started> not-started
 git state:       <init/uncommitted/clean>
 Active mode:     <mode-name | none — feature available; /mode-pm, /mode-architect, or /mode-dual to enable>
+Mission:         <active-mission text | (unset)>     # SB-118 objective layer
+Focus:           <active-focus text | (unset)>
+Impediment:      <active-impediment text | (none — focus unblocked)>
+Priorities:      <P1: ... · P2: ... · P3: ... | (none set)>     # SB-127 imminent-work queue
 Last log:        <path> (<date>)
 Last operator
 directive:       <verbatim quote from most-recent raw note, ≤100 chars>

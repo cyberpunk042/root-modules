@@ -60,7 +60,14 @@ When the operator runs `/loop <interval> /cycle` and the active mode is `dual-ex
    - **Reconciliation**: does bottom-up reveal top-down needs revision (or vice versa)?
 4. **Cross-cutting** — anything that needs both lenses (e.g., a PM decision whose downstream is engineering work, or an architecture choice with PM implications)
 5. **Systemic-bugs tracker iteration** (per cycle.md step 9 + operator directive 2026-05-05 *"addressed seriously into a loop"*) — read `wiki/governance/systemic-bugs.md`, pick next `open` or `recurring` SB, apply structural fix or surface verification ask, update tracker. This is the work-doing step in dual mode.
-6. **Wait** — one combined summary + stand by; ScheduleWakeup for next fire
+6. **Substance-per-cycle gate** (per SB-128 + mindfulness clauses 5+6, operator directive 2026-05-06: *"each cycle MUST produce real work; 'no productive ceiling' framing is itself the bug"*). Before completing the cycle, verify that this fire produced at LEAST ONE of:
+   - **SB closure** — a tracker row transitioned to structurally-fixed or verified
+   - **Verified code edit** — a code change with regression test running green or empirical confirmation in same fire
+   - **Drift fix with empirical confirmation** — doc-or-config drift caught + fixed + verified
+   - **Operator-stated priority advancement** — concrete progress on P1/P2 (in priority order, NOT short-circuiting per mindfulness clause #5)
+   - **Explicit standby-with-reason** — when (a) above all fail empirically AND (b) reason is named beyond "ceiling reached" (e.g., "P1 just-fixed this fire, awaiting empirical confirmation next fire")
+   If none applied → that's the SB-128 bug recurring; capture as instance + force one of the above before next fire.
+7. **Wait** — one combined summary + stand by; ScheduleWakeup for next fire
 
 The Dual cycle is naturally LONGER than focused-mode cycles. If running `/loop 30m /cycle` in dual mode produces too much per fire, narrow to focused mode for that period.
 

@@ -21,7 +21,7 @@
 | `tools.decisions` | `$HOME/tools/decisions.py` | Infrastructure | Decisions logbook: list / append / verify / next-id. 25 entries D001-D025. CLI + MCP. | Implemented. |
 | `tools.cycle` | `$HOME/tools/cycle.py` | Infrastructure | Structured cycle output (active mode + cycle definition + state + blockers + progress + lifecycle signals). | Implemented. |
 | `tools.tasks` | `$HOME/tools/tasks.py` | Infrastructure | Task-page parser. | Implemented. |
-| `tools.stamp` | `$HOME/tools/stamp.py` | Infrastructure | Stamp render config per SB-114/115: `configure --layout horizontal\|vertical --enabled on\|off\|auto`, `show`, `clear`. Persists `$HOME/.claude/stamp-config.json`. Slash-command-driven via `/stamp-horizontal` `/stamp-vertical` `/stamp-on` `/stamp-off` `/stamp-auto` `/stamp-status`. Read by `end-of-cycle-stamp.sh` Stop hook to control render. | Implemented (DRAFT per SB-116 — UX redesign Epic placeholder). |
+| `tools.stamp` | `$HOME/tools/stamp.py` | Infrastructure | Stamp render config per SB-114/115: `configure --layout horizontal\|vertical --enabled on\|off\|auto --density minified\|standard\|extended`, `show`, `clear`. Persists `$HOME/.claude/stamp-config.json`. Slash-command-driven via `/stamp-horizontal` `/stamp-vertical` `/stamp-on` `/stamp-off` `/stamp-auto` `/stamp-status`. Read by `end-of-cycle-stamp.sh` Stop hook + cycle.py emit functions. Density (SB-124c): minified drops Journey+Plan rows for narrow terminals; standard is default; extended ≡ standard until operator scopes additional detail. 2 layouts × 3 densities = 6 variants. | Implemented (DRAFT per SB-116 — UX redesign Epic placeholder). |
 | MCP server | `$HOME/tools/mcp_server.py` | Infrastructure | FastMCP server exposing 6 read-only tools (root_orient, root_state, root_blockers, root_progress, root_decisions_*). Wired via `.mcp.json`. | Implemented. |
 | Hook regression tests | `.claude/hooks/tests/{test-policy-block,test-malware-block}.py` | Infrastructure | Pre-merge verification that hook regex changes don't introduce false-positives or false-negatives. | Implemented (cycles 52-53). |
 | Validation pipeline (pre-commit OR CI workflow) | `.pre-commit-config.yaml` OR `.github/workflows/*.yml` | Infrastructure | Runs verify-policy + hook tests on relevant changes. | Planned (M004). |
@@ -64,6 +64,15 @@ The project's authoritative state at $HOME includes:
 
 ```bash
 cd $HOME
+
+# Wizard mode — state-aware "where you are + what to do next" report
+./install.sh --wizard                              # Safe from any state; detects route + offers next-best-actions
+
+# Granular group-level install (composes with --profile)
+./install.sh --profile base --no-group wifi --no-group integrity   # base minus groups
+./install.sh --profile base --with-group ccstatusline              # base + Features group
+# Groups: security, session-lifecycle, agent-discipline, stamp, bridge, opencode,
+#         wifi, integrity, ccstatusline, tools-{core,cycle,stamp,objective,all}
 
 # OS-root install (default mode for this dev host)
 ./install.sh --dry-run                            # Preview; no changes
