@@ -61,6 +61,33 @@
 !/.claude/rules/*.md
 
 # ---------------------------------------------------------------------------
+# 3.6 Whitelist .claude/{commands,agents,modes,skills}/ — agent brain pieces
+#     these define HOW the agent operates (slash commands, brain-loaded
+#     subagents, mode personae, auto-trigger skills). Without them, a
+#     fresh-machine install would have hooks but no /orient, no /handoff,
+#     no /mode-*, no surface-state etc. Coverage gap surfaced 2026-05-06
+#     per operator question on install-readiness for fresh machines.
+# ---------------------------------------------------------------------------
+!/.claude/commands/
+/.claude/commands/*
+!/.claude/commands/*.md
+
+!/.claude/agents/
+/.claude/agents/*
+!/.claude/agents/*.md
+
+!/.claude/modes/
+/.claude/modes/*
+!/.claude/modes/*.md
+
+!/.claude/skills/
+/.claude/skills/*
+!/.claude/skills/*/
+/.claude/skills/*/*
+!/.claude/skills/*/SKILL.md
+!/.claude/skills/*/*.md
+
+# ---------------------------------------------------------------------------
 # 4. Whitelist opencode curated config
 #    Only opencode.json + the bridge plugin source. No node_modules, no DB,
 #    no logs, no tool-output cache.

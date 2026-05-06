@@ -105,6 +105,19 @@ Required steps before each non-trivial fix:
 
 This is a special case of SB-090 (premise-construction) applied to architectural assumptions specifically. Cascade-failures of mental-model errors are particularly expensive because every iteration downstream is wasted effort.
 
+**Evidence-priority hierarchy** (extension — closes SB-109, 2026-05-06). When evidence sources conflict, the agent must apply this priority order strictly:
+
+1. **Operator-empirical** (highest) — operator's direct observation of real-system behavior. "I had it working before" / "this renders" / "this doesn't render" is authoritative ground truth. Cannot be overridden by lower tiers.
+2. **Diag-log of real session** — passive capture of actual Claude Code behavior (hook fires, env vars, stdin shapes observed in production). Authoritative for behavior the operator hasn't directly observed.
+3. **Subagent research / external docs** — claude-code-guide subagent reports, official docs, vendor specs. Useful but secondary; can be incomplete or outdated.
+4. **Agent inference** (lowest) — derived models, "platform must work this way", reasoning from incomplete knowledge.
+
+When tiers conflict: trust the higher tier and update the lower. Pattern observed 2026-05-06 (SB-109 instance): operator stated "I had it working before" (tier 1); claude-code-guide subagent (tier 3) reported "Stop hook has no user-visible channel"; agent accepted the tier-3 answer over the tier-1 signal, oscillated through 4 wrong output shapes. Should have triggered: STOP, find the prior working state via git/file-history/tracker, replicate exactly. Operator's manual fix later proved tier 3 was incomplete.
+
+Anti-pattern: "Platform limitation" framing (closes SB-110, 2026-05-06). When a fix doesn't render as expected, do NOT default-attribute to "the platform renders that way" without operator-empirical or diag-log evidence. That framing removes the bug from agent's domain prematurely. The likelier cause is wrong agent-output-shape (tier-4 inference error), not platform behavior. State the tier of evidence behind any "platform behaves like X" claim; if evidence is tier 3 or 4, frame as agent-hypothesis, not fact.
+
+Anti-pattern: architectural-vs-functional substitution (closes SB-111, 2026-05-06). When operator's directive specifies a mechanism ("I NEED IT WIRED" = a hook), do NOT propose functionally-equivalent alternatives ("agent emits inline") as if they satisfy the directive. The operator's choice of mechanism is part of the directive, not just decoration around an outcome. Treat outcome-equivalence and directive-equivalence as different. If the named mechanism is impossible, surface that explicitly with evidence; don't substitute silently.
+
 ### 6. Comments-don't-deroute (operator's mid-flight context)
 
 Per operator's implicit meta-rule (test session 2026-05-05): when operator adds a comment mid-flight (typically prefixed by an aside like "btw" or parenthetical), the agent should TREAT THE COMMENT AS CONTEXT-ADDITIVE, not as a redirection.
