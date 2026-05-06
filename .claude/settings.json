@@ -304,6 +304,11 @@
             "type": "command",
             "command": "python3 $HOME/.claude/hooks/mode-enforcement.sh",
             "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "python3 $HOME/.claude/hooks/mindfulness.sh",
+            "timeout": 5
           }
         ]
       }

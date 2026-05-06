@@ -98,3 +98,4 @@ Pattern recognized: signal-source × action-determinism × composability matrix.
 - Methodology: `.claude/rules/methodology.md` (stage-gates use commands + hooks + tools jointly)
 - Operating principles: `.claude/rules/operating-principles.md` (strictness graduation per mechanism)
 - Context engineering: `.claude/rules/context-engineering.md` (auto/pre/on-demand/facultative injection — applies to mechanism choice too)
+- Compound + waterfall: `.claude/rules/compound-and-waterfall.md` (orthogonal axes — what layers ADDITIVELY at-a-moment vs how state flows event-to-event; the trigger model is one mechanism within the compound stack)

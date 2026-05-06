@@ -42,9 +42,9 @@ The project's authoritative state at $HOME includes:
 - The backlog scaffold (`$HOME/wiki/backlog/{epics,modules,tasks}/`) with active epic + 14 modules + 66 atomic tasks
 - The log directory (`$HOME/wiki/log/`) — populated with session logs + cycle reports + handoff docs
 - The governance directory (`$HOME/wiki/governance/{blockers,progress,decisions}.md` + `systemic-bugs.md`)
-- 10 Python tools at `$HOME/tools/` (state, blockers, progress, decisions, cycle, tasks, **stamp**, **objective** + mcp_server + _paths)
+- 11 Python tools at `$HOME/tools/` (state, blockers, progress, decisions, cycle, tasks, **stamp**, **objective**, **priorities** + mcp_server + _paths)
 - 16 hooks at `.claude/hooks/` (incl. context-warning, end-of-cycle-stamp, stamp-control, integrity.py + test fixtures)
-- 25 slash commands at `.claude/commands/` (incl. /stamp-* config + /install-agent-brain + /mode-* + /mission + /focus + /impediment SB-118)
+- 26 slash commands at `.claude/commands/` (incl. /stamp-* config + /install-agent-brain + /mode-* + /mission + /focus + /impediment SB-118 + /priorities SB-127)
 - 3 modes at `.claude/modes/` + 3 brain-loaded subagents at `.claude/agents/`
 - 2 skills at `.claude/skills/<name>/SKILL.md` (surface-state + surface-blockers)
 - 10 rules files at `.claude/rules/`

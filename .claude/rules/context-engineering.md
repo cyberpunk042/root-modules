@@ -83,3 +83,4 @@ Future: enrich command + skill + mode frontmatter with tool-consumable fields (c
 - Operator directive: `<second-brain>/raw/notes/2026-05-05-thorough-review-context-engineering-versatility-and-network-spec-note.md`
 - Co-evolution lesson: `/opt/.../wiki/lessons/01_drafts/second-brain-and-projects-co-evolve-never-finished-doctrine.md`
 - BOOTSTRAP.md (the read-order surfaces context-injection sequencing)
+- `.claude/rules/compound-and-waterfall.md` — sister rule: WHEN/HOW to think about layered context (compound axis = additive coexistence) vs flowed context (waterfall axis = sequential cascade); the four injection modes here populate the compound stack

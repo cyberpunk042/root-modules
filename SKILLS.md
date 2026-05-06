@@ -14,8 +14,8 @@ Per the second brain's `model-skills-commands-hooks.md`, AI tools (Claude Code i
 | **Sub-agent** | Cold-context | Parent agent invokes via Agent tool with `subagent_type` | Delegated research with own brain-load + tool subset. 3 brain-loaded subagents in this project (root-explorer / root-architect / root-pm-scoper). |
 
 For root-ghostproxy:
-- **Hooks** are the foundation's safety envelope + project-priming + compaction lifecycle. 9 fires across 6 events. Regression tests at `.claude/hooks/tests/`.
-- **Commands** are operator-typed slash commands for project workflows. 15 commands at `.claude/commands/*.md` (`/orient`, `/cycle`, `/mode-{pm,architect,dual,status,clear}`, `/blockers`, `/progress`, `/decisions`, `/log`, `/audit`, `/sync-progress`, `/help-root`, `/handoff`).
+- **Hooks** are the foundation's safety envelope + project-priming + compaction lifecycle. 13 fires across 8 events (PreToolUse + PostToolUse + SessionStart + UserPromptSubmit + PreCompact + PostCompact + Stop + SessionEnd). Regression tests at `.claude/hooks/tests/`.
+- **Commands** are operator-typed slash commands for project workflows. 25 commands at `.claude/commands/*.md` (`/orient`, `/cycle`, `/mode-{pm,architect,dual,status,clear}`, `/blockers`, `/progress`, `/decisions`, `/log`, `/audit`, `/sync-progress`, `/help-root`, `/handoff`, `/stamp-{horizontal,vertical,on,off,auto,status}` (SB-115), `/install-agent-brain`, `/mission`, `/focus`, `/impediment` (SB-118)).
 - **Skills** are auto-triggered workflows. `surface-state` (auto-fires on "where are we" prose → `/orient`) + `surface-blockers` (auto-fires on "what's blocking" prose → `/blockers`) live at `.claude/skills/`. Plus user-level skills (audit, cycle, modes, etc).
 - **Sub-agents** are project-aware delegated workers. 3 at `.claude/agents/*.md` — each starts COLD without parent context, so each has explicit "load brain first" prompts naming CLAUDE.md / rules / state files.
 

@@ -326,7 +326,7 @@ The project is at the **scaffold + partial-implement** SFIF stage. Concretely, t
 | **Integrity sentinel** | SHA256 baselines for safety-policy artefacts; `op_install_integrity_sentinel` registers; `op_verify` + `integrity_check()` validate | `$HOME/.claude/integrity.json` (per host) |
 | **Post-install verification** | `install.sh --check` runs 16+ checks: settings.json parses, hooks executable, integrity match, opencode bridge, br0 UP, wifi config + ruleset + table loaded + service enabled, brain-piece counts | `$HOME/install.sh --check` |
 | **Agent context files** (10) | README + CLAUDE.md, AGENTS.md, BOOTSTRAP.md, CONTEXT.md, ARCHITECTURE.md, TOOLS.md, DESIGN.md, SKILLS.md, SECURITY.md | `$HOME/*.md` |
-| **25 slash commands** | /orient, /handoff, /cycle, /stamp-{on,off,auto,horizontal,vertical,status}, /mode-{pm,architect,dual,clear,status}, /blockers, /progress, /decisions, /audit, /sync-progress, /log, /help-root, /install-agent-brain, /mission, /focus, /impediment | `$HOME/.claude/commands/*.md` |
+| **26 slash commands** | /orient, /handoff, /cycle, /stamp-{on,off,auto,horizontal,vertical,status}, /mode-{pm,architect,dual,clear,status}, /blockers, /progress, /decisions, /audit, /sync-progress, /log, /help-root, /install-agent-brain, /mission, /focus, /impediment, /priorities | `$HOME/.claude/commands/*.md` |
 | **3 brain-loaded subagents** | root-explorer, root-architect, root-pm-scoper | `$HOME/.claude/agents/*.md` |
 | **3 modes** | PM Scrum Master, DevOps Architect, Dual Expert | `$HOME/.claude/modes/*.md` |
 | **2 skills** | surface-state, surface-blockers (description-match auto-trigger) | `$HOME/.claude/skills/<name>/SKILL.md` |

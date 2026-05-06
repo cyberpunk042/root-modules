@@ -86,7 +86,7 @@ Specific device names (e.g. `enp2s0`, `enp4s0`, `wlp3s0`, or `eth0`/`eth1`/`wlan
 | **OS-root safety envelope** | Foundation | The shared AI agent policy: tamper sentinel + pre-tool hooks + post-tool hooks + session-lifecycle hooks. The endpoint half of the AI safety setup. | Pending Foundation IaC (M003) — operator-authored, not extending prior $HOME/.claude debris |
 | **opencode bridge plugin** | Foundation | Maps opencode's tool names + plugin SDK envelope onto the canonical Claude Code envelope; spawns the same hook scripts so opencode obeys the same policy. | Pending Foundation IaC (M003) |
 | **Methodology engine** | Foundation | `wiki/config/methodology.yaml` + `sdlc-profile.yaml` + `domain-profile.yaml` + `methodology-profile.yaml`. Drives stage-gated work loop. | Complete (copied from second brain to `$HOME/wiki/config/`) |
-| **Backlog scaffold** | Foundation | `wiki/backlog/{epics,modules,tasks}/` with active rollout epic + 13 modules | Complete (in `$HOME/wiki/backlog/`) |
+| **Backlog scaffold** | Foundation | `wiki/backlog/{epics,modules,tasks}/` with active rollout epic + 14 modules + 66 atomic tasks | Complete (in `$HOME/wiki/backlog/`) |
 | **Sister-project integration** | Foundation | Registration in second brain + `--connect-project` mechanism produces 4 artefacts in $HOME: `.mcp.json` `research-wiki` entry, `tools/gateway.py` forwarder, `tools/view.py` forwarder, `## Second Brain Connection` block in AGENTS.md (variant=ROOT_OS_SETUP) | Registration complete; --connect-project not yet run for real |
 | **Project-internal verifier** | Infrastructure | `tools/verify-policy.py` (or equivalent) — verifies safety envelope invariants programmatically | Pending Infrastructure tooling (M004) |
 | **Suricata module** | Features (facultative) | Inline IDS/IPS on bridge data path; eve.json structured output | Not installed |
@@ -218,11 +218,11 @@ The hook layer is one of 8 mechanisms in the project's unified trigger model (pe
 | Mechanism | Path | Determinism | Role |
 |---|---|---|---|
 | Hooks | `.claude/hooks/*.sh` | Logical | Lifecycle enforcement + project-priming |
-| Slash commands | `.claude/commands/*.md` (15) | 100% on invoke | Operator-typed deterministic workflows |
+| Slash commands | `.claude/commands/*.md` (25 — incl. /orient, /cycle, /handoff, /audit, /log, /blockers, /progress, /decisions, /sync-progress, /help-root, /mode-{pm,architect,dual,clear,status}, /stamp-{horizontal,vertical,on,off,auto,status} (SB-115), /install-agent-brain, /mission, /focus, /impediment (SB-118)) | 100% on invoke | Operator-typed deterministic workflows |
 | Skills | `.claude/skills/<name>/` (2 local + user-level) | Description-match | Auto-trigger on operator prose |
 | Modes | `.claude/modes/*.md` (3) | State-driven | Persona shift across turns; modulates `/cycle` |
 | Sub-agents | `.claude/agents/*.md` (3 brain-loaded) | Cold-context | Delegated research with explicit "load brain first" prompts |
-| Tools | `tools/*.py` (4 modules) + harness-deferred | Programmatic | State queries + computations |
+| Tools | `tools/*.py` (10 modules — state, blockers, progress, decisions, cycle, tasks, stamp, objective, mcp_server, _paths) + harness-deferred | Programmatic | State queries + computations + render config |
 | MCP tools | `mcp_server.py` (6 read-only tools) | Programmatic | Cross-process structured returns |
 | Scheduled tasks | `CronCreate` / `ScheduleWakeup` | Cron OR self-paced | Wraps any of the above for repeated firing |
 

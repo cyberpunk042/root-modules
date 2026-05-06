@@ -62,6 +62,7 @@ ACTIVE_MODE_FILE = PROJECT_ROOT / ".claude" / "active-mode"
 ACTIVE_MISSION_FILE = PROJECT_ROOT / ".claude" / "active-mission"
 ACTIVE_FOCUS_FILE = PROJECT_ROOT / ".claude" / "active-focus"
 ACTIVE_IMPEDIMENT_FILE = PROJECT_ROOT / ".claude" / "active-impediment"
+ACTIVE_PRIORITIES_FILE = PROJECT_ROOT / ".claude" / "active-priorities"
 MODES_DIR = PROJECT_ROOT / ".claude" / "modes"
 SYSTEMIC_BUGS_PATH = PROJECT_ROOT / "wiki" / "governance" / "systemic-bugs.md"
 LOG_DIR = PROJECT_ROOT / "wiki" / "log"
@@ -200,7 +201,7 @@ def get_live_state_context() -> dict:
     traced with reason for post-hoc diagnosis.
     """
     state: dict = {"open_sbs": [], "recurring_sbs": [], "recent_logs": [], "task_cursor": "",
-                   "mission": "", "focus": "", "impediment": "",
+                   "mission": "", "focus": "", "impediment": "", "priorities": [],
                    "_sb_load_error": ""}
 
     # Mission / focus / impediment state files (SB-118 build, operator directive 2026-05-06)
@@ -211,9 +212,18 @@ def get_live_state_context() -> dict:
     ):
         try:
             if path.exists():
-                state[layer] = path.read_text().strip()[:160]
+                state[layer] = path.read_text().strip()
         except Exception:
             pass
+
+    # Priorities (SB-127 build, operator directive 2026-05-06): top-priorities imminent-work list
+    try:
+        if ACTIVE_PRIORITIES_FILE.exists():
+            state["priorities"] = [
+                ln.strip() for ln in ACTIVE_PRIORITIES_FILE.read_text().splitlines() if ln.strip()
+            ]
+    except Exception:
+        pass
 
     # Systemic bugs — explicit sys.path injection for cwd-independent import
     if str(PROJECT_ROOT) not in sys.path:
@@ -281,18 +291,26 @@ def compose_reminder(mode: str, sections: dict, state: dict) -> tuple[str, list]
         parts.append("CYCLE STEPS: " + " · ".join(s[:80] for s in cycle_steps))
         keys.append("cycle-sequence")
 
-    # Mission / Focus / Impediment (SB-118) — operator-explicit-set, high priority
-    # placed BEFORE ambient LIVE STATE so the cap doesn't truncate them
-    objective_parts: list = []
-    if state.get("mission"):
-        objective_parts.append(f"MISSION: {state['mission']}")
-    if state.get("focus"):
-        objective_parts.append(f"FOCUS: {state['focus']}")
-    if state.get("impediment"):
-        objective_parts.append(f"IMPEDIMENT: {state['impediment']}")
-    if objective_parts:
-        parts.append(" · ".join(objective_parts))
-        keys.append("objective")
+    # Top-priorities (SB-127) — imminent-work hot-queue, surfaces ABOVE PM-decision-tier
+    # per operator directive: "imminent work, even before the PM work"
+    priorities = state.get("priorities") or []
+    if priorities:
+        prio_lines = [f"P{i}: {p}" for i, p in enumerate(priorities[:5], start=1)]
+        parts.append("PRIORITIES: " + " · ".join(prio_lines))
+        keys.append("priorities")
+    else:
+        parts.append("PRIORITIES: (none set)")
+        keys.append("priorities")
+
+    # Mission / Focus / Impediment (SB-118) — operator-explicit-set
+    # Always render all 3 even when empty (operator-visibility: empty = "(unset)")
+    objective_parts: list = [
+        f"MISSION: {state.get('mission') or '(unset)'}",
+        f"FOCUS: {state.get('focus') or '(unset)'}",
+        f"IMPEDIMENT: {state.get('impediment') or '(none — focus unblocked)'}",
+    ]
+    parts.append(" · ".join(objective_parts))
+    keys.append("objective")
 
     # Live state cross-reference
     live_parts: list = []

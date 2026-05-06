@@ -132,7 +132,7 @@ Source: `<second-brain>/raw/notes/2026-05-04-prepare-root-ghostproxy-as-sister-t
 | **Skills directory context** | [SKILLS.md](SKILLS.md) | Where skills live, conventions, when to use each. |
 | **Methodology engine** | [wiki/config/methodology.yaml](wiki/config/methodology.yaml) | 9 models, 5 universal stages, ALLOWED/FORBIDDEN per stage, gate commands, end conditions. |
 | **Chosen profiles** | [wiki/config/sdlc-profile.yaml](wiki/config/sdlc-profile.yaml) (`simplified`), [wiki/config/domain-profile.yaml](wiki/config/domain-profile.yaml) (`infrastructure`), [wiki/config/methodology-profile.yaml](wiki/config/methodology-profile.yaml) (`stage-gated`) | Per-project methodology adaptation. |
-| **Backlog** | [wiki/backlog/](wiki/backlog/) | Active epic + 13 modules + atomic tasks. |
+| **Backlog** | [wiki/backlog/](wiki/backlog/) | Active epic + 14 modules + 66 atomic tasks. |
 | **Log** | [wiki/log/](wiki/log/) | Operator directives verbatim, session logs, completion notes. |
 | **Identity profile (canonical)** | `<second-brain>/wiki/ecosystem/project_profiles/root-ghostproxy/identity-profile.md` | Full Goldilocks 9-dimension profile. |
 | **Sister-projects.yaml entry** | `<second-brain>/wiki/config/sister-projects.yaml` → `projects.root-ghostproxy` | Registration with second brain. |

@@ -51,7 +51,7 @@ This project uses the second brain's stage-gate methodology, copied + adapted pe
 
 **Backlog hierarchy:** Epic → Module → Task. Readiness flows up. Status flows up. You work on tasks, not epics directly.
 
-**Active epic:** [SFIF Rollout + Second-Brain Integration](wiki/backlog/epics/sfif-rollout-and-second-brain-integration.md). Modules M001–M010. See [README.md](README.md) Backlog section for the full Stream 1 / Stream 2 breakdown.
+**Active epic:** [SFIF Rollout + Second-Brain Integration](wiki/backlog/epics/sfif-rollout-and-second-brain-integration.md). Modules M001–M014 (incl. M011 ccstatusline, M012 vendor mapping, M014 pipelock preliminary). See [README.md](README.md) Backlog section for the full Stream 1 / Stream 2 breakdown.
 
 ## Operator-Intent Routing Table (Claude-Code-specific)
 
@@ -176,7 +176,7 @@ Topic-specific rules loaded when work touches their domain. Per Claude Code conv
 |---|---|
 | [.claude/rules/routing.md](.claude/rules/routing.md) | Operator intent is ambiguous; need to map prose → tool/MCP/CLI |
 | [.claude/rules/methodology.md](.claude/rules/methodology.md) | Stage selection, model selection, ALLOWED/FORBIDDEN per stage |
-| [.claude/rules/hook-architecture.md](.claude/rules/hook-architecture.md) | Designing/debugging hooks; 13 wired machine-level hook fires across 8 events (PreToolUse, PostToolUse, SessionStart, UserPromptSubmit, PreCompact, PostCompact, Stop, SessionEnd) |
+| [.claude/rules/hook-architecture.md](.claude/rules/hook-architecture.md) | Designing/debugging hooks; 14 wired machine-level hook fires across 8 events (PreToolUse, PostToolUse, SessionStart, UserPromptSubmit, PreCompact, PostCompact, Stop, SessionEnd) |
 | [.claude/rules/work-mode.md](.claude/rules/work-mode.md) | Solo-session pattern, PO approval boundary, status-claim discipline |
 | [.claude/rules/self-reference.md](.claude/rules/self-reference.md) | Confused about $HOME vs second brain; identity questions |
 | [.claude/rules/words-are-sacrosanct.md](.claude/rules/words-are-sacrosanct.md) | About to summarize/paraphrase the operator (don't); about to log a directive |
@@ -184,18 +184,19 @@ Topic-specific rules loaded when work touches their domain. Per Claude Code conv
 | [.claude/rules/operating-principles.md](.claude/rules/operating-principles.md) | Designing/calibrating a control's strictness; blocking/refusing something; making judgment calls about flexibility vs strictness |
 | [.claude/rules/context-engineering.md](.claude/rules/context-engineering.md) | Designing how an agent gets context (auto/pre/on-demand/facultative injection); enriching frontmatter for tool empowerment |
 | [.claude/rules/trigger-model.md](.claude/rules/trigger-model.md) | Designing or debugging anything that fires on a signal: hooks, slash commands, skills, modes, tools, MCP, scheduled tasks, sub-agents — unified signal→action→recovery model |
+| [.claude/rules/compound-and-waterfall.md](.claude/rules/compound-and-waterfall.md) | Designing how state, context, hooks, or directives layer (compound axis = additive coexistence) or flow event-to-event (waterfall axis = sequential cascade); pairs with trigger-model.md + context-engineering.md |
 
 ## Project Surfaces (the agent's operating layers)
 
 | Surface | Path | Determinism | Notes |
 |---|---|---|---|
-| Slash commands (25) | [.claude/commands/](.claude/commands/) | 100% on invoke | `/orient`, `/cycle`, `/mode-{pm,architect,dual,status,clear}`, `/blockers`, `/progress`, `/decisions`, `/log`, `/audit`, `/sync-progress`, `/help-root`, `/handoff`, `/stamp-{horizontal,vertical,on,off,auto,status}` (6 SB-115), `/install-agent-brain`, `/mission`, `/focus`, `/impediment` (3 SB-118) |
+| Slash commands (26) | [.claude/commands/](.claude/commands/) | 100% on invoke | `/orient`, `/cycle`, `/mode-{pm,architect,dual,status,clear}`, `/blockers`, `/progress`, `/decisions`, `/log`, `/audit`, `/sync-progress`, `/help-root`, `/handoff`, `/stamp-{horizontal,vertical,on,off,auto,status}` (6 SB-115), `/install-agent-brain`, `/mission`, `/focus`, `/impediment` (3 SB-118), `/priorities` (SB-127 imminent-work) |
 | Modes (3) | [.claude/modes/](.claude/modes/) | Operator-picks (durable) | PM Scrum Master / DevOps Architect / Dual Expert. State at `.claude/active-mode`. Combine with `/loop /cycle` for autopilot. |
 | Hooks (13 wired) | [.claude/hooks/](.claude/hooks/) | ~85% (additionalContext JSON) | session-orient + post-compact direct agent to `/orient`; security envelope (policy-block + malware-block + opt-write-block + leak-detector); pre-compact handoff snapshot; UserPromptSubmit context-warning + agent-discipline-gate + mode-enforcement; Stop end-of-cycle-stamp; session-summary on end. |
-| Tools (9 .py + MCP) | [tools/](tools/) | 100% non-LLM | `state, blockers, progress, decisions, cycle, tasks, stamp` Python modules + `mcp_server` exposes 6 MCP tools (read-only) at `tools/mcp_server.py`. Wired via `.mcp.json`. |
+| Tools (11 .py + MCP) | [tools/](tools/) | 100% non-LLM | `state, blockers, progress, decisions, cycle, tasks, stamp, objective, priorities` Python modules + `mcp_server` exposes 7 MCP tools (read-only) at `tools/mcp_server.py` + `_paths` helper. Wired via `.mcp.json`. |
 | Skills (2) | [.claude/skills/](.claude/skills/) | ~90-95% description-match | `surface-state` (auto-fires on "where are we" prose → `/orient`); `surface-blockers` (auto-fires on "what's blocking" prose → `/blockers`). |
 | Governance (3 SRP docs) | [wiki/governance/](wiki/governance/) | Read-only views | `blockers.md`, `progress.md`, `decisions.md`. SRP-separated. Refresh via `/sync-progress` + `/decisions append`. |
-| MCP server (root-ghostproxy) | [.mcp.json](.mcp.json) + tools/mcp_server.py | 100% per call | 6 tools: root_state, root_blockers, root_progress, root_decisions_{list,get,verify,next_id}, root_orient. Uses `/opt/.../venv/bin/python` (mcp pkg). |
+| MCP server (root-ghostproxy) | [.mcp.json](.mcp.json) + tools/mcp_server.py | 100% per call | 7 tools: root_state, root_blockers, root_progress, root_decisions_{list,get,verify,next_id}, root_objective (SB-118+SB-127 — mission/focus/impediment/priorities), root_orient. Uses `/opt/.../venv/bin/python` (mcp pkg). |
 
 ## Second Brain Connection (placeholder)
 

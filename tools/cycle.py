@@ -116,6 +116,23 @@ def evaluate_cycle() -> dict:
             "note": f"{state['git-uncommitted']} uncommitted files — consider committing the spec before next phase",
         })
 
+    # Compound layers (SB-118 + SB-127): operator-explicit objective + priorities state
+    objective = {"mission": "", "focus": "", "impediment": ""}
+    for layer in ("mission", "focus", "impediment"):
+        p = PROJECT_ROOT / ".claude" / f"active-{layer}"
+        if p.exists():
+            try:
+                objective[layer] = p.read_text().strip()
+            except Exception:
+                pass
+    priorities: list = []
+    pp = PROJECT_ROOT / ".claude" / "active-priorities"
+    if pp.exists():
+        try:
+            priorities = [ln.strip() for ln in pp.read_text().splitlines() if ln.strip()]
+        except Exception:
+            pass
+
     return {
         "active_mode": mode,
         "cycle": cycle_def,
@@ -132,6 +149,8 @@ def evaluate_cycle() -> dict:
             "task_counts": progress["tasks"]["by_status"],
             "recent_logs_count": len(progress.get("recent_logs", [])),
         },
+        "objective": objective,
+        "priorities": priorities,
         "lifecycle_signals": lifecycle_signals,
     }
 
@@ -232,13 +251,14 @@ def emit_status_block_ansi_horizontal(result: dict, fence: bool = True) -> None:
     )
     ts = _dt_h.now().strftime("%H:%M:%S")
 
-    LABEL_WIDTH = 10  # widest = "Impediment"
+    LABEL_WIDTH = 10  # widest = "Impediment" / "Priorities"
     # Semantic glyph per section for visual scanning at line-start
     GLYPHS = {
         "Status":     "●",   # filled circle = current state
         "Journey":    "↺",   # history loop
         "Plan":       "◆",   # diamond = priority
-        "Blocked":    "⊘",   # circle-slash = blocker
+        "Priorities": "⚡",   # lightning = imminent work (before PM)
+        "Tracker":    "⊘",   # circle-slash = tier-explicit (real blockers · Epic-pending · behavioral)
         "Progress":   "▰",   # filled block = progress
         "Cursor":     "▶",   # play/now-pointer
         "Mission":    "✦",   # 4-point star = north star
@@ -252,10 +272,33 @@ def emit_status_block_ansi_horizontal(result: dict, fence: bool = True) -> None:
     if fence:
         print("```ansi")
 
-    # Status — timestamp · mode · loop state
+    # Status — timestamp · mode · loop state · task (S:stage)
     loop_state = "alive" if cycle.get("valid") else "no-mode"
     loop_color = G if cycle.get("valid") else R
-    print(f"{lbl('Status')}  {D}{ts}{X}  ·  {cycle.get('mode', 'none')}  ·  {loop_color}loop {loop_state}{X}")
+    # Extract current task ID + stage from progress.md callout (operator directive 2026-05-06:
+    # "on the status line there could the the current task too and it stage even with S: for example")
+    task_part = ""
+    try:
+        from pathlib import Path as _P
+        import re as _re
+        prog_path = _P.home() / "wiki" / "governance" / "progress.md"
+        if prog_path.exists():
+            text = prog_path.read_text()
+            m = _re.search(r"Active task cursor:\s*(T\d+)[^\n]*", text)
+            if m:
+                task_id = m.group(1)
+                # Look up stage from task frontmatter
+                task_files = list((_P.home() / "wiki" / "backlog" / "tasks").glob(f"{task_id}-*.md"))
+                stage = "?"
+                if task_files:
+                    fm = task_files[0].read_text()
+                    s_match = _re.search(r"^current_stage:\s*(\S+)", fm, _re.M)
+                    if s_match:
+                        stage = s_match.group(1)
+                task_part = f"  ·  {Y}{task_id}{X} {D}(S:{stage}){X}"
+    except Exception:
+        pass
+    print(f"{lbl('Status')}  {D}{ts}{X}  ·  {cycle.get('mode', 'none')}  ·  {loop_color}loop {loop_state}{X}{task_part}")
 
     # Journey — deduped recent log slugs (top 5)
     journey_slugs = []
@@ -301,21 +344,41 @@ def emit_status_block_ansi_horizontal(result: dict, fence: bool = True) -> None:
     # `║` between logical groups (sb-progress | modules) — distinguishes from ` · ` within-group separator
     print(f"{lbl('Plan')}  {Y}systemic-bugs  {bar}  {sb_pct}%{X}  {D}({sb_open} open · {sb_rec} recurring){X}  {D}║{X}  {plan_modules}")
 
-    # Blocked — count + ID examples; show all if ≤4, else top 3 + "+N more"
-    def _fmt_count(label: str, ids: list, color: str) -> str:
+    # Priorities — imminent-work hot-queue (SB-127), surfaces ABOVE PM-decision-tier
+    # per operator directive 2026-05-06: "imminent work, even before the PM work"
+    try:
+        prio_path = Path(__file__).resolve().parent.parent / ".claude" / "active-priorities"
+        if not prio_path.exists():
+            prio_path = Path.home() / ".claude" / "active-priorities"
+        prios: list = []
+        if prio_path.exists():
+            prios = [ln.strip() for ln in prio_path.read_text().splitlines() if ln.strip()]
+        if prios:
+            for i, p in enumerate(prios[:5], start=1):
+                rank_color = R if i == 1 else (Y if i == 2 else D)
+                print(f"{lbl('Priorities') if i == 1 else ' ' * (LABEL_WIDTH + 5)}  {rank_color}P{i}{X}  {p[:140]}")
+        else:
+            print(f"{lbl('Priorities')}  {D}(none set — operator-edit via /priorities add <text>){X}")
+    except Exception:
+        pass
+
+    # Tracker — tier-explicit per SB-125: distinguish real blockers (pending decisions)
+    # from Epic-pending open SBs from behavioral recurring patterns. Conflating these
+    # was the SB-125 bug; tier labels enforce honest classification.
+    def _fmt_count(label: str, ids: list, color: str, none_color: str = G) -> str:
         n = len(ids)
         if n == 0:
-            return f"{G}0 {label}{X}"
+            return f"{none_color}0 {label}{X}"
         if n <= 4:
             head = " ".join(ids)
             return f"{color}{n} {label}{X}{D}: {head}{X}"
         head = " ".join(ids[:3])
         return f"{color}{n} {label}{X}{D}: {head} +{n-3} more{X}"
-    pending_part = _fmt_count("pending", pending_tasks, R)
-    open_part = _fmt_count("open", open_sbs, R)
-    rec_part = _fmt_count("recurring", recurring_sbs, R)
-    # `║` separates pending (decisions) from open+recurring (SBs) — different categories
-    print(f"{lbl('Blocked')}  {pending_part}  {D}║{X}  {open_part}  ·  {rec_part}")
+    blockers_part = _fmt_count("real blockers", pending_tasks, R)
+    open_part = _fmt_count("Epic-pending SBs", open_sbs, Y, none_color=G)
+    rec_part = _fmt_count("behavioral recurring", recurring_sbs, Y, none_color=G)
+    # `║` separates real blockers (gating work) from open+recurring (observations)
+    print(f"{lbl('Tracker')}  {blockers_part}  {D}║{X}  {open_part}  ·  {rec_part}")
 
     # Progress — counts with verified separated (the "real" done) from
     # structurally-fixed (rule-layer claim, behavioral pending)
@@ -336,17 +399,15 @@ def emit_status_block_ansi_horizontal(result: dict, fence: bool = True) -> None:
         print(f"{lbl('Cursor')}  {D}(no open or recurring SBs){X}")
 
     # Mission / Focus / Impediment — operator-explicit objective layer (SB-118 + SB-124a)
+    # Always render rows even when empty — operator-visibility preserved.
     try:
         from tools.objective import read_layer
-        mission = read_layer("mission")
-        focus = read_layer("focus")
-        impediment = read_layer("impediment")
-        if mission:
-            print(f"{lbl('Mission')}  {B}{mission}{X}")
-        if focus:
-            print(f"{lbl('Focus')}  {M}{focus}{X}")
-        if impediment:
-            print(f"{lbl('Impediment')}  {Y}{impediment}{X}")
+        mission = read_layer("mission") or "(unset)"
+        focus = read_layer("focus") or "(unset)"
+        impediment = read_layer("impediment") or "(none — focus unblocked)"
+        print(f"{lbl('Mission')}  {B}{mission}{X}")
+        print(f"{lbl('Focus')}  {M}{focus}{X}")
+        print(f"{lbl('Impediment')}  {Y}{impediment}{X}")
     except Exception:
         pass
 
@@ -384,7 +445,26 @@ def emit_status_block_ansi(result: dict, fence: bool = True) -> None:
     print()
     loop_state = "alive" if cycle.get("valid") else "no-mode"
     loop_color = G if cycle.get("valid") else R
-    print(f"{loop_color}LOOP   {loop_state}{X}    {BO}MODE   {cycle.get('name', '(none)')}{X}")
+    # Task + stage compounded onto first line (parallel to horizontal stamp Status row)
+    task_extra = ""
+    try:
+        from pathlib import Path as _P
+        import re as _re
+        prog_path = _P.home() / "wiki" / "governance" / "progress.md"
+        if prog_path.exists():
+            m = _re.search(r"Active task cursor:\s*(T\d+)[^\n]*", prog_path.read_text())
+            if m:
+                tid = m.group(1)
+                tfiles = list((_P.home() / "wiki" / "backlog" / "tasks").glob(f"{tid}-*.md"))
+                stage = "?"
+                if tfiles:
+                    sm = _re.search(r"^current_stage:\s*(\S+)", tfiles[0].read_text(), _re.M)
+                    if sm:
+                        stage = sm.group(1)
+                task_extra = f"    {Y}TASK   {tid}{X} {D}(S:{stage}){X}"
+    except Exception:
+        pass
+    print(f"{loop_color}LOOP   {loop_state}{X}    {BO}MODE   {cycle.get('name', '(none)')}{X}{task_extra}")
     print()
     print(f"{M}{BO}@@ JOURNEY (recent wiki/log/) @@{X}")
     try:
@@ -412,19 +492,36 @@ def emit_status_block_ansi(result: dict, fence: bool = True) -> None:
     print(f"{D}2. ccstatusline (M011) ░░░░░░░░░░░░░░  prelim · impl=operator-driven future-session{X}")
     print(f"{D}3. pipelock   (M014)   ░░░░░░░░░░░░░░  prelim done · impl=operator-driven future-session{X}")
     print()
-    print(f"{M}{BO}@@ ⊘ BLOCKED · count · location @@{X}")
+    # Priorities — imminent-work hot-queue (SB-127), surfaces ABOVE PM-decision-tier
+    try:
+        prio_path = Path.home() / ".claude" / "active-priorities"
+        prios: list = []
+        if prio_path.exists():
+            prios = [ln.strip() for ln in prio_path.read_text().splitlines() if ln.strip()]
+        print(f"{M}{BO}@@ ⚡ PRIORITIES (imminent work · before PM tier) @@{X}")
+        if prios:
+            for i, p in enumerate(prios[:5], start=1):
+                rank_color = R if i == 1 else (Y if i == 2 else G if i == 3 else D)
+                print(f"{rank_color}{BO}P{i}{X}  {p[:160]}")
+        else:
+            print(f"{D}(none set — operator-edit via /priorities add <text>){X}")
+        print()
+    except Exception:
+        pass
+    # Tier-explicit per SB-125: real blockers (gating work) vs Epic-pending SBs (observations) vs behavioral recurring
+    print(f"{M}{BO}@@ ⊘ TRACKER · tier-explicit @@{X}")
     if pending_tasks:
-        print(f"{R}{len(pending_tasks)} pending-operator-decision   wiki/backlog/tasks/{{{','.join(pending_tasks)}}}.md{X}")
+        print(f"{R}{len(pending_tasks)} real blockers (pending-decision)   wiki/backlog/tasks/{{{','.join(pending_tasks)}}}.md{X}")
     else:
-        print(f"{G}0 pending-operator-decision{X}")
+        print(f"{G}0 real blockers{X}  {D}(project unblocked){X}")
     if open_sbs:
-        print(f"{R}{len(open_sbs)} open SBs  ({','.join(open_sbs)}){X}")
+        print(f"{Y}{len(open_sbs)} Epic-pending SBs  ({','.join(open_sbs)}){X}  {D}— operator-scope-pending, not gating{X}")
     else:
-        print(f"{G}0 open SBs{X}")
+        print(f"{G}0 Epic-pending SBs{X}")
     if recurring_sbs:
-        print(f"{R}{len(recurring_sbs)} recurring SBs  {','.join(recurring_sbs)}{X}")
+        print(f"{Y}{len(recurring_sbs)} behavioral recurring SBs  {','.join(recurring_sbs)}{X}  {D}— operator-catch-only patterns{X}")
     else:
-        print(f"{G}0 recurring SBs{X}")
+        print(f"{G}0 behavioral recurring{X}")
     print()
     p = progress
     print(f"{G}{BO}✓ PROGRESS{X} · epic {p['epic_readiness']}% · modules {p['module_count']} · tasks {p['task_total']} ({p['task_counts'].get('done', 0)} done · {p['task_counts'].get('not-started', 0)} not-started · {p['task_counts'].get('pending-operator-decision', 0)} pending)")
@@ -440,19 +537,16 @@ def emit_status_block_ansi(result: dict, fence: bool = True) -> None:
     print(f"{B}parallel branches:      see wiki/log/ + governance/{{progress,blockers,systemic-bugs}}.md{X}")
     print()
     # Mission / Focus / Impediment — operator-explicit objective layer (SB-118 + SB-124a)
+    # Always render section even when fields empty — operator-visibility preserved.
     try:
         from tools.objective import read_layer
-        mission = read_layer("mission")
-        focus = read_layer("focus")
-        impediment = read_layer("impediment")
-        if mission or focus or impediment:
-            print(f"{M}{BO}@@ ✦ OBJECTIVE (mission · focus · impediment) @@{X}")
-            if mission:
-                print(f"{B}{BO}✦ MISSION   {X}{B}{mission}{X}")
-            if focus:
-                print(f"{M}{BO}◉ FOCUS     {X}{M}{focus}{X}")
-            if impediment:
-                print(f"{Y}{BO}⚠ IMPEDIMENT{X}{Y} {impediment}{X}")
+        mission = read_layer("mission") or "(unset)"
+        focus = read_layer("focus") or "(unset)"
+        impediment = read_layer("impediment") or "(none — focus unblocked)"
+        print(f"{M}{BO}@@ ✦ OBJECTIVE (mission · focus · impediment) @@{X}")
+        print(f"{B}{BO}✦ MISSION   {X}{B}{mission}{X}")
+        print(f"{M}{BO}◉ FOCUS     {X}{M}{focus}{X}")
+        print(f"{Y}{BO}⚠ IMPEDIMENT{X}{Y} {impediment}{X}")
     except Exception:
         pass
     print(f"{D}{bar}{X}")

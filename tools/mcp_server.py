@@ -149,21 +149,73 @@ def root_decisions_next_id() -> str:
 
 
 # ---------------------------------------------------------------------------
+# Objective tool — mission/focus/impediment + priorities (SB-118 + SB-127)
+# ---------------------------------------------------------------------------
+
+@server.tool()
+def root_objective() -> str:
+    """Read operator-explicit objective layers + priorities queue.
+
+    Returns JSON:
+        mission (str): multi-cycle objective from $HOME/.claude/active-mission
+        focus (str): sub-objective from $HOME/.claude/active-focus
+        impediment (str): block on focus from $HOME/.claude/active-impediment
+        priorities (list[str]): imminent-work queue from $HOME/.claude/active-priorities
+
+    Empty fields = unset. Per SB-118 (mission/focus/impediment) + SB-127 (priorities).
+    """
+    from pathlib import Path
+    base = Path.home() / ".claude"
+    obj = {"mission": "", "focus": "", "impediment": "", "priorities": []}
+    for layer in ("mission", "focus", "impediment"):
+        p = base / f"active-{layer}"
+        if p.exists():
+            try:
+                obj[layer] = p.read_text().strip()
+            except Exception:
+                pass
+    pp = base / "active-priorities"
+    if pp.exists():
+        try:
+            obj["priorities"] = [ln.strip() for ln in pp.read_text().splitlines() if ln.strip()]
+        except Exception:
+            pass
+    return json.dumps(obj, indent=2)
+
+
+# ---------------------------------------------------------------------------
 # Composite tool — orient
 # ---------------------------------------------------------------------------
 
 @server.tool()
 def root_orient() -> str:
-    """One-shot orientation: combines state + blockers + progress for a fresh agent.
+    """One-shot orientation: combines state + blockers + progress + objective for a fresh agent.
 
-    Equivalent to invoking root_state + root_blockers + root_progress and
-    composing them. Use this if you need a single MCP call to understand
-    current $HOME state.
+    Equivalent to invoking root_state + root_blockers + root_progress + root_objective
+    and composing them. Use this if you need a single MCP call to understand
+    current $HOME state including operator-explicit objective + priorities.
     """
+    from pathlib import Path
+    base = Path.home() / ".claude"
+    obj = {"mission": "", "focus": "", "impediment": "", "priorities": []}
+    for layer in ("mission", "focus", "impediment"):
+        p = base / f"active-{layer}"
+        if p.exists():
+            try:
+                obj[layer] = p.read_text().strip()
+            except Exception:
+                pass
+    pp = base / "active-priorities"
+    if pp.exists():
+        try:
+            obj["priorities"] = [ln.strip() for ln in pp.read_text().splitlines() if ln.strip()]
+        except Exception:
+            pass
     return json.dumps({
         "state": read_state(),
         "blockers": detect_drift(),
         "progress": compute_progress(),
+        "objective": obj,
     }, indent=2)
 
 

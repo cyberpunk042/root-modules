@@ -142,7 +142,7 @@ In priority order:
 | 2026-05-05 | $HOME/CLAUDE.md re-authored project-specifically (replaces second-brain copy) | Complete (175 lines) |
 | 2026-05-05 | $HOME/AGENTS.md re-authored project-specifically (replaces second-brain copy) | Complete (168 lines) |
 | 2026-05-05 | $HOME/ARCHITECTURE.md, DESIGN.md, TOOLS.md, SKILLS.md authored project-specifically | Complete |
-| 2026-05-05 | 61 atomic task pages T001-T061 across 10 modules at $HOME/wiki/backlog/tasks/ (M011/M012/M013 added later — atomic tasks deferred per operator) | Complete |
+| 2026-05-05 | 61 atomic task pages T001-T061 across 10 modules at $HOME/wiki/backlog/tasks/ — extended to T066 across 14 modules by 2026-05-06 (M011 ccstatusline + M012 vendor mapping + M014 pipelock preliminary added) | Complete (66 tasks across M001-M014) |
 | 2026-05-05 | Session log $HOME/wiki/log/2026-05-05-preparation-session-foundation-scaffolding.md | Complete (241 lines) |
 | 2026-05-05 | Methodology engine validation (4 yamls parse cleanly) | Complete |
 | 2026-05-05 | Broken-reference audit: 10 module pages had stale long-slug epic refs + bogus pre-milestone path → fixed | Complete |
