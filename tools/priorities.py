@@ -131,6 +131,47 @@ def cmd_set(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_insert(args: argparse.Namespace) -> int:
+    """Insert priority at position N (1-based), shifting existing N..end down by 1.
+    SB-130 — operator-stated: don't have to clear whole list to insert at position.
+    """
+    text = " ".join(args.text).strip()
+    if not text:
+        print("ERROR: text required for insert", file=sys.stderr)
+        return 2
+    n = args.n
+    items = read_priorities()
+    if n < 1 or n > len(items) + 1:
+        print(f"ERROR: insert position P{n} out of range (have {len(items)}; valid 1..{len(items)+1})", file=sys.stderr)
+        return 2
+    items.insert(n - 1, text)
+    write_priorities(items)
+    print(f"OK: priority inserted at P{n}: {text}")
+    return 0
+
+
+def cmd_update(args: argparse.Namespace) -> int:
+    """Replace priority at position N (1-based) without touching others.
+    SB-130 — operator-stated: update existing entry without rebuild.
+    """
+    text = " ".join(args.text).strip()
+    if not text:
+        print("ERROR: text required for update", file=sys.stderr)
+        return 2
+    n = args.n
+    items = read_priorities()
+    if n < 1 or n > len(items):
+        print(f"ERROR: P{n} out of range (have {len(items)})", file=sys.stderr)
+        return 2
+    old = items[n - 1]
+    items[n - 1] = text
+    write_priorities(items)
+    print(f"OK: P{n} updated:")
+    print(f"  was: {old}")
+    print(f"  now: {text}")
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Manage active-priorities imminent-work queue")
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -160,6 +201,16 @@ def main() -> int:
     p_set = sub.add_parser("set", help="replace list (semicolon-separated for multi)")
     p_set.add_argument("text", nargs="+")
     p_set.set_defaults(func=cmd_set)
+
+    p_insert = sub.add_parser("insert", help="insert at position N (shift rest down) — SB-130")
+    p_insert.add_argument("n", type=int)
+    p_insert.add_argument("text", nargs="+")
+    p_insert.set_defaults(func=cmd_insert)
+
+    p_update = sub.add_parser("update", help="replace text at position N without touching others — SB-130")
+    p_update.add_argument("n", type=int)
+    p_update.add_argument("text", nargs="+")
+    p_update.set_defaults(func=cmd_update)
 
     args = parser.parse_args()
     return args.func(args)

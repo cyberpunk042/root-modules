@@ -48,10 +48,12 @@
 # $HOME/install.sh debris was backed up to install.sh.prior-debris.bak.<ts> per
 # T006 (leave-in-place: backup-not-delete) before this file was authored.
 #
-# CURRENT STAGE: scaffold (readiness 50). Implementations are STUBS marked TODO;
-# full implementation is implement-stage work per methodology.yaml. Operator
-# runs --dry-run to confirm structure; actual host-modification steps require
-# implement-stage approval.
+# CURRENT STAGE: implement (readiness 98). Foundation install ops fully
+# implemented (settings + hooks + brain pieces + opencode + bridge config +
+# wifi + integrity + ccstatusline + tools deploy + per-project profile
+# + wizard + granular group/item flags). shellcheck PASS. Pending: bridge
+# FORWARD/OUTPUT nftables rules (T013 operator-decision); idempotency test
+# (T016); P4 wizard interactive picker.
 
 set -euo pipefail
 

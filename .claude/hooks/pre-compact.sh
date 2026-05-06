@@ -226,12 +226,10 @@ situations). Default: let it proceed; the handoff is sufficient.
 
 ═══════════════════════════════════════════════════════════════════════════"""
 
-    output = {
-        "hookSpecificOutput": {
-            "hookEventName": "PreCompact",
-            "additionalContext": additional_context,
-        }
-    }
+    # Schema: PreCompact does NOT accept hookSpecificOutput.additionalContext.
+    # Use top-level systemMessage (the only operator-visible channel for
+    # PreCompact per Claude Code hook schema).
+    output = {"systemMessage": additional_context}
     print(json.dumps(output))
     sys.exit(0)
 

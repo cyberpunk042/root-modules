@@ -41,13 +41,15 @@ PROJECT_ROOT = Path.home()
 ACTIVE_MODE_FILE = PROJECT_ROOT / ".claude" / "active-mode"
 
 REMINDER = (
-    "MINDFULNESS: "
-    "(1) one-notch-not-extreme — operator correction → adjust ONE dimension, not full opposite swing (SB-082/093). "
-    "(2) confirm-don't-construct — operator's literal words are the premise; agent-interpretations need confirmation (SB-090). "
-    "(3) artifacts-flagged-as-agent-draft — never treat agent-authored artifacts as operator-known (SB-095). "
-    "(4) forward-not-freeze — when corrected, fix-and-continue; \"standing by\" without subject = freezing (SB-099). "
-    "(5) P1-first — address top priority FIRST per cycle; jumping to lower-priority items because they feel easier = short-circuit; operator-caught pattern (SB-128 family). "
-    "(6) substance-per-cycle — each cron-fire must produce real work (SB closure / verified edit / drift-fix-with-empirical / explicit-standby-with-reason); thin \"standby\" output IS the bug."
+    "MINDFULNESS [DRAFT v2 per SB-129; binary MUST/MUST-NOT format per "
+    "<second-brain> context-engineering-standards; 6 clauses, prose=25%/tables=60%/hooks=100% compliance]: "
+    "(1) one-notch — MUST adjust ONE dimension on operator correction; MUST NOT swing fully opposite (SB-082/093). "
+    "(2) premise — MUST treat operator's literal words as premise; MUST confirm before constructing inferences (SB-090). "
+    "(3) artifacts — MUST flag agent-drafts at every reference; MUST NOT treat agent-authored as operator-known (SB-095). "
+    "(4) forward — MUST fix-and-continue when corrected; MUST NOT \"standing by\" without specific subject (SB-099). "
+    "(5) priority — MUST address top priority FIRST per cycle; MUST NOT short-circuit to easier lower-priority items (SB-128). "
+    "(6) substance — MUST produce real work per cron-fire (SB closure / verified edit / drift-fix-with-empirical / explicit-standby-with-named-reason); MUST NOT emit thin \"standby\" output (SB-128). "
+    "(7) not-blocked-when-unblocked — MUST verify empirically (`tools.blockers --check` + impediment file) before claiming pseudo-block; MUST chain/batch operations when multiple files reflect ONE coherent change (SB-131)."
 )
 
 

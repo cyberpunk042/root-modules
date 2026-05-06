@@ -5,13 +5,15 @@ Manage active-priorities imminent-work queue (`$HOME/.claude/active-priorities`)
 Usage from operator: `/priorities <verb> [args]`
 
 Verbs:
-- `add <text>`        → append at lowest priority
-- `show`              → display numbered list (P1, P2, ...)
-- `clear`             → empty the list
-- `remove <N>`        → drop priority N (1-based)
-- `promote <N>`       → move priority N up one rank
-- `demote <N>`        → move priority N down one rank
-- `set <text>`        → replace entire list (semicolon-separated for multi)
+- `add <text>`            → append at lowest priority
+- `show`                  → display numbered list (P1, P2, ...)
+- `clear`                 → empty the list
+- `remove <N>`            → drop priority N (1-based)
+- `promote <N>`           → move priority N up one rank
+- `demote <N>`            → move priority N down one rank
+- `set <text>`            → replace entire list (semicolon-separated for multi)
+- `insert <N> <text>`     → insert at position N, shifting rest down (SB-130)
+- `update <N> <text>`     → replace text at position N without touching others (SB-130)
 
 Dispatch on `$ARGUMENTS`:
 

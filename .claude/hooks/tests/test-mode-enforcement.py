@@ -23,6 +23,15 @@ results: list = []
 
 
 def run_hook(env_overrides: dict | None = None) -> tuple[int, str, str]:
+    # Clear frequency-control cache before each fire — tests expect emit, not
+    # suppression-on-identical (SB-117 deeper engineering: hook suppresses
+    # byte-identical banners; tests bypass via cache-clear).
+    cache_path = Path("/tmp/.mode-enforcement-last-banner")
+    if cache_path.exists():
+        try:
+            cache_path.unlink()
+        except Exception:
+            pass
     env = os.environ.copy()
     env["CLAUDE_PROJECT_DIR"] = str(HOME)
     if env_overrides:
@@ -105,6 +114,86 @@ if r.stdout.strip():
     expect("cwd-independent output has LIVE STATE",
            "LIVE STATE:" in r.stdout,
            f"out_head={r.stdout[:120]}")
+
+# Test 13d: frequency-control suppression (SB-117 deeper engineering)
+# Hook suppresses identical-banner re-emission to reduce context-injection noise;
+# any state delta produces fresh banner.
+cache_path = Path("/tmp/.mode-enforcement-last-banner")
+mode_file = HOME / ".claude" / "active-mode"
+mode_backup = mode_file.read_text() if mode_file.exists() else None
+try:
+    if cache_path.exists():
+        cache_path.unlink()
+    mode_file.write_text("dual-expert")
+    # Fire 1 (no cache) — emits
+    env = os.environ.copy()
+    env["CLAUDE_PROJECT_DIR"] = str(HOME)
+    r1 = subprocess.run([HOOK], input="", env=env, capture_output=True, text=True, cwd=str(HOME))
+    expect("freq-control: fire 1 emits non-empty", bool(r1.stdout.strip()), f"len={len(r1.stdout)}")
+    # Fire 2 (identical state, cache hit) — suppresses
+    r2 = subprocess.run([HOOK], input="", env=env, capture_output=True, text=True, cwd=str(HOME))
+    expect("freq-control: fire 2 suppresses identical (empty stdout)", not r2.stdout.strip(),
+           f"unexpected={r2.stdout[:80]}")
+    # Fire 3 after state change — emits
+    mode_file.write_text("pm-scrum-master")  # state change
+    r3 = subprocess.run([HOOK], input="", env=env, capture_output=True, text=True, cwd=str(HOME))
+    expect("freq-control: fire 3 emits after state-delta", bool(r3.stdout.strip()),
+           f"len={len(r3.stdout)}")
+finally:
+    if mode_backup is not None:
+        mode_file.write_text(mode_backup)
+
+# Test 13c: cite-bracket extraction from 4-col DRAFT v1 voice tables (SB-129)
+mode_file = HOME / ".claude" / "active-mode"
+mode_backup = mode_file.read_text() if mode_file.exists() else None
+try:
+    mode_file.write_text("dual-expert")
+    rc, out, _ = run_hook()
+    if out.strip():
+        ctx = json.loads(out).get("hookSpecificOutput", {}).get("additionalContext", "")
+        embody = ctx.split("EMBODY:")[1].split("CYCLE STEPS")[0] if "EMBODY:" in ctx else ""
+        # DRAFT v1 voice tables have 4 columns; cite (4th) should appear in brackets
+        expect("cite-bracket present in dual-expert embody (SB-129)",
+               "[SB-128" in embody or "[SB-090" in embody or "[Forward-naming" in embody,
+               f"sample={embody[:200]}")
+        # Sanity: cite-brackets should NOT swallow the sounds-like content
+        expect("cite-bracket appears AFTER quoted sounds-like",
+               '"' in embody and embody.find('"') < embody.find('['),
+               "structure broken")
+
+    mode_file.write_text("pm-scrum-master")
+    rc, out, _ = run_hook()
+    if out.strip():
+        ctx = json.loads(out).get("hookSpecificOutput", {}).get("additionalContext", "")
+        embody = ctx.split("EMBODY:")[1].split("CYCLE STEPS")[0] if "EMBODY:" in ctx else ""
+        expect("pm-scrum-master cite-bracket present (SB-129)",
+               "[SB-" in embody or "[work-mode" in embody,
+               f"sample={embody[:200]}")
+finally:
+    if mode_backup is not None:
+        mode_file.write_text(mode_backup)
+
+# Test 13a: each mode-file's voice table parser-extractable post-compile (SB-129)
+mode_file = HOME / ".claude" / "active-mode"
+mode_backup = mode_file.read_text() if mode_file.exists() else None
+try:
+    for mode_name, expected_qualities in [
+        ("dual-expert", ["Driven", "Decisive", "Cadenced", "Lens-switching", "Priority-respecting"]),
+        ("pm-scrum-master", ["Tier-explicit", "Decision-package", "Auto-research", "Decumulate", "Status-claim", "Priority-respecting"]),
+        ("devops-architect", ["Trade-off-explicit", "Stage-gate-aware", "Empirical-verifying", "Idempotent-by-design", "Risk-flagging"]),
+    ]:
+        mode_file.write_text(mode_name)
+        rc, out, _ = run_hook()
+        if out.strip():
+            ctx = json.loads(out).get("hookSpecificOutput", {}).get("additionalContext", "")
+            embody = ctx.split("EMBODY:")[1].split("CYCLE STEPS")[0] if "EMBODY:" in ctx else ""
+            for q in expected_qualities:
+                expect(f"{mode_name} voice surfaces '{q}'", q in embody, f"missing in embody: {embody[:80]}")
+        else:
+            expect(f"{mode_name} fires", False, "empty output")
+finally:
+    if mode_backup is not None:
+        mode_file.write_text(mode_backup)
 
 # Test 13: mode-switch handling (SB-117 sub-item — operator directive 2026-05-06)
 # Hook reads active-mode file each fire; switching modes mid-session should

@@ -1,4 +1,4 @@
-Show all 26 root-ghostproxy slash commands with one-line description + when-to-use.
+Show all 28 root-ghostproxy slash commands with one-line description + when-to-use.
 
 > Slash-invoked. Operator types `/help-root` literally. Read-only. Distinct from Claude Code's built-in `/help` (which lists harness-level commands).
 
@@ -72,15 +72,24 @@ OBJECTIVE LAYER (per SB-118 — multi-cycle objective tracking):
 PRIORITIES LAYER (per SB-127 — imminent-work hot-queue, surfaces ABOVE PM tier):
   /priorities        Manage active-priorities list (operator-authored top-priorities).
                      Verbs: add <text> | show | clear | remove <N> |
-                     promote <N> | demote <N> | set <semicolon-sep>.
+                     promote <N> | demote <N> | set <semicolon-sep> |
+                     insert <N> <text> | update <N> <text>  (SB-130).
 
 INSTALL:
   /install-agent-brain  Deploy $HOME agent brain (settings + hooks + rules +
                         commands + agents + modes + skills + tools) into a
                         sister project (operator-opt-in propagation).
 
+SESSION-TERMINATION PREP (per operator-authored 2026-05-06):
+  /terminate         Strong + high-standard session-termination prep —
+                     handoff doc + comprehensive status/progress/artifacts/
+                     role updates before operator decides next.
+  /finish-smoothly   Forced knowledge-extraction PASS into smart documents
+                     + handoff. Captures lessons/patterns/decisions/super-
+                     models to wiki BEFORE handoff.
+
 SUMMARY:
-  Total: 26 commands (15 governance/cycle/mode + 6 stamp config + 3 objective + 1 priorities + 1 install).
+  Total: 28 commands (15 governance/cycle/mode + 6 stamp config + 3 objective + 1 priorities + 1 install + 2 termination-prep).
   Hook directs to /orient on every fresh session.
   PostCompact directs to /orient again after compaction.
   Modes deliver autopilot via /loop /cycle.

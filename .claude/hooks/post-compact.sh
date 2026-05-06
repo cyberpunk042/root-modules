@@ -114,12 +114,12 @@ or shift?"
 
 ═══════════════════════════════════════════════════════════════════════════"""
 
-    output = {
-        "hookSpecificOutput": {
-            "hookEventName": "PostCompact",
-            "additionalContext": additional_context,
-        }
-    }
+    # Schema: PostCompact does NOT accept hookSpecificOutput.additionalContext.
+    # Use top-level systemMessage (the only operator-visible channel for
+    # PostCompact per Claude Code hook schema). The earlier hookSpecificOutput
+    # envelope made this hook silently fail every compaction — defeating the
+    # whole SB-079 post-compact reliability fix.
+    output = {"systemMessage": additional_context}
     print(json.dumps(output))
     sys.exit(0)
 

@@ -54,6 +54,32 @@ Before acting on any non-literal interpretation, the AI must:
 
 This rule closes the meta-pattern that produced SB-088, SB-090, SB-094, SB-095, SB-097, SB-101 in the systemic-bug tracker (12-iteration statusline cascade, 2026-05-05). Every one of those bugs traced to the same leap: agent built a premise, treated it as operator-stated, iterated downstream of it without ever surfacing the premise for confirmation.
 
+## Conditional-clause grammar (extension — closes SB-120, 2026-05-06)
+
+Future-conditional grammar in operator's prompt is NOT current grant. When the operator says `[immediate verb] AND later [conditional verb]`, the immediate verb is the current grant; the conditional verb is hypothesis to remember, not act on.
+
+Operational distinction:
+
+| Operator phrasing | Current grant | NOT current grant |
+|---|---|---|
+| "iterate over the hooks; **after we will** review every action" | iterate over the hooks | review every action (future-conditional) |
+| "fix this now; **later we'll** rewrite the larger refactor" | fix this | rewrite the refactor |
+| "update the config; **in the future** we may want a profile system" | update the config | profile system |
+| "verify this works; **next iteration** we add tests" | verify this | add tests |
+
+Conditional markers to recognize: `after we/you/that will`, `later we'll/we will/we want/we need`, `eventually we'll`, `in the future`, `down the line`, `next we'll`, `next iteration/cycle/session/sprint/round/pass`, `once X is done`, `next week/month`.
+
+Process:
+
+1. **Identify both clauses** — the immediate-verb clause and the conditional-verb clause.
+2. **Treat ONLY the immediate as current-grant** — act on that.
+3. **Remember the conditional clause** — log it (raw notes, planning notes), but do NOT take it as today's directive.
+4. **Never frame "operator wants X"** when X comes from the conditional clause without a separate operator-statement that promotes X to current.
+
+Concrete instance closed: 2026-05-06 cron fire — operator said *"iterate over the quality of the project and the hooks and the engineering"* (immediate) AND *"after we will want to review every of your action"* (conditional). Agent cancelled the just-armed cron citing "review-intent" — collapsed conditional into current. Operator caught: *"you look bug... lets regather the context properly"*.
+
+Hook-layer companion: `output-discipline-guard.sh` `detect_conditional_clause()` fires CONDITIONAL banner when conditional-clause + immediate-imperative both present in the same prompt.
+
 ## Trigger incident
 
 This rule was given immediately after the AI wrote in a previous turn that the operator had "rejected chezmoi." The operator's actual words about chezmoi had been "chezmoi ? wtf and why are you not consuming the knowledge of the second-brain like I said ?" and "WTF IS THIS CHEZMOI THING ???" — questions and reactions, not rejections. The operator's correction: "I never rejected chezmoi... you conflated."

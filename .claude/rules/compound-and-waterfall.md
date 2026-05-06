@@ -3,8 +3,28 @@
 > Loaded on demand when designing how state, context, hooks, or directives layer or flow. Per operator directive 2026-05-06: *"This also make me think of the compound and waterfall strategy I talked about once and how it propably fit into hooks and directives and brains files too... I dont mind using more SRP file or updating some or updating and evoluing the current configs and project... it should be compounding."*
 >
 > **Strictness tier** (per `operating-principles.md`): **Advisory** — informs design judgment for new hooks, state files, brain pieces, render surfaces. Pairs with `trigger-model.md` (signal→action→recovery composition) and `context-engineering.md` (auto/pre/on-demand/facultative injection modes).
+>
+> **DRAFT v1 (SB-129, 2026-05-06)** per `<second-brain>/wiki/spine/standards/concept-page-standards.md`. Required sections: Summary + Key Insights + Deep Analysis (subsectioned).
 
-## The two axes
+## Summary
+
+Compound and waterfall are two orthogonal design axes that shape how the agent's context and behavior come together. **Compound** governs WHAT additively coexists at-a-moment (mode + priorities + mission + focus + impediment + live state visible simultaneously); **waterfall** governs HOW state flows event-to-event (SessionStart → UserPromptSubmit hooks → Stop → PreCompact → PostCompact → /orient). Holding both axes prevents two distinct failure modes: collide (layers replacing instead of stacking) and truncation (earlier state lost downstream).
+
+## Key Insights
+
+1. **Compound and waterfall are orthogonal — both must hold.** A system can compound well but waterfall badly (banner stacks layers but state doesn't survive compaction), or waterfall well but compound poorly (events flow correctly but only one piece visible at a time). Holding both is the design bar.
+
+2. **Compound failure-mode = collide (SB-121).** When layers replace instead of stack — operator-typed message + cron-fire prompt arrive together; agent treats one as primary while ignoring the other. Fix: layers always-render even when empty (SB-082 lesson); each layer has its own additionalContext field; never one-or-another framing.
+
+3. **Waterfall failure-mode = truncation.** Earlier-stage state lost downstream when compaction destroys conversation content. Fix: state in files (`active-mode`, `active-priorities`, tracker, decisions, handoff doc) so post-compact recovery via /orient can reconstruct.
+
+4. **Structure beats content for layer durability.** YAML files / typed fields / declared sections survive compaction; prose corrections don't. Per second-brain Context Engineering Standards: prose=25%, structured tables=60%, hooks=100% compliance for the same rule.
+
+5. **Operator's "should be compounding" is the design principle.** Each layer ADDS to operator-visible context; later layers DO NOT REPLACE earlier ones. Banner shows persona + cycle + priorities + mission + focus + impediment + live state simultaneously.
+
+## Deep Analysis
+
+### The two axes
 
 Two orthogonal design axes shape how the agent's context and behavior come together:
 
@@ -17,7 +37,7 @@ The two are independent: a system can compound well but waterfall badly (state f
 
 Good design holds both.
 
-## Compound — what stacks at any moment
+### Compound — what stacks at any moment
 
 The COMPOUND axis answers "what is in operator's view RIGHT NOW".
 
@@ -40,7 +60,7 @@ The order in mode-enforcement banner + stamp render reflects the tier hierarchy:
 
 **Compound failure mode** (SB-121): cron-fire prompt + operator-typed message land in the same turn. Agent treats the second as REPLACING the first, missing that they should COMPOUND (operator-text = primary directive + cron-text = ambient driving-context).
 
-## Waterfall — how context flows event-to-event
+### Waterfall — how context flows event-to-event
 
 The WATERFALL axis answers "where does state come from in the next event".
 
@@ -77,7 +97,7 @@ SessionEnd
 
 **Waterfall failure mode** (SB-079/081): PostCompact reliability and sub-agent brain-load — when state-recovery channel breaks, downstream events operate on incomplete context. Tracked separately.
 
-## How they combine
+### How they combine
 
 ```
                         compound axis (what layers AT THIS MOMENT)

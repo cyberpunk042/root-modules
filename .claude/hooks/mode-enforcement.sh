@@ -142,10 +142,11 @@ def find_persona_section(sections: dict) -> str:
 
 
 def find_persona_voice_table(sections: dict) -> list:
-    """Extract Quality / How-it-sounds rows from the Persona voice section.
+    """Extract voice-table rows from Persona voice section.
 
-    Returns list of (quality, sounds_like) tuples. Empty list if section
-    absent or table malformed.
+    Returns list of (quality, sounds_like, cite) tuples; cite is the 4th column
+    (Why/cite) when present (SB-129 DRAFT v1 voice tables), empty string otherwise
+    (older 3-column tables). Empty list if section absent or table malformed.
     """
     voice_key = next(
         (k for k in sections if "persona voice" in k or "voice" in k),
@@ -167,9 +168,12 @@ def find_persona_voice_table(sections: dict) -> list:
             continue
         if cells[0].startswith("---"):
             continue
-        quality, sounds, anti = cells[0], cells[1], cells[2]
+        quality = cells[0]
+        sounds = cells[1]
+        # cells[2] is anti-pattern; cells[3] is Why/cite (SB-129 DRAFT v1 voice tables)
+        cite = cells[3] if len(cells) >= 4 else ""
         if quality and sounds:
-            rows.append((quality, sounds))
+            rows.append((quality, sounds, cite))
     return rows
 
 
@@ -282,7 +286,19 @@ def compose_reminder(mode: str, sections: dict, state: dict) -> tuple[str, list]
 
     voice_rows = find_persona_voice_table(sections)
     if voice_rows:
-        embody_items = [f"{q}: {s}" for q, s in voice_rows[:4]]
+        # No row cap (SB-122 family closure 2026-05-06: capping operator-explicit
+        # content was self-imposed agent-courtesy; persona voice qualities are
+        # operator-authored mode-file content + must land at full fidelity).
+        # Format: "Quality: sounds-like [cite]" — cite from 4th column when present
+        # (SB-129 DRAFT v1 voice tables).
+        embody_items: list = []
+        for row in voice_rows:
+            q, s = row[0], row[1]
+            cite = row[2] if len(row) >= 3 else ""
+            if cite:
+                embody_items.append(f"{q}: {s} [{cite}]")
+            else:
+                embody_items.append(f"{q}: {s}")
         parts.append("EMBODY: " + " · ".join(embody_items))
         keys.append("persona-voice-table")
 
@@ -382,6 +398,24 @@ def main() -> None:
     if not keys_extracted:
         _trace(f"exit-no-sections-matched:{mode}")
         sys.exit(0)
+
+    # Frequency control (SB-117 deeper Epic, agent-feedback signal-tuning):
+    # Suppress emission when banner content is byte-identical to last fire
+    # (reduces redundant context-injection noise while preserving signal on
+    # any state change — mode-switch, mission/focus/impediment edit, priority
+    # update, SB tracker delta, log slug change, task cursor advance all
+    # produce content delta and surface). Cache file at /tmp scope.
+    cache_path = Path("/tmp/.mode-enforcement-last-banner")
+    try:
+        if cache_path.exists():
+            last = cache_path.read_text()
+            if last == reminder:
+                _trace(f"exit-suppressed-identical:{mode}",
+                       f"reminder_len={len(reminder)} suppressed=true")
+                sys.exit(0)
+        cache_path.write_text(reminder)
+    except Exception as exc:
+        _trace(f"frequency-cache-error:{repr(exc)[:60]}")
 
     output = {
         "hookSpecificOutput": {

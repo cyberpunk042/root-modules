@@ -60,17 +60,25 @@ if out.strip():
         parsed = json.loads(out)
         expect("valid JSON", "hookSpecificOutput" in parsed)
         ctx = parsed.get("hookSpecificOutput", {}).get("additionalContext", "")
-        # 4-clause baseline reminder
-        expect("MINDFULNESS prefix", ctx.startswith("MINDFULNESS:"))
-        expect("clause 1 — one-notch-not-extreme", "one-notch-not-extreme" in ctx)
-        expect("clause 2 — confirm-don't-construct", "confirm-don't-construct" in ctx)
-        expect("clause 3 — artifacts-flagged-as-agent-draft", "artifacts-flagged-as-agent-draft" in ctx)
-        expect("clause 4 — forward-not-freeze", "forward-not-freeze" in ctx)
+        # 6-clause baseline reminder per DRAFT v2 (SB-129 quality compile, MUST/MUST NOT binary format)
+        expect("MINDFULNESS prefix", ctx.startswith("MINDFULNESS"))
+        expect("clause 1 — one-notch", "one-notch" in ctx)
+        expect("clause 2 — premise (confirm before constructing)", "premise" in ctx and "confirm" in ctx)
+        expect("clause 3 — artifacts agent-draft", "artifacts" in ctx and "agent-draft" in ctx)
+        expect("clause 4 — forward (fix-and-continue)", "forward" in ctx and "fix-and-continue" in ctx)
+        expect("clause 5 — priority (P1-first)", "priority" in ctx.lower() and "FIRST" in ctx)
+        expect("clause 6 — substance-per-cycle", "substance" in ctx)
+        expect("clause 7 — not-blocked-when-unblocked + chain-operations (SB-131)",
+               "not-blocked-when-unblocked" in ctx and "chain" in ctx)
+        # MUST/MUST NOT binary format per second-brain context-engineering standard
+        expect("uses MUST format (≥6 occurrences)", ctx.count("MUST ") >= 6)
+        expect("uses MUST NOT format (≥3 occurrences)", ctx.count("MUST NOT") >= 3)
         # SB cross-references
         expect("references SB-082/093 (pendulum)", "SB-082" in ctx or "SB-093" in ctx)
         expect("references SB-090 (premise)", "SB-090" in ctx)
         expect("references SB-095 (artifacts)", "SB-095" in ctx)
         expect("references SB-099 (freeze)", "SB-099" in ctx)
+        expect("references SB-128 (priority/substance)", "SB-128" in ctx)
     except json.JSONDecodeError as e:
         expect("valid JSON parse", False, repr(e))
 

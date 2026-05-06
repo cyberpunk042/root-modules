@@ -15,6 +15,11 @@ Usage:
     python3 -m tools.tasks list --json                # JSON output
     python3 -m tools.tasks get T011                   # single task with Done When detail
     python3 -m tools.tasks claimable                  # not-started tasks with no BLOCKED BY
+
+active-task state file (SB-124d audit — task cursor management):
+    python3 -m tools.tasks active show                # print current active-task + drill-down
+    python3 -m tools.tasks active set T012            # set active task (validates ID exists)
+    python3 -m tools.tasks active clear               # empty state file
 """
 
 from __future__ import annotations
@@ -22,11 +27,14 @@ from __future__ import annotations
 import argparse
 import glob
 import json
+import os
 import re
 import sys
 from pathlib import Path
 
 from tools._paths import TASKS_GLOB
+
+ACTIVE_TASK_FILE = Path(os.environ.get("HOME", "/root")) / ".claude" / "active-task"
 
 
 def parse_frontmatter(path: str) -> dict:
@@ -166,6 +174,13 @@ def main() -> int:
 
     sub.add_parser("claimable", help="not-started tasks with no BLOCKED BY")
 
+    active_p = sub.add_parser("active", help="manage $HOME/.claude/active-task cursor")
+    active_sub = active_p.add_subparsers(dest="active_cmd", required=True)
+    active_sub.add_parser("show", help="print current active task + drill-down")
+    active_set = active_sub.add_parser("set", help="set active task to given ID (validates)")
+    active_set.add_argument("task_id")
+    active_sub.add_parser("clear", help="empty active-task state file")
+
     args = parser.parse_args()
     tasks = collect_all_tasks()
 
@@ -194,6 +209,40 @@ def main() -> int:
         for t in claimable:
             print_task_line(t)
         return 0
+
+    if args.cmd == "active":
+        if args.active_cmd == "show":
+            current = ""
+            if ACTIVE_TASK_FILE.exists():
+                current = ACTIVE_TASK_FILE.read_text().strip()
+            if not current:
+                print("active-task: (none)")
+                return 0
+            match = next((t for t in tasks if t["id"].lower() == current.lower()), None)
+            if not match:
+                print(f"active-task: {current}  (not found in backlog — stale cursor)")
+                return 0
+            print(f"active-task: {current}")
+            print()
+            print_task_detail(match)
+            return 0
+
+        if args.active_cmd == "set":
+            tid = args.task_id.strip()
+            match = next((t for t in tasks if t["id"].lower() == tid.lower()), None)
+            if not match:
+                print(f"refused: task '{tid}' not in backlog", file=sys.stderr)
+                return 1
+            ACTIVE_TASK_FILE.parent.mkdir(parents=True, exist_ok=True)
+            ACTIVE_TASK_FILE.write_text(match["id"] + "\n")
+            print(f"active-task → {match['id']}: {match['title'][:60]}")
+            return 0
+
+        if args.active_cmd == "clear":
+            if ACTIVE_TASK_FILE.exists():
+                ACTIVE_TASK_FILE.write_text("")
+            print("active-task: cleared")
+            return 0
 
     return 0
 

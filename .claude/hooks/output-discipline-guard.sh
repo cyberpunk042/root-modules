@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 # agent-discipline-gate (file: output-discipline-guard.sh — name kept for stability).
 #
-# UserPromptSubmit hook for runtime SB-090 + SB-094 detection. Combines:
+# UserPromptSubmit hook for runtime SB-090 + SB-094 + SB-120 detection. Combines:
 #   - PREMISE-RISK detection (SB-090): operator words enumerate observations or
 #     ask questions without imperative verbs → agent should not infer action.
 #   - ESCALATION detection (SB-094): operator-frustration / shouting markers →
 #     agent should shorten response, drop tables, action-first.
+#   - CONDITIONAL-CLAUSE detection (SB-120): future-conditional grammar
+#     ("after we will", "later we'll", "eventually", "in the future") in the
+#     same prompt as immediate verbs → agent must treat ONLY immediate verbs
+#     as current grant; conditional-verbs are future hypothesis.
 #
 # Design constraint per Phase B step 2:
 #   - Single-line additionalContext banner (high-confidence triggers only).
@@ -49,6 +53,26 @@ _FRUSTRATION_WORDS = re.compile(
 
 _CAPS_RE = re.compile(r"\b[A-Z]{4,}\b")
 _REPEATED_PUNCT = re.compile(r"[?!]{3,}")
+
+# SB-120 conditional-clause markers — future-conditional grammar that agent
+# must NOT treat as current grant. Trigger fires when ANY match present.
+# Contraction handling: `we'll` splits as we+'+ll, so the pronoun-then-modal
+# pattern must allow EITHER (whitespace+will/want) OR ('ll without space).
+_PRONOUN_MODAL = r"(?:we|you|i)(?:\s+(?:will|want|need|should)|\s*'ll)"
+_CONDITIONAL_PHRASES = re.compile(
+    r"\b("
+    r"after\s+(?:we|you|i|that|this)(?:\s+will|\s*'ll)|"
+    rf"later\s+{_PRONOUN_MODAL}|"
+    rf"eventually\s+{_PRONOUN_MODAL}|"
+    r"in\s+the\s+future|"
+    r"down\s+the\s+line|"
+    rf"next\s+{_PRONOUN_MODAL}|"
+    r"next\s+(?:iteration|cycle|session|sprint|round|pass)|"
+    r"once\s+(?:that|this|it|we|you)(?:'s|\s+(?:is|are))\s+done|"
+    r"next\s+(?:week|month)"
+    r")\b",
+    re.IGNORECASE,
+)
 
 _BENIGN_CAPS = {
     "AIDLC", "IPS", "SFIF", "HOME", "ROOT", "OPT", "JSON", "YAML", "MCP",
@@ -107,6 +131,30 @@ def detect_premise_risk(prompt: str) -> str | None:
     # was the same trigger firing too often.
 
     return None
+
+
+def detect_conditional_clause(prompt: str) -> str | None:
+    """SB-120 conditional-clause detection.
+
+    Returns reason if prompt contains future-conditional phrasing AND any
+    immediate imperative verb. Both must be present so banner only fires when
+    the agent might confuse the two; pure-future statements without immediate
+    verbs are not actionable so the agent has nothing to confuse.
+    """
+    text = (prompt or "").strip()
+    if not text:
+        return None
+    if text.lstrip().startswith("/"):
+        return None  # slash command = pure imperative; no conditional risk
+
+    cond_match = _CONDITIONAL_PHRASES.search(text)
+    if not cond_match:
+        return None
+    if not _IMPERATIVE_VERBS.search(text):
+        return None  # future-only, no imperative to confuse it with
+
+    matched = cond_match.group(0).lower().strip()
+    return f"conditional clause present (`{matched}` ...) alongside imperative"
 
 
 def detect_escalation(prompt: str) -> str | None:
@@ -175,8 +223,9 @@ def main() -> None:
 
     premise = detect_premise_risk(prompt)
     escalation = detect_escalation(prompt)
+    conditional = detect_conditional_clause(prompt)
 
-    if not (premise or escalation):
+    if not (premise or escalation or conditional):
         _trace("exit-silent-routine")
         sys.exit(0)  # silent on routine prompts
 
@@ -185,6 +234,8 @@ def main() -> None:
         flags.append(f"PREMISE-RISK ({premise}) — don't infer action; confirm or refrain")
     if escalation:
         flags.append(f"ESCALATION ({escalation}) — shorten · drop tables · action-first")
+    if conditional:
+        flags.append(f"CONDITIONAL ({conditional}) — only immediate-verbs are current grant; future-clauses are hypothesis")
 
     additional_context = "AGENT-DISCIPLINE: " + " | ".join(flags)
 
@@ -200,6 +251,8 @@ def main() -> None:
         fired_kinds.append("premise")
     if escalation:
         fired_kinds.append("escalation")
+    if conditional:
+        fired_kinds.append("conditional")
     _trace(f"fired-{'+'.join(fired_kinds)}", f"banner_len={len(additional_context)}")
     sys.exit(0)
 

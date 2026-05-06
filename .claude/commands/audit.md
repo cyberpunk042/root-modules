@@ -64,7 +64,7 @@ Run the deterministic checks below, in sequence. Report each pass/fail with cont
    ```bash
    ls $HOME/.claude/commands/ | wc -l
    ```
-   Expected: 26 (orient, cycle, mode-{pm,architect,dual,status,clear}, blockers, progress, decisions, log, audit, sync-progress, help-root, handoff, stamp-{horizontal,vertical,on,off,auto,status}, install-agent-brain, mission, focus, impediment, priorities)
+   Expected: 28 (orient, cycle, mode-{pm,architect,dual,status,clear}, blockers, progress, decisions, log, audit, sync-progress, help-root, handoff, stamp-{horizontal,vertical,on,off,auto,status}, install-agent-brain, mission, focus, impediment, priorities, terminate, finish-smoothly)
 
 9. **All modes present**:
    ```bash

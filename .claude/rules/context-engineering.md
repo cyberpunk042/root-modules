@@ -3,8 +3,28 @@
 > Loaded on demand when designing how an agent gets context (which file, which timing, which mechanism). Per operator directive 2026-05-05.
 >
 > **Strictness tier**: Advisory (per `operating-principles.md`). Designed to inform judgment, not enforce a single approach. Each context-loading decision is evaluated per its case.
+>
+> **DRAFT v1 (SB-129, 2026-05-06)** per `<second-brain>/wiki/spine/standards/concept-page-standards.md` — Summary + Key Insights + Deep Analysis subsectioned. Quality bar: `<second-brain>/wiki/spine/standards/model-standards/model-context-engineering-standards.md`.
 
-## The four context-injection modes
+## Summary
+
+Context engineering is the discipline of designing what information reaches an AI agent — at what timing, in what structure, at what depth. This rule defines four orthogonal injection modes (auto / pre / on-demand / facultative) that map content-types to delivery channels in root-ghostproxy. Pairs with `compound-and-waterfall.md` (compound axis = which layers coexist at-a-moment) and `trigger-model.md` (signal→action→recovery composition).
+
+## Key Insights
+
+1. **Injection mode determines reliability tier.** Auto-injection (CLAUDE.md auto-load) is most reliable; pre-injection (/orient deterministic chain) is 100% on invoke; on-demand depends on triggers firing; facultative depends on operator opt-in. Match content criticality to mode reliability.
+
+2. **Context compaction destroys content but preserves structure.** Prose corrections vanish; YAML files / typed fields / declared sections survive. Design state-bearing content as files (not conversation), so post-compact recovery via /orient can reconstruct.
+
+3. **Same content, different mode, different cost.** Critical content as on-demand = agent forgets to load. Auto-inject everything = context bloat + cache miss + cost. The right mode for the right content.
+
+4. **Compound axis populates context window per fire.** The four modes orthogonally fill the compound stack (`compound-and-waterfall.md`) — auto at SessionStart, pre on each prompt via hooks, on-demand when topic surfaces, facultative per active mode.
+
+5. **Operator-explicit content MUST NOT be self-capped.** Per SB-122 closure: agent self-truncating mode-enforcement banner / persona voice / objective layer for "budget courtesy" dismisses operator-authored directives at injection moment — the very thing context engineering preserves.
+
+## Deep Analysis
+
+### The four context-injection modes
 
 Per operator directive 2026-05-05: *"with proper context engineering and facultative auto or pre-injection modes and the autocomplete & prompt engineering knowlegde too."*
 
@@ -15,7 +35,7 @@ Per operator directive 2026-05-05: *"with proper context engineering and faculta
 | **On-demand** | Loaded only when topic comes up — reactive | `.claude/rules/<topic>.md` per-topic loading via CLAUDE.md routing entries |
 | **Facultative** | Configurable per mode/context — opt-in/opt-out | Mode-specific brain pieces (loaded only in active mode); `.claudeignore` excludes from auto-context; per-cycle reads vary per mode |
 
-## Choosing the right mode for a piece of content
+### Choosing the right mode for a piece of content
 
 | Content type | Recommended mode | Why |
 |---|---|---|
@@ -28,7 +48,7 @@ Per operator directive 2026-05-05: *"with proper context engineering and faculta
 | Operator-verbatim directives (PRIOR sessions, historical) | On-demand (`/opt/.../raw/notes/2026-*.md` read for project-history context) | Read-only citation source; do NOT write back |
 | Mode-specific persona | Facultative (per active mode) | Only loaded when the mode is active |
 
-## Anti-patterns
+### Anti-patterns
 
 | Anti-pattern | Why bad |
 |---|---|
@@ -37,8 +57,30 @@ Per operator directive 2026-05-05: *"with proper context engineering and faculta
 | Pre-inject content that's the same every session and doesn't need refresh | Wastes per-session bandwidth; auto-inject in CLAUDE.md instead |
 | On-demand load for content that's needed every turn | Agent forgets to load; rule-driven on-demand only works when triggers are reliable |
 | Facultative without clear opt-in/opt-out signal | Operator/agent doesn't know if it loaded |
+| Self-cap on operator-explicit content (per SB-122) | "Budget courtesy" truncation of mode-enforcement banner / persona voice / objective layer dismisses operator-authored directives at the moment of injection — the very thing context-engineering should preserve |
+| Conditionally drop a render row when value empty | Operator can't see the layer state; reads as "missing", not "empty" — visibility ≠ presence (see SB-082 pendulum recurrence pattern) |
 
-## Mode → context profile mapping
+### Composition with compound axis (SB-123 cross-reference)
+
+> **DRAFT MARKER (SB-129, 2026-05-06)**: section was append-edited without compile/restructure pass. Per operator directive: needs second-brain-informed quality engineering before treating as canonical.
+
+The four injection modes (auto / pre / on-demand / facultative) populate the COMPOUND axis from `compound-and-waterfall.md`. Each prompt's context window is a compound stack; injection mode determines which layers compound at-a-moment:
+
+| Layer (compound rank) | Source | Injection mode |
+|---|---|---|
+| Persona (mode + voice) | mode-enforcement banner | Pre + Facultative (mode-conditional) |
+| Priorities (imminent) | mode-enforcement banner | Pre |
+| Mission · Focus · Impediment | mode-enforcement banner | Pre |
+| Mindfulness baseline | mindfulness banner | Pre + Facultative (mode-conditional) |
+| Live state (ambient) | mode-enforcement LIVE STATE | Pre |
+| Operator-prompt content | UserPromptSubmit | Auto |
+| Mode files (deeper detail) | Read on demand | On-demand |
+
+The hook layer composes these. **Prompt engineering** in this project = author the per-hook content (banner clauses, persona voice, cycle steps) so each layer compounds without colliding. Anti-pattern: hooks emit competing or redundant content that crowds context.
+
+**Operator-empirical evaluator** for this composition: the mode-enforcement banner output. If the agent can read all 6 mindfulness clauses + 10 voice qualities + cycle steps + priorities + mission/focus/impediment + live state in one prompt without confusion, the compound is well-engineered.
+
+### Mode → context profile mapping
 
 Each mode in `$HOME/.claude/modes/` defines a "primary brain pieces" list — the FACULTATIVE auto-injection profile for that mode. When the operator enables a mode, the agent treats that profile as "should-be-loaded-pre-cycle" priority.
 
@@ -50,7 +92,7 @@ Each mode in `$HOME/.claude/modes/` defines a "primary brain pieces" list — th
 
 The `.claude/active-mode` state file + `/orient` step 19-21 jointly drive this — when a mode is active, /orient detects + loads the mode's primary brain pieces.
 
-## Autocomplete + prompt engineering knowledge (operator framing)
+### Autocomplete + prompt engineering knowledge (operator framing)
 
 Operator's directive: *"the autocomplete & prompt engineering knowlegde too."*
 
@@ -62,7 +104,7 @@ For $HOME specifically:
 
 When `$HOME` agent needs autocomplete or prompt-engineering knowledge: query the second brain via `wiki_search` MCP. Don't duplicate in $HOME.
 
-## Frontmatter parameters as empowerment (related)
+### Frontmatter parameters as empowerment (related)
 
 Per operator: *"using the parameters block of a markdown it can help with a lot of things including empowering or enabling tools and tooling."*
 
