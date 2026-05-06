@@ -25,8 +25,8 @@ Per the working contract (*"ME APPROVING THEM ONE BY ONE... ITERATING SO THEY AR
 
 ## Done When
 
-- [x] Operator confirms /root/AGENTS.md content is project-specific + non-duplicative + reflects the cross-tool agent contract scope.
-- [x] Operator confirms /root/CLAUDE.md content is project-specific + non-duplicative + reflects the Claude-Code-specific routing scope.
+- [x] Operator confirms $HOME/AGENTS.md content is project-specific + non-duplicative + reflects the cross-tool agent contract scope.
+- [x] Operator confirms $HOME/CLAUDE.md content is project-specific + non-duplicative + reflects the Claude-Code-specific routing scope.
 - [x] Both files survived multiple iteration cycles without rejection on the final iteration.
 
 ## Resolution
@@ -42,4 +42,4 @@ Approved iteratively via the /loop cycle 2026-05-05. The operator did not reject
 
 - PART OF: [[root-ghostproxy-m001-author-claude-md-and-agents-md|M001]]
 - BLOCKED BY: T002, T004
-- BLOCKS: T006 (final landing) — partially redundant with T002/T004 since drafts were authored directly into /root, not staged elsewhere
+- BLOCKS: T006 (final landing) — partially redundant with T002/T004 since drafts were authored directly into $HOME, not staged elsewhere

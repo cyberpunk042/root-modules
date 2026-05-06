@@ -59,11 +59,11 @@ Per operator directive: M011 needs widgets for two profiles: project-aware (sele
 
 | Operator-named field | Built-in? | Custom strategy |
 |---|---|---|
-| selected-task (T###) | NO | Custom Text widget reading from a state file (e.g., `~/.claude/active-task` or `/root/.claude/active-task`) |
+| selected-task (T###) | NO | Custom Text widget reading from a state file (e.g., `~/.claude/active-task` or `$HOME/.claude/active-task`) |
 | progress (readiness %) | NO | Custom Text reading from a state file OR computed from `tools.progress` output |
 | stage (SFIF stage) | NO | Custom Text from state file OR `tools.state` output |
 
-`Custom Text` widget exists (v2.0.12+ with emoji support). Approach: shell-out script that reads /root state + outputs the desired string.
+`Custom Text` widget exists (v2.0.12+ with emoji support). Approach: shell-out script that reads $HOME state + outputs the desired string.
 
 ## Done When
 

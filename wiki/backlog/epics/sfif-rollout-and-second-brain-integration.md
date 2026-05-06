@@ -24,7 +24,7 @@ sources:
     file: wiki/ecosystem/project_profiles/root-ghostproxy/identity-profile.md
   - id: root-ghostproxy-readme
     type: file
-    file: /root/README.md
+    file: $HOME/README.md
     description: "Read in full 2026-05-04 — architecture, install steps, v1 limitations"
   - id: model-sfif-architecture
     type: wiki
@@ -41,7 +41,7 @@ tags: [epic, root-ghostproxy, sfif, second-brain-integration, sister-project, ty
 
 ## Summary
 
-Build root-ghostproxy from its current SFIF Foundation tier (install.sh + base hooks operable) to full Infrastructure + Features tier, in parallel with hooking it into the second-brain ecosystem as a sister project of `type=root, group=operating-system-setup`. The work is split into two independent-but-interlocking streams: **Stream 2** (pure SFIF project base — author CLAUDE.md, AGENTS.md, methodology layer, infrastructure tooling, and OS-setup features beyond AI-safety hooks) and **Stream 1** (second-brain integration — gated on Stream 2 Scaffold output, specifically AGENTS.md existing in root-ghostproxy first). All work happens inside `/root` (or wherever root-ghostproxy is installed) — therefore in a future session, NOT this preparation session. This epic captures the future-session work plan so a fresh agent in the root-ghostproxy context can pick up cold.
+Build root-ghostproxy from its current SFIF Foundation tier (install.sh + base hooks operable) to full Infrastructure + Features tier, in parallel with hooking it into the second-brain ecosystem as a sister project of `type=root, group=operating-system-setup`. The work is split into two independent-but-interlocking streams: **Stream 2** (pure SFIF project base — author CLAUDE.md, AGENTS.md, methodology layer, infrastructure tooling, and OS-setup features beyond AI-safety hooks) and **Stream 1** (second-brain integration — gated on Stream 2 Scaffold output, specifically AGENTS.md existing in root-ghostproxy first). All work happens inside `$HOME` (or wherever root-ghostproxy is installed) — therefore in a future session, NOT this preparation session. This epic captures the future-session work plan so a fresh agent in the root-ghostproxy context can pick up cold.
 
 ## Goals
 
@@ -113,7 +113,7 @@ Build root-ghostproxy from its current SFIF Foundation tier (install.sh + base h
 - **Stream 2 M1 (AGENTS.md) blocks Stream 1 M7 (--connect-project):** the connect script writes the `## Second Brain Connection` block INTO an existing AGENTS.md or CLAUDE.md.
 - **Operator decision M5:** which module first (suricata or polarproxy). Affects M5 scope.
 - **Operator decision M2:** local methodology vs pointer. Affects M2 + downstream Infrastructure layer.
-- **No dependency on `/root` access from the second brain side** — Stream 1 connect runs from inside the second brain pointing AT root-ghostproxy via `--connect-project <path>`. The second brain pushes config; the project receives.
+- **No dependency on `$HOME` access from the second brain side** — Stream 1 connect runs from inside the second brain pointing AT root-ghostproxy via `--connect-project <path>`. The second brain pushes config; the project receives.
 
 ## Open Questions
 
@@ -133,7 +133,7 @@ Build root-ghostproxy from its current SFIF Foundation tier (install.sh + base h
 
 ```bash
 # 1. Open Claude Code in root-ghostproxy
-cd /root  # or wherever root-ghostproxy is on the host
+cd $HOME  # or wherever root-ghostproxy is on the host
 claude
 
 # 2. Read this epic for context

@@ -30,7 +30,7 @@ Verify the verifier itself works — both happy path (known-good state passes) a
 - [ ] Failure path 2: temporarily edit settings.json to set `disableAllHooks: true` → verifier exits non-zero, says hooks disabled. Restore.
 - [ ] Failure path 3: temporarily remove ~5 deny-set patterns to drop count below threshold → verifier exits non-zero, names threshold + actual count. Restore.
 - [ ] Failure path 4: temporarily make a hook script non-executable (chmod 0644) → verifier exits non-zero, names the non-executable hook. Restore.
-- [ ] Smoke test results captured in /root/wiki/log/<date>-verify-policy-smoke-test.md.
+- [ ] Smoke test results captured in $HOME/wiki/log/<date>-verify-policy-smoke-test.md.
 - [ ] After all failure paths: known-good state restored; final verify-policy run exits 0.
 
 ## Stage-gate

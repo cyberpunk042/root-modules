@@ -24,35 +24,35 @@ sources:
 tags: [module, p1, root-ghostproxy, second-brain-integration, stream-1, worked-example, bidirectional-flow, m009]
 ---
 
-# M009 — Worked Example: Ingest /root/README.md into Second Brain
+# M009 — Worked Example: Ingest $HOME/README.md into Second Brain
 
 ## Summary
 
-Prove the bidirectional knowledge flow works end-to-end by ingesting /root/README.md into the second brain as a source-synthesis page. M009 demonstrates that root-ghostproxy is a first-class source in the corpus — the second brain consumes from /root, not just pushes config to it. This is the parallel of M007 (push from second brain) but in the opposite direction: pull from /root into corpus. After M009, future questions about root-ghostproxy can be answered by querying the second brain's corpus directly (`wiki_search root-ghostproxy`) rather than re-reading /root files each time.
+Prove the bidirectional knowledge flow works end-to-end by ingesting $HOME/README.md into the second brain as a source-synthesis page. M009 demonstrates that root-ghostproxy is a first-class source in the corpus — the second brain consumes from $HOME, not just pushes config to it. This is the parallel of M007 (push from second brain) but in the opposite direction: pull from $HOME into corpus. After M009, future questions about root-ghostproxy can be answered by querying the second brain's corpus directly (`wiki_search root-ghostproxy`) rather than re-reading $HOME files each time.
 
 ## Done When
 
-- [ ] /root/README.md is fetched into second brain's raw/ via `wiki_fetch file:///root/README.md` OR `pipeline fetch` with file:// URL OR explicit copy
+- [ ] $HOME/README.md is fetched into second brain's raw/ via `wiki_fetch file://$HOME/README.md` OR `pipeline fetch` with file:// URL OR explicit copy
 - [ ] A source-synthesis page exists at second brain's `wiki/sources/src-root-ghostproxy-readme.md` (or similar) with: full frontmatter, summary ≥30 words, key insights, relationships to identity-profile + epic
 - [ ] Page passes `pipeline post` validation (0 errors)
 - [ ] `pipeline crossref` finds connections between the new readme page and existing root-ghostproxy entries (epic, identity-profile, src-suricata, src-polarproxy)
-- [ ] Operator confirms the page accurately represents /root/README.md's current content
+- [ ] Operator confirms the page accurately represents $HOME/README.md's current content
 
 ## Dependencies
 
 - M008 (Smoke test) — connection is verified working
-- /root/README.md exists in a stable, reviewed state (current README is from prior session — operator may want to update it via M001/M003 first; M009 then ingests the updated version)
+- $HOME/README.md exists in a stable, reviewed state (current README is from prior session — operator may want to update it via M001/M003 first; M009 then ingests the updated version)
 - Pipeline + crossref tools available on second brain side (already verified this session)
 
 ## Open Questions
 
-> [!question] Should /root/README.md be ingested via wiki_fetch (web-style) or via direct file copy + scaffold?
+> [!question] Should $HOME/README.md be ingested via wiki_fetch (web-style) or via direct file copy + scaffold?
 > Both work. wiki_fetch with `file://` URL is closer to the standard ingestion playbook (raw/ → synthesis page → post → crossref). Direct copy skips the "pipeline as the canonical ingestion path" principle — only do that if file:// fetching is not supported.
 
 > [!question] Should the source-synthesis page domain be infrastructure (matching Suricata + PolarProxy) or ecosystem-projects (matching the wiki/sources/ecosystem-projects/ folder)?
 > root-ghostproxy README is an ecosystem-project source — `wiki/sources/ecosystem-projects/src-root-ghostproxy-readme.md` is the right path. domain field: ecosystem-projects.
 
-> [!question] How often should /root/README.md be re-ingested as it evolves?
+> [!question] How often should $HOME/README.md be re-ingested as it evolves?
 > The README will change over the project's lifetime. Manual re-ingestion when the operator decides the README has shifted enough is the simplest policy. Automated re-ingestion (a watcher) is over-engineering at this stage.
 
 > [!question] Does this need to wait for M001 (CLAUDE.md + AGENTS.md exist + are stable)?
@@ -63,7 +63,7 @@ Prove the bidirectional knowledge flow works end-to-end by ingesting /root/READM
 | Task | Description | Status |
 |---|---|---|
 | T-M009-1 | Decide ingestion path (wiki_fetch with file:// vs direct copy) | ⊙ pending |
-| T-M009-2 | Fetch /root/README.md into second brain's raw/ (file path: raw/articles/root-ghostproxy-readme.md or similar) | ⊙ pending |
+| T-M009-2 | Fetch $HOME/README.md into second brain's raw/ (file path: raw/articles/root-ghostproxy-readme.md or similar) | ⊙ pending |
 | T-M009-3 | Author source-synthesis page at wiki/sources/ecosystem-projects/src-root-ghostproxy-readme.md per source-synthesis schema | ⊙ pending |
 | T-M009-4 | Run `pipeline post` — must return 0 errors | ⊙ pending |
 | T-M009-5 | Run `pipeline crossref` — verify connections to existing root-ghostproxy pages found | ⊙ pending |

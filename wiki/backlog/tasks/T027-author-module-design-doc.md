@@ -1,5 +1,5 @@
 ---
-title: "T027 — Author module design doc at /root/docs/<module>-module-design.md"
+title: "T027 — Author module design doc at $HOME/docs/<module>-module-design.md"
 type: task
 status: not-started
 priority: P0
@@ -52,7 +52,7 @@ Author the design doc for the first feature module per operator's choice (T024).
 
 ## Done When
 
-- [ ] Design doc at `/root/docs/<module>-module-design.md` covering all sections above.
+- [ ] Design doc at `$HOME/docs/<module>-module-design.md` covering all sections above.
 - [ ] Trade-offs documented for each architectural decision.
 - [ ] Integration interface for the OTHER module documented (the second module is its own subsequent epic; the first module's design must leave a clean integration slot).
 - [ ] Test pcap from T026 referenced as the gate input.

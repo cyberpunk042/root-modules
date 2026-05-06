@@ -26,7 +26,7 @@ Bundle the smoke test results from T044-T049 into a single completion record. Ma
 ## Done When
 
 - [ ] M008 module page Done When section all checked (or remaining unchecked items have explicit follow-up tasks).
-- [ ] Smoke test summary at `/root/wiki/log/<date>-m008-smoke-test-summary.md` referencing each sub-test's outputs.
+- [ ] Smoke test summary at `$HOME/wiki/log/<date>-m008-smoke-test-summary.md` referencing each sub-test's outputs.
 - [ ] Module readiness = 100; status flows up to M008 module → up to active epic.
 - [ ] If any smoke test FAILED: blocking issues filed as new tasks; M008 marked blocked instead of complete.
 

@@ -28,8 +28,8 @@ Bundle all pre-connect evidence + operator authorization into a single audit log
 
 ## Done When
 
-- [ ] Audit log at `/root/wiki/log/<date>-m006-pre-connect-audit.md`.
-- [ ] Contains pre-conditions verification table with all 6 checks (AGENTS.md exists, git status clean, sister entry correct, .mcp.json captured, /root/tools/ captured, snapshot taken) — sourced from T031, T032, T033, T034, T036.
+- [ ] Audit log at `$HOME/wiki/log/<date>-m006-pre-connect-audit.md`.
+- [ ] Contains pre-conditions verification table with all 6 checks (AGENTS.md exists, git status clean, sister entry correct, .mcp.json captured, $HOME/tools/ captured, snapshot taken) — sourced from T031, T032, T033, T034, T036.
 - [ ] Contains the dry-run output from T035.
 - [ ] Contains the variant determination: ROOT_OS_SETUP per type=root + group=operating-system-setup.
 - [ ] Contains operator authorization (verbatim, with timestamp).

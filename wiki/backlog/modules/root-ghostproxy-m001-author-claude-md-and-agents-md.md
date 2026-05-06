@@ -39,10 +39,10 @@ Author the two top-level agent-context files for the root-ghostproxy repo: AGENT
 
 ## Done When
 
-- [ ] `/root/AGENTS.md` exists, < 100 lines, captures: identity, mission, sacrosanct directives (verbatim), hard rules, the working contract (driver/horse), pointers to README and install.sh
-- [ ] `/root/CLAUDE.md` exists, < 200 lines, captures: identity tier, routing table for operator intents, hard rules (Claude-specific), pointer to AGENTS.md for universal context
+- [ ] `$HOME/AGENTS.md` exists, < 100 lines, captures: identity, mission, sacrosanct directives (verbatim), hard rules, the working contract (driver/horse), pointers to README and install.sh
+- [ ] `$HOME/CLAUDE.md` exists, < 200 lines, captures: identity tier, routing table for operator intents, hard rules (Claude-specific), pointer to AGENTS.md for universal context
 - [ ] Both files are authored by extracting the right blocks from the second brain (templates, identity profile, sacrosanct directives, working contract) — NOT improvised
-- [ ] Operator approves both files before they land at /root (per "ME APPROVING THEM ONE BY ONE" contract)
+- [ ] Operator approves both files before they land at $HOME (per "ME APPROVING THEM ONE BY ONE" contract)
 - [ ] Pipeline post on the second brain side passes 0 errors after the identity profile / template adjustments this module may surface
 
 ## Dependencies
@@ -54,25 +54,25 @@ Author the two top-level agent-context files for the root-ghostproxy repo: AGENT
 
 ## Open Questions
 
-> [!question] How thin should /root/CLAUDE.md and /root/AGENTS.md be at scaffold stage?
+> [!question] How thin should $HOME/CLAUDE.md and $HOME/AGENTS.md be at scaffold stage?
 > The second brain's own CLAUDE.md is ~240 lines (mature production project). For a micro-scale scaffold-stage project, < 100 / < 200 lines is the SFIF discipline target. Operator may want even thinner at this stage, expanding only as Foundation phase fleshes out.
 
-> [!question] Should sacrosanct directives be inlined in /root/AGENTS.md or sourced from /root/.claude/projects/-root/memory/?
+> [!question] Should sacrosanct directives be inlined in $HOME/AGENTS.md or sourced from $HOME/.claude/projects/-root/memory/?
 > The memory layer auto-loads the feedback rules. AGENTS.md could pointer to them (DRY) or inline the most load-bearing ones (resilient against memory-layer changes). Operator's call.
 
-> [!question] How does the prior session's contaminated /root state get reconciled?
-> The prior session left /root/docs/SESSION-2026-05-04*.md handoffs, install.sh, README.md, plus 3 memory files at -root/memory/. Some of these contain hallucinated framing (e.g. "separate ghostproxy project"). M001 must explicitly decide: integrate, scrap, or rewrite each pre-existing artefact. (This blocks scaffold-purity.)
+> [!question] How does the prior session's contaminated $HOME state get reconciled?
+> The prior session left $HOME/docs/SESSION-2026-05-04*.md handoffs, install.sh, README.md, plus 3 memory files at -root/memory/. Some of these contain hallucinated framing (e.g. "separate ghostproxy project"). M001 must explicitly decide: integrate, scrap, or rewrite each pre-existing artefact. (This blocks scaffold-purity.)
 
 ## Tasks
 
 | Task | Description | Status |
 |---|---|---|
 | T-M001-1 | Operator decides scope and tone for AGENTS.md (sacrosanct inline vs pointer; security envelope inclusion; install.sh framing) | ⊙ pending |
-| T-M001-2 | Draft /root/AGENTS.md based on operator-confirmed scope, FROM second brain templates | ⊙ pending |
-| T-M001-3 | Draft /root/CLAUDE.md with routing table tailored to OS-setup project (likely simpler than second brain's CLAUDE.md) | ⊙ pending |
+| T-M001-2 | Draft $HOME/AGENTS.md based on operator-confirmed scope, FROM second brain templates | ⊙ pending |
+| T-M001-3 | Draft $HOME/CLAUDE.md with routing table tailored to OS-setup project (likely simpler than second brain's CLAUDE.md) | ⊙ pending |
 | T-M001-4 | Operator reviews + approves drafts (one-by-one per working contract) | ⊙ pending |
-| T-M001-5 | Land both files at /root after approval | ⊙ pending |
-| T-M001-6 | Decide reconciliation for prior /root artefacts (memory files, handoffs, install.sh, README.md) | ⊙ pending |
+| T-M001-5 | Land both files at $HOME after approval | ⊙ pending |
+| T-M001-6 | Decide reconciliation for prior $HOME artefacts (memory files, handoffs, install.sh, README.md) | ⊙ pending |
 
 ## Relationships
 

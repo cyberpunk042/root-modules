@@ -32,7 +32,7 @@ After M004's verify-policy.py + validation pipeline land, the Foundation tier (M
 - [ ] Smoke test of safety policy still passes (per T017).
 - [ ] verify-policy itself exits 0 on the post-M004 state.
 - [ ] Idempotency confirmed: re-running install.sh after M004 lands is no-op.
-- [ ] Re-gate report at /root/wiki/log/<date>-m004-no-regression-report.md.
+- [ ] Re-gate report at $HOME/wiki/log/<date>-m004-no-regression-report.md.
 
 ## Stage-gate (M004 Test stage exit)
 

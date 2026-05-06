@@ -35,7 +35,7 @@ Bring root-ghostproxy from Foundation tier to Infrastructure tier by adding proj
 
 ## Done When
 
-- [ ] `tools/verify-policy.py` exists at /root/tools/, callable as `python3 -m tools.verify_policy` (or as `./tools/verify-policy.py`), running:
+- [ ] `tools/verify-policy.py` exists at $HOME/tools/, callable as `python3 -m tools.verify_policy` (or as `./tools/verify-policy.py`), running:
   - `integrity.integrity_check()` (existing, unchanged)
   - Deny-list pattern count check (count must be ≥ N, where N is the operator-confirmed minimum currently 151 per memory)
   - Hook executables present + executable bit set
@@ -54,7 +54,7 @@ Bring root-ghostproxy from Foundation tier to Infrastructure tier by adding proj
 ## Open Questions
 
 > [!question] Should the verifier be Python or shell?
-> Python aligns with existing /root/integrity.py. Shell aligns with /root/install.sh and is more legible for ops. Likely Python given the integrity.py call is the load-bearing piece — calling Python from shell is fine, the inverse is awkward.
+> Python aligns with existing $HOME/integrity.py. Shell aligns with $HOME/install.sh and is more legible for ops. Likely Python given the integrity.py call is the load-bearing piece — calling Python from shell is fine, the inverse is awkward.
 
 > [!question] What level of strictness for the deny-list count?
 > Memory says 151+ deny patterns required as fail-closed. Verifier should pin to that count (or higher); below it, fail. Operator may want stricter (e.g. exact match on a known-good list) — that's a Phase-2 enhancement.
@@ -70,7 +70,7 @@ Bring root-ghostproxy from Foundation tier to Infrastructure tier by adding proj
 | Task | Description | Status |
 |---|---|---|
 | T-M004-1 | Operator approves verifier scope (which checks, which strictness) | ⊙ pending |
-| T-M004-2 | Author /root/tools/verify-policy.py with the approved checks | ⊙ pending |
+| T-M004-2 | Author $HOME/tools/verify-policy.py with the approved checks | ⊙ pending |
 | T-M004-3 | Wire pre-commit hook OR CI workflow (decided by operator + repo-distribution status) | ⊙ pending |
 | T-M004-4 | Smoke-test the verifier: known-good state passes; deliberate degradation fails with explanation | ⊙ pending |
 | T-M004-5 | Document verifier invocation in CLAUDE.md routing table | ⊙ pending |

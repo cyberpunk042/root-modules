@@ -29,7 +29,7 @@ After M010 decision lands, all 10 modules of the active epic are complete. Close
 - [ ] Active epic page: `status: done`, `readiness: 100`, `progress: 100`.
 - [ ] `pipeline post` (in second brain) returns 0 errors after the status updates.
 - [ ] `pipeline crossref` finds any remaining new connections; flagged for follow-up if useful.
-- [ ] Epic-completion log at `/root/wiki/log/<date>-sfif-rollout-epic-complete.md` documenting the rollout's outcome + lessons learned + open follow-up work.
+- [ ] Epic-completion log at `$HOME/wiki/log/<date>-sfif-rollout-epic-complete.md` documenting the rollout's outcome + lessons learned + open follow-up work.
 - [ ] If a follow-up epic is appropriate (e.g. second feature module — Suricata-second or PolarProxy-second; or scaling work): operator decides + scaffolds.
 
 ## Dependencies

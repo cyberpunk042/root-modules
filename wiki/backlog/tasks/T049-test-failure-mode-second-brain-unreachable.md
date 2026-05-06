@@ -26,11 +26,11 @@ If `/opt/devops-solutions-information-hub` becomes unreachable (e.g. unmounted o
 ## Done When
 
 - [ ] Temporarily make `/opt/devops-solutions-information-hub` unreachable (e.g. `sudo mv` to a backup path; on a multi-host setup, simulate by stopping the second brain's services).
-- [ ] Run `python3 -m tools.gateway orient` from /root.
+- [ ] Run `python3 -m tools.gateway orient` from $HOME.
 - [ ] Verify: forwarder fails with FileNotFoundError or operator-friendly error; not silent hang or cryptic crash.
 - [ ] Restore reachability.
 - [ ] Re-run gateway orient → succeeds again.
-- [ ] Failure mode test results captured in `/root/wiki/log/<date>-m008-failure-mode-test.md`.
+- [ ] Failure mode test results captured in `$HOME/wiki/log/<date>-m008-failure-mode-test.md`.
 - [ ] If error message is unclear / hangs / cryptic: file a setup.py improvement task.
 
 ## Dependencies

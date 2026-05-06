@@ -21,7 +21,7 @@ tags: [task, p1, t022, infrastructure, claude-md, documentation, m004]
 
 ## Description
 
-Add verify-policy invocations to /root/CLAUDE.md's operator-intent routing table — Foundation operations sub-table — so future sessions can route operator's audit/verify intents to the verifier directly.
+Add verify-policy invocations to $HOME/CLAUDE.md's operator-intent routing table — Foundation operations sub-table — so future sessions can route operator's audit/verify intents to the verifier directly.
 
 ## Done When
 

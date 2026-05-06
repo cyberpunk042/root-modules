@@ -57,8 +57,8 @@ Build the first SFIF-Features-tier module of root-ghostproxy: either the Suricat
 ## Done When
 
 - [ ] Operator chooses suricata or polarproxy as the first module
-- [ ] Design doc lands at `/root/docs/<chosen-module>-module-design.md` covering: deployment mode, capture method (Suricata) or routing pattern (PolarProxy), failopen behaviour, output destination, integration with the second module (architectural pairing PolarProxy → PCAP → Suricata)
-- [ ] Integration into `/root/install.sh`: package install + systemd service unit + bridge-layer nftables rules where applicable + log directory + permission setup
+- [ ] Design doc lands at `$HOME/docs/<chosen-module>-module-design.md` covering: deployment mode, capture method (Suricata) or routing pattern (PolarProxy), failopen behaviour, output destination, integration with the second module (architectural pairing PolarProxy → PCAP → Suricata)
+- [ ] Integration into `$HOME/install.sh`: package install + systemd service unit + bridge-layer nftables rules where applicable + log directory + permission setup
 - [ ] Smoke tests: service starts cleanly; expected output (alerts for Suricata, PCAP for PolarProxy) is produced under controlled traffic
 - [ ] No regression of Foundation gate (M003) or Infrastructure gate (M004) after the feature module lands
 - [ ] Operator validates end-to-end behaviour against a sample threat (Suricata) or sample TLS session (PolarProxy)
@@ -74,7 +74,7 @@ Build the first SFIF-Features-tier module of root-ghostproxy: either the Suricat
   - `wiki/sources/src-polarproxy.md` — Layer 0 (PolarProxy product page)
   - `wiki/sources/src-hanke-honeypot-polarproxy-suricata-integration.md` — Layer 1 dummy-interface + tcpreplay integration pattern
 - Follow-up ingestions deferred (not blockers for M005 design but useful for deeper config): Suricata EVE JSON output schema (chapter 12.1.9.5 + chapter 15), Suricata Performance chapter (11) for tuning, Suricata eBPF/XDP chapter for high-throughput AF_PACKET multi-thread. PolarProxy Docker / Podman deployment blog posts for containerized path. Snort.conf migration if existing Snort rules are in scope.
-- Hardware: existing /root host (Debian 13, 2× ethernet bridged via br0, 1× wifi as outbound-only). Bridge topology decisions (br0 with enp2s0 + enp4s0) already in place — see src-suricata-ips-mode-linux for the br0-vs-AF_PACKET-IPS architectural decision M005 must explicitly resolve.
+- Hardware: existing $HOME host (Debian 13, 2× ethernet bridged via br0, 1× wifi as outbound-only). Bridge topology decisions (br0 with enp2s0 + enp4s0) already in place — see src-suricata-ips-mode-linux for the br0-vs-AF_PACKET-IPS architectural decision M005 must explicitly resolve.
 
 ## Open Questions
 
@@ -104,7 +104,7 @@ Build the first SFIF-Features-tier module of root-ghostproxy: either the Suricat
 | T-M005-1 | Operator picks first module (Suricata or PolarProxy) and rationale | ⊙ pending |
 | T-M005-2 | Run follow-up ingestions identified by source-synthesis open questions (docs.suricata.io key pages OR Netresec blog posts + Hanke writeup) | ⊙ pending |
 | T-M005-3 | Capture sample test pcap (threat sample for Suricata, benign HTTPS for PolarProxy) | ⊙ pending |
-| T-M005-4 | Author design doc at /root/docs/<module>-module-design.md | ⊙ pending |
+| T-M005-4 | Author design doc at $HOME/docs/<module>-module-design.md | ⊙ pending |
 | T-M005-5 | Integrate into install.sh + systemd unit + nftables rules where applicable | ⊙ pending |
 | T-M005-6 | Smoke-test on the host; verify Foundation + Infrastructure gates still pass | ⊙ pending |
 | T-M005-7 | Operator validates end-to-end | ⊙ pending |

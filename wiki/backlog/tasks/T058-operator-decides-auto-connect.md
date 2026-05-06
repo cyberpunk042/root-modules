@@ -35,7 +35,7 @@ After cooling-off period (T057), operator decides whether to flip `auto_connect`
 ## Done When
 
 - [ ] Operator decides; verbatim rationale captured.
-- [ ] Decision documented in M010 module page + /root/wiki/log/.
+- [ ] Decision documented in M010 module page + $HOME/wiki/log/.
 
 ## Dependencies
 

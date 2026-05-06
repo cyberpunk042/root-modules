@@ -1,5 +1,5 @@
 ---
-title: "T056 — Document the bidirectional flow proof in /root/wiki/log/"
+title: "T056 — Document the bidirectional flow proof in $HOME/wiki/log/"
 type: task
 status: not-started
 priority: P1
@@ -21,12 +21,12 @@ tags: [task, p1, t056, stream-1, worked-example, documentation, m009]
 
 ## Description
 
-Bundle the proof artefacts (T053-T055 results, plus T052 demo if applicable) into a single completion record at `/root/wiki/log/`.
+Bundle the proof artefacts (T053-T055 results, plus T052 demo if applicable) into a single completion record at `$HOME/wiki/log/`.
 
 ## Done When
 
-- [ ] Proof document at `/root/wiki/log/<date>-m009-bidirectional-flow-proof.md`.
-- [ ] Documents both directions: consume (from /root via forwarder + MCP) AND contribute (via `gateway contribute`).
+- [ ] Proof document at `$HOME/wiki/log/<date>-m009-bidirectional-flow-proof.md`.
+- [ ] Documents both directions: consume (from $HOME via forwarder + MCP) AND contribute (via `gateway contribute`).
 - [ ] M009 module page Done When checkboxes all checked.
 - [ ] Module readiness reaches 100; status flows up.
 

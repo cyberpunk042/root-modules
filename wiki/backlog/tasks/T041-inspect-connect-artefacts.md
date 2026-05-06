@@ -25,11 +25,11 @@ After T040, verify each of the 4 artefacts the connect-script wrote.
 
 ## Done When
 
-- [ ] **`/root/.mcp.json`** has `mcpServers.research-wiki` entry pointing at `/opt/devops-solutions-information-hub/.venv/bin/python -m tools.mcp_server` with `cwd=/opt/devops-solutions-information-hub`.
-- [ ] **`/root/tools/gateway.py`** exists, has the auto-gen marker comment, dispatches to `cwd=/opt/devops-solutions-information-hub/`. `python3 -m tools.gateway --help` from /root prints the gateway's help (forwarder works).
-- [ ] **`/root/tools/view.py`** exists, has the auto-gen marker, dispatches similarly. `python3 -m tools.view --help` from /root works.
-- [ ] **`/root/AGENTS.md`** has the `<!-- SECOND-BRAIN-CONNECTION -->` block injected with variant=ROOT_OS_SETUP content (per `_BRAIN_POINTER_BLOCK_ROOT_OS_SETUP` template — OS-setup-tier framing emphasizing methodology + verification, not generic adoption-tier framing).
-- [ ] Inspection results captured to `/root/wiki/log/<date>-m007-artefact-inspection.md`.
+- [ ] **`$HOME/.mcp.json`** has `mcpServers.research-wiki` entry pointing at `/opt/devops-solutions-information-hub/.venv/bin/python -m tools.mcp_server` with `cwd=/opt/devops-solutions-information-hub`.
+- [ ] **`$HOME/tools/gateway.py`** exists, has the auto-gen marker comment, dispatches to `cwd=/opt/devops-solutions-information-hub/`. `python3 -m tools.gateway --help` from $HOME prints the gateway's help (forwarder works).
+- [ ] **`$HOME/tools/view.py`** exists, has the auto-gen marker, dispatches similarly. `python3 -m tools.view --help` from $HOME works.
+- [ ] **`$HOME/AGENTS.md`** has the `<!-- SECOND-BRAIN-CONNECTION -->` block injected with variant=ROOT_OS_SETUP content (per `_BRAIN_POINTER_BLOCK_ROOT_OS_SETUP` template — OS-setup-tier framing emphasizing methodology + verification, not generic adoption-tier framing).
+- [ ] Inspection results captured to `$HOME/wiki/log/<date>-m007-artefact-inspection.md`.
 
 ## Dependencies
 

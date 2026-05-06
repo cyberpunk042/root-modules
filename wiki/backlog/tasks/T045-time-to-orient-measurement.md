@@ -21,13 +21,13 @@ tags: [task, p0, t045, stream-1, smoke-test, time-to-orient, m008]
 
 ## Description
 
-Per the parent epic's cross-cutting verification: a fresh Claude Code session opened in /root must orient itself within 60 seconds via CLAUDE.md + gateway orient — no manual intervention.
+Per the parent epic's cross-cutting verification: a fresh Claude Code session opened in $HOME must orient itself within 60 seconds via CLAUDE.md + gateway orient — no manual intervention.
 
 ## Done When
 
 - [ ] Stopwatch starts when fresh session opens.
-- [ ] Within 60 seconds: agent has read /root/CLAUDE.md, run `python3 -m tools.gateway orient`, and reported valid orientation including the second brain's identity.
-- [ ] Time-to-orient measurement captured to `/root/wiki/log/<date>-m008-smoke-test-results.md`.
+- [ ] Within 60 seconds: agent has read $HOME/CLAUDE.md, run `python3 -m tools.gateway orient`, and reported valid orientation including the second brain's identity.
+- [ ] Time-to-orient measurement captured to `$HOME/wiki/log/<date>-m008-smoke-test-results.md`.
 
 ## Dependencies
 

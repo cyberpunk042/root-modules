@@ -1,5 +1,5 @@
 ---
-title: "T047 — Run `python3 -m tools.view spine` from inside /root, capture output"
+title: "T047 — Run `python3 -m tools.view spine` from inside $HOME, capture output"
 type: task
 status: not-started
 priority: P0
@@ -17,7 +17,7 @@ sources:
 tags: [task, p0, t047, stream-1, smoke-test, view-spine, m008]
 ---
 
-# T047 — view spine from /root
+# T047 — view spine from $HOME
 
 ## Description
 
@@ -25,7 +25,7 @@ tags: [task, p0, t047, stream-1, smoke-test, view-spine, m008]
 
 ## Done When
 
-- [ ] `cd /root && python3 -m tools.view spine` exits 0.
+- [ ] `cd $HOME && python3 -m tools.view spine` exits 0.
 - [ ] Output includes the 16 named models with summaries.
 - [ ] Output is the second brain's spine, not an empty/error response.
 

@@ -134,9 +134,15 @@ def _from_transcript(transcript_path: str) -> tuple[int, str]:
             msg = d.get("message")
             if not isinstance(msg, dict):
                 continue
-            # Capture model from any record that has it (most recent)
-            if not model_id and msg.get("model"):
-                model_id = str(msg["model"])
+            # Capture model from records with a REAL claude-* model. Skip
+            # system-injected pseudo-models like "<synthetic>" (Claude Code
+            # uses those for compaction summaries / sidechain messages). Without
+            # this filter the most-recent <synthetic> record poisons window
+            # resolution → falls back to DEFAULT_WINDOW=200_000 spuriously.
+            if not model_id:
+                m = msg.get("model")
+                if isinstance(m, str) and m.startswith("claude-"):
+                    model_id = m
             usage = msg.get("usage")
             if not used and isinstance(usage, dict) and "cache_read_input_tokens" in usage:
                 used = (

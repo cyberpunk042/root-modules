@@ -1,5 +1,5 @@
 ---
-title: "T002 — Author /root/AGENTS.md (cross-tool agent contract)"
+title: "T002 — Author $HOME/AGENTS.md (cross-tool agent contract)"
 type: task
 status: done
 priority: P0
@@ -17,15 +17,15 @@ sources:
 tags: [task, p0, t002, scaffold, agents-md, authoring, m001]
 ---
 
-# T002 — Author /root/AGENTS.md
+# T002 — Author $HOME/AGENTS.md
 
 ## Description
 
-Author /root/AGENTS.md per the scope decision from T001. Tight + pointer-based — the cross-tool agent contract: no-policy-duplication invariant, canonical tool-call envelope shape, hook firing order, two-layer hook architecture, universal hard rules that bind every AI tool, mission verbatim, pointer table to canonical sources.
+Author $HOME/AGENTS.md per the scope decision from T001. Tight + pointer-based — the cross-tool agent contract: no-policy-duplication invariant, canonical tool-call envelope shape, hook firing order, two-layer hook architecture, universal hard rules that bind every AI tool, mission verbatim, pointer table to canonical sources.
 
 ## Done When
 
-- [x] /root/AGENTS.md exists and is operator-approved.
+- [x] $HOME/AGENTS.md exists and is operator-approved.
 - [x] Content is project-specific (not template scaffold).
 - [x] Cross-tool agent contract sections present: no-policy-duplication invariant, canonical envelope, hook firing order, two-layer architecture.
 - [x] Universal hard rules present (10 rules covering: deny-by-default, tamper detection, cross-AI consistency, words sacrosanct, prior-debris-not-authoritative, memory-folder-rejected, methodology stage boundaries, modules facultative, two-layer hooks, status-claims-inline-verification).
@@ -36,7 +36,7 @@ Author /root/AGENTS.md per the scope decision from T001. Tight + pointer-based �
 
 ## Resolution
 
-/root/AGENTS.md authored 2026-05-05 (168 lines). Multiple iterations driven by operator feedback — the first attempt was rejected as "trash" (abstract template, duplication of content). The successful version reframes around the cross-tool agent contract scope, references canonical sources without restating their content.
+$HOME/AGENTS.md authored 2026-05-05 (168 lines). Multiple iterations driven by operator feedback — the first attempt was rejected as "trash" (abstract template, duplication of content). The successful version reframes around the cross-tool agent contract scope, references canonical sources without restating their content.
 
 ## Dependencies
 

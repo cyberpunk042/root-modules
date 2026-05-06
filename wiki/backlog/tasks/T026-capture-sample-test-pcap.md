@@ -25,9 +25,9 @@ Module design needs a known-good test artefact. For Suricata-first: a pcap conta
 
 ## Done When
 
-- [ ] Suricata-first path: capture a pcap of `curl http://testmynids.org/uid/index.html` traffic. Stored at `/root/wiki/log/test-pcaps/canary-suricata.pcap`.
-- [ ] PolarProxy-first path: capture a pcap of a benign HTTPS session from a CA-trusting test endpoint. Stored at `/root/wiki/log/test-pcaps/benign-polarproxy.pcap`.
-- [ ] PCAP metadata documented in /root/wiki/log/<date>-test-pcap-capture.md (timestamp, source IPs, expected behavior under each module).
+- [ ] Suricata-first path: capture a pcap of `curl http://testmynids.org/uid/index.html` traffic. Stored at `$HOME/wiki/log/test-pcaps/canary-suricata.pcap`.
+- [ ] PolarProxy-first path: capture a pcap of a benign HTTPS session from a CA-trusting test endpoint. Stored at `$HOME/wiki/log/test-pcaps/benign-polarproxy.pcap`.
+- [ ] PCAP metadata documented in $HOME/wiki/log/<date>-test-pcap-capture.md (timestamp, source IPs, expected behavior under each module).
 - [ ] PCAPs ARE NOT committed to git (per `.gitignore` deny-all + whitelist; PCAPs may contain real-IP data).
 
 ## Dependencies

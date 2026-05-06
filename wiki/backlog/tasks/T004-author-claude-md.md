@@ -1,5 +1,5 @@
 ---
-title: "T004 — Author /root/CLAUDE.md (Claude Code-specific routing)"
+title: "T004 — Author $HOME/CLAUDE.md (Claude Code-specific routing)"
 type: task
 status: done
 priority: P0
@@ -17,15 +17,15 @@ sources:
 tags: [task, p0, t004, scaffold, claude-md, authoring, m001]
 ---
 
-# T004 — Author /root/CLAUDE.md
+# T004 — Author $HOME/CLAUDE.md
 
 ## Description
 
-Author /root/CLAUDE.md per the scope decision from T003. Tight + Claude-Code-specific. Operator-intent → tool/command routing organized by category. Methodology section with 5 universal stages + gate commands per stage. 10 Claude-Code-specific hard rules. Pointers to depth files. Session-bootstrap section.
+Author $HOME/CLAUDE.md per the scope decision from T003. Tight + Claude-Code-specific. Operator-intent → tool/command routing organized by category. Methodology section with 5 universal stages + gate commands per stage. 10 Claude-Code-specific hard rules. Pointers to depth files. Session-bootstrap section.
 
 ## Done When
 
-- [x] /root/CLAUDE.md exists and is operator-approved.
+- [x] $HOME/CLAUDE.md exists and is operator-approved.
 - [x] Content is project-specific (not template scaffold).
 - [x] Operator-intent routing table present, organized by 5 categories (foundation operations, network bridge ops, module ops, second-brain ops, backlog ops).
 - [x] Methodology section present with 5 universal stages, ALLOWED/FORBIDDEN per stage, project-specific gate commands.
@@ -39,7 +39,7 @@ Author /root/CLAUDE.md per the scope decision from T003. Tight + Claude-Code-spe
 
 ## Resolution
 
-/root/CLAUDE.md authored 2026-05-05 (175 lines). Multiple iterations under operator-driven loop. Routing table covers 5 operation categories with concrete commands. Hard rules align with operator-stated invariants.
+$HOME/CLAUDE.md authored 2026-05-05 (175 lines). Multiple iterations under operator-driven loop. Routing table covers 5 operation categories with concrete commands. Hard rules align with operator-stated invariants.
 
 ## Dependencies
 

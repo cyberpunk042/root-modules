@@ -209,7 +209,10 @@ SECRET_VALUE_PATTERNS = [
 
 BASH_EXFIL_PATTERNS = [
     r'(^|[\s;&|`])(env|printenv)([\s;&|`]|$)',
-    r'(^|[\s;&|`])set([\s;&|`]|$)',
+    # `set` exfil: bash builtin alone (dumps env) OR piped/redirected. NOT
+    # subcommand usage (`tools.X set --flag`) — refined to require shell-flow
+    # char or end after `set`, not arbitrary args.
+    r'(^|[;&|`])\s*set\s*(\||>|<|;|&|`|$)',
     r'(^|[\s;&|`])declare(\s+-x)?([\s;&|`]|$)',
     r'curl[^|;]*--data-binary\s+@',
     r'curl[^|;]*-T\s+',

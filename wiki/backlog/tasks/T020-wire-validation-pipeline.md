@@ -26,7 +26,7 @@ Run `verify-policy` automatically on relevant changes. Operator-decision: pre-co
 ## Done When
 
 - [ ] Operator decides: pre-commit / CI / both.
-- [ ] If pre-commit: `.pre-commit-config.yaml` authored at /root with verify-policy hook (e.g. `python3 -m tools.verify_policy --quick`).
+- [ ] If pre-commit: `.pre-commit-config.yaml` authored at $HOME with verify-policy hook (e.g. `python3 -m tools.verify_policy --quick`).
 - [ ] If CI: `.github/workflows/verify.yml` authored running verify-policy on push.
 - [ ] If both: both files exist with consistent invariants.
 - [ ] Failure of verify-policy blocks the commit (pre-commit) and the push (CI).
@@ -41,7 +41,7 @@ Implement stage: pipeline files authored + verified to fire. Test stage: deliber
 
 - T019 (verify-policy.py authored) ✓ when complete
 - Operator decision (pre-commit / CI / both)
-- (CI option only) GitHub remote configured for /root — currently `auto_connect: false` is the operator default; may not have a remote yet
+- (CI option only) GitHub remote configured for $HOME — currently `auto_connect: false` is the operator default; may not have a remote yet
 
 ## Relationships
 

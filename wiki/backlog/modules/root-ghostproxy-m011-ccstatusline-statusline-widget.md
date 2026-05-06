@@ -66,15 +66,15 @@ Operator can define additional profiles or extend either. "and etc..." in the di
 - [ ] Profile A authored with the 5 project-aware fields.
 - [ ] Profile B authored with the 5 standard fields.
 - [ ] Profile-loading mechanism wired (e.g., env var, slash command, config-file directive).
-- [ ] Documentation page at `/root/docs/` or `/root/wiki/` covering: install, configure, switch profiles, extend.
+- [ ] Documentation page at `$HOME/docs/` or `$HOME/wiki/` covering: install, configure, switch profiles, extend.
 - [ ] Smoke-test: open a Claude Code session, confirm the active profile renders correctly + reflects session reality.
-- [ ] Integration check: ensure widget reads from project state (e.g., active task from /root/wiki/backlog or session-claimed task) — not hardcoded values.
+- [ ] Integration check: ensure widget reads from project state (e.g., active task from $HOME/wiki/backlog or session-claimed task) — not hardcoded values.
 
 ## Dependencies
 
 - Parent epic must be in document/scaffold stage (it is).
 - Claude Code statusline mechanism research — what API surface does Claude Code expose for custom statuslines? Spike needed before scaffold.
-- Project-state reader: how does the widget read selected-task / stage / readiness? File-watch on /root/wiki/backlog/tasks/T###*.md frontmatter? A small JSON state file that the agent updates? Operator decides.
+- Project-state reader: how does the widget read selected-task / stage / readiness? File-watch on $HOME/wiki/backlog/tasks/T###*.md frontmatter? A small JSON state file that the agent updates? Operator decides.
 
 ## Open questions
 
@@ -82,7 +82,7 @@ Operator can define additional profiles or extend either. "and etc..." in the di
 > Operator named "ccstatusline custom widget." Likely refers to a specific tool. Spike: confirm the named tool exists + its config surface. If it doesn't exist or doesn't fit, propose alternative.
 
 > [!question] Where does the widget read project state from?
-> Options: (a) parse the active task's frontmatter directly, (b) maintain a small JSON state file (`/root/.claude/statusline-state.json`) updated by an agent hook on task-claim, (c) use Claude Code's session-state if accessible. Operator decides.
+> Options: (a) parse the active task's frontmatter directly, (b) maintain a small JSON state file (`$HOME/.claude/statusline-state.json`) updated by an agent hook on task-claim, (c) use Claude Code's session-state if accessible. Operator decides.
 
 > [!question] Profile-switch mechanism — env var, slash command, config-file?
 > Convenient: env var (e.g., `CC_STATUSLINE_PROFILE=project`). Discoverable: slash command (`/statusline-profile project`). Persistent: config-file. Operator decides — likely env var for simplicity.
@@ -117,11 +117,11 @@ Per operator clarification 2026-05-05 cycle 33 ("I didn't put a brake on ccstatu
 
 | Deliverable | Path | Cycle | Purpose |
 |---|---|---|---|
-| Custom widget shell scripts | `/root/templates/ccstatusline-widgets/{selected-task,progress,stage}.sh` | 29 | Custom Text widget data sources for project-aware fields |
-| Profile JSON templates | `/root/templates/ccstatusline-config/profile-{project,standard}.json` | 30 | Two named profiles (project-aware vs session-aware), JSON-valid |
-| Profile switcher | `/root/templates/ccstatusline-config/switch-profile.sh` | 33 | Operator-facing CLI: status/list/path/set; state at `~/.config/ccstatusline/active-profile` |
-| Claude Code statusLine wrapper | `/root/templates/ccstatusline-config/claude-code-statusline-wrapper.sh` | 33 | Reads active-profile + invokes ccstatusline with right --config; graceful fallback |
-| install.sh op 6 (op_install_ccstatusline) | `/root/install.sh` | 34 | npm install + deploy templates + profile + wrapper |
+| Custom widget shell scripts | `$HOME/templates/ccstatusline-widgets/{selected-task,progress,stage}.sh` | 29 | Custom Text widget data sources for project-aware fields |
+| Profile JSON templates | `$HOME/templates/ccstatusline-config/profile-{project,standard}.json` | 30 | Two named profiles (project-aware vs session-aware), JSON-valid |
+| Profile switcher | `$HOME/templates/ccstatusline-config/switch-profile.sh` | 33 | Operator-facing CLI: status/list/path/set; state at `~/.config/ccstatusline/active-profile` |
+| Claude Code statusLine wrapper | `$HOME/templates/ccstatusline-config/claude-code-statusline-wrapper.sh` | 33 | Reads active-profile + invokes ccstatusline with right --config; graceful fallback |
+| install.sh op 6 (op_install_ccstatusline) | `$HOME/install.sh` | 34 | npm install + deploy templates + profile + wrapper |
 | settings.json statusLine.command wiring (idempotent jq patch) | install.sh op 6 | 35 | Adds `statusLine: {type: command, command: <wrapper-path>}` to deployed settings.json |
 
 Module readiness 30 → 75 across cycles 29-35.

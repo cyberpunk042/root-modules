@@ -25,7 +25,7 @@ Conditional task. Only executes if T058 decides keep-false.
 
 ## Done When (conditional)
 
-- [ ] Rationale documented at /root/wiki/log/<date>-m010-auto-connect-decision.md (verbatim operator rationale + future-revisit conditions).
+- [ ] Rationale documented at $HOME/wiki/log/<date>-m010-auto-connect-decision.md (verbatim operator rationale + future-revisit conditions).
 - [ ] If pattern: type=root projects → auto_connect=false. May become a higher-level standard for future type=root sister projects.
 - [ ] Standard documented (if operator confirms) at appropriate level: second brain's `wiki/spine/standards/` or `wiki/lessons/`.
 

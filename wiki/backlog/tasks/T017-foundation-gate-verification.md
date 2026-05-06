@@ -32,10 +32,10 @@ Per the methodology engine's stage `test` gate: 0 test failures, health check cl
 - [ ] Bridge state: `brctl show br0` lists both ethernet members; bridge UP; no IP on inspected segment.
 - [ ] Management wifi: `ip addr show <wifi-iface>` shows the host's management IP; nftables INPUT chain confirmed outbound-only.
 - [ ] opencode bridge: `opencode debug config | grep claude-bridge` non-empty.
-- [ ] Git audit: `cd /root && git status` clean; `git ls-files` matches whitelist (deny-all + whitelist `.gitignore` invariant intact).
+- [ ] Git audit: `cd $HOME && git status` clean; `git ls-files` matches whitelist (deny-all + whitelist `.gitignore` invariant intact).
 - [ ] Smoke test of safety policy: a tool call to `cat ~/.env` is denied; a tool call to a non-credential path is allowed; tamper detection on settings.json edit refuses subsequent calls.
 - [ ] Idempotency confirmation: re-run install.sh produces no state mutation.
-- [ ] Foundation gate report (markdown summary) authored at `/root/wiki/log/<date>-foundation-gate-report.md`.
+- [ ] Foundation gate report (markdown summary) authored at `$HOME/wiki/log/<date>-foundation-gate-report.md`.
 
 ## Stage-gate (Test stage exit)
 

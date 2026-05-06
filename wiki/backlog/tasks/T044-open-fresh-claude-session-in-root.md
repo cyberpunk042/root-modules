@@ -1,5 +1,5 @@
 ---
-title: "T044 — Open a fresh Claude Code session in /root"
+title: "T044 — Open a fresh Claude Code session in $HOME"
 type: task
 status: not-started
 priority: P0
@@ -17,17 +17,17 @@ sources:
 tags: [task, p0, t044, stream-1, smoke-test, fresh-session, m008]
 ---
 
-# T044 — Open fresh Claude Code session in /root
+# T044 — Open fresh Claude Code session in $HOME
 
 ## Description
 
-Operator opens a brand-new Claude Code session inside `/root` after M007 connect completes. This is the verification gate for "the future session works."
+Operator opens a brand-new Claude Code session inside `$HOME` after M007 connect completes. This is the verification gate for "the future session works."
 
 ## Done When
 
-- [ ] `cd /root && claude` (or operator's Claude Code launch command) starts a new session.
-- [ ] The session auto-loads /root/CLAUDE.md + /root/AGENTS.md per Claude Code convention.
-- [ ] The session has access to the research-wiki MCP server (per /root/.mcp.json entry).
+- [ ] `cd $HOME && claude` (or operator's Claude Code launch command) starts a new session.
+- [ ] The session auto-loads $HOME/CLAUDE.md + $HOME/AGENTS.md per Claude Code convention.
+- [ ] The session has access to the research-wiki MCP server (per $HOME/.mcp.json entry).
 
 ## Dependencies
 

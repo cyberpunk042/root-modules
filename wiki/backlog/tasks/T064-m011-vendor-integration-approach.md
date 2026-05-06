@@ -52,7 +52,7 @@ ccstatusline's own data sources:
 | Option | How | Notes |
 |---|---|---|
 | **A: System-install via npm** | `npm install -g ccstatusline` + configure via TUI + commit `~/.claude/settings.json` integration | Standard; well-supported |
-| **B: Vendored npm in /root** | `npm install` locally to `/root/vendor/ccstatusline` + invoke via `node` path | Per-project isolation but adds maintenance |
+| **B: Vendored npm in $HOME** | `npm install` locally to `$HOME/vendor/ccstatusline` + invoke via `node` path | Per-project isolation but adds maintenance |
 | **C: Vendor manifest + install.sh integration** | M012 (vendor mapping) tracks ccstatusline as a vendor; install.sh runs the npm install during foundation setup | Methodology-aligned with M012 vendor pattern |
 
 Recommend **C** (composes with M012 — vendor manifest + install.sh integration). Aligns with root-ghostproxy's IaC discipline.
@@ -63,7 +63,7 @@ Custom Text widget invokes a shell command. For project-aware fields:
 
 | Field | Shell command (preliminary) |
 |---|---|
-| selected-task | `cat /root/.claude/active-task 2>/dev/null \|\| echo "(none)"` |
+| selected-task | `cat $HOME/.claude/active-task 2>/dev/null \|\| echo "(none)"` |
 | progress | `python3 -m tools.progress --callout 2>/dev/null \| grep readiness \| awk '{print $3}'` |
 | stage | `python3 -m tools.state --field current-sfif-stage 2>/dev/null` |
 

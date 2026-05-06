@@ -1,5 +1,5 @@
 ---
-title: "T003 — Define /root/CLAUDE.md scope (Claude Code-specific delta)"
+title: "T003 — Define $HOME/CLAUDE.md scope (Claude Code-specific delta)"
 type: task
 status: done
 priority: P0
@@ -17,7 +17,7 @@ sources:
 tags: [task, p0, t003, scaffold, claude-md, scope-definition, m001]
 ---
 
-# T003 — Define /root/CLAUDE.md scope
+# T003 — Define $HOME/CLAUDE.md scope
 
 ## Description
 
@@ -31,7 +31,7 @@ Decide CLAUDE.md scope = the Claude-Code-specific delta. NOT a duplicate of AGEN
 
 ## Resolution
 
-Scope decision applied to /root/CLAUDE.md authored 2026-05-05 (175 lines). Routing table organized by 5 categories: foundation operations, network bridge ops, module ops, second-brain ops, backlog ops. 10 Claude-Code-specific hard rules. References AGENTS.md for universal rules.
+Scope decision applied to $HOME/CLAUDE.md authored 2026-05-05 (175 lines). Routing table organized by 5 categories: foundation operations, network bridge ops, module ops, second-brain ops, backlog ops. 10 Claude-Code-specific hard rules. References AGENTS.md for universal rules.
 
 ## Dependencies
 

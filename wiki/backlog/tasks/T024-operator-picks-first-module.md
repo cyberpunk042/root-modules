@@ -44,7 +44,7 @@ Both Suricata + PolarProxy are facultative modules per operator's verbatim. Oper
 ## Done When
 
 - [ ] Operator picks Suricata-first OR PolarProxy-first.
-- [ ] Rationale documented in /root/wiki/log/<date>-m005-first-module-decision.md.
+- [ ] Rationale documented in $HOME/wiki/log/<date>-m005-first-module-decision.md.
 - [ ] Subsequent M005 tasks are scoped to the chosen module.
 
 ## Dependencies

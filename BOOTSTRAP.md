@@ -14,10 +14,10 @@ This project runs under **spec-driven development with strong methodology and st
 
 1. [CLAUDE.md](CLAUDE.md) — auto-loaded. Routing + hard rules + methodology pointer.
 2. [AGENTS.md](AGENTS.md) — cross-tool agent contract. Canonical tool-call envelope, no-policy-duplication invariant, hook firing order.
-3. [CONTEXT.md](CONTEXT.md) — current SFIF stage, active epic + 13 modules, verbatim operator directives, 6 pending operator decisions, prioritized next-best moves.
+3. [CONTEXT.md](CONTEXT.md) — current SFIF stage, active epic + 14 modules, verbatim operator directives, pending operator decisions, prioritized next-best moves.
 4. [README.md](README.md) — project description, two-capability architecture, principles, ecosystem position. Read for orientation, not action.
 5. [wiki/log/2026-05-05-session-architecture-modes-and-determinism-ladder.md](wiki/log/2026-05-05-session-architecture-modes-and-determinism-ladder.md) — comprehensive session log; 6 phases of architecture work; 5 high-leverage knowledge insights.
-6. [wiki/backlog/tasks/_index.md](wiki/backlog/tasks/_index.md) — 61 atomic tasks across 13 modules, status snapshot.
+6. [wiki/backlog/tasks/_index.md](wiki/backlog/tasks/_index.md) — 66 atomic tasks across 14 modules, status snapshot.
 7. [wiki/governance/blockers.md](wiki/governance/blockers.md) | [progress.md](wiki/governance/progress.md) | [decisions.md](wiki/governance/decisions.md) — operator-facing blockers register + journey view + decisions logbook (SRP-separated; 594 lines combined).
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DESIGN.md](DESIGN.md), [TOOLS.md](TOOLS.md), [SKILLS.md](SKILLS.md), [SECURITY.md](SECURITY.md) on demand when work touches their topic.
@@ -81,7 +81,7 @@ All five must succeed. If any fail, the session is not in expected state — rea
 
 ### Honest reality: most not-started tasks have implicit prerequisites
 
-As of 2026-05-05 end of preparation, the 40 not-started tasks have implicit gates beyond just `BLOCKED BY` cross-references:
+As of 2026-05-06, the 42 not-started tasks have implicit gates beyond just `BLOCKED BY` cross-references:
 
 | Module | Not-started tasks | Implicit gate |
 |---|---|---|

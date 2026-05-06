@@ -27,11 +27,11 @@ sources:
     description: "Foundation tier definition and gates"
   - id: root-ghostproxy-readme
     type: file
-    file: /root/README.md
+    file: $HOME/README.md
     description: "Existing README — install steps, v1 limitations"
   - id: root-ghostproxy-install-script
     type: file
-    file: /root/install.sh
+    file: $HOME/install.sh
     description: "Existing bootstrap script — classified as not-IaC per prior session"
 tags: [module, p0, root-ghostproxy, sfif-foundation, install, idempotency, integrity-check, m003]
 ---
@@ -44,10 +44,10 @@ Move root-ghostproxy from current scaffold-plus-partial-foundation state to a cl
 
 ## Done When
 
-- [ ] `./install.sh --dry-run` runs to completion with exit code 0 on a clean Debian 13 host AND on the current /root host (no-op confirmation)
+- [ ] `./install.sh --dry-run` runs to completion with exit code 0 on a clean Debian 13 host AND on the current $HOME host (no-op confirmation)
 - [ ] `./install.sh --check` runs to completion with exit code 0 — verifies installed state matches expected
 - [ ] `integrity.py integrity_check()` returns None (OK) before and after a re-run of install.sh — fail-closed properties preserved
-- [ ] /root/README.md updated to document: install + dry-run + check + integrity-check commands; v1 limitations section reflects current state (not stale)
+- [ ] $HOME/README.md updated to document: install + dry-run + check + integrity-check commands; v1 limitations section reflects current state (not stale)
 - [ ] Idempotency invariants documented explicitly: which files install.sh creates / overwrites / leaves-alone, and how a second run behaves
 - [ ] No regressions in existing memory-layer rules / hooks behaviour after the hardening
 
@@ -55,13 +55,13 @@ Move root-ghostproxy from current scaffold-plus-partial-foundation state to a cl
 
 - M001 (CLAUDE.md + AGENTS.md) — Foundation hardening references go in those files
 - M002 (Methodology decision) — gate commands resolved via methodology engine (local or pointer)
-- Existing /root/install.sh and /root/integrity.py from prior session — must not be regressed
-- Operator-side host access for clean-host install verification (the current /root is the only known host)
+- Existing $HOME/install.sh and $HOME/integrity.py from prior session — must not be regressed
+- Operator-side host access for clean-host install verification (the current $HOME is the only known host)
 
 ## Open Questions
 
 > [!question] How to verify clean-host install when there's only one host?
-> Options: (a) snapshot the current /root state, run a clean-Debian-13 VM, install, compare; (b) wait until a second host appears; (c) trust the dry-run + check output. (a) is most rigorous; (b) is impractical short-term; (c) is acceptable for Foundation tier given micro-scale + solo mode.
+> Options: (a) snapshot the current $HOME state, run a clean-Debian-13 VM, install, compare; (b) wait until a second host appears; (c) trust the dry-run + check output. (a) is most rigorous; (b) is impractical short-term; (c) is acceptable for Foundation tier given micro-scale + solo mode.
 
 > [!question] Is the not-IaC classification of install.sh a Foundation gate or a permanent stance?
 > Classification was made in a prior session per operator direction. If install.sh stays not-IaC, then "IaC-ness" is a Phase-2 module. If it migrates to IaC (Ansible, Salt, NixOS, chezmoi-style desired-state) at some later point, that's an explicit module reset, not a creep.
@@ -76,8 +76,8 @@ Move root-ghostproxy from current scaffold-plus-partial-foundation state to a cl
 | T-M003-1 | Run `./install.sh --dry-run` on current host, capture full output, log any anomalies | ⊙ pending |
 | T-M003-2 | Run `./install.sh --check` on current host, capture full output, log any anomalies | ⊙ pending |
 | T-M003-3 | Run `integrity_check()` before and after install.sh re-run; verify both return None | ⊙ pending |
-| T-M003-4 | Document idempotency invariants in /root/docs/foundation-invariants.md (or inline in README) | ⊙ pending |
-| T-M003-5 | Update /root/README.md install + verify section with the verified commands | ⊙ pending |
+| T-M003-4 | Document idempotency invariants in $HOME/docs/foundation-invariants.md (or inline in README) | ⊙ pending |
+| T-M003-5 | Update $HOME/README.md install + verify section with the verified commands | ⊙ pending |
 | T-M003-6 | Decide: clean-host VM verification (option a) or trust dry-run + check (option c)? | ⊙ pending |
 | T-M003-7 | Refine hook pattern matching to eliminate false positives (per `wiki/log/2026-05-05-hook-pattern-false-positives-for-m003-refinement.md`) — policy-block + malware-block both fire on legitimate commands containing credential-name substrings as data or `install.sh` co-occurring with `.claude/hooks/` path references | ⊙ pending |
 

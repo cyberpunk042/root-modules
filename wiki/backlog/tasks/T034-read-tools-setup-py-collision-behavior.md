@@ -37,7 +37,7 @@ Before running --connect-project, the operator/agent must know how the script ha
 | `target/tools/__init__.py` | Auto-created if missing. |
 | AGENTS.md / CLAUDE.md brain-pointer block | Uses `<!-- SECOND-BRAIN-CONNECTION -->` marker. Replaces between markers if present, appends if file exists without marker, logs warn + skips if neither file exists. |
 
-Documented in /root/wiki/backlog/modules/root-ghostproxy-m007-connect-second-brain.md § "Verified behavior."
+Documented in $HOME/wiki/backlog/modules/root-ghostproxy-m007-connect-second-brain.md § "Verified behavior."
 
 ## Done When
 

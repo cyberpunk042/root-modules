@@ -35,7 +35,7 @@ Decide whether root-ghostproxy uses local methodology engine (copy + adapt) OR p
 
 ## Resolution
 
-Decision: **local copy + adapt**. Implemented 2026-05-05 by copying methodology.yaml + 3 chosen profiles (simplified SDLC, infrastructure domain, stage-gated methodology) from `/opt/devops-solutions-information-hub/wiki/config/` to `/root/wiki/config/`.
+Decision: **local copy + adapt**. Implemented 2026-05-05 by copying methodology.yaml + 3 chosen profiles (simplified SDLC, infrastructure domain, stage-gated methodology) from `/opt/devops-solutions-information-hub/wiki/config/` to `$HOME/wiki/config/`.
 
 ## Dependencies
 

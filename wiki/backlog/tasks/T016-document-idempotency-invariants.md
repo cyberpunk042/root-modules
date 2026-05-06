@@ -29,7 +29,7 @@ Document explicitly what install.sh creates, overwrites, and leaves alone — an
 - [ ] List of files install.sh OVERWRITES on re-run when out-of-sync (with backup pattern: `<dest>.ghostproxy.bak.<UTC-timestamp>`).
 - [ ] List of files/dirs install.sh LEAVES UNTOUCHED (e.g. operator's other dotfiles, project files outside `~/.claude/` and `~/.config/opencode/`).
 - [ ] Re-run behavior: re-running install.sh on a consistent host outputs `unchanged: <path>` per file; exit 0; no state mutation.
-- [ ] Documentation: lives at TOOLS.md per-tool reference section (or a new `/root/docs/foundation-invariants.md` if operator prefers separate doc).
+- [ ] Documentation: lives at TOOLS.md per-tool reference section (or a new `$HOME/docs/foundation-invariants.md` if operator prefers separate doc).
 - [ ] Verification: idempotency claim is testable — `./install.sh; ./install.sh` produces the same end state and the second run is a no-op.
 
 ## Dependencies

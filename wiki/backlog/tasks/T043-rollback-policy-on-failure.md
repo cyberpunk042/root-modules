@@ -26,10 +26,10 @@ If T041 inspection or M008 smoke test reveals problems, the connect-script's mut
 ## Done When
 
 - [ ] Rollback procedure documented:
-  - **Git path:** `cd /root && git revert <T042-commit-SHA>` reverts the 4 artefacts as a single revert commit.
+  - **Git path:** `cd $HOME && git revert <T042-commit-SHA>` reverts the 4 artefacts as a single revert commit.
   - **Tar path:** restore from the tar artefact taken in T036.
-- [ ] `python3 -m tools.setup --disconnect` (run from /root) is the alternative rollback for the .mcp.json portion specifically (removes `mcpServers.research-wiki` entry).
-- [ ] Rollback policy documented in `/root/wiki/log/<date>-m007-rollback-policy.md` so future failed M007 runs have a clear path.
+- [ ] `python3 -m tools.setup --disconnect` (run from $HOME) is the alternative rollback for the .mcp.json portion specifically (removes `mcpServers.research-wiki` entry).
+- [ ] Rollback policy documented in `$HOME/wiki/log/<date>-m007-rollback-policy.md` so future failed M007 runs have a clear path.
 - [ ] If a rollback IS needed: execute it; re-investigate the issue; fix in setup.py or in the project's state; re-run M007.
 
 ## Dependencies

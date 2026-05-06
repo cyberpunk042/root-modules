@@ -1,5 +1,5 @@
 ---
-title: "T019 — Author /root/tools/verify-policy.py (project-internal verifier)"
+title: "T019 — Author $HOME/tools/verify-policy.py (project-internal verifier)"
 type: task
 status: not-started
 priority: P0
@@ -21,7 +21,7 @@ sources:
 tags: [task, p0, t019, infrastructure, verifier, authoring, m004]
 ---
 
-# T019 — Author /root/tools/verify-policy.py
+# T019 — Author $HOME/tools/verify-policy.py
 
 ## Description
 
@@ -29,8 +29,8 @@ Author the project-internal verifier per T018-approved scope. Single Python modu
 
 ## Done When
 
-- [ ] `/root/tools/verify_policy.py` (or `verify-policy.py`) exists, executable.
-- [ ] `/root/tools/__init__.py` exists (Python package marker).
+- [ ] `$HOME/tools/verify_policy.py` (or `verify-policy.py`) exists, executable.
+- [ ] `$HOME/tools/__init__.py` exists (Python package marker).
 - [ ] `python3 -m tools.verify_policy` runs without errors and returns expected exit codes.
 - [ ] Sub-checks per T018 scope: integrity check + deny-set count + hook permissions + hook executable + .gitignore audit + (operator-approved subset).
 - [ ] Output: human-readable per check (✓/✗/skip with reason) + summary; `--json` for machine consumption.

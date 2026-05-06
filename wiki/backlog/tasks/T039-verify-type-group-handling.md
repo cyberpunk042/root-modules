@@ -29,12 +29,12 @@ The connect script must honor the type/group fields added to sister-projects.yam
 
 ## Resolution
 
-Patched in `tools/setup.py` 2026-05-04. Verified via dry-run against /root: output confirms `Sister entry resolved: name=root-ghostproxy type=root group=operating-system-setup` and `variant=ROOT_OS_SETUP`. Backwards-compatible: sisters without type/group fields fall back to the generic block.
+Patched in `tools/setup.py` 2026-05-04. Verified via dry-run against $HOME: output confirms `Sister entry resolved: name=root-ghostproxy type=root group=operating-system-setup` and `variant=ROOT_OS_SETUP`. Backwards-compatible: sisters without type/group fields fall back to the generic block.
 
 ## Done When
 
 - [x] tools/setup.py has `_load_sister_entry` + `_render_brain_pointer_block` + `_BRAIN_POINTER_BLOCK_ROOT_OS_SETUP` constant.
-- [x] Dry-run against /root reports variant=ROOT_OS_SETUP.
+- [x] Dry-run against $HOME reports variant=ROOT_OS_SETUP.
 - [x] Dry-run against /opt/devops-solutions-information-hub (the hub itself, no sister entry) reports variant=GENERIC.
 - [x] Backwards-compatible — existing sisters (openarms, openfleet, etc., without type/group) get the generic variant.
 

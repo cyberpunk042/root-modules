@@ -34,7 +34,7 @@ After install.sh runs, verify the host reached the expected foundation-tier stat
 - [x] Wifi sub-steps (NEW per T012 cycle 2026-05-06): wpa_supplicant config deployed + nftables ruleset deployed + ghp_mgmt_wifi table loaded in kernel + service enabled (placeholder-aware skip).
 - [x] Brain pieces sub-steps (NEW per T012 cycle 2026-05-06): rules/commands/agents/modes/skills counts deployed.
 
-**Verified live**: `/root/install.sh --check --profile base` on this dev host runs 16+ checks; 12 PASS, expected wifi+integrity FAILs (those not deployed on dev host); git tree INFO at 2 files (active work). Exit code reflects status correctly.
+**Verified live**: `$HOME/install.sh --check --profile base` on this dev host runs 16+ checks; 12 PASS, expected wifi+integrity FAILs (those not deployed on dev host); git tree INFO at 2 files (active work). Exit code reflects status correctly.
 
 ## Stage-gate (Test stage)
 

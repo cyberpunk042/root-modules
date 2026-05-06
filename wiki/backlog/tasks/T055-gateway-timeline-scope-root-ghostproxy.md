@@ -25,7 +25,7 @@ tags: [task, p2, t055, stream-1, worked-example, timeline, m009]
 
 ## Done When
 
-- [ ] From /root: `python3 -m tools.gateway timeline --scope root-ghostproxy --since 7d`.
+- [ ] From $HOME: `python3 -m tools.gateway timeline --scope root-ghostproxy --since 7d`.
 - [ ] Output includes events from this conversation's preparation work block.
 - [ ] Output captured.
 

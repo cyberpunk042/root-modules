@@ -21,7 +21,7 @@ tags: [task, p1, t053, stream-1, worked-example, queryability, done, m009]
 
 ## Description
 
-The bidirectional flow's "second brain knows root-ghostproxy" half is satisfied by the registration + identity-profile + epic + module pages + source-syntheses authored during the preparation session. After M007 connect, an agent in /root can query the second brain and find this content.
+The bidirectional flow's "second brain knows root-ghostproxy" half is satisfied by the registration + identity-profile + epic + module pages + source-syntheses authored during the preparation session. After M007 connect, an agent in $HOME can query the second brain and find this content.
 
 ## Resolution
 
@@ -33,7 +33,7 @@ Verified content in second brain (authored 2026-05-04):
 - `wiki/sources/src-suricata*.md` (4 source-syntheses for Suricata)
 - `wiki/sources/src-polarproxy.md`, `src-hanke-honeypot-polarproxy-suricata-integration.md` (2 source-syntheses for PolarProxy + integration pattern)
 
-Once M007 connection runs, querying via `python3 -m tools.view search root-ghostproxy` from /root should surface all the above.
+Once M007 connection runs, querying via `python3 -m tools.view search root-ghostproxy` from $HOME should surface all the above.
 
 ## Done When
 

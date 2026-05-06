@@ -12,7 +12,7 @@ Naming: `T<NNN>-<slug>.md`. Sequence is per-project (T001 onwards). Per Adoption
 
 Each task page has frontmatter (status, priority, parent_module, parent_epic, current_stage, readiness, sfif_stage, created/updated dates, sources, tags), Description (1+ paragraphs), Done When (atomic checkboxes), Dependencies, Relationships.
 
-## Coverage by module (61 atomic tasks across 10 modules + 1 module pending tasks)
+## Coverage by module (66 atomic tasks across 14 modules)
 
 ### Stream 2 — Pure SFIF Project Base
 
@@ -22,7 +22,10 @@ Each task page has frontmatter (status, priority, parent_module, parent_epic, cu
 | **M002 — Methodology layer decision** | T007-T010 | 4 | Trade-off decision (local copy chosen); CLAUDE.md methodology section; copy yamls; document decision |
 | **M003 — Foundation hardening** | T011-T017 | 7 | Foundation IaC approach decision; install.sh; network bridge config; endpoint AI safety policy; post-install verification; idempotency invariants; foundation gate |
 | **M004 — Infrastructure tooling** | T018-T023 | 6 | Verifier scope; verify-policy.py authoring; pipeline wiring (pre-commit/CI); smoke-test verifier; document in CLAUDE.md; M003 no-regression check |
-| **M011 — ccstatusline custom widget** | (none yet) | 0 | Added 2026-05-05 per operator directive. Ordered before M005. Atomic tasks pending — operator gives go-ahead before tasks T-M011-* are authored. |
+| **M011 — ccstatusline custom widget** | T063-T066 | 4 | Per F-eval-6 (PRELIMINARY scaffold): wrapper invocation pattern; per-mode profile; widget set; deployment docs. Operator visually verified cycle 43. |
+| **M012 — Vendor mapping + install + auto-detect** | (atomic pending) | 0 | Per F-eval-7 / D023: orthogonal axes (profile + mode); install.sh updated; atomic task pages pending operator. |
+| **M013 — Agent modes architecture** | (atomic deferred) | 0 | Mostly Phase 1 implemented (3 modes + cycle skill + autopilot loop). Atomic tasks deferred per operator. |
+| **M014 — luckyPipewrench/pipelock prelim** | (atomic gated on M007) | 0 | Per F-eval-7: preliminary scope complete; atomic tasks gated on M007 connect. |
 | **M005 — First feature module** | T024-T030 | 7 | Operator picks Suricata/PolarProxy first; follow-up source-syntheses (done); test pcap; design doc; install integration; smoke-test; operator end-to-end validation |
 
 ### Stream 1 — Second-Brain Integration
@@ -37,18 +40,19 @@ Each task page has frontmatter (status, priority, parent_module, parent_epic, cu
 
 ## Status snapshot
 
-As of 2026-05-05 end of preparation session:
+Live counts via `python3 -m tools.progress --json` (refresh on demand). As of 2026-05-06:
 
-| Status | Count | Tasks |
-|---|---|---|
-| `done` | 15 | T001-T005 (M001 except T006), T007-T010 (M002 all), T025 (M005 source-syntheses), T031 + T034 (M006 — AGENTS.md check + setup.py read), T038 + T039 (M007 — code-review + type=root patch), T053 (M009 — second-brain knows root-ghostproxy) |
-| `pending-operator-decision` | 6 | T006 (prior-debris reconciliation), T011 (Foundation IaC approach), T018 (verifier scope), T024 (Suricata-first vs PolarProxy-first), T051 (M009 reframe), T058 (auto_connect flip) |
-| `not-started` | 40 | All future-session implementation work — install.sh, network bridge, endpoint safety, modules, smoke tests, etc. |
-| **Total** | **61** | |
+| Status | Count |
+|---|---|
+| `done` | 18 |
+| `in-progress` | 7 |
+| `pending-operator-decision` | 0 (decisions in sync per `tools.blockers --check`) |
+| `not-started` | 41 |
+| **Total** | **66** |
 
 ## Workflow
 
-A future Claude Code session in /root picks up work as follows:
+A future Claude Code session in $HOME picks up work as follows:
 
 1. Read [CONTEXT.md](../../../CONTEXT.md) for current SFIF stage + active modules.
 2. List `pending-operator-decision` tasks → if operator is available, surface them for decision.
@@ -64,7 +68,7 @@ Each task respects the methodology engine: [`../../config/methodology.yaml`](../
 ## Cross-references
 
 - Active epic: [SFIF Rollout + Second-Brain Integration](../epics/sfif-rollout-and-second-brain-integration.md)
-- All 10 module pages: [../modules/](../modules/)
+- All 14 module pages: [../modules/](../modules/)
 - Operator log: [../../log/](../../log/)
 
 ## Cross-project tasks

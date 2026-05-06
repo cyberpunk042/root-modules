@@ -21,8 +21,8 @@ tags: [task, p0, t036, stream-1, pre-connect, snapshot, rollback, m006]
 
 ## Description
 
-For atomic rollback if M007 reveals issues: take a snapshot of /root before running --connect-project for real. Operator picks granularity:
-- **Git commit** (preferred when /root is git-tracked + clean state): `git commit -m 'pre-M007-connect snapshot'` then post-connect changes can be reverted as a single revert.
+For atomic rollback if M007 reveals issues: take a snapshot of $HOME before running --connect-project for real. Operator picks granularity:
+- **Git commit** (preferred when $HOME is git-tracked + clean state): `git commit -m 'pre-M007-connect snapshot'` then post-connect changes can be reverted as a single revert.
 - **Tar artefact** (fallback): `tar -czf /tmp/root-pre-connect-<UTC-timestamp>.tar.gz -C / root` (or operator-specified subset).
 
 ## Done When
@@ -30,7 +30,7 @@ For atomic rollback if M007 reveals issues: take a snapshot of /root before runn
 - [ ] Operator picks snapshot mechanism (git OR tar OR both).
 - [ ] Snapshot taken; artefact path / commit SHA recorded.
 - [ ] Rollback procedure documented (specific commands to revert if M007 reveals issues).
-- [ ] Snapshot referenced in /root/wiki/log/<date>-m006-pre-connect-checklist.md.
+- [ ] Snapshot referenced in $HOME/wiki/log/<date>-m006-pre-connect-checklist.md.
 
 ## Dependencies
 

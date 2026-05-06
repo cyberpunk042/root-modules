@@ -22,7 +22,7 @@ tags: [task, p0, t028, features, integration, install-sh, systemd, m005]
 ## Description
 
 Per the design doc (T027), implement the module integration. Either:
-- Extend `/root/install.sh` with module install logic + flag (e.g. `./install.sh --with-suricata` / `--with-polarproxy`), OR
+- Extend `$HOME/install.sh` with module install logic + flag (e.g. `./install.sh --with-suricata` / `--with-polarproxy`), OR
 - Author a separate `install-module.sh <name>` script (per TOOLS.md planned interface).
 
 Operator-decision (in T024 design): which integration shape.

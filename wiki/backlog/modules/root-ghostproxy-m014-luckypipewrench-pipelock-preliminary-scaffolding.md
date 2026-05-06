@@ -23,7 +23,7 @@ updated: 2026-05-05
 sources:
   - id: operator-directive-first-real-epics
     type: directive
-    file: /root/wiki/log/2026-05-05-first-real-epics-ccstatusline-and-pipelock-preliminary-only.md
+    file: $HOME/wiki/log/2026-05-05-first-real-epics-ccstatusline-and-pipelock-preliminary-only.md
   - id: pipelock-github-repo
     type: external
     url: https://github.com/luckyPipewrench/pipelock
@@ -76,7 +76,7 @@ Per operator directive 2026-05-05 *"the skaffolding of the luckyPipewrench/pipel
 **Done this cycle (preliminary scope)**:
 - ✓ Project identity confirmed (luckyPipewrench/pipelock)
 - ✓ Project purpose researched (MCP-security AI agent firewall)
-- ✓ Relationship to /root identified (complementary agent-process layer)
+- ✓ Relationship to $HOME identified (complementary agent-process layer)
 - ✓ Module page authored with researched content
 - ✓ Sources linked (github repo + homepage)
 
@@ -88,7 +88,7 @@ Per operator directive 2026-05-05 *"the skaffolding of the luckyPipewrench/pipel
 ## Done When (preliminary scope)
 
 - [x] pipelock identity + purpose researched + documented
-- [x] Relationship-to-/root mapped (complementary layers)
+- [x] Relationship-to-$HOME mapped (complementary layers)
 - [x] Module page authored with verifiable sources
 - [x] Operator decides SFIF stage placement → **Features** (per decision_date 2026-05-05)
 - [x] Operator decides ordering → **after M011, parallel to M005** (per decision_date 2026-05-05)

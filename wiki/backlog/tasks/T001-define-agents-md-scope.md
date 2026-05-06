@@ -1,5 +1,5 @@
 ---
-title: "T001 — Define /root/AGENTS.md scope (what content vs what pointer)"
+title: "T001 — Define $HOME/AGENTS.md scope (what content vs what pointer)"
 type: task
 status: done
 priority: P0
@@ -17,11 +17,11 @@ sources:
 tags: [task, p0, t001, scaffold, agents-md, scope-definition, m001]
 ---
 
-# T001 — Define /root/AGENTS.md scope
+# T001 — Define $HOME/AGENTS.md scope
 
 ## Description
 
-Before authoring `/root/AGENTS.md` content, decide what BELONGS inside the file vs what should remain a POINTER to a canonical source elsewhere. AGENTS.md is the cross-tool universal context — its scope is the **agent contract** that binds every AI tool running in / consuming this project. Project description belongs in README.md; Claude-Code-specific routing belongs in CLAUDE.md; tool reference belongs in TOOLS.md. AGENTS.md must EARN its existence by content that doesn't belong anywhere else.
+Before authoring `$HOME/AGENTS.md` content, decide what BELONGS inside the file vs what should remain a POINTER to a canonical source elsewhere. AGENTS.md is the cross-tool universal context — its scope is the **agent contract** that binds every AI tool running in / consuming this project. Project description belongs in README.md; Claude-Code-specific routing belongs in CLAUDE.md; tool reference belongs in TOOLS.md. AGENTS.md must EARN its existence by content that doesn't belong anywhere else.
 
 ## Done When
 
@@ -32,7 +32,7 @@ Before authoring `/root/AGENTS.md` content, decide what BELONGS inside the file 
 
 ## Resolution
 
-Scope decision applied to /root/AGENTS.md authored 2026-05-05 (168 lines). Cross-tool agent contract content is unique to AGENTS.md; other content references canonical sources.
+Scope decision applied to $HOME/AGENTS.md authored 2026-05-05 (168 lines). Cross-tool agent contract content is unique to AGENTS.md; other content references canonical sources.
 
 ## Dependencies
 

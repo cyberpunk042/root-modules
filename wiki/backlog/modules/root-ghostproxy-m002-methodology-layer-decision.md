@@ -36,19 +36,19 @@ tags: [module, p0, root-ghostproxy, sfif-scaffold-design, methodology, goldilock
 
 ## Summary
 
-Decide whether root-ghostproxy carries its own local methodology engine (`/root/wiki/config/methodology.yaml` + supporting templates and configs) OR points to the second brain's methodology via the `--connect-project` integration. Per Goldilocks (simplified profile, micro scale, solo mode), the pointer approach is the right-sized default — root-ghostproxy doesn't need a full methodology engine on day one and would not maintain it independently. The decision must be explicit and documented in /root/CLAUDE.md so future work knows where to query for stage selection, model selection, gate commands. Trade-off analysis required so operator picks deliberately, not by drift.
+Decide whether root-ghostproxy carries its own local methodology engine (`$HOME/wiki/config/methodology.yaml` + supporting templates and configs) OR points to the second brain's methodology via the `--connect-project` integration. Per Goldilocks (simplified profile, micro scale, solo mode), the pointer approach is the right-sized default — root-ghostproxy doesn't need a full methodology engine on day one and would not maintain it independently. The decision must be explicit and documented in $HOME/CLAUDE.md so future work knows where to query for stage selection, model selection, gate commands. Trade-off analysis required so operator picks deliberately, not by drift.
 
 ## Done When
 
-- [ ] Decision documented in /root/CLAUDE.md (or in a dedicated `/root/docs/methodology-layer.md` ADR-style page) with: choice, rationale, trade-offs considered, escape hatch (how to switch later)
-- [ ] If pointer chosen: /root/CLAUDE.md routing table includes methodology query routes (via `python3 -m tools.gateway query --model <name>` forwarder installed in M007)
-- [ ] If local chosen: `/root/wiki/config/methodology.yaml` + minimal templates exist; operator approves the local subset (which models, which stages)
+- [ ] Decision documented in $HOME/CLAUDE.md (or in a dedicated `$HOME/docs/methodology-layer.md` ADR-style page) with: choice, rationale, trade-offs considered, escape hatch (how to switch later)
+- [ ] If pointer chosen: $HOME/CLAUDE.md routing table includes methodology query routes (via `python3 -m tools.gateway query --model <name>` forwarder installed in M007)
+- [ ] If local chosen: `$HOME/wiki/config/methodology.yaml` + minimal templates exist; operator approves the local subset (which models, which stages)
 - [ ] Operator approves the decision (sacrosanct one-by-one approval gate)
 
 ## Dependencies
 
 - Identity profile (already exists) — establishes that simplified profile + micro scale → pointer is likely
-- M007 (Connect) — if pointer is chosen, this is how the methodology surface arrives in /root
+- M007 (Connect) — if pointer is chosen, this is how the methodology surface arrives in $HOME
 - M001 (CLAUDE.md / AGENTS.md) — methodology pointer or local engine reference goes in those files
 
 ## Open Questions
@@ -56,7 +56,7 @@ Decide whether root-ghostproxy carries its own local methodology engine (`/root/
 > [!question] Pointer or local — what's the trade-off?
 > | Aspect | Pointer (default per Goldilocks) | Local |
 > |---|---|---|
-> | Setup | One `--connect-project` call, gateway forwarder installed | Copy yaml + templates + supporting modules to /root |
+> | Setup | One `--connect-project` call, gateway forwarder installed | Copy yaml + templates + supporting modules to $HOME |
 > | Maintenance | Always current with second brain's evolution | Manual sync or stale |
 > | Independence | Requires second brain reachable / mounted | Self-contained — works in airgapped scenarios |
 > | Right-sized? | Yes for simplified-profile micro-scale | Overkill at scaffold; might fit at Infrastructure tier |

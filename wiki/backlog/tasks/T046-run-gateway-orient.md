@@ -1,5 +1,5 @@
 ---
-title: "T046 — Run `python3 -m tools.gateway orient` from inside /root, capture output"
+title: "T046 — Run `python3 -m tools.gateway orient` from inside $HOME, capture output"
 type: task
 status: not-started
 priority: P0
@@ -17,15 +17,15 @@ sources:
 tags: [task, p0, t046, stream-1, smoke-test, gateway-orient, m008]
 ---
 
-# T046 — Gateway orient from /root
+# T046 — Gateway orient from $HOME
 
 ## Description
 
-`python3 -m tools.gateway orient` (via the forwarder installed by M007) dispatches to the second brain's gateway with `--wiki-root /root`. The orient output should be context-aware: detects sister-project mode + fresh-mode + reports root-ghostproxy's identity.
+`python3 -m tools.gateway orient` (via the forwarder installed by M007) dispatches to the second brain's gateway with `--wiki-root $HOME`. The orient output should be context-aware: detects sister-project mode + fresh-mode + reports root-ghostproxy's identity.
 
 ## Done When
 
-- [ ] `cd /root && python3 -m tools.gateway orient` exits 0.
+- [ ] `cd $HOME && python3 -m tools.gateway orient` exits 0.
 - [ ] Output captured.
 - [ ] Output mentions root-ghostproxy + type=root + group=operating-system-setup (per the identity profile in the second brain).
 - [ ] Output is appropriate for sister-project context (not the second-brain's-own-orientation output).

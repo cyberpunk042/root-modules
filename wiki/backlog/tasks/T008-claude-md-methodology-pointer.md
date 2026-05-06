@@ -34,7 +34,7 @@ Per Adoption Guide step 5: "Add methodology rules to CLAUDE.md." CLAUDE.md must 
 
 ## Resolution
 
-CLAUDE.md authored 2026-05-05 with a Methodology section that meets all the above criteria. See [/root/CLAUDE.md § Methodology](../../../CLAUDE.md#methodology).
+CLAUDE.md authored 2026-05-05 with a Methodology section that meets all the above criteria. See [$HOME/CLAUDE.md § Methodology](../../../CLAUDE.md#methodology).
 
 ## Dependencies
 

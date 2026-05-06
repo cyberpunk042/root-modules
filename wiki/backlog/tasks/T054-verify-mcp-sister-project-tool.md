@@ -21,7 +21,7 @@ tags: [task, p1, t054, stream-1, worked-example, mcp-sister-project, m009]
 
 ## Description
 
-After M007 connect: from /root, invoke the second brain's `wiki_sister_project` MCP tool with `root-ghostproxy` as the argument. Should return the registry entry data.
+After M007 connect: from $HOME, invoke the second brain's `wiki_sister_project` MCP tool with `root-ghostproxy` as the argument. Should return the registry entry data.
 
 ## Done When
 

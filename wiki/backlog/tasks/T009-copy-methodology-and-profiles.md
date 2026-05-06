@@ -1,5 +1,5 @@
 ---
-title: "T009 — Copy methodology.yaml + chosen profiles from second brain to /root/wiki/config/"
+title: "T009 — Copy methodology.yaml + chosen profiles from second brain to $HOME/wiki/config/"
 type: task
 status: done
 priority: P0
@@ -17,7 +17,7 @@ sources:
 tags: [task, p0, t009, scaffold, methodology, profiles, m002]
 ---
 
-# T009 — Copy methodology + 3 profiles into /root/wiki/config/
+# T009 — Copy methodology + 3 profiles into $HOME/wiki/config/
 
 ## Description
 
@@ -28,10 +28,10 @@ Per the local-copy-and-adapt decision (T007) and Adoption Guide step 1, copy fou
 
 ## Done When
 
-- [x] `/root/wiki/config/methodology.yaml` exists (copy from second brain's `wiki/config/methodology.yaml`).
-- [x] `/root/wiki/config/sdlc-profile.yaml` exists (copy from `wiki/config/sdlc-profiles/simplified.yaml`).
-- [x] `/root/wiki/config/domain-profile.yaml` exists (copy from `wiki/config/domain-profiles/infrastructure.yaml`).
-- [x] `/root/wiki/config/methodology-profile.yaml` exists (copy from `wiki/config/methodology-profiles/stage-gated.yaml`).
+- [x] `$HOME/wiki/config/methodology.yaml` exists (copy from second brain's `wiki/config/methodology.yaml`).
+- [x] `$HOME/wiki/config/sdlc-profile.yaml` exists (copy from `wiki/config/sdlc-profiles/simplified.yaml`).
+- [x] `$HOME/wiki/config/domain-profile.yaml` exists (copy from `wiki/config/domain-profiles/infrastructure.yaml`).
+- [x] `$HOME/wiki/config/methodology-profile.yaml` exists (copy from `wiki/config/methodology-profiles/stage-gated.yaml`).
 - [x] Files copy verbatim — adaptation is layered on top via separate edits, not by mixing copy + edit.
 
 ## Resolution

@@ -50,7 +50,7 @@ Author the endpoint half of the system AI safety setup per operator's verbatim: 
 - [ ] Deny-set count above integrity-sentinel's threshold.
 - [ ] opencode bridge resolves: `opencode debug config | grep claude-bridge` non-empty.
 - [ ] Smoke test: tool call to a credential path is denied; tool call to allowed path is permitted; tamper detection on settings.json edit refuses subsequent calls.
-- [ ] No reference to prior /root debris in the new authored files (greenfield) OR explicit reframing if extending prior (per T011 decision).
+- [ ] No reference to prior $HOME debris in the new authored files (greenfield) OR explicit reframing if extending prior (per T011 decision).
 
 ## Dependencies
 

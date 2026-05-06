@@ -1,5 +1,5 @@
 ---
-title: "T040 — Run `python3 -m tools.setup --connect-project /root` from second brain (no --dry-run)"
+title: "T040 — Run `python3 -m tools.setup --connect-project $HOME` from second brain (no --dry-run)"
 type: task
 status: not-started
 priority: P0
@@ -21,14 +21,14 @@ tags: [task, p0, t040, stream-1, connect, apply, m007]
 
 ## Description
 
-After M006 audit log + operator authorization, run the connection for real. Four artefacts land in /root: research-wiki MCP entry in .mcp.json, tools/gateway.py forwarder, tools/view.py forwarder, ## Second Brain Connection block in AGENTS.md (variant=ROOT_OS_SETUP).
+After M006 audit log + operator authorization, run the connection for real. Four artefacts land in $HOME: research-wiki MCP entry in .mcp.json, tools/gateway.py forwarder, tools/view.py forwarder, ## Second Brain Connection block in AGENTS.md (variant=ROOT_OS_SETUP).
 
 ## Done When
 
-- [ ] From second brain: `cd /opt/devops-solutions-information-hub && python3 -m tools.setup --connect-project /root` (no --dry-run).
+- [ ] From second brain: `cd /opt/devops-solutions-information-hub && python3 -m tools.setup --connect-project $HOME` (no --dry-run).
 - [ ] Exit code 0.
 - [ ] Output confirms: 4 artefacts written, variant=ROOT_OS_SETUP.
-- [ ] Output captured to `/root/wiki/log/<date>-m007-connect-output.md`.
+- [ ] Output captured to `$HOME/wiki/log/<date>-m007-connect-output.md`.
 
 ## Dependencies
 

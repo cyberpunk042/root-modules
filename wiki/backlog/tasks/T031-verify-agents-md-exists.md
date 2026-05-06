@@ -1,5 +1,5 @@
 ---
-title: "T031 — Verify /root/AGENTS.md exists (M001 dependency)"
+title: "T031 — Verify $HOME/AGENTS.md exists (M001 dependency)"
 type: task
 status: done
 priority: P0
@@ -17,7 +17,7 @@ sources:
 tags: [task, p0, t031, stream-1, pre-connect, agents-md-check, m006]
 ---
 
-# T031 — Verify /root/AGENTS.md exists
+# T031 — Verify $HOME/AGENTS.md exists
 
 ## Description
 
@@ -25,13 +25,13 @@ tags: [task, p0, t031, stream-1, pre-connect, agents-md-check, m006]
 
 ## Done When
 
-- [x] `test -f /root/AGENTS.md` returns 0.
+- [x] `test -f $HOME/AGENTS.md` returns 0.
 - [x] AGENTS.md is project-specific (not the second-brain copy).
 - [x] AGENTS.md line count + frontmatter excerpt captured for the audit log.
 
 ## Resolution
 
-AGENTS.md exists at /root/AGENTS.md (168 lines, project-specific) per T002 + T005. Verified by file inspection 2026-05-05.
+AGENTS.md exists at $HOME/AGENTS.md (168 lines, project-specific) per T002 + T005. Verified by file inspection 2026-05-05.
 
 ## Relationships
 

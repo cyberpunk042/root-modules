@@ -1,5 +1,5 @@
 ---
-title: "T035 — Run `python3 -m tools.setup --connect-project /root --dry-run` from second brain (preview)"
+title: "T035 — Run `python3 -m tools.setup --connect-project $HOME --dry-run` from second brain (preview)"
 type: task
 status: not-started
 priority: P0
@@ -25,10 +25,10 @@ The patched `tools.setup --connect-project --dry-run` (added during preparation 
 
 ## Done When
 
-- [ ] From the second brain: `cd /opt/devops-solutions-information-hub && python3 -m tools.setup --connect-project /root --dry-run`.
-- [ ] Output captured to `/root/wiki/log/<date>-pre-connect-dry-run.md`.
-- [ ] Output confirms: target=/root, brain=/opt/devops-solutions-information-hub, sister entry resolved as `root-ghostproxy` with type=root + group=operating-system-setup, brain-pointer block variant=ROOT_OS_SETUP.
-- [ ] No files modified by the dry-run (verify no diff in /root after).
+- [ ] From the second brain: `cd /opt/devops-solutions-information-hub && python3 -m tools.setup --connect-project $HOME --dry-run`.
+- [ ] Output captured to `$HOME/wiki/log/<date>-pre-connect-dry-run.md`.
+- [ ] Output confirms: target=$HOME, brain=/opt/devops-solutions-information-hub, sister entry resolved as `root-ghostproxy` with type=root + group=operating-system-setup, brain-pointer block variant=ROOT_OS_SETUP.
+- [ ] No files modified by the dry-run (verify no diff in $HOME after).
 - [ ] If the dry-run reveals collisions or unexpected behavior: pause + investigate before proceeding to T038 real connect.
 
 ## Dependencies

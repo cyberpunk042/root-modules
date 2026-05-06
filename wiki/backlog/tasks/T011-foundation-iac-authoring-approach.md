@@ -26,12 +26,12 @@ tags: [task, p0, t011, foundation, design-decision, operator-pending, m003]
 
 ## Description
 
-Operator decides whether the foundation IaC (install.sh, hooks, integrity sentinel, opencode bridge) is **authored greenfield** (fresh, ignoring the prior /root debris entirely per the "imagine virgin" framing) OR **extends the prior /root files** as a starting point with explicit "this was prior debris being reframed" reframing.
+Operator decides whether the foundation IaC (install.sh, hooks, integrity sentinel, opencode bridge) is **authored greenfield** (fresh, ignoring the prior $HOME debris entirely per the "imagine virgin" framing) OR **extends the prior $HOME files** as a starting point with explicit "this was prior debris being reframed" reframing.
 
 ## Done When
 
 - [x] Operator decides: **GREENFIELD** (decided via 2026-05-05 verbatim directives — see Decision section).
-- [x] Decision rationale documented in /root/wiki/log/ — multiple operator-verbatim logs this session capture the rationale.
+- [x] Decision rationale documented in $HOME/wiki/log/ — multiple operator-verbatim logs this session capture the rationale.
 - [x] If greenfield: T006 (prior debris reconciliation) decides cleanup policy → T006 also decided this session (effectively "leave-in-place; M003 proceeds as-if virgin").
 - [N/A] Extend path not chosen.
 
@@ -49,7 +49,7 @@ Operator decides whether the foundation IaC (install.sh, hooks, integrity sentin
 
 > *"I DIDNT WRITE ANYTHING.. JUST FORGFET EVERYTHING FUCING EXIST"*
 
-These are sacrosanct decisions. Build virgin; do not extend prior /root debris.
+These are sacrosanct decisions. Build virgin; do not extend prior $HOME debris.
 
 **Downstream impact:**
 - T012-T017 (Foundation authoring tasks) proceed with greenfield framing; no inheritance from prior debris.

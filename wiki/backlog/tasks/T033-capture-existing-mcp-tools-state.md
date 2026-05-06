@@ -1,5 +1,5 @@
 ---
-title: "T033 — Capture existing /root/.mcp.json + /root/tools/ state for collision-check"
+title: "T033 — Capture existing $HOME/.mcp.json + $HOME/tools/ state for collision-check"
 type: task
 status: not-started
 priority: P0
@@ -17,18 +17,18 @@ sources:
 tags: [task, p0, t033, stream-1, pre-connect, collision-check, m006]
 ---
 
-# T033 — Capture pre-connect state of /root/.mcp.json + /root/tools/
+# T033 — Capture pre-connect state of $HOME/.mcp.json + $HOME/tools/
 
 ## Description
 
-Per `tools.setup` verified behavior (M007 module page): `--connect-project` overwrites `mcpServers.research-wiki` in /root/.mcp.json (idempotent re-runs land same entry); writes `/root/tools/gateway.py` + `view.py` only if not already present without our auto-gen marker (preserves user's). Capture pre-connect state so post-connect diff is reviewable.
+Per `tools.setup` verified behavior (M007 module page): `--connect-project` overwrites `mcpServers.research-wiki` in $HOME/.mcp.json (idempotent re-runs land same entry); writes `$HOME/tools/gateway.py` + `view.py` only if not already present without our auto-gen marker (preserves user's). Capture pre-connect state so post-connect diff is reviewable.
 
 ## Done When
 
-- [ ] If `/root/.mcp.json` exists: capture content. Note any existing `mcpServers.research-wiki` entry that would be overwritten.
-- [ ] If `/root/tools/` exists: list contents. Note any existing `gateway.py` or `view.py` that would prevent forwarder install.
+- [ ] If `$HOME/.mcp.json` exists: capture content. Note any existing `mcpServers.research-wiki` entry that would be overwritten.
+- [ ] If `$HOME/tools/` exists: list contents. Note any existing `gateway.py` or `view.py` that would prevent forwarder install.
 - [ ] If neither exists: confirmed; the connect-script will create them fresh.
-- [ ] State captured to `/root/wiki/log/<date>-pre-connect-state-snapshot.md`.
+- [ ] State captured to `$HOME/wiki/log/<date>-pre-connect-state-snapshot.md`.
 
 ## Dependencies
 

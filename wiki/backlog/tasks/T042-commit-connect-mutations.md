@@ -1,5 +1,5 @@
 ---
-title: "T042 — Commit /root mutations atomically with descriptive message"
+title: "T042 — Commit $HOME mutations atomically with descriptive message"
 type: task
 status: not-started
 priority: P0
@@ -17,7 +17,7 @@ sources:
 tags: [task, p0, t042, stream-1, connect, git-commit, m007]
 ---
 
-# T042 — Atomic commit of /root mutations
+# T042 — Atomic commit of $HOME mutations
 
 ## Description
 
@@ -25,10 +25,10 @@ After artefact inspection (T041) confirms correctness, commit the 4 changes as a
 
 ## Done When
 
-- [ ] `cd /root && git status` shows the 4 expected new/modified files (.mcp.json, tools/gateway.py, tools/view.py, AGENTS.md) and possibly tools/__init__.py if newly created.
+- [ ] `cd $HOME && git status` shows the 4 expected new/modified files (.mcp.json, tools/gateway.py, tools/view.py, AGENTS.md) and possibly tools/__init__.py if newly created.
 - [ ] `git add <expected files>` (specific add, not `git add -A`).
-- [ ] `git commit -m 'M007: connect /root to second brain via tools.setup --connect-project (variant=ROOT_OS_SETUP)'` (or operator-preferred message).
-- [ ] Commit SHA captured to `/root/wiki/log/<date>-m007-connect-output.md`.
+- [ ] `git commit -m 'M007: connect $HOME to second brain via tools.setup --connect-project (variant=ROOT_OS_SETUP)'` (or operator-preferred message).
+- [ ] Commit SHA captured to `$HOME/wiki/log/<date>-m007-connect-output.md`.
 - [ ] `git log --oneline` confirms the commit landed.
 
 ## Dependencies

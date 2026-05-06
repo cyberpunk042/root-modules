@@ -24,12 +24,12 @@ tags: [task, p1, t052, stream-1, worked-example, demo, m009]
 Per T051 chosen reframe, execute the demo:
 - **Option A:** Run queries to verify second brain has root-ghostproxy as a queryable entity (`wiki_search root-ghostproxy`, `wiki_sister_project root-ghostproxy`, `gateway timeline --scope root-ghostproxy`).
 - **Option B:** Operator authors a lesson; runs `gateway contribute --type lesson --title "..." --content "..."`; lesson lands in second brain's lessons inbox; verify it appears.
-- **Option C:** Operator picks a /root artefact (NOT /root/README.md per operator's rejection); ingests it via the second brain's pipeline (`wiki_fetch file:///root/<path>`).
+- **Option C:** Operator picks a $HOME artefact (NOT $HOME/README.md per operator's rejection); ingests it via the second brain's pipeline (`wiki_fetch file://$HOME/<path>`).
 
 ## Done When
 
 - [ ] Demo runs end-to-end without errors.
-- [ ] Output captured to `/root/wiki/log/<date>-m009-bidirectional-flow-demo.md`.
+- [ ] Output captured to `$HOME/wiki/log/<date>-m009-bidirectional-flow-demo.md`.
 - [ ] If Option B: lesson appears in `/opt/devops-solutions-information-hub/wiki/lessons/00_inbox/`.
 - [ ] If Option C: the chosen artefact appears in second brain's raw/ + has a synthesis page.
 

@@ -21,7 +21,7 @@ tags: [task, p0, t048, stream-1, smoke-test, mcp-tool, m008]
 
 ## Description
 
-The MCP path is independent from the CLI forwarder path. Verify the MCP entry in /root/.mcp.json works by invoking at least one tool (e.g. `wiki_status`, `wiki_search root-ghostproxy`).
+The MCP path is independent from the CLI forwarder path. Verify the MCP entry in $HOME/.mcp.json works by invoking at least one tool (e.g. `wiki_status`, `wiki_search root-ghostproxy`).
 
 ## Done When
 

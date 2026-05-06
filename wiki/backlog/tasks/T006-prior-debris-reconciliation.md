@@ -1,5 +1,5 @@
 ---
-title: "T006 — Decide reconciliation for prior /root debris files"
+title: "T006 — Decide reconciliation for prior $HOME debris files"
 type: task
 status: done
 priority: P1
@@ -22,16 +22,16 @@ sources:
 tags: [task, p1, t006, scaffold, prior-debris, operator-decision-pending, m001]
 ---
 
-# T006 — Decide reconciliation for prior /root debris files
+# T006 — Decide reconciliation for prior $HOME debris files
 
 ## Description
 
-The /root directory contains AI-debris from a prior session that the operator has explicitly stated is not authoritative:
+The $HOME directory contains AI-debris from a prior session that the operator has explicitly stated is not authoritative:
 
 | Prior-debris path | What it was |
 |---|---|
-| `/root/install.sh` (the one from prior session) | Idempotent installer for the prior scope (Claude+opencode hardening) |
-| `/root/uninstall.sh` (prior) | Inverse of prior install.sh |
+| `$HOME/install.sh` (the one from prior session) | Idempotent installer for the prior scope (Claude+opencode hardening) |
+| `$HOME/uninstall.sh` (prior) | Inverse of prior install.sh |
 | `~/.claude/settings.json` (prior) | Deny patterns + hooks config |
 | `~/.claude/hooks/policy-block.sh, malware-block.sh, leak-detector.sh, session-start.sh, session-summary.sh, integrity.py` (prior) | Prior session's hook scripts |
 | `~/.config/opencode/opencode.json + plugin/claude-bridge.ts + plugin/package.json` (prior) | Prior opencode bridge plugin |
@@ -42,14 +42,14 @@ The decision: do these get **deleted** (clean slate for re-author), **left in pl
 ## Done When
 
 - [x] Operator decides reconciliation policy: **LEAVE-IN-PLACE** (effective decision per multi-session operator-verbatim — see Decision section).
-- [x] Decision documented in /root/wiki/log/ — multiple operator-verbatim logs this session.
+- [x] Decision documented in $HOME/wiki/log/ — multiple operator-verbatim logs this session.
 - [N/A] Delete path not chosen.
 - [x] Leave-in-place: M003 work block proceeds as-if virgin (per operator); foundation gate at M003 will verify project's own implementation (not prior debris) passes. Confirmed by T011's greenfield decision.
 - [N/A] Partial preserve not chosen.
 
 ## Decision (2026-05-05)
 
-**Leave-in-place** — prior /root debris (install.sh, uninstall.sh, ~/.claude/settings.json, hooks, integrity.py, opencode bridge plugin, ~/.claude/projects/-root/memory/) remains physically present BUT is treated as non-authoritative for project intent. Cleanup is orthogonal to foundation work.
+**Leave-in-place** — prior $HOME debris (install.sh, uninstall.sh, ~/.claude/settings.json, hooks, integrity.py, opencode bridge plugin, ~/.claude/projects/-root/memory/) remains physically present BUT is treated as non-authoritative for project intent. Cleanup is orthogonal to foundation work.
 
 **Operator verbatim directives that decided this:**
 
