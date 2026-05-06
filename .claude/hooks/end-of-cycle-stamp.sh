@@ -57,9 +57,11 @@ def main() -> None:
         pass
 
     event = ""
+    session_id = "default"
     try:
         payload = json.loads(raw) if raw else {}
         event = payload.get("hook_event_name", payload.get("hookEventName", ""))
+        session_id = (payload.get("session_id", "default") or "default")[:32]
     except Exception:
         pass
 
@@ -77,14 +79,49 @@ def main() -> None:
             sys.exit(0)
     # If unset → fail-OPEN (fire), per operator priority: visibility > cross-fire-prevention
 
-    # Invoke tools.cycle --ansi-fence — ```ansi fence with ANSI codes (full
-    # palette: red/green/yellow/blue/magenta/cyan/dim/bold). Same pattern as
-    # /opt second-brain hook: ```ansi-fenced ANSI content delivered via
-    # top-level systemMessage renders visibly with colors.
+    # SB-114: read per-prompt flags written by stamp-control.sh on UserPromptSubmit
+    stamp_flags: dict = {}
+    flag_file = Path(f"/tmp/stamp-flags/{session_id}.json")
+    if flag_file.exists():
+        try:
+            stamp_flags = json.loads(flag_file.read_text())
+        except Exception:
+            pass
+        # Consume flag (delete after read so it doesn't persist)
+        try:
+            flag_file.unlink()
+        except Exception:
+            pass
+
+    # Sub-req (b): per-prompt opt-out
+    if stamp_flags.get("suppress"):
+        _trace("exit-operator-suppressed")
+        sys.exit(0)
+
+    # Sub-req (c): default-hide-when-no-mode-active (unless opted in)
+    active_mode = ""
+    try:
+        mode_file = PROJECT_ROOT / ".claude" / "active-mode"
+        if mode_file.exists():
+            active_mode = mode_file.read_text().strip()
+    except Exception:
+        pass
+
+    if not active_mode and not stamp_flags.get("opt_in"):
+        _trace("exit-no-mode-no-opt-in")
+        sys.exit(0)
+
+    # Sub-req (a): mode flag determines render layout
+    render_mode = stamp_flags.get("mode", "vertical")  # default vertical (ansi-fence)
+
+    # Invoke tools.cycle with mode-appropriate flag.
+    # vertical = --ansi-fence (default, stacked sections)
+    # horizontal = --ansi-horizontal (compact, single-line-per-section)
     py = _resolve_python()
+    flag = "--ansi-horizontal" if render_mode == "horizontal" else "--ansi-fence"
     try:
         result = subprocess.run(
-            [py, "-m", "tools.cycle", "--ansi-fence"],
+            [py, "-m", "tools.cycle", flag],
             cwd=str(PROJECT_ROOT),
             capture_output=True,
             text=True,

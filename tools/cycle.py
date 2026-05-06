@@ -173,6 +173,78 @@ class C:
     MAGENTA = "\033[35m"
 
 
+def emit_status_block_ansi_horizontal(result: dict, fence: bool = True) -> None:
+    """Compact horizontal stamp — single-line-per-section, ~6 lines total.
+    Per SB-114 sub-req (a): operator wants horizontal mode that puts sections
+    horizontally instead of vertically (stacked).
+    """
+    from datetime import datetime as _dt_h
+    cycle = result["cycle"]
+    blockers = result["blockers_summary"]
+    progress = result["progress_summary"]
+    sbs = parse_systemic_bugs_status()
+
+    pending_tasks = blockers.get("pending_decision_tasks", [])
+    open_sbs = sbs.get("open_ids", [])
+    recurring_sbs = sbs.get("recurring_ids", [])
+
+    R, G, Y, B, M, K, BO, D, X = (
+        "\033[31m", "\033[32m", "\033[33m", "\033[34m",
+        "\033[35m", "\033[36m", "\033[1m", "\033[2m", "\033[0m",
+    )
+    ts = _dt_h.now().strftime("%H:%M:%S")
+
+    if fence:
+        print("```ansi")
+
+    # STATUS line: timestamp + mode + LOOP + MODE
+    loop_state = "alive" if cycle.get("valid") else "no-mode"
+    loop_color = G if cycle.get("valid") else R
+    print(f"{BO}{K}[STATUS]{X} {D}{ts}{X} · mode={cycle.get('mode', 'none')} · {loop_color}LOOP:{loop_state}{X} · {BO}MODE:{cycle.get('name', '(none)')}{X}")
+
+    # JOURNEY line: deduped recent log slugs joined by · separator
+    journey_slugs = []
+    try:
+        from tools.progress import collect_recent_logs
+        seen: dict[str, int] = {}
+        ordered: list[str] = []
+        for fname in collect_recent_logs(10):
+            short = fname.replace(".md", "").lstrip("0123456789-")[:50]
+            if short not in seen:
+                seen[short] = 1
+                ordered.append(short)
+            else:
+                seen[short] += 1
+        for short in ordered[:5]:
+            count = seen[short]
+            suffix = f"×{count}" if count > 1 else ""
+            journey_slugs.append(f"{short}{suffix}")
+    except Exception:
+        journey_slugs = ["(unavailable)"]
+    print(f"{M}{BO}[JOURNEY]{X} {D}" + " · ".join(journey_slugs) + f"{X}")
+
+    # PLAN line: 3 priorities inline
+    sb_pct = round(100 * (sbs.get("verified", 0) + sbs.get("structurally-fixed", 0)) / max(1, sbs.get("total", 1)))
+    print(f"{M}{BO}[PLAN]{X} {Y}SB:{sb_pct}%({sbs.get('open', 0)}o/{sbs.get('recurring', 0)}r){X} · {D}M011:prelim · M014:prelim-done{X}")
+
+    # BLOCKED line: pending + open + recurring all inline
+    pending_str = f"{G}0p{X}" if not pending_tasks else f"{R}{len(pending_tasks)}p{X}"
+    open_str = f"{G}0o{X}" if not open_sbs else f"{R}{len(open_sbs)}o{X}({','.join(open_sbs[:3])}{'...' if len(open_sbs) > 3 else ''})"
+    rec_str = f"{G}0r{X}" if not recurring_sbs else f"{R}{len(recurring_sbs)}r{X}({','.join(recurring_sbs[:3])}{'...' if len(recurring_sbs) > 3 else ''})"
+    print(f"{M}{BO}[BLOCKED]{X} {pending_str} · {open_str} · {rec_str}")
+
+    # PROGRESS line: all counts inline
+    p = progress
+    print(f"{M}{BO}[PROGRESS]{X} {G}epic:{p['epic_readiness']}% · mod:{p['module_count']} · tasks:{p['task_total']}({p['task_counts'].get('done', 0)}d/{p['task_counts'].get('not-started', 0)}n/{p['task_counts'].get('pending-operator-decision', 0)}p) · SB:{sbs.get('total', 0)}({sbs.get('verified', 0)}v/{sbs.get('structurally-fixed', 0)}f/{sbs.get('open', 0)}o/{sbs.get('recurring', 0)}r){X}")
+
+    # NEXT line: cursor pick + branches
+    next_pick = open_sbs[0] if open_sbs else (recurring_sbs[0] if recurring_sbs else "(none)")
+    print(f"{M}{BO}[NEXT]{X} {Y}{next_pick}{X} · {B}branches:wiki/log+governance{X}")
+
+    if fence:
+        print("```")
+
+
 def emit_status_block_ansi(result: dict, fence: bool = True) -> None:
     """ANSI-coded status block. Full palette: red, green, orange/yellow, blue,
     magenta, cyan, bold, dim. When fence=True wraps in ```ansi (markdown chat).
@@ -422,6 +494,7 @@ def main() -> int:
     parser.add_argument("--color", action="store_true", help="use ANSI color codes (terminal mode)")
     parser.add_argument("--diff-fence", action="store_true", help="emit ```diff-fenced block (markdown chat / Claude Code — operator-verified color rendering, SB-063)")
     parser.add_argument("--ansi-fence", action="store_true", help="emit ```ansi-fenced block with ANSI escape codes (full color palette: red/green/orange/blue/magenta/cyan/dim/bold)")
+    parser.add_argument("--ansi-horizontal", action="store_true", help="emit compact horizontal layout (single-line-per-section, ~6 lines) per SB-114")
     parser.add_argument("--mode", choices=list(CYCLE_DEFINITIONS.keys()), help="override active mode")
     args = parser.parse_args()
 
@@ -440,6 +513,9 @@ def main() -> int:
         print(json.dumps(result, indent=2))
         return 0
 
+    if args.ansi_horizontal:
+        emit_status_block_ansi_horizontal(result, fence=True)
+        return 0
     if args.ansi_fence:
         emit_status_block_ansi(result, fence=True)
         return 0

@@ -6,7 +6,7 @@ priority: P0
 parent_module: "root-ghostproxy-m003-foundation-hardening"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: implement
-readiness: 88
+readiness: 91
 sfif_stage: Foundation
 created: 2026-05-04
 updated: 2026-05-06
@@ -47,8 +47,8 @@ Author the foundation's idempotent installer. Takes a fresh Linux host (target: 
 - [x] STUB: deploy `~/.claude/settings.json` + hook scripts — implemented (op_install_endpoint_safety_policy at install.sh:415)
 - [x] STUB: deploy opencode bridge plugin (`~/.config/opencode/`) — implemented (op_install_opencode_bridge at install.sh:446)
 - [x] STUB: configure network bridge (systemd-networkd per T013) — implemented (op_install_network_bridge at install.sh:467)
-- [ ] STUB: configure nftables rules (INPUT/FORWARD/OUTPUT) — TODO at install.sh:501; needs separate template
-- [ ] STUB: configure management wifi (outbound-only) — STUB at install.sh ~505
+- [ ] STUB: configure nftables rules (BRIDGE FORWARD/OUTPUT) — bridge-side rules pending T013 operator-decision (default-accept vs default-drop FORWARD policy, threat-model question). Wifi-side INPUT/FORWARD chain DONE (see wifi STUB below).
+- [x] STUB: configure management wifi (outbound-only) — implemented 2026-05-06. Authored: `/root/templates/wpa_supplicant/wpa_supplicant-mgmt0.conf.template` (operator-fill placeholders for SSID/PSK/country); `/root/templates/nftables/management-wifi-outbound-only.nft` (deterministic per operator's outbound-only invariant: INPUT drops all except established/related + ICMP echo-reply, OUTPUT accept, FORWARD drops anything touching wifi ifaces). install.sh `op_install_management_wifi` deploys both, runs `nft -c` syntax check, reloads nftables if /etc/nftables.conf includes /etc/nftables.d/*. Verified: `nft -c -f /root/templates/nftables/management-wifi-outbound-only.nft` PASSES; dry-run shows correct deploy sequence with operator-config-required reminder.
 - [x] STUB: integrity sentinel registration — implemented (op_install_integrity_sentinel)
 - [ ] STUB: post-install verification — partial (op_verify dry-run preview only; real verification logic pending)
 - [ ] Idempotency invariant: re-run = no-op when state matches (T016 covers; verifies install_file's "unchanged" path)

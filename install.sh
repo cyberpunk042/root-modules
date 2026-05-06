@@ -567,13 +567,103 @@ op_install_network_bridge() {
 }
 
 # Operation 4: Management wifi (outbound-only)
+#
+# Per operator invariant 2026-05-04 (T013, M003): management wifi is the
+# host's edge-network connection (operator's existing network), used for
+# OUTBOUND ops (SSH-out, apt updates, monitoring push). MUST NOT accept
+# inbound — INPUT chain drops everything except established/related.
+#
+# Deploy:
+#   1. /etc/wpa_supplicant/wpa_supplicant-mgmt0.conf (TEMPLATE — operator
+#      MUST fill SSID + PSK + country code BEFORE service starts)
+#   2. /etc/nftables.d/management-wifi-outbound-only.nft (deterministic
+#      from operator's outbound-only invariant; no operator config needed)
+#
+# NOT deployed (out of foundation scope; T013 operator-decision pending):
+#   - Bridge FORWARD chain default-policy (default-accept vs default-drop —
+#     threat-model question per T013)
+#   - NetworkManager integration (operator-decision: wpa_supplicant direct
+#     OR NetworkManager; current default = wpa_supplicant direct)
+#
+# Idempotency: install_file() detects unchanged-content + skips; backs up
+# divergent existing file to <path>.ghostproxy.bak.<ts> before overwrite.
 op_install_management_wifi() {
-    if [[ "${DRY_RUN}" -eq 1 ]]; then
-        log_dry "configure wpa_supplicant for management wifi (outbound-only)"
-        log_dry "deploy nftables rules (INPUT chain drops everything except established/related)"
-    else
-        log_warn "STUB: op_install_management_wifi not implemented (scaffold stage)"
+    local src_wpa="${SRC}/templates/wpa_supplicant/wpa_supplicant-mgmt0.conf.template"
+    local src_nft="${SRC}/templates/nftables/management-wifi-outbound-only.nft"
+    local tgt_wpa="/etc/wpa_supplicant/wpa_supplicant-mgmt0.conf"
+    local tgt_nft="/etc/nftables.d/management-wifi-outbound-only.nft"
+
+    if [[ ! -f "${src_wpa}" ]]; then
+        log_warn "source ${src_wpa} not found — skipping management wifi"
+        return 0
     fi
+    if [[ ! -f "${src_nft}" ]]; then
+        log_warn "source ${src_nft} not found — skipping management wifi"
+        return 0
+    fi
+
+    # Both deploys are system-level — require root unless dry-run.
+    if [[ "${EUID}" -ne 0 && "${DRY_RUN}" -ne 1 ]]; then
+        log_warn "op_install_management_wifi requires root (currently EUID=${EUID}); skipping"
+        log_info "  rerun with sudo or as root to install wifi config"
+        return 0
+    fi
+
+    # 1. Deploy wpa_supplicant template. install_file() respects --dry-run.
+    install_file "${src_wpa}" "${tgt_wpa}" 0600
+
+    # Operator-config reminder: only print if the deployed file still has the
+    # placeholder strings (i.e., operator hasn't filled it in yet).
+    if [[ "${DRY_RUN}" -ne 1 && -r "${tgt_wpa}" ]] \
+        && grep -q "__OPERATOR_SSID__\|__OPERATOR_PSK_OR_HEX__\|__COUNTRY_CODE__" "${tgt_wpa}" 2>/dev/null; then
+        log_warn "wpa_supplicant config has placeholders — operator must fill before starting service:"
+        log_warn "  edit ${tgt_wpa} and replace __OPERATOR_SSID__, __OPERATOR_PSK_OR_HEX__, __COUNTRY_CODE__"
+        log_warn "  use \`wpa_passphrase <ssid> <passphrase>\` to generate hex-PSK (recommended)"
+    fi
+
+    # 2. Deploy nftables ruleset. /etc/nftables.d/ must exist (some distros
+    # don't create it; create idempotently).
+    if [[ "${DRY_RUN}" -eq 1 ]]; then
+        log_dry "ensure /etc/nftables.d/ exists"
+    else
+        mkdir -p /etc/nftables.d
+    fi
+    install_file "${src_nft}" "${tgt_nft}" 0644
+
+    # 3. Syntax-check the deployed nft file (no commit). Surfaces template
+    # errors before they reach the running ruleset.
+    if [[ "${DRY_RUN}" -eq 1 ]]; then
+        log_dry "syntax-check: nft -c -f ${tgt_nft}"
+    elif command -v nft >/dev/null 2>&1; then
+        if nft -c -f "${tgt_nft}" 2>&1; then
+            log_info "nftables syntax OK: ${tgt_nft}"
+        else
+            log_error "nftables syntax check FAILED on ${tgt_nft}"
+            log_error "  ruleset NOT loaded; operator must fix template + re-run install"
+            return 1
+        fi
+    else
+        log_warn "nft binary not present; skipping syntax check (op should have caught this in require_dependencies)"
+    fi
+
+    # 4. Reload nftables service so the new ruleset takes effect. Don't
+    # reload if dry-run. Don't reload if main /etc/nftables.conf doesn't
+    # include /etc/nftables.d/* (we'd be deploying a file that's not loaded).
+    if [[ "${DRY_RUN}" -eq 1 ]]; then
+        log_dry "if /etc/nftables.conf includes /etc/nftables.d/*: systemctl reload nftables"
+    elif [[ -r /etc/nftables.conf ]] && grep -qE '^[[:space:]]*include[[:space:]]+"?/etc/nftables\.d' /etc/nftables.conf 2>/dev/null; then
+        if command -v systemctl >/dev/null 2>&1; then
+            systemctl reload nftables 2>&1 || log_warn "systemctl reload nftables failed (may need: nft -f /etc/nftables.conf)"
+        else
+            log_warn "systemctl not present; operator must reload nftables manually:"
+            log_warn "  nft -f /etc/nftables.conf"
+        fi
+    else
+        log_warn "/etc/nftables.conf does NOT include /etc/nftables.d/* — deployed file won't be loaded"
+        log_warn "  operator should add: \`include \"/etc/nftables.d/*.nft\"\` to /etc/nftables.conf"
+    fi
+
+    log_info "management wifi config deployed (template at ${tgt_wpa}; nftables at ${tgt_nft})"
 }
 
 # Operation 5: Integrity sentinel
