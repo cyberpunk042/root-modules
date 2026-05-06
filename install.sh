@@ -651,6 +651,65 @@ op_install_network_bridge() {
 #
 # Idempotency: install_file() detects unchanged-content + skips; backs up
 # divergent existing file to <path>.ghostproxy.bak.<ts> before overwrite.
+# Helper: ensure /etc/nftables.conf includes /etc/nftables.d/*.nft so any
+# files deployed there (wifi rules + future bridge rules) actually load.
+# Idempotent: detects existing include directive (multiple syntaxes), no-op
+# if present. If /etc/nftables.conf doesn't exist, creates a minimal sane
+# default with `flush ruleset` + the include directive. If exists without
+# include, BACKS UP the operator's file (per backup_if_exists) then appends
+# the include line at end with a clear comment marker.
+#
+# Bug-B fix 2026-05-06 per operator install-readiness audit: prior install.sh
+# only WARNED if include missing; deployed wifi rules were dead-letter on
+# fresh Debian (default /etc/nftables.conf has no include directive).
+ensure_nftables_d_include() {
+    local conf="/etc/nftables.conf"
+    local include_pattern='^[[:space:]]*include[[:space:]]+"?/etc/nftables\.d'
+
+    if [[ "${DRY_RUN}" -eq 1 ]]; then
+        if [[ -r "${conf}" ]] && grep -qE "${include_pattern}" "${conf}" 2>/dev/null; then
+            log_dry "${conf} already includes /etc/nftables.d/* (no change)"
+        elif [[ -r "${conf}" ]]; then
+            log_dry "${conf} exists without /etc/nftables.d/* include; would back up + append include line"
+        else
+            log_dry "${conf} missing; would create with sane default + include /etc/nftables.d/*.nft"
+        fi
+        return 0
+    fi
+
+    if [[ -r "${conf}" ]] && grep -qE "${include_pattern}" "${conf}" 2>/dev/null; then
+        log_info "${conf} already includes /etc/nftables.d/* (unchanged)"
+        return 0
+    fi
+
+    if [[ ! -r "${conf}" ]]; then
+        # Create a minimal sane default. Empty `flush ruleset` + include dir.
+        # Operator can extend later; we don't impose policy here, only the
+        # mechanism to load /etc/nftables.d/*.nft files we deploy.
+        cat > "${conf}" <<'EOF'
+#!/usr/sbin/nft -f
+# Provisioned by /root/install.sh on first install — extend as operator wishes.
+flush ruleset
+
+# Load all rulesets from /etc/nftables.d/*.nft (canonical Debian convention).
+# Files there are deployed by ghostproxy ops (e.g., management-wifi rules).
+include "/etc/nftables.d/*.nft"
+EOF
+        chmod 0644 "${conf}"
+        log_info "provisioned ${conf} (minimal default + /etc/nftables.d/* include)"
+        return 0
+    fi
+
+    # File exists, no include directive — back up + append.
+    backup_if_exists "${conf}"
+    {
+        printf '\n# --- ghostproxy install.sh added %s ---\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+        printf '# Loads /etc/nftables.d/*.nft (canonical multi-file convention).\n'
+        printf 'include "/etc/nftables.d/*.nft"\n'
+    } >> "${conf}"
+    log_info "appended /etc/nftables.d/*.nft include to ${conf} (backup at ${conf}${BACKUP_SUFFIX})"
+}
+
 op_install_management_wifi() {
     local src_wpa="${SRC}/templates/wpa_supplicant/wpa_supplicant-mgmt0.conf.template"
     local src_nft="${SRC}/templates/nftables/management-wifi-outbound-only.nft"
@@ -710,24 +769,62 @@ op_install_management_wifi() {
         log_warn "nft binary not present; skipping syntax check (op should have caught this in require_dependencies)"
     fi
 
-    # 4. Reload nftables service so the new ruleset takes effect. Don't
-    # reload if dry-run. Don't reload if main /etc/nftables.conf doesn't
-    # include /etc/nftables.d/* (we'd be deploying a file that's not loaded).
+    # 4. Ensure /etc/nftables.conf actually loads /etc/nftables.d/*.nft —
+    # without this include directive the deployed file is dead-letter.
+    # Idempotent: helper detects existing include + no-ops, OR creates the
+    # file with sane default, OR appends the include line (backup-first).
+    ensure_nftables_d_include
+
+    # 5. Reload nftables service so the new ruleset takes effect.
     if [[ "${DRY_RUN}" -eq 1 ]]; then
-        log_dry "if /etc/nftables.conf includes /etc/nftables.d/*: systemctl reload nftables"
-    elif [[ -r /etc/nftables.conf ]] && grep -qE '^[[:space:]]*include[[:space:]]+"?/etc/nftables\.d' /etc/nftables.conf 2>/dev/null; then
-        if command -v systemctl >/dev/null 2>&1; then
-            systemctl reload nftables 2>&1 || log_warn "systemctl reload nftables failed (may need: nft -f /etc/nftables.conf)"
+        log_dry "systemctl reload nftables (apply new /etc/nftables.d/* rulesets)"
+    elif command -v systemctl >/dev/null 2>&1; then
+        systemctl reload nftables 2>&1 || log_warn "systemctl reload nftables failed (may need: nft -f /etc/nftables.conf)"
+    else
+        log_warn "systemctl not present; operator must reload nftables manually:"
+        log_warn "  nft -f /etc/nftables.conf"
+    fi
+
+    # 6. Enable systemd template unit `wpa_supplicant@mgmt0.service`. The
+    # wpasupplicant package provides this unit; we just enable + start it so
+    # the wifi association comes up at boot and after install. Idempotent:
+    # systemctl enable returns success if already enabled.
+    #
+    # Skip the start if the operator hasn't filled the SSID/PSK placeholders
+    # yet — starting wpa_supplicant against a placeholder config produces
+    # an authentication-loop noise in the journal. Only enable (boot-up) +
+    # leave start as a manual step until placeholders are filled.
+    if [[ "${DRY_RUN}" -eq 1 ]]; then
+        log_dry "systemctl enable wpa_supplicant@mgmt0.service (boot-up start)"
+        log_dry "if SSID/PSK filled in: systemctl start wpa_supplicant@mgmt0.service"
+    elif command -v systemctl >/dev/null 2>&1; then
+        # Confirm the template unit is available (provided by wpasupplicant pkg)
+        if systemctl cat wpa_supplicant@.service >/dev/null 2>&1; then
+            systemctl enable wpa_supplicant@mgmt0.service 2>&1 || \
+                log_warn "systemctl enable wpa_supplicant@mgmt0.service failed"
+
+            # Auto-start only if placeholders have been filled in. Otherwise
+            # leave start as a manual operator step (avoids auth-failure log spam).
+            if grep -q "__OPERATOR_SSID__\|__OPERATOR_PSK_OR_HEX__\|__COUNTRY_CODE__" "${tgt_wpa}" 2>/dev/null; then
+                log_warn "wpa_supplicant@mgmt0.service ENABLED (boot-up); NOT started yet"
+                log_warn "  fill placeholders in ${tgt_wpa} first, then:"
+                log_warn "  systemctl start wpa_supplicant@mgmt0.service"
+            else
+                systemctl start wpa_supplicant@mgmt0.service 2>&1 || \
+                    log_warn "systemctl start wpa_supplicant@mgmt0.service failed (check journalctl)"
+                log_info "wpa_supplicant@mgmt0.service enabled + started"
+            fi
         else
-            log_warn "systemctl not present; operator must reload nftables manually:"
-            log_warn "  nft -f /etc/nftables.conf"
+            log_warn "wpa_supplicant@.service template unit NOT FOUND — wpasupplicant package may not be installed"
+            log_warn "  install: apt-get install wpasupplicant (or distro equivalent)"
         fi
     else
-        log_warn "/etc/nftables.conf does NOT include /etc/nftables.d/* — deployed file won't be loaded"
-        log_warn "  operator should add: \`include \"/etc/nftables.d/*.nft\"\` to /etc/nftables.conf"
+        log_warn "systemctl not present; operator must enable + start wpa_supplicant manually"
     fi
 
     log_info "management wifi config deployed (template at ${tgt_wpa}; nftables at ${tgt_nft})"
+    log_info "  interface naming: if your wifi adapter is not 'mgmt0' (default for Predictable Naming),"
+    log_info "  add /etc/systemd/network/10-mgmt0.link to rename it (operator-host-specific)"
 }
 
 # Operation 5: Integrity sentinel
@@ -975,6 +1072,90 @@ except Exception as e:
         fi
     fi
 
+    # If --with-wifi: verify wpa_supplicant config deployed + nftables rules
+    # loaded. Service-status check is conditional on placeholders being filled
+    # (we don't fail the install if operator hasn't filled SSID/PSK yet —
+    # that's documented as a manual step).
+    if [[ "${WITH_WIFI:-0}" == "1" ]]; then
+        local wpa_conf="/etc/wpa_supplicant/wpa_supplicant-mgmt0.conf"
+        local nft_file="/etc/nftables.d/management-wifi-outbound-only.nft"
+
+        if [[ -r "${wpa_conf}" ]]; then
+            _verify_check "wpa_supplicant-mgmt0.conf deployed" true
+        else
+            checks=$((checks + 1))
+            failed=$((failed + 1))
+            fail_reasons+=("wpa_supplicant config missing at ${wpa_conf}")
+            log_check "wpa_supplicant-mgmt0.conf" "FAIL: missing"
+        fi
+
+        if [[ -r "${nft_file}" ]]; then
+            _verify_check "wifi nftables ruleset deployed" true
+        else
+            checks=$((checks + 1))
+            failed=$((failed + 1))
+            fail_reasons+=("wifi nftables ruleset missing at ${nft_file}")
+            log_check "wifi nftables" "FAIL: missing"
+        fi
+
+        # Verify the ruleset is actually LOADED in the kernel (not just on disk).
+        if command -v nft >/dev/null 2>&1; then
+            if nft list ruleset 2>/dev/null | grep -q "table inet ghp_mgmt_wifi"; then
+                _verify_check "wifi ghp_mgmt_wifi table loaded" true
+            else
+                checks=$((checks + 1))
+                failed=$((failed + 1))
+                fail_reasons+=("wifi ruleset deployed but ghp_mgmt_wifi table not in kernel ruleset")
+                log_check "ghp_mgmt_wifi table" "FAIL: not loaded — check /etc/nftables.conf includes /etc/nftables.d/*"
+            fi
+        fi
+
+        # Service status — only check if placeholders filled (operator-config
+        # done). Otherwise SKIP — that's the documented manual-step state.
+        if [[ -r "${wpa_conf}" ]] && ! grep -q "__OPERATOR_SSID__\|__OPERATOR_PSK_OR_HEX__" "${wpa_conf}" 2>/dev/null; then
+            if command -v systemctl >/dev/null 2>&1; then
+                if systemctl is-enabled wpa_supplicant@mgmt0.service >/dev/null 2>&1; then
+                    _verify_check "wpa_supplicant@mgmt0 enabled" true
+                else
+                    checks=$((checks + 1))
+                    failed=$((failed + 1))
+                    fail_reasons+=("wpa_supplicant@mgmt0.service not enabled")
+                    log_check "wpa_supplicant@mgmt0 enabled" "FAIL"
+                fi
+            fi
+        else
+            log_check "wpa_supplicant service" "SKIP (placeholders not yet filled by operator)"
+        fi
+    fi
+
+    # Brain pieces (rules/commands/agents/modes/skills) — verify presence.
+    # These are deployed by op_install_endpoint_safety_policy; absence here
+    # would mean install partial-failed even if hooks landed.
+    if [[ "${WITH_HOOKS:-0}" == "1" ]]; then
+        local brain_dir count
+        for brain_dir in rules commands agents modes; do
+            local tgt="${DEST_CLAUDE}/${brain_dir}"
+            count=$(find "${tgt}" -maxdepth 1 -name "*.md" -type f 2>/dev/null | wc -l)
+            if [[ "${count}" -gt 0 ]]; then
+                _verify_check "${brain_dir}/ deployed (${count} files)" true
+            else
+                # Treat empty rules/commands/agents/modes as a soft warning, not
+                # a hard fail — fresh install with no operator brain pieces is
+                # technically valid (security envelope still works).
+                log_check "${brain_dir}/" "WARN: empty (operator may not have authored any yet)"
+            fi
+        done
+
+        # skills/ — count subdirs containing SKILL.md
+        local skill_count
+        skill_count=$(find "${DEST_CLAUDE}/skills" -maxdepth 2 -name "SKILL.md" -type f 2>/dev/null | wc -l)
+        if [[ "${skill_count}" -gt 0 ]]; then
+            _verify_check "skills/ deployed (${skill_count} skills)" true
+        else
+            log_check "skills/" "WARN: empty (no SKILL.md found)"
+        fi
+    fi
+
     # Summary
     log_info "verify: ${passed}/${checks} passed${failed:+, ${failed} failed}"
     if [[ "${failed}" -gt 0 ]]; then
@@ -1153,17 +1334,18 @@ main() {
 
     log_info "${SCRIPT_NAME} ${VERSION} starting (scaffold-stage stub)"
 
+    # OS family + mode detection + profile application BEFORE --check or
+    # real-install branch. --check mode needs WITH_* toggles set so the
+    # per-op verifications (wifi, bridge, brain pieces, etc.) know what
+    # to verify. Without apply_profile, all WITH_* are empty → checks skip.
+    detect_os_family
+    detect_ghostproxy_mode
+    apply_profile
+
     if [[ "${CHECK_MODE}" -eq 1 ]]; then
         run_check
         exit 0
     fi
-
-    detect_os_family
-    detect_ghostproxy_mode
-    apply_profile
-    # apply_profile must run BEFORE require_dependencies so WITH_BRIDGE / WITH_WIFI
-    # are set per profile + mode_includes filtering — require_dependencies adds
-    # nft/ip/wpa_supplicant to the required set only when those ops are enabled.
     require_dependencies
 
     [[ "${WITH_HOOKS}"        == "1" ]] && op_install_endpoint_safety_policy || log_info "skip: endpoint safety policy (per profile/toggle)"
