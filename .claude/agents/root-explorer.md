@@ -53,3 +53,18 @@ Brief, sourced, file-path-cited. Format:
 - End with one-sentence "What I'd recommend the parent agent do next" — but the parent decides
 
 If the question's scope is too broad to answer in one pass, say so + propose a narrower starting point.
+
+## Cross-references
+
+- **Canonical sub-agent index**: [`.claude/agents/README.md`](README.md) (DRAFT v1, agent-authored 2026-05-06; SB-081 brain-loaded subagents)
+- **Companion sub-agents**: [`root-architect.md`](root-architect.md) (design lens; opus-tier; trade-off analysis) · [`root-pm-scoper.md`](root-pm-scoper.md) (PM lens; backlog grooming + decision packages)
+- **Spawn mechanism**: parent invokes via Agent tool with `subagent_type=root-explorer`
+- **Runtime gap (SB-081)**: session-restart required for Claude Code to discover this sub-agent if authored mid-session; workaround until restart = use built-in `Explore` / `general-purpose` with explicit brain-load instructions in spawn prompt
+- **Brain-load profile (this sub-agent)**: identity (CLAUDE.md + AGENTS.md) + topic-specific rules per task + state when active-work-touching; per `.claude/rules/context-engineering.md` PRE-injection mode (loaded BEFORE answering any question)
+- **Companion modes** (sister mechanism for persona-shaping): [`/.claude/modes/pm-scrum-master.md`](../modes/pm-scrum-master.md) · [`devops-architect.md`](../modes/devops-architect.md) · [`dual-expert.md`](../modes/dual-expert.md) — modes are operator-set durable persona; sub-agents are parent-spawned cold-context delegates
+- **Trigger model**: per [`.claude/rules/trigger-model.md`](../rules/trigger-model.md) — sub-agent dispatch is 1 of 8 mechanisms (signal=parent-invocation; action=brain-loaded delegated work; recovery=structured-output return)
+- **Tool subset rationale**: Read/Grep/Glob/Bash/WebFetch/WebSearch — read-only by design; excludes Write/Edit/NotebookEdit so output is FINDINGS not MUTATIONS; parent agent decides what edits to apply
+- **Brain-inheritance** (per `.claude/rules/self-reference.md`): sub-agent IS the example of "behave FROM the project, not OVER it" applied at delegated-work layer
+- **`/install-agent-brain` propagation**: this sub-agent deploys to sister projects via [`/install-agent-brain`](../commands/install-agent-brain.md) per operator-opt-in
+- **M-E001-1 productive-cycle action vocabulary**: this sub-agent emits **`read-only-audit`** action type per Hard Rule 14 (findings + sourced citations; no state mutation)
+- **Brain-improvement mandate**: [`wiki/log/2026-05-06-194730-brain-improvement-mandate-readme-first.md`](../../wiki/log/2026-05-06-194730-brain-improvement-mandate-readme-first.md)

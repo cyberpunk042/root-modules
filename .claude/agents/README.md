@@ -119,3 +119,28 @@ When you author a new subagent:
 ## Cross-references (informal navigation)
 
 Same surface as Relationships above; kept for cold-pickup agents searching for "Cross-references".
+
+### Per-sub-agent reference
+
+| Sub-agent | Tier (model) | Output type | Action vocabulary (M-E001-1) |
+|---|---|---|---|
+| [`root-explorer`](root-explorer.md) | sonnet | findings + sourced citations | `read-only-audit` |
+| [`root-architect`](root-architect.md) | opus | design notes (Question/Constraints/Options/Recommendation/Trade-offs) | `new-artifact` (consumed) OR `read-only-audit` (analysis-only) |
+| [`root-pm-scoper`](root-pm-scoper.md) | sonnet | module/task page drafts OR decision packages OR backlog state views | `new-artifact` OR `blocker-surface` OR `read-only-audit` |
+
+### Sister mechanism comparison
+
+| Mechanism | Persona durability | Brain-load timing | Spawn cost |
+|---|---|---|---|
+| **Mode** ([`/.claude/modes/`](../modes/)) | Operator-set; durable across turns until cleared | Per-prompt via mode-enforcement.sh + facultative auto-injection | None (state-file-mediated) |
+| **Sub-agent** (this subdir) | Cold-context per spawn; lifetime = single delegated task | At spawn (mandatory brain-load before answering) | High (own context budget; opus-tier costs more) |
+| **Skill** ([`/.claude/skills/`](../skills/)) | Auto-trigger via description-match; ephemeral | At trigger | Low (just an additional file read) |
+| **Command** ([`/.claude/commands/`](../commands/)) | Slash-invoked; 100% deterministic | At invocation (harness executes .md template) | Low |
+
+### Brain-improvement mandate
+
+This sub-agent category was authored by SB-081 closure and refined per the 2026-05-06 brain-improvement mandate. Sub-READMEs canonical-extension list per [`wiki/log/2026-05-06-194730-brain-improvement-mandate-readme-first.md`](../../wiki/log/2026-05-06-194730-brain-improvement-mandate-readme-first.md).
+
+### Action emission per Hard Rule 14
+
+When a sub-agent's output is consumed by a parent's `/cycle` fire, the parent's cycle-report last-line `Productive output: <type> — <one-line specific>` MAY cite the sub-agent's contribution (e.g., `Productive output: new-artifact — root-pm-scoper drafted M-N-NN module page; parent applied per operator approval`). See [`wiki/log/2026-05-06-181500-auto-pilot-action-vocabulary-draft.md`](../../wiki/log/2026-05-06-181500-auto-pilot-action-vocabulary-draft.md) for the canonical 9-type vocabulary.

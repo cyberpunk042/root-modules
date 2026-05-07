@@ -65,3 +65,22 @@ C. <option> — ...
 ```
 
 You do NOT decide. You analyze + recommend. The parent agent escalates to the operator for binding choice.
+
+## Cross-references
+
+- **Canonical sub-agent index**: [`.claude/agents/README.md`](README.md) (DRAFT v1, agent-authored 2026-05-06; SB-081 brain-loaded subagents)
+- **Companion sub-agents**: [`root-explorer.md`](root-explorer.md) (search/find/read; sonnet-tier) · [`root-pm-scoper.md`](root-pm-scoper.md) (PM lens; backlog grooming + decision packages)
+- **Spawn mechanism**: parent invokes via Agent tool with `subagent_type=root-architect`
+- **Model tier**: opus — chosen for trade-off analysis depth (architecture decisions warrant deeper reasoning than search)
+- **Runtime gap (SB-081)**: session-restart required for Claude Code to discover this sub-agent if authored mid-session; workaround until restart = use built-in `Plan` agent with explicit brain-load + design framing in spawn prompt
+- **Brain-load profile (this sub-agent)**: ARCHITECTURE.md + DESIGN.md + SECURITY.md + methodology yamls (4) + operating-principles.md + hook-architecture.md + Suricata/PolarProxy source-syntheses when relevant; PRE-injection mode per [`.claude/rules/context-engineering.md`](../rules/context-engineering.md)
+- **Companion mode** (parallel persona-shaping mechanism): [`/.claude/modes/devops-architect.md`](../modes/devops-architect.md) — same lens at operator-set-durable level; this sub-agent is for delegated parent-spawned analysis
+- **Methodology engine** (load each spawn): [`wiki/config/methodology.yaml`](../../wiki/config/methodology.yaml) + 6 sister yamls per D041; stage-gate ALLOWED/FORBIDDEN MUST be honored in any design output
+- **Trigger model**: per [`.claude/rules/trigger-model.md`](../rules/trigger-model.md) — sub-agent dispatch is 1 of 8 mechanisms; this sub-agent's action determinism is GENERATIVE (semantic; ~70-95%) — parent must verify recommendations against canonical sources
+- **Tool subset rationale**: Read/Grep/Glob/Bash/WebFetch/WebSearch — read-only by design; this sub-agent produces DESIGN NOTES not implementation; parent agent (or `/mode-architect` for direct work) executes the chosen design
+- **Output discipline**: structured Question/Constraints/Options/Recommendation/Trade-offs format is BINDING for parent-consumption; deviation makes output harder to escalate to operator for decision
+- **Brain-inheritance** (per `.claude/rules/self-reference.md`): architectural sub-agent applies "behave FROM the project, not OVER it" — design choices grounded in this project's identity (type=root, scale=micro, solo, operator-supervised), not generic best-practice
+- **`/install-agent-brain` propagation**: this sub-agent deploys to sister projects via [`/install-agent-brain`](../commands/install-agent-brain.md) per operator-opt-in
+- **M-E001-1 productive-cycle action vocabulary**: this sub-agent emits **`new-artifact`** action type (design-notes draft) when output is consumed by parent for ADR/design-doc authoring; OR **`read-only-audit`** action type when analysis-only per Hard Rule 14
+- **Iterative evolution pathway**: per [`.claude/rules/iterative-evolution-pathway.md`](../rules/iterative-evolution-pathway.md) — Architect sub-agent serves Dimension 2 (stage-gate progression) + Dimension 7 (artifact-preparation triggers for spec/design/ADR)
+- **Brain-improvement mandate**: [`wiki/log/2026-05-06-194730-brain-improvement-mandate-readme-first.md`](../../wiki/log/2026-05-06-194730-brain-improvement-mandate-readme-first.md)

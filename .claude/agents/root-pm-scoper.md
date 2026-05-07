@@ -49,3 +49,22 @@ Format depends on ask:
 **Backlog state**: emit the journey/plan/cursor view (last 5 logs by mtime + operator's stated step ordering with progress bars + just-completed + next-options).
 
 You do NOT write task pages or modify backlog state. You produce drafts; the parent agent (with operator approval) decides what lands.
+
+## Cross-references
+
+- **Canonical sub-agent index**: [`.claude/agents/README.md`](README.md) (DRAFT v1, agent-authored 2026-05-06; SB-081 brain-loaded subagents)
+- **Companion sub-agents**: [`root-explorer.md`](root-explorer.md) (search/find/read; sonnet-tier) · [`root-architect.md`](root-architect.md) (design lens; opus-tier; trade-off analysis)
+- **Spawn mechanism**: parent invokes via Agent tool with `subagent_type=root-pm-scoper`
+- **Runtime gap (SB-081)**: session-restart required for Claude Code to discover this sub-agent if authored mid-session; workaround until restart = use built-in `general-purpose` with explicit brain-load + decision-package framing in spawn prompt
+- **Brain-load profile (this sub-agent)**: PM mode brain (CLAUDE.md + AGENTS.md + pm-scrum-master.md mode + CONTEXT.md) + backlog (epics + modules + tasks + governance views) + sacrosanct quoting + work-mode + methodology + operating-principles
+- **Companion mode** (parallel persona-shaping mechanism): [`/.claude/modes/pm-scrum-master.md`](../modes/pm-scrum-master.md) — same lens at operator-set-durable level; this sub-agent is for delegated parent-spawned scoping work (preliminary-only per directive 2026-05-05)
+- **Methodology stage discipline**: [`.claude/rules/methodology.md`](../rules/methodology.md) — preliminary scoping = document-stage (0-25%) or design-stage (25-50%) ONLY; FORBIDDEN: scaffold/implement/test outputs in this lens (the doctrine block above already enforces this)
+- **Decision-package format** (output contract per SB-071): CONTEXT + GUIDANCE + RECOMMEND + ALTERNATIVES + TO-ANSWER — same format as PM mode `/cycle` step 3b; ensures parent agent can escalate to operator without rework
+- **Auto-research filter** (per SB-072): MUST research before asking — gh / WebFetch / WebSearch / file read / existing logs; report Q+A chain inline so parent + operator can verify
+- **Trigger model**: per [`.claude/rules/trigger-model.md`](../rules/trigger-model.md) — sub-agent dispatch is 1 of 8 mechanisms; this sub-agent's determinism is GENERATIVE (~70-95%) — parent must verify drafts before persisting
+- **Tool subset rationale**: Read/Grep/Glob/Bash/WebFetch/WebSearch — read-only; this sub-agent produces DRAFTS not COMMITS; parent agent decides what lands in `wiki/backlog/` after operator approval
+- **Sacrosanct quoting**: per [`.claude/rules/words-are-sacrosanct.md`](../rules/words-are-sacrosanct.md) — operator-verbatim preserved EXACTLY in any decision-package CONTEXT or task page; never paraphrase
+- **`/install-agent-brain` propagation**: this sub-agent deploys to sister projects via [`/install-agent-brain`](../commands/install-agent-brain.md) per operator-opt-in
+- **M-E001-1 productive-cycle action vocabulary**: this sub-agent emits **`new-artifact`** action type (module/task page drafts) OR **`blocker-surface`** action type (decision packages) OR **`read-only-audit`** action type (backlog state views) per Hard Rule 14
+- **Iterative evolution pathway**: per [`.claude/rules/iterative-evolution-pathway.md`](../rules/iterative-evolution-pathway.md) — PM-scoper sub-agent serves Dimension 1 (backlog hierarchy decision logic) + Dimension 7 (artifact-preparation: spec/requirement/plan/info-segment)
+- **Brain-improvement mandate**: [`wiki/log/2026-05-06-194730-brain-improvement-mandate-readme-first.md`](../../wiki/log/2026-05-06-194730-brain-improvement-mandate-readme-first.md)
