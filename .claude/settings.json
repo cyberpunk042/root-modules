@@ -1,5 +1,7 @@
 {
   "model": "opus",
+  "autoCompactEnabled": false,
+  "autoDreamEnabled": true,
   "permissions": {
     "disableBypassPermissionsMode": "disable",
     "deny": [
