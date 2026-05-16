@@ -76,7 +76,7 @@ Move root-ghostproxy from current scaffold-plus-partial-foundation state to a cl
 | T-M003-1 | Run `./install.sh --dry-run` on current host, capture full output, log any anomalies | ⊙ pending |
 | T-M003-2 | Run `./install.sh --check` on current host, capture full output, log any anomalies | ⊙ pending |
 | T-M003-3 | Run `integrity_check()` before and after install.sh re-run; verify both return None | ⊙ pending |
-| T-M003-4 | Document idempotency invariants in $HOME/docs/foundation-invariants.md (or inline in README) | ⊙ pending |
+| T-M003-4 | Document idempotency invariants in $HOME/docs/foundation-invariants.md (or inline in README) | ⇗ [[T016-document-idempotency-invariants\|T016]] status:review (landed inline at TOOLS.md `#### Idempotency invariants` per F46 design decision) |
 | T-M003-5 | Update $HOME/README.md install + verify section with the verified commands | ⊙ pending |
 | T-M003-6 | Decide: clean-host VM verification (option a) or trust dry-run + check (option c)? | ⊙ pending |
 | T-M003-7 | Refine hook pattern matching to eliminate false positives (per `wiki/log/2026-05-05-hook-pattern-false-positives-for-m003-refinement.md`) — policy-block + malware-block both fire on legitimate commands containing credential-name substrings as data or `install.sh` co-occurring with `.claude/hooks/` path references | ⊙ pending |
