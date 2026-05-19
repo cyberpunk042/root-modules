@@ -159,6 +159,19 @@
 !/scripts/README.md
 !/scripts/lib/
 !/scripts/lib/*.sh
+# Bulletproof Claude Code user-environment bundle (canonical source in
+# cyberpunk042/devops-solutions-information-hub/scripts/claude-code-env/;
+# mirrored here so fresh containers landing in root-ghostproxy can self-heal
+# ~/.claude/ via `bash scripts/claude-code-env/apply.sh`. Operator directive
+# 2026-05-19: "we need to put the fixes everwhere... otherwise the
+# conversation keep dying".)
+!/scripts/claude-code-env/
+!/scripts/claude-code-env/*.md
+!/scripts/claude-code-env/*.sh
+!/scripts/claude-code-env/templates/
+!/scripts/claude-code-env/templates/*.md
+!/scripts/claude-code-env/templates/*.sh
+!/scripts/claude-code-env/templates/*.json
 
 # ---------------------------------------------------------------------------
 # 5. Belt-and-braces: even inside whitelisted dirs, never track these
