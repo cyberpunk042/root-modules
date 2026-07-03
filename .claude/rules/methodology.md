@@ -54,7 +54,7 @@ Per [tools/README.md](../../tools/README.md) the 15 Python tools at `$HOME/tools
 - `tools.progress` refreshes `wiki/governance/progress.md` callout from live state
 - `tools.decisions` manages logbook (40 entries D001-D040)
 - `tools.blockers` surfaces operator-decision-pending in DECISION PACKAGE format (per SB-071)
-- `tools.run-tests` is the **canonical verifier for `verified-edit` action type** (per Hard Rule 14 / M-E001-1 vocabulary type 2) — 23 test files / 411/411 aggregate (15 hook tests under `.claude/hooks/tests/` + 8 tool tests under `tools/tests/`; empirically verified 2026-07-03 via `HOME=<repo> python3 -m tools.run-tests` on the current `main` tree). The prior "14 files / 322/322" figure was never in committed history per `git ls-tree` — corrected per Hard Rule 15 empirical-count-verification.
+- `tools.run-tests` is the **canonical verifier for `verified-edit` action type** (per Hard Rule 14 / M-E001-1 vocabulary type 2) — 24 test files / 425/425 aggregate (16 hook tests under `.claude/hooks/tests/` + 8 tool tests under `tools/tests/`; empirically verified 2026-07-03 via `HOME=<repo> python3 -m tools.run-tests` on the current `main` tree). The prior "14 files / 322/322" figure was never in committed history per `git ls-tree` — corrected per Hard Rule 15 empirical-count-verification.
 
 ## Cross-references
 
