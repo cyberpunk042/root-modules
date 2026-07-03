@@ -304,6 +304,13 @@ id_dsa.*
 !/tools/
 /tools/*
 !/tools/*.py
+# tools/tests/ — tool-layer regression tests discovered by tools.run-tests
+# (mirrors the /.claude/hooks/tests/ whitelist shape above). Without these
+# two lines the deny-all `/tools/*` re-ignores the subdir, so tool tests
+# scanned by the runner + referenced in the docs could never be tracked —
+# the same zero-tracked-files gap fixed for /templates/ on 2026-05-06.
+!/tools/tests/
+!/tools/tests/*.py
 
 # ---------------------------------------------------------------------------
 # Whitelist /templates/ — config + widget templates referenced by install.sh

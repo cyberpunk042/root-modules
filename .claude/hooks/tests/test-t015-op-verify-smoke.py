@@ -330,6 +330,10 @@ def main() -> int:
     print()
     total = len(PASSED) + len(FAILED)
     print(f"[T015-smoke] {len(PASSED)}/{total} tests passed")
+    # Canonical summary line consumed by tools.run-tests' RESULT_RE
+    # (^Result:\s*(\d+)/(\d+)). Without it the aggregate runner counts this
+    # suite as 0/0 and silently drops its assertions from the total.
+    print(f"Result: {len(PASSED)}/{total} passed")
     if FAILED:
         print(f"[T015-smoke] {len(FAILED)} failure(s):")
         for label, detail in FAILED:

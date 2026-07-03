@@ -105,8 +105,10 @@ USAGE EXAMPLES — 5 root-ghostproxy pipeline candidates (DRAFT, agent-proposed)
 # pattern; chain-operations is the substance pattern, single-edit-per-fire
 # is the THIN-output anti-pattern).
 #
-# Test file: tools/tests/test-group.py (when authored; spec at
-# wiki/log/2026-05-06-204500-q1-step-2-tools-group-py-draft-v1-spec.md).
+# Test file: tools/tests/test-group.py (17 assertions — chain/group/tree
+# behavior incl. failure semantics; authored 2026-07-03, the first tool-layer
+# regression test). Spec:
+# wiki/log/2026-05-06-204500-q1-step-2-tools-group-py-draft-v1-spec.md.
 #
 # E003 multi-group component: this is Layer A primitive; Layer B is per-tool
 # adopters; Layer C is /cycle compound-sync step (operator-decision pending).

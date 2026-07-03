@@ -36,9 +36,12 @@ the bug at tool-call time, not just rule-warning time.
 
 Wired in `.claude/settings.json` as PreToolUse hook with matcher `Write|Edit|NotebookEdit`.
 
-Status: DRAFT — authored 2026-05-05 during systemic-fix workblock. NOT YET WIRED
-in settings.json — operator approval required (work-mode.md PO approval boundary
-covers hook configuration changes).
+Status: WIRED — authored 2026-05-05 during systemic-fix workblock; wired in
+.claude/settings.json as a PreToolUse hook (matcher `Write|Edit|NotebookEdit`,
+command `python3 $HOME/.claude/hooks/opt-write-block.sh`). Empirically verified
+2026-07-03 (settings.json parse + tests/test-opt-write-block.py 5/5). Any future
+change to its wiring still falls under work-mode.md PO approval boundary (hook
+configuration changes).
 """
 
 from __future__ import annotations

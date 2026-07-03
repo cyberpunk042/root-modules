@@ -17,10 +17,19 @@ from pathlib import Path
 # Portable resolution: project root = $HOME for type=root install.
 HOOK = str(Path.home() / ".claude" / "hooks" / "opt-write-block.sh")
 PROJECT = str(Path.home())
-# OPT is the second-brain path. Try env var, then default. Hook checks the
-# /opt/devops-solutions-information-hub/ prefix internally; tests just need
-# a path that starts with that prefix to verify the deny branch fires.
-OPT = os.environ.get("RGP_SECOND_BRAIN_ROOT", "/opt/devops-solutions-information-hub").rstrip("/") + "/"
+# OPT is the second-brain path. The hook resolves the second-brain root
+# dynamically (RGP_SECOND_BRAIN_ROOT env → $HOME/devops-solutions-information-hub
+# → /opt legacy). To keep this test deterministic regardless of the ambient
+# filesystem, we PIN the root via RGP_SECOND_BRAIN_ROOT (set into every
+# subprocess env below) and derive OPT from the SAME value — so the path the
+# test asserts against and the prefix the hook protects can never diverge.
+# (Without pinning, a host where neither /opt/... nor $HOME/...-info-hub exists
+# resolves the hook to a different prefix than this hardcoded default, and the
+# DENY case silently passes — an environment-coupling false-green.)
+SECOND_BRAIN_ROOT = os.environ.get(
+    "RGP_SECOND_BRAIN_ROOT", "/opt/devops-solutions-information-hub"
+).rstrip("/")
+OPT = SECOND_BRAIN_ROOT + "/"
 
 # Each test: label, env-vars-to-set, payload, expected ("allow" or "block")
 tests = [
@@ -52,6 +61,9 @@ total = len(tests)
 for label, envvars, tool_input, expected in tests:
     payload = {"session_id": "test", **tool_input}
     env = os.environ.copy()
+    # Pin the second-brain root so the hook protects exactly the prefix this
+    # test builds its OPT paths from (see SECOND_BRAIN_ROOT note above).
+    env["RGP_SECOND_BRAIN_ROOT"] = SECOND_BRAIN_ROOT
     env.update(envvars)
     r = subprocess.run(
         [HOOK],
