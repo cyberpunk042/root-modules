@@ -40,7 +40,7 @@ Per [`.claude/rules/trigger-model.md`](trigger-model.md) the unified signal→ac
 | `"per-project install"` / `"deploy agent brain"` | Sister-project agent-brain deploy | `install.sh --profile project --dest <path>` OR `/install-agent-brain <path>` |
 | `"verify state"` / `"verify install"` | Read-only drift detection (16+ checks) | `install.sh --check` |
 | `"audit"` / `"10-step integrity check"` | yamls + hooks + blockers + decisions + state files | `/audit` |
-| `"run regression tests"` / `"verified-edit"` (Hard Rule 14) | Unified runner across 21 test files — 13 hook + 8 tool (empirically verified 2026-07-03 on `main`) | `python3 -m tools.run-tests` (392/392 aggregate; prior "14 files / 322/322" figure was never in committed history — corrected per Hard Rule 15) |
+| `"run regression tests"` / `"verified-edit"` (Hard Rule 14) | Unified runner across 22 test files — 14 hook + 8 tool (empirically verified 2026-07-03 on `main`) | `python3 -m tools.run-tests` (403/403 aggregate; prior "14 files / 322/322" figure was never in committed history — corrected per Hard Rule 15) |
 | `"status"` / `"what's next"` | Show SFIF stage + active mission/focus/impediment + priorities + pending-decision tasks | CONTEXT.md (Active Objective Layer + SFIF + Operator-Pending Decisions tables) |
 | `"add Suricata"` / `"PolarProxy"` | M005 territory; check ordering against ccstatusline (M011 ordered before M005) | M005 / M011 module pages |
 | `"connect to second brain"` | M007 — `tools.setup --connect-project $HOME --dry-run` first | M007 task pages T038-T043 |
