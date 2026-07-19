@@ -1,5 +1,7 @@
 # root-modules
 
+> **Want the quick overview?** Read [SUMMARY.md](SUMMARY.md) — what the project does by default, the modules you can add, and the pros and cons of each.
+>
 > **Fresh session?** Read [BOOTSTRAP.md](BOOTSTRAP.md) first — one-page cold-pickup guide.
 
 > **Agent doc-update discipline (operator directive 2026-05-06, sacrosanct)**: when improving this README or any sister doc, **adding ≠ discarding**. Layer new content onto prior content; refresh inline values where empirically drifted (with empirical-verification command output inline); do NOT replace existing sections wholesale unless the operator explicitly directs. Going-to-extremes (SB-082/093 family) recurs when an agent rewrites instead of revises. Cycle taxonomy: see `$HOME/.claude/commands/cycle.md` "Productive cycle taxonomy" + `wiki/log/2026-05-06-181500-auto-pilot-action-vocabulary-draft.md` (M-E001-1 DRAFT v2 — 9 action types) + `.claude/hooks/mindfulness.sh` clause #6 (4 canonical types).

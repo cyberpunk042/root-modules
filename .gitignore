@@ -15,6 +15,7 @@
 !/.claudeignore
 !/.mcp.json
 !/README.md
+!/SUMMARY.md
 !/LICENSE
 !/install.sh
 !/uninstall.sh
