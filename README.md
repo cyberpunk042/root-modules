@@ -1,4 +1,4 @@
-# root-ghostproxy
+# root-modules
 
 > **Fresh session?** Read [BOOTSTRAP.md](BOOTSTRAP.md) first — one-page cold-pickup guide.
 
