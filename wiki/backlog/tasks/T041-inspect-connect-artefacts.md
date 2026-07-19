@@ -3,7 +3,7 @@ title: "T041 — Inspect each of the 4 written artefacts for correctness"
 type: task
 status: not-started
 priority: P0
-parent_module: "root-ghostproxy-m007-connect-second-brain"
+parent_module: "root-modules-m007-connect-second-brain"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: test
 readiness: 0
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m007-connect-second-brain.md
+    file: wiki/backlog/modules/root-modules-m007-connect-second-brain.md
 tags: [task, p0, t041, stream-1, connect, post-run-verify, m007]
 ---
 
@@ -37,6 +37,6 @@ After T040, verify each of the 4 artefacts the connect-script wrote.
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m007-connect-second-brain|M007]]
+- PART OF: [[root-modules-m007-connect-second-brain|M007]]
 - BLOCKED BY: T040
 - BLOCKS: T042 (commit), T043 (rollback policy on failure)

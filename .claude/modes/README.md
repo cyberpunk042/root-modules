@@ -1,5 +1,5 @@
 ---
-title: ".claude/modes/ — root-ghostproxy mode files"
+title: ".claude/modes/ — root-modules mode files"
 type: reference
 subtype: subdir-readme
 domain: cross-domain

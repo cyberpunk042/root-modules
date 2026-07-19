@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# scripts/lib/common.sh — shared helpers for root-ghostproxy scripts.
+# scripts/lib/common.sh — shared helpers for root-modules scripts.
 # Sourced by: checkout-a-init-remote.sh, checkout-b-clone-subdir.sh, merge-from-backup.sh
 #
 # Provides: logging (say/hdr/ok/warn/fail/info) + TTY detection + ask/confirm.

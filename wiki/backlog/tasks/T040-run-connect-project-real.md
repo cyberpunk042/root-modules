@@ -3,7 +3,7 @@ title: "T040 — Run `python3 -m tools.setup --connect-project $HOME` from secon
 type: task
 status: not-started
 priority: P0
-parent_module: "root-ghostproxy-m007-connect-second-brain"
+parent_module: "root-modules-m007-connect-second-brain"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: implement
 readiness: 0
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m007-connect-second-brain.md
+    file: wiki/backlog/modules/root-modules-m007-connect-second-brain.md
 tags: [task, p0, t040, stream-1, connect, apply, m007]
 ---
 
@@ -37,6 +37,6 @@ After M006 audit log + operator authorization, run the connection for real. Four
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m007-connect-second-brain|M007]]
+- PART OF: [[root-modules-m007-connect-second-brain|M007]]
 - BLOCKED BY: T037, T039
 - BLOCKS: T041, T042, T043

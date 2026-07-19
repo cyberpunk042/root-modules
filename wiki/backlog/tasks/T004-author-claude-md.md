@@ -3,7 +3,7 @@ title: "T004 — Author $HOME/CLAUDE.md (Claude Code-specific routing)"
 type: task
 status: done
 priority: P0
-parent_module: "root-ghostproxy-m001-author-claude-md-and-agents-md"
+parent_module: "root-modules-m001-author-claude-md-and-agents-md"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: scaffold
 readiness: 100
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m001-author-claude-md-and-agents-md.md
+    file: wiki/backlog/modules/root-modules-m001-author-claude-md-and-agents-md.md
 tags: [task, p0, t004, scaffold, claude-md, authoring, m001]
 ---
 
@@ -48,6 +48,6 @@ $HOME/CLAUDE.md authored 2026-05-05 (175 lines). Multiple iterations under opera
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m001-author-claude-md-and-agents-md|M001]]
+- PART OF: [[root-modules-m001-author-claude-md-and-agents-md|M001]]
 - BLOCKED BY: T003, T002
 - BLOCKS: T005 (operator review)

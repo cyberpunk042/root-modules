@@ -23,7 +23,7 @@ The mechanisms differ in WHO fires the signal, HOW deterministic the action is, 
 | **Skill** | Description-match auto-trigger from operator prose (or explicit Skill invocation) | ~70-95% (semantic match) | CAN invoke commands or tools | `$HOME/.claude/skills/<name>/`, `~/.claude/skills/...` |
 | **Mode** | State file `$HOME/.claude/active-mode` set by operator (durable across turns) | Affects subsequent cycle behavior; not per-turn | Composes WITH /cycle to define autopilot sequence | `$HOME/.claude/modes/*.md` |
 | **Tool** | Agent invokes during reasoning (Read, Bash, Edit, MCP-tool, etc.) | Programmatic (deterministic input → deterministic output) | Most fundamental — hooks/commands/skills all compose tools | `$HOME/tools/*.py` (project-internal) + harness-provided |
-| **MCP tool** | Agent invokes via MCP server (deferred-loaded in this session) | Programmatic, structured returns | Same shape as tools; just different transport | `mcp__root-ghostproxy__*` |
+| **MCP tool** | Agent invokes via MCP server (deferred-loaded in this session) | Programmatic, structured returns | Same shape as tools; just different transport | `mcp__root-modules__*` |
 | **Scheduled task** | Time-trigger (cron) or self-paced (ScheduleWakeup) | Cron-deterministic OR agent-self-paced | Wraps any of the above (e.g. `/loop /cycle`) | `CronCreate`, `ScheduleWakeup` |
 | **Sub-agent** | Parent agent invokes via Agent tool with `subagent_type` | Independent context; cold-start | Composes own brain-load + tool subset | `$HOME/.claude/agents/*.md` |
 

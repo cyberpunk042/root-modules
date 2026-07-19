@@ -1,5 +1,5 @@
 ---
-title: ".claude/rules/ — root-ghostproxy on-demand topic rules"
+title: ".claude/rules/ — root-modules on-demand topic rules"
 type: reference
 subtype: subdir-readme
 domain: cross-domain

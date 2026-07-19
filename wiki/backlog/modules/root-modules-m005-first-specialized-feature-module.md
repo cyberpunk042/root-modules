@@ -1,5 +1,5 @@
 ---
-title: "root-ghostproxy M005 — First Specialized Feature Module (Suricata or PolarProxy)"
+title: "root-modules M005 — First Specialized Feature Module (Suricata or PolarProxy)"
 aliases:
   - "M005 — Suricata-or-PolarProxy first"
 type: module
@@ -45,14 +45,14 @@ sources:
     type: wiki
     file: wiki/sources/src-hanke-honeypot-polarproxy-suricata-integration.md
     description: "Layer 1 — canonical Suricata + PolarProxy integration via dummy interface + tcpreplay; 4-service systemd dependency chain"
-tags: [module, p0, root-ghostproxy, sfif-features, suricata, polarproxy, operator-decision-pending, m005]
+tags: [module, p0, root-modules, sfif-features, suricata, polarproxy, operator-decision-pending, m005]
 ---
 
 # M005 — First Specialized Feature Module (Suricata or PolarProxy)
 
 ## Summary
 
-Build the first SFIF-Features-tier module of root-ghostproxy: either the Suricata IDS/IPS module OR the PolarProxy TLS inspection module. Both are operator-named as the "two vendors & modules" the project will integrate. M005 covers ONE of them end-to-end (design → integration into install.sh → tests); the second module is its own subsequent epic. Operator picks which first based on architectural sequencing and risk preference. Both source-synthesis pages already exist in the second brain (`wiki/sources/src-suricata.md` and `src-polarproxy.md`), capturing modes, deployment patterns, license, FAQ, and operational scaffold notes — these are the Layer-1-ish starting points for design.
+Build the first SFIF-Features-tier module of root-modules: either the Suricata IDS/IPS module OR the PolarProxy TLS inspection module. Both are operator-named as the "two vendors & modules" the project will integrate. M005 covers ONE of them end-to-end (design → integration into install.sh → tests); the second module is its own subsequent epic. Operator picks which first based on architectural sequencing and risk preference. Both source-synthesis pages already exist in the second brain (`wiki/sources/src-suricata.md` and `src-polarproxy.md`), capturing modes, deployment patterns, license, FAQ, and operational scaffold notes — these are the Layer-1-ish starting points for design.
 
 ## Done When
 
@@ -111,18 +111,18 @@ Build the first SFIF-Features-tier module of root-ghostproxy: either the Suricat
 
 ## Relationships
 
-- PART OF: [[sfif-rollout-and-second-brain-integration|Epic — root-ghostproxy SFIF Rollout]]
+- PART OF: [[sfif-rollout-and-second-brain-integration|Epic — root-modules SFIF Rollout]]
 - BUILDS ON: [[src-suricata|Suricata Layer 0]]
 - BUILDS ON: [[src-suricata-install-quickstart|Suricata install + quickstart]]
 - BUILDS ON: [[src-suricata-ips-mode-linux|Suricata IPS Mode for Linux]]
 - BUILDS ON: [[src-suricata-yaml-config|Suricata.yaml master config]]
 - BUILDS ON: [[src-polarproxy|PolarProxy Layer 0]]
 - BUILDS ON: [[src-hanke-honeypot-polarproxy-suricata-integration|Hanke integration pattern]]
-- BLOCKED BY: [[root-ghostproxy-m004-infrastructure-tooling|M004 — Infrastructure tooling]]
+- BLOCKED BY: [[root-modules-m004-infrastructure-tooling|M004 — Infrastructure tooling]]
 
 ## Backlinks
 
-[[Epic — root-ghostproxy SFIF Rollout]]
+[[Epic — root-modules SFIF Rollout]]
 [[Suricata Layer 0]]
 [[Suricata install + quickstart]]
 [[Suricata IPS Mode for Linux]]

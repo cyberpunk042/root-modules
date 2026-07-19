@@ -4,7 +4,9 @@
 
 > **Agent doc-update discipline (operator directive 2026-05-06, sacrosanct)**: when improving this README or any sister doc, **adding ≠ discarding**. Layer new content onto prior content; refresh inline values where empirically drifted (with empirical-verification command output inline); do NOT replace existing sections wholesale unless the operator explicitly directs. Going-to-extremes (SB-082/093 family) recurs when an agent rewrites instead of revises. Cycle taxonomy: see `$HOME/.claude/commands/cycle.md` "Productive cycle taxonomy" + `wiki/log/2026-05-06-181500-auto-pilot-action-vocabulary-draft.md` (M-E001-1 DRAFT v2 — 9 action types) + `.claude/hooks/mindfulness.sh` clause #6 (4 canonical types).
 
-**A system AI safety setup project.** Infrastructure-as-Code that turns a Linux box into a transparent L2 inspection bridge sitting inline between an edge firewall (OPNsense) and the first switch on the LAN, with optional inspection modules — Suricata for signature-based IDS/IPS, PolarProxy for TLS termination — layered on facultatively for deeper visibility into AI-related network traffic crossing the host.
+**A root / home folder upgrader and evolver, with installable supplementary modules.** First and by default, root-modules is Infrastructure-as-Code that upgrades and evolves a root or home folder — idempotent install path, agent brain (hooks + rules + commands + modes + tools), methodology layer, endpoint AI agent safety at the OS-root level. Secondly, supplementary modules can be installed on top — like the **ghostproxy combo**: a transparent L2 inspection bridge sitting inline between an edge firewall (OPNsense) and the first switch on the LAN, with Suricata for signature-based IDS/IPS and PolarProxy for TLS termination, for deeper visibility into AI-related network traffic crossing the host.
+
+> **Renamed 2026-07-19** — operator directive (verbatim, sacrosanct): *"root-ghostproxy has just been renamed into root-modules. lets update the repo as such. its at first and by default a root or home folder upgrader, evolver and secondly you can install supplementary modules like the ghostproxy combo."* The prior project name `root-ghostproxy` now names the network-inspection **module combo** (ghost bridge + proxy inspection), not the project. Historical records (`wiki/log/`, `docs/SESSION-*`, operator-verbatim quotes) retain the old name — sacrosanct + additive-not-discarding. Directive log: [wiki/log/2026-07-19-rename-root-modules-directive.md](wiki/log/2026-07-19-rename-root-modules-directive.md).
 
 > "its IAC and its basically a IPS sitting in between the Edge firewall (OPNSense) and the first switch / the local network... So its not just an IPS its a system AI safety setup project and the IPS tools (suricata and [polarproxy]) as modules" — operator, 2026-05-04
 >
@@ -14,7 +16,7 @@
 
 ## What This Is
 
-root-ghostproxy is an Infrastructure-as-Code project that takes a Linux host (target: Debian 13, the operator's confirmed base distribution per the verbatim *"new machine (non-GUI) debian 13"*) and configures it as a **system AI safety setup**. Operator's own framing of what the project is, verbatim:
+root-modules is an Infrastructure-as-Code project that takes a Linux host (target: Debian 13, the operator's confirmed base distribution per the verbatim *"new machine (non-GUI) debian 13"*) and, per the 2026-07-19 rename directive, is *"at first and by default a root or home folder upgrader, evolver"* — and *"secondly you can install supplementary modules like the ghostproxy combo"*. The system-AI-safety-setup scope below remains: the foundation (upgrader/evolver half) carries the endpoint AI agent safety; the ghostproxy combo (module half) carries the network inspection. Operator's original framing of the project, verbatim (2026-05-04):
 
 > *"its a new type of project but its IAC and its basically a IPS sitting in between the Edge firewall (OPNSense) and the first switch / the local network. its aiming to **secure an OS and configure claude code and opencode at the root with all the safety needed**. it will do this and it will also offer in the future to for instance we use this machine or another [new] one. So its not just an IPS its a system AI safety setup project and the IPS tools (suricata and [polarproxy]) as modules."*
 
@@ -25,7 +27,7 @@ That single quote names two distinct capability halves:
 
 Both halves together = "system AI safety setup." Neither alone is the project. The operator's framing is that AI safety has to be addressed at both the endpoint where agents run AND the network where agent traffic flows.
 
-The project is **multi-host capable by design.** Per the operator: *"it will do this and it will also offer in the future to for instance we use this machine or another [new] one."* The intent is that root-ghostproxy is portable IaC — the same setup deployable to a new machine when the operator brings a new host online.
+The project is **multi-host capable by design.** Per the operator: *"it will do this and it will also offer in the future to for instance we use this machine or another [new] one."* The intent is that root-modules is portable IaC — the same setup deployable to a new machine when the operator brings a new host online.
 
 The project is **type=root** because what it configures is the operating system itself. The "root" descriptor is a scope claim, not an install-path claim. Even installed under a non-root user account (the operator gave the example of `jfortin install too`), the project remains type=root because what it touches is system-level: AI agent policy at the endpoint, network configuration at the bridge layer, kernel-level packet handling, system services, security policy. group=operating-system-setup further classifies it within a class of projects whose purpose is to set up an operating system from scratch as opposed to add a layer on top of an already-configured one.
 
@@ -36,21 +38,23 @@ The project is at present **barely started** (operator's verbatim framing, 2026-
 
 What exists right now is the project's foundational scaffolding: identity registered with the second brain, methodology layer adopted from the second brain, backlog scaffolded with the active rollout epic + 14 modules, and the agent-context files (this README, plus CLAUDE.md, AGENTS.md, CONTEXT.md, and the secondary depth files) being authored. The actual implementation work — install scripts, systemd units, nftables rules, Claude+opencode hardening config (operator-authored from scratch, not extending the prior debris), Suricata configuration, PolarProxy deployment — is downstream of this foundation and most of it is operator-driven future-session work, not work this README's authoring conversation handles.
 
-## The Naming: Ghost + Proxy
+## The Naming: Ghost + Proxy (now the module combo's name)
 
-The project name encodes architectural intent.
+> **Since the 2026-07-19 rename**, "ghostproxy" is no longer the project name — the project is **root-modules**. "Ghostproxy" survives as the name of the network-inspection **module combo** (the transparent bridge + Suricata + PolarProxy stack, per the operator's *"supplementary modules like the ghostproxy combo"*). The section below explains what the ghostproxy name encodes; it now applies to that combo.
+
+The ghostproxy name encodes architectural intent.
 
 **Ghost** refers to the transparent L2 bridge property: the box sits inline on the data path but has no IP address on the inspected segment. Endpoints on the LAN do not see it as a network hop; they see what looks like a direct connection to the OPNsense edge. From an L3 perspective the box is invisible. This is the standard "stealth bridge" deployment for inline inspection appliances and it is the architectural posture this project commits to.
 
 **Proxy** refers to the TLS termination capability that the PolarProxy module enables. When PolarProxy is installed, the box becomes a transparent forward proxy for TLS streams crossing it: the proxy intercepts the encrypted stream, terminates and decrypts it, re-encrypts toward the destination, and emits the cleartext to a downstream consumer (typically Suricata) for inspection. Without the PolarProxy module, the box is not a proxy in any sense — just a passive L2 bridge. The "proxy" half of the name is conditional on the module being installed.
 
-Together: **ghostproxy** = a stealth (L3-invisible) inline appliance that becomes a TLS proxy when its inspection modules enable that capability. The name captures both halves of what the project is designed to be at full installation.
+Together: **ghostproxy** = a stealth (L3-invisible) inline appliance that becomes a TLS proxy when its inspection modules enable that capability. The name captures both halves of what the module combo is designed to be at full installation.
 
 ## The AI Safety Thesis
 
 Why does this project exist as a distinct thing rather than being "yet another transparent IPS appliance with a hardened OS layered on top"?
 
-The operator's framing is that AI agents have become a category of computing where safety has to be addressed at TWO points: the **endpoint** where agents run + the **network** where agent traffic flows. Both points matter; neither alone is sufficient. root-ghostproxy addresses both, which is what makes it a "system AI safety setup project" rather than a generic IPS or a generic OS-hardening project.
+The operator's framing is that AI agents have become a category of computing where safety has to be addressed at TWO points: the **endpoint** where agents run + the **network** where agent traffic flows. Both points matter; neither alone is sufficient. root-modules addresses both, which is what makes it a "system AI safety setup project" rather than a generic IPS or a generic OS-hardening project.
 
 ### Endpoint half — AI agents running on the host
 
@@ -88,7 +92,7 @@ The same machinery applied to a generic security context (block known-bad IPs, m
 
 ```
    ┌──────────┐     ┌────────────┐     ┌──────────────────┐     ┌────────────────┐
-   │ Internet │ ─→  │ OPNsense   │ ─→  │  root-ghostproxy │ ─→  │  first switch  │ ─→ LAN endpoints
+   │ Internet │ ─→  │ OPNsense   │ ─→  │  root-modules │ ─→  │  first switch  │ ─→ LAN endpoints
    │          │     │ edge FW    │     │  (transparent    │     │                │     (workstations,
    │          │     │            │     │   L2 bridge)     │     │                │      AI agents,
    └──────────┘     └────────────┘     └──────────────────┘     └────────────────┘      services)
@@ -123,7 +127,7 @@ Specific interface device names (e.g. `enp2s0` / `enp4s0` / `wlp3s0`, or `eth0` 
 
 ## Identity (Goldilocks 9-Dimension)
 
-The Goldilocks identity protocol from the second brain (`<second-brain>/wiki/domains/cross-domain/methodology-framework/project-self-identification-protocol.md`) defines nine dimensions that a project answers about itself in order to right-size its process. root-ghostproxy answers them as follows:
+The Goldilocks identity protocol from the second brain (`<second-brain>/wiki/domains/cross-domain/methodology-framework/project-self-identification-protocol.md`) defines nine dimensions that a project answers about itself in order to right-size its process. root-modules answers them as follows:
 
 Per the second brain's **Consumer-Property Doctrine** (`execution-mode-is-consumer-property-not-project-property` lesson): some Goldilocks dimensions are **stable project properties** (true regardless of who's working on the project at any moment); others are **consumer/task properties** (defaults the consumer — the agent in a given session — can override). The table below marks each dimension's layer.
 
@@ -133,7 +137,7 @@ Per the second brain's **Consumer-Property Doctrine** (`execution-mode-is-consum
 | **Group** | Stable | `operating-system-setup` | Within the `type=root` class, this project is specifically about turning a fresh OS into a configured-to-purpose host (rather than, say, adding an application layer on top of an already-configured host). **Group is a purpose-class axis**, distinct from Domain (technology axis). A project answers both: what tech is it (Domain) AND what's its purpose-class (Group). |
 | **Domain** | Stable | Infrastructure | The project is infrastructure work — IaC, networking, system services, security tooling — as opposed to knowledge work, application code work, or research. **Domain is a technology axis** (TypeScript / Python / Infrastructure / Knowledge / etc.), distinct from Group (purpose-class). |
 | **Phase** | State (mutable) | scaffold + partial-foundation | At time of writing the methodology layer + backlog scaffold + sister-project registration are in place (scaffold), and the agent-context files are being authored (also scaffold). The transparent-bridge install path itself does not exist (foundation is partial — pending). Phase changes as the project matures; this is the SFIF stage indicator. |
-| **Scale** | State | micro | Single host. One physical box. Not a fleet. The project's full lifecycle plays out on a single machine. Scale would graduate if root-ghostproxy were ever deployed across multiple hosts simultaneously (operator's multi-host portability is intent, not yet realized). |
+| **Scale** | State | micro | Single host. One physical box. Not a fleet. The project's full lifecycle plays out on a single machine. Scale would graduate if root-modules were ever deployed across multiple hosts simultaneously (operator's multi-host portability is intent, not yet realized). |
 | **Execution mode** | Consumer/Task (default) | solo | Default is solo (one operator, one agent, conversation-driven). A future-session consumer could override to autonomous (operator authorizes a long-running task) or semi-autonomous (review gates per stage). The PROJECT supports any of these; the SESSION picks one. |
 | **SDLC profile** | Consumer/Task (default) | simplified | Default is simplified (right-sized for micro + solo). Will graduate to default profile when Infrastructure-tier tooling lands and ceremony pays off. A consumer can override per session if a specific work block warrants tighter (or looser) ceremony. |
 | **PM Level** | Consumer/Task (default) | L1 | Default is L1 (no harness, no fleet, single operator, markdown-tracked backlog). L0 = "no backlog at all"; L2 = cross-project coordination; L3 = full PM tooling. Consumer can override per session. |
@@ -164,23 +168,23 @@ To keep docs portable across install users, two placeholders appear throughout:
 
 When you read `$HOME/wiki/log/<date>-<slug>.md` in a doc, mentally substitute the path that matches your install. Code/scripts already auto-resolve via `Path.home()` + env-var fallback chains — no manual substitution needed at runtime.
 
-## What Makes root-ghostproxy Distinct (vs Other Sisters)
+## What Makes root-modules Distinct (vs Other Sisters)
 
-The other four projects in the ecosystem (OpenArms, OpenFleet, AICP, devops-control-plane) are conventional sister projects with their own `$HOME/<projectname>` directory and project-internal scope. root-ghostproxy is structurally different:
+The other four projects in the ecosystem (OpenArms, OpenFleet, AICP, devops-control-plane) are conventional sister projects with their own `$HOME/<projectname>` directory and project-internal scope. root-modules is structurally different:
 
-| Property | root-ghostproxy | Other sisters |
+| Property | root-modules | Other sisters |
 |---|---|---|
 | **Repo location** | `$HOME` itself (`git init` at the home directory) | `$HOME/<projectname>` (separate subdirectory per project) |
 | **Install side-effects** | Writes to `$HOME/.claude/`, `$HOME/.config/opencode/`, system services. The install REACHES OUTSIDE the project directory by design. | Self-contained in the project's own directory. Install does not touch other parts of the filesystem. |
-| **Two-layer hook architecture** | **Owns the machine-level hook layer** (`$HOME/.claude/settings.json` + `$HOME/.claude/hooks/*`). These fire on every tool call BEFORE any project-level layer in any other project. | Each has its own project-level `.claude/` (if any) — but no project-level layer overrides root-ghostproxy's machine-level deny rules. |
+| **Two-layer hook architecture** | **Owns the machine-level hook layer** (`$HOME/.claude/settings.json` + `$HOME/.claude/hooks/*`). These fire on every tool call BEFORE any project-level layer in any other project. | Each has its own project-level `.claude/` (if any) — but no project-level layer overrides root-modules's machine-level deny rules. |
 | **Cross-AI-tool scope** | Spans Claude Code AND opencode via the shared bridge plugin. One policy source of truth, two AI agent runtimes obeying it. | Each project is single-AI-tool-focused (own CLAUDE.md, own conventions). |
 | **SFIF state** | scaffold + partial-foundation (barely started); foundation IaC pending | Generally Production phase (mature, used daily) |
 | **Modules** | Has the modules concept (Suricata, PolarProxy facultative add-ons) | No equivalent module concept |
 | **Multi-host design intent** | Portable IaC by design: *"this machine or another [new] one"* | Typically run on operator's primary developer machine; not designed for multi-host deployment |
 
-The two-layer hook architecture point is load-bearing for the ecosystem: because root-ghostproxy installs at `$HOME` and configures `~/.claude/`, its hooks fire on tool calls in **all** Claude Code sessions on the host — including sessions opened in other sister projects. A LAN endpoint where root-ghostproxy is installed has its endpoint-AI-safety policy enforced uniformly across every AI-agent session, regardless of which project that session is operating in. This is what distinguishes "machine-level safety policy" (root-ghostproxy's job) from "project-level conventions" (every sister project's own `.claude/` directory, when present).
+The two-layer hook architecture point is load-bearing for the ecosystem: because root-modules installs at `$HOME` and configures `~/.claude/`, its hooks fire on tool calls in **all** Claude Code sessions on the host — including sessions opened in other sister projects. A LAN endpoint where root-modules is installed has its endpoint-AI-safety policy enforced uniformly across every AI-agent session, regardless of which project that session is operating in. This is what distinguishes "machine-level safety policy" (root-modules's job) from "project-level conventions" (every sister project's own `.claude/` directory, when present).
 
-> **Brain inheritance pattern** (operator directive 2026-05-06, SB-115 closure): `$HOME` is the **source-of-truth for operational tooling** (hooks, slash commands, tools/*.py, settings.json wiring conventions, ANSI-fence rendering patterns, statusline widgets, mode-enforcement banner shape). `/opt/devops-solutions-information-hub/` (the second brain) **inherits / adapts** these patterns, not the reverse. When `$HOME`'s hook evolves (e.g., SB-115 redesign of stamp config from prompt-marker to slash-command + persistent JSON), `/opt`'s parallel hook should track the improvement, not maintain a divergent copy. Anti-pattern: framing $HOME and /opt as independent peers when /opt is structurally a consumer of $HOME's operational layer. Knowledge contributions flow the OTHER direction (root-ghostproxy → second brain via `gateway contribute`); see [.claude/rules/self-reference.md](.claude/rules/self-reference.md) "Bidirectional inheritance" section for the layered table.
+> **Brain inheritance pattern** (operator directive 2026-05-06, SB-115 closure): `$HOME` is the **source-of-truth for operational tooling** (hooks, slash commands, tools/*.py, settings.json wiring conventions, ANSI-fence rendering patterns, statusline widgets, mode-enforcement banner shape). `/opt/devops-solutions-information-hub/` (the second brain) **inherits / adapts** these patterns, not the reverse. When `$HOME`'s hook evolves (e.g., SB-115 redesign of stamp config from prompt-marker to slash-command + persistent JSON), `/opt`'s parallel hook should track the improvement, not maintain a divergent copy. Anti-pattern: framing $HOME and /opt as independent peers when /opt is structurally a consumer of $HOME's operational layer. Knowledge contributions flow the OTHER direction (root-modules → second brain via `gateway contribute`); see [.claude/rules/self-reference.md](.claude/rules/self-reference.md) "Bidirectional inheritance" section for the layered table.
 
 ## Architecture: Layered
 
@@ -263,17 +267,17 @@ Two inspection modules are named in the project's vision. Both are facultative �
 
 - `<second-brain>/wiki/sources/src-suricata.md` — Layer 0 README + repo metadata
 - `<second-brain>/wiki/sources/src-suricata-install-quickstart.md` — Layer 1 install paths (PPA / Debian / source build), suricata.yaml HOME_NET + interface examples, the canary alert SID 2100498 + curl testmynids.org pattern
-- `<second-brain>/wiki/sources/src-suricata-ips-mode-linux.md` — Layer 1 the 5 IPS modes (NFQUEUE+iptables, NFQUEUE+nftables, AF_PACKET, DPDK, Netmap), failopen via nftables `bypass`, the **br0-vs-AF_PACKET-IPS architectural decision** that root-ghostproxy must explicitly resolve at module-design time
+- `<second-brain>/wiki/sources/src-suricata-ips-mode-linux.md` — Layer 1 the 5 IPS modes (NFQUEUE+iptables, NFQUEUE+nftables, AF_PACKET, DPDK, Netmap), failopen via nftables `bypass`, the **br0-vs-AF_PACKET-IPS architectural decision** that root-modules must explicitly resolve at module-design time
 - `<second-brain>/wiki/sources/src-suricata-yaml-config.md` — Layer 1 suricata.yaml master config navigation (22 sub-sections + 8 sub-chapters), action-order semantics, EVE JSON, threading, hardening
 
-**Architectural decisions deferred to module-design time.** The Suricata IPS Mode synthesis flags a load-bearing architectural choice for root-ghostproxy specifically:
+**Architectural decisions deferred to module-design time.** The Suricata IPS Mode synthesis flags a load-bearing architectural choice for root-modules specifically:
 
 - **Phase-1 path:** keep the Linux bridge `br0`, use NFQUEUE on the FORWARD chain with the `bypass` option for failopen. Simpler. Failopen behavior: when Suricata is down, traffic flows uninspected (network keeps working).
 - **Phase-2 path:** retire the kernel bridge, use AF_PACKET IPS mode with the two ethernet interfaces paired via `copy-mode: ips`. Tighter integration. Failopen behavior: when Suricata is down, the copy stops and packets pile up at the NIC (fail-CLOSED at L2).
 
 This decision belongs in the Suricata module's design doc, not in this README. The decision needs to be made before the module's install path is authored.
 
-**Status.** Not installed. Not yet integrated. Module page: [wiki/backlog/modules/root-ghostproxy-m005-first-specialized-feature-module.md](wiki/backlog/modules/root-ghostproxy-m005-first-specialized-feature-module.md). Operator-driven future-session work.
+**Status.** Not installed. Not yet integrated. Module page: [wiki/backlog/modules/root-modules-m005-first-specialized-feature-module.md](wiki/backlog/modules/root-modules-m005-first-specialized-feature-module.md). Operator-driven future-session work.
 
 ### PolarProxy (TLS Inspection Module)
 
@@ -286,8 +290,8 @@ This decision belongs in the Suricata module's design doc, not in this README. T
 
 **Architectural decisions deferred to module-design time.**
 
-- **Mode choice.** For root-ghostproxy's bridge topology, the natural mode is Transparent Forward Proxy with a TLS-firewall ruleset (so banking / healthcare / chrome-pinned domains bypass decryption while inspectable destinations are decrypted). The 7 other modes are out-of-scope for this appliance.
-- **CA distribution.** PolarProxy's dynamic CA must be installed as a trusted root on every LAN endpoint whose traffic is decrypted, OR root-ghostproxy's threat model accepts that untrusted-CA endpoints will see cert errors.
+- **Mode choice.** For root-modules's bridge topology, the natural mode is Transparent Forward Proxy with a TLS-firewall ruleset (so banking / healthcare / chrome-pinned domains bypass decryption while inspectable destinations are decrypted). The 7 other modes are out-of-scope for this appliance.
+- **CA distribution.** PolarProxy's dynamic CA must be installed as a trusted root on every LAN endpoint whose traffic is decrypted, OR root-modules's threat model accepts that untrusted-CA endpoints will see cert errors.
 - **License tier.** The free tier (10 GB / 10 000 sessions / 10 000 rule-matches per day) caps inspection volume. Past the cap, PolarProxy fails OPEN — keeps forwarding TLS but stops decrypting. Operational monitoring needs to alert on the rate of TLS sessions seen vs decrypted, divergence after the cap is the signal.
 
 **Status.** Not installed. Not yet integrated. Operator-driven future-session work, ordered by the operator after the Suricata module (typical pattern is passive-before-active = Suricata-first; PolarProxy-first is also valid if cert distribution is the higher-uncertainty risk to de-risk first).
@@ -299,7 +303,7 @@ The architecture is intentionally extensible. The two named modules (Suricata, P
 - **eBPF-based traffic classification** — Linux eBPF programs that tag flows with custom classifications (e.g. "this flow is to an LLM provider," "this flow is suspected exfil") for downstream rule-matching by Suricata.
 - **AI-specific signature feeds** — curated rule sets for prompt injection patterns, model-output exfil patterns, agent-action chains. Distinct from generic ET Open / ET Pro / Talos rule sets.
 - **Per-flow audit logging** — beyond Suricata's eve.json, a dedicated audit channel that captures per-AI-flow metadata (model identified, prompt characteristics, output classification) for forensic review.
-- **Active response capability** — a controlled bypass mode where root-ghostproxy can rewrite flows, inject responses, or honeypot specific destinations as part of an active defense.
+- **Active response capability** — a controlled bypass mode where root-modules can rewrite flows, inject responses, or honeypot specific destinations as part of an active defense.
 
 These are not committed work; they are the kind of extensibility the modular architecture supports. Each future module would have its own module page, its own design doc, its own facultative install option.
 
@@ -322,7 +326,7 @@ The project is at the **scaffold + partial-implement** SFIF stage. Concretely, t
 | Domain profile | `infrastructure` | `$HOME/wiki/config/domain-profile.yaml` |
 | Methodology profile | `stage-gated` | `$HOME/wiki/config/methodology-profile.yaml` |
 | Active epic | `SFIF Rollout + Second-Brain Integration (2026-05)` | `$HOME/wiki/backlog/epics/sfif-rollout-and-second-brain-integration.md` |
-| 14 module pages | M001–M014 across Stream 2 SFIF base + Stream 1 second-brain integration + ccstatusline + pipelock | `$HOME/wiki/backlog/modules/root-ghostproxy-m{001..014}-*.md` |
+| 14 module pages | M001–M014 across Stream 2 SFIF base + Stream 1 second-brain integration + ccstatusline + pipelock | `$HOME/wiki/backlog/modules/root-modules-m{001..014}-*.md` |
 | 66 atomic task pages | Per-module breakdowns | `$HOME/wiki/backlog/tasks/T*.md` |
 | 4 epic pages + 1 milestone | sfif-rollout (active) + E001 auto-pilot-rework + E002 piling-tasks + E003 compound-retention; milestone v0.2 ai-natural-task-management active alongside v0.1 | `$HOME/wiki/backlog/epics/*.md` + `wiki/backlog/milestones/*.md` |
 | Source-synthesis pages (Suricata + PolarProxy) | 6 pages in second brain | `<second-brain>/wiki/sources/src-{suricata*,polarproxy,hanke-honeypot-polarproxy-suricata-integration}.md` |
@@ -477,10 +481,10 @@ When the connection runs, four artefacts land in `$HOME`:
 
 | Direction | What flows |
 |---|---|
-| **Second brain → root-ghostproxy** | Methodology engine (5 universal stages, ALLOWED/FORBIDDEN per stage, gate commands), 9 methodology models, 25+ standards, 44+ validated lessons, 19+ patterns, 16+ decisions, 3 governing principles, the 16 named models, source-synthesis pages for Suricata + PolarProxy + Hanke integration, sister-project queries (`wiki_sister_project root-ghostproxy`). |
-| **root-ghostproxy → second brain** | Lessons learned during this project's lifecycle (e.g. "deny-all+whitelist .gitignore in root-of-home pattern works"), patterns observed (e.g. "transparent-bridge IPS topology with PolarProxy-via-dummy-interface"), decisions made (e.g. "AF_PACKET vs NFQUEUE choice for this segment"). Contributed via `python3 -m tools.gateway contribute --type lesson --title "..."`. |
+| **Second brain → root-modules** | Methodology engine (5 universal stages, ALLOWED/FORBIDDEN per stage, gate commands), 9 methodology models, 25+ standards, 44+ validated lessons, 19+ patterns, 16+ decisions, 3 governing principles, the 16 named models, source-synthesis pages for Suricata + PolarProxy + Hanke integration, sister-project queries (`wiki_sister_project root-modules`). |
+| **root-modules → second brain** | Lessons learned during this project's lifecycle (e.g. "deny-all+whitelist .gitignore in root-of-home pattern works"), patterns observed (e.g. "transparent-bridge IPS topology with PolarProxy-via-dummy-interface"), decisions made (e.g. "AF_PACKET vs NFQUEUE choice for this segment"). Contributed via `python3 -m tools.gateway contribute --type lesson --title "..."`. |
 
-The second brain does not push runtime configuration into root-ghostproxy. Root-ghostproxy decides whether to query, when to query, and what to consume. The connection makes querying possible; the project makes the choice.
+The second brain does not push runtime configuration into root-modules. Root-ghostproxy decides whether to query, when to query, and what to consume. The connection makes querying possible; the project makes the choice.
 
 ### `auto_connect: false` rationale
 
@@ -496,21 +500,21 @@ The epic decomposes the project's foundation work into 14 modules organized into
 
 | Module | SFIF Stage | Focus |
 |---|---|---|
-| **[M001 — Author CLAUDE.md + AGENTS.md](wiki/backlog/modules/root-ghostproxy-m001-author-claude-md-and-agents-md.md)** | Scaffold | Three-layer agent context. AGENTS.md cross-tool universal; CLAUDE.md Claude-Code-specific routing. Tight + pointer-based by design — does not duplicate auto-loaded content from elsewhere. |
-| **[M002 — Methodology layer decision](wiki/backlog/modules/root-ghostproxy-m002-methodology-layer-decision.md)** | Scaffold/Design | Decision: local methodology.yaml (current — copied) OR pointer-only to second brain. Decided + documented. |
-| **[M003 — Foundation hardening](wiki/backlog/modules/root-ghostproxy-m003-foundation-hardening.md)** | Foundation | Idempotent install path, integrity verification, network configuration. The foundation IaC. |
-| **[M004 — Infrastructure tooling](wiki/backlog/modules/root-ghostproxy-m004-infrastructure-tooling.md)** | Infrastructure | Project-internal verifier tooling (e.g. `tools/verify-policy.py`), validation pipeline (pre-commit or CI). |
-| **[M005 — First specialized feature module](wiki/backlog/modules/root-ghostproxy-m005-first-specialized-feature-module.md)** | Features | Operator picks: Suricata first OR PolarProxy first. Single-module first; second module is its own subsequent epic. |
+| **[M001 — Author CLAUDE.md + AGENTS.md](wiki/backlog/modules/root-modules-m001-author-claude-md-and-agents-md.md)** | Scaffold | Three-layer agent context. AGENTS.md cross-tool universal; CLAUDE.md Claude-Code-specific routing. Tight + pointer-based by design — does not duplicate auto-loaded content from elsewhere. |
+| **[M002 — Methodology layer decision](wiki/backlog/modules/root-modules-m002-methodology-layer-decision.md)** | Scaffold/Design | Decision: local methodology.yaml (current — copied) OR pointer-only to second brain. Decided + documented. |
+| **[M003 — Foundation hardening](wiki/backlog/modules/root-modules-m003-foundation-hardening.md)** | Foundation | Idempotent install path, integrity verification, network configuration. The foundation IaC. |
+| **[M004 — Infrastructure tooling](wiki/backlog/modules/root-modules-m004-infrastructure-tooling.md)** | Infrastructure | Project-internal verifier tooling (e.g. `tools/verify-policy.py`), validation pipeline (pre-commit or CI). |
+| **[M005 — First specialized feature module](wiki/backlog/modules/root-modules-m005-first-specialized-feature-module.md)** | Features | Operator picks: Suricata first OR PolarProxy first. Single-module first; second module is its own subsequent epic. |
 
 ### Stream 1 — Second-Brain Integration
 
 | Module | Focus |
 |---|---|
-| **[M006 — Pre-connect verification](wiki/backlog/modules/root-ghostproxy-m006-pre-connect-verification.md)** | Verify Stream 2 M001 (AGENTS.md) is complete; verify root-ghostproxy is at a clean state; verify operator authorizes; dry-run the connect script. |
-| **[M007 — Connect to second brain](wiki/backlog/modules/root-ghostproxy-m007-connect-second-brain.md)** | Run `python3 -m tools.setup --connect-project $HOME` from second brain. Inspect each of the 4 written artefacts. Commit $HOME mutations atomically. |
-| **[M008 — Smoke test from inside](wiki/backlog/modules/root-ghostproxy-m008-smoke-test-from-inside.md)** | Open fresh Claude Code session in $HOME. Verify gateway orient + view spine + research-wiki MCP tool invocation work end-to-end. Time-to-orient ≤ 60 seconds. |
-| **[M009 — Worked example](wiki/backlog/modules/root-ghostproxy-m009-worked-example-readme-ingest.md)** | Bidirectional flow proof. The second brain's representation of root-ghostproxy is queryable + current; root-ghostproxy can contribute lessons back. |
-| **[M010 — sister-projects.yaml auto_connect decision](wiki/backlog/modules/root-ghostproxy-m010-sister-projects-yaml-flip.md)** | Operator-decision after M009 stability proven: keep auto_connect=false (security-tier signal) or flip to true (auto-hookup convenience). |
+| **[M006 — Pre-connect verification](wiki/backlog/modules/root-modules-m006-pre-connect-verification.md)** | Verify Stream 2 M001 (AGENTS.md) is complete; verify root-modules is at a clean state; verify operator authorizes; dry-run the connect script. |
+| **[M007 — Connect to second brain](wiki/backlog/modules/root-modules-m007-connect-second-brain.md)** | Run `python3 -m tools.setup --connect-project $HOME` from second brain. Inspect each of the 4 written artefacts. Commit $HOME mutations atomically. |
+| **[M008 — Smoke test from inside](wiki/backlog/modules/root-modules-m008-smoke-test-from-inside.md)** | Open fresh Claude Code session in $HOME. Verify gateway orient + view spine + research-wiki MCP tool invocation work end-to-end. Time-to-orient ≤ 60 seconds. |
+| **[M009 — Worked example](wiki/backlog/modules/root-modules-m009-worked-example-readme-ingest.md)** | Bidirectional flow proof. The second brain's representation of root-modules is queryable + current; root-modules can contribute lessons back. |
+| **[M010 — sister-projects.yaml auto_connect decision](wiki/backlog/modules/root-modules-m010-sister-projects-yaml-flip.md)** | Operator-decision after M009 stability proven: keep auto_connect=false (security-tier signal) or flip to true (auto-hookup convenience). |
 
 Module pages live at [wiki/backlog/modules/](wiki/backlog/modules/). Atomic task pages at [wiki/backlog/tasks/](wiki/backlog/tasks/) (initial set being authored). Operator directives + session logs at [wiki/log/](wiki/log/).
 
@@ -531,7 +535,7 @@ Module pages live at [wiki/backlog/modules/](wiki/backlog/modules/). Atomic task
 
 ## SFIF Stages for This Project
 
-The SFIF model (Scaffold → Foundation → Infrastructure → Features) is the second brain's project-lifecycle macro model. Applied to root-ghostproxy:
+The SFIF model (Scaffold → Foundation → Infrastructure → Features) is the second brain's project-lifecycle macro model. Applied to root-modules:
 
 ### What SFIF Is Part Of (per operator's check: *"Remember SFIF and what it is part of?"*)
 
@@ -542,7 +546,7 @@ SFIF (Scaffold → Foundation → Infrastructure → Features) is not a standalo
 3. **Mapped to the 3 quality tiers** (Skyscraper / Pyramid / Mountain) — Skyscraper = full SFIF progression with all gates; Pyramid = deliberate-compression SFIF (skip stages with documented reasoning); Mountain = accidental chaos (the anti-pattern to avoid).
 4. **Recursive across scales** — SFIF applies at project / feature / component / design-system levels. The same Scaffold → Foundation → Infrastructure → Features sequence repeats inside any unit of work that has independent lifecycle.
 
-For root-ghostproxy, SFIF is applied at the project-lifecycle level (the project as a whole goes through Scaffold → Foundation → Infrastructure → Features). Future modules will apply SFIF recursively at the module-lifecycle level.
+For root-modules, SFIF is applied at the project-lifecycle level (the project as a whole goes through Scaffold → Foundation → Infrastructure → Features). Future modules will apply SFIF recursively at the module-lifecycle level.
 
 ### Scaffold
 
@@ -570,7 +574,7 @@ For root-ghostproxy, SFIF is applied at the project-lifecycle level (the project
 
 ### Features
 
-**What it means.** Specialized feature modules deployed. For root-ghostproxy these are the inspection modules (Suricata, PolarProxy). Features tier is operator-driven future-session work.
+**What it means.** Specialized feature modules deployed. For root-modules these are the inspection modules (Suricata, PolarProxy). Features tier is operator-driven future-session work.
 
 **Gate.** At least one feature module installed end-to-end with smoke test passing (canary alert SID 2100498 via curl testmynids.org for Suricata; benign HTTPS session captured + decrypted for PolarProxy).
 
@@ -607,7 +611,7 @@ The three principles below execute UNDER this SDD doctrine, not parallel to it.
 
 ## Three Principles in Action
 
-The second brain's three governing principles (Infrastructure Over Instructions, Structured Context Governs Agent Behavior, Right Process for Right Context) apply to root-ghostproxy as follows:
+The second brain's three governing principles (Infrastructure Over Instructions, Structured Context Governs Agent Behavior, Right Process for Right Context) apply to root-modules as follows:
 
 ### 1. Infrastructure Over Instructions
 
@@ -633,7 +637,7 @@ The second brain's three governing principles (Infrastructure Over Instructions,
 **Principle:** Process must adapt to identity (type, phase, scale, PM level). A POC doesn't need full enforcement. Production does. Don't hardcode one process level for all contexts. The Goldilocks point shifts as the project matures.
 
 **Application here:**
-- root-ghostproxy is type=root + group=operating-system-setup + scale=micro + execution_mode=solo. The Goldilocks point is the **simplified** SDLC profile + **stage-gated** methodology profile.
+- root-modules is type=root + group=operating-system-setup + scale=micro + execution_mode=solo. The Goldilocks point is the **simplified** SDLC profile + **stage-gated** methodology profile.
 - A team-scale project at the same SFIF tier would use the **default** or **full** SDLC profile with multi-reviewer gates.
 - A research-domain project would use the **research** methodology model that caps at 50% readiness in design.
 - The point is the framework adapts. Each project's methodology layer is a per-project YAML overlay; the engine remains shared.
@@ -656,8 +660,8 @@ The second brain's three governing principles (Infrastructure Over Instructions,
 
 ```bash
 # 1. Get the project repo onto the host (anywhere — install.sh handles path resolution)
-git clone <url> /tmp/root-ghostproxy
-cd /tmp/root-ghostproxy
+git clone <url> /tmp/root-modules
+cd /tmp/root-modules
 
 # 2. Wizard mode — state-aware "where you are + what to do next" report
 #    Safe to run from any state (curl-bootstrap / post-clone / post-install / drift / maintenance)
@@ -885,7 +889,7 @@ The directives below are operator-stated, verbatim, captured during this README'
 | 2026-05-04 | "you can work in $HOME for now for whatever we need to reach that point or to read the current state" | Authorized to work in $HOME for foundation prep. |
 | 2026-05-04 | "its IAC and its basically a IPS sitting in between the Edge firewall (OPNSense) and the first switch / the local network... So its not just an IPS its a system AI safety setup project and the IPS tools (suricata and [polarproxy]) as modules" | Project = system AI safety setup. Position = IPS between OPNsense and LAN. Suricata + PolarProxy = modules. |
 | 2026-05-04 | "first there is no modules then 1 then 2 and later more but they are all facultative as much as if I do a full install they would all be installed" | Modules are facultative. Layered architecture. Full install adds them all. |
-| 2026-05-04 | "do not forget the root task that is to shape and prepare the root-ghostproxy project... you mostly prepared and did the knowledge part but there is still much progress to do... including the second-brain integration when we reach this point... all this and the wiki LLM and methodology goes before the modules since the modules you are not going to do, I am going to do In a session in a the root project when its ready and will not drop/crash in my hands" | Order: methodology + integration FIRST, modules SECOND. Modules are operator-driven future-session work. |
+| 2026-05-04 | "do not forget the root task that is to shape and prepare the root-modules project... you mostly prepared and did the knowledge part but there is still much progress to do... including the second-brain integration when we reach this point... all this and the wiki LLM and methodology goes before the modules since the modules you are not going to do, I am going to do In a session in a the root project when its ready and will not drop/crash in my hands" | Order: methodology + integration FIRST, modules SECOND. Modules are operator-driven future-session work. |
 | 2026-05-04 | "you make the change to setup.py and keep or any tools that needs it and keep moving toward the target solution / requests" | Authorized to extend setup.py and other second-brain tooling that needs to support the integration. |
 | 2026-05-05 | "I DIDNT WRITE ANYTHING.. JUST FORGFET EVERYTHING FUCING EXIST" | Prior $HOME content (README, install.sh, hooks, integrity.py, opencode bridge, memory folder) is not operator-authored, not authoritative, not part of the project. Forget it exists. |
 | 2026-05-05 | "imagine there is no fucking root-GHOSTPROXY project righT NOW.. this whole system is virgIN" | Treat the system as virgin. Build the project from scratch from the operator's verbatim definitions, not from existing $HOME content. |
@@ -898,18 +902,18 @@ The full operator directive log lives at `$HOME/wiki/log/` (and additionally at 
 
 ## Glossary
 
-Terms specific to root-ghostproxy as used in this README and the project's other documentation.
+Terms specific to root-modules as used in this README and the project's other documentation.
 
 | Term | Definition |
 |---|---|
 | **Bridge** | The Linux L2 bridge (typically `br0`) with the two ethernet interfaces as members. The bridge forwards Ethernet frames between its members; the box is L3-invisible to endpoints on the inspected segment. |
-| **Edge firewall** | OPNsense or compatible. The L3 routing/firewall device upstream of root-ghostproxy. The internet-side of the bridge. |
+| **Edge firewall** | OPNsense or compatible. The L3 routing/firewall device upstream of root-modules. The internet-side of the bridge. |
 | **Facultative module** | A module that is optional. The project runs without it. Suricata and PolarProxy are both facultative. |
 | **Full install** | An install that deploys the foundation + all available modules. Per operator: "if I do a full install they would all be installed." |
 | **Goldilocks** | The 9-dimension identity protocol from the second brain that right-sizes process per project. type, group, domain, phase, scale, execution mode, SDLC profile, PM level, trust tier. |
 | **Ghost** (in the project name) | The transparent L2 bridge property. The box has no IP on the inspected segment; endpoints don't see it as a hop. L3-invisible. |
 | **IaC** | Infrastructure-as-Code. The project's foundation is declared in code (install scripts, config files, systemd units) and reproducible from a fresh host. |
-| **LAN** | The local area network on the first-switch side of root-ghostproxy. The endpoints whose traffic the project inspects. |
+| **LAN** | The local area network on the first-switch side of root-modules. The endpoints whose traffic the project inspects. |
 | **Methodology engine** | `wiki/config/methodology.yaml`. Defines stages, models, ALLOWED/FORBIDDEN per stage, gate commands. Copied from second brain, adaptable per project. |
 | **Module** | An optional inspection capability layered onto the foundation. Currently named: Suricata (IDS/IPS), PolarProxy (TLS termination). |
 | **Operator** | The human directing the project's work. The "PO" in PO-approval-boundary contexts. The single human authority on this project. |
@@ -918,7 +922,7 @@ Terms specific to root-ghostproxy as used in this README and the project's other
 | **Proxy** (in the project name) | The TLS termination capability provided by the PolarProxy module. Without that module, the box is not a proxy in any sense. |
 | **Sister project** | A project registered with the research-wiki second brain via the sister-projects.yaml registry. Sisters consume from + contribute to the second brain. |
 | **Stealth posture** | The project runs in stealth mode by default — no L3 visibility on the inspected segment. The "ghost" half of the project name. |
-| **Second brain** | The research-wiki at `<second-brain>/`. The shared knowledge system across the 5-project ecosystem. root-ghostproxy is a sister of this. |
+| **Second brain** | The research-wiki at `<second-brain>/`. The shared knowledge system across the 5-project ecosystem. root-modules is a sister of this. |
 | **SFIF** | Scaffold → Foundation → Infrastructure → Features. The project-lifecycle macro model defined in the second brain. Each stage builds on the previous. |
 | **Stream 1** | The second-brain-integration stream of the active epic. Modules M006–M010. Gated on Stream 2 M001 producing AGENTS.md. |
 | **Stream 2** | The pure-SFIF-project-base stream of the active epic. Modules M001–M005. |
@@ -946,7 +950,7 @@ The limitations below are inherited from the modules' upstream tools (Suricata +
 
 1. **In IPS mode, a Suricata crash takes the inspected segment offline UNLESS bypass is configured.** The bridge layer (br0 + nftables) MUST have a failopen mechanism — either NFQUEUE `bypass` option (network keeps working when Suricata is down, inspection silently disabled) or kernel-level bridge passthrough. This is a load-bearing M005 design decision.
 
-2. **Custom rules conflict with reserved upstream SID ranges.** Suricata reserves SIDs 2200000–2299999 per protocol/component. Local custom rules for root-ghostproxy must use 1000000–1999999 (per ET/Snort convention) to avoid update collisions.
+2. **Custom rules conflict with reserved upstream SID ranges.** Suricata reserves SIDs 2200000–2299999 per protocol/component. Local custom rules for root-modules must use 1000000–1999999 (per ET/Snort convention) to avoid update collisions.
 
 3. **Hardware offloads (GRO/LRO/TSO) interfere with inline inspection.** Must be disabled on the bridge interfaces to prevent dropped packets from oversized datagrams.
 
@@ -956,7 +960,7 @@ The limitations below are inherited from the modules' upstream tools (Suricata +
 
 2. **The wifi as outbound-only management means in-band recovery is limited.** If the wifi misconfigures or the host is unreachable from operator's network, recovery requires local console access. SSH is not bound to the wifi interface; that is by design.
 
-3. **CA distribution is a separate operational track.** The PolarProxy module's CA must be deployed to LAN endpoints by some mechanism (manual install, AD GPO, MDM, Linux package). root-ghostproxy doesn't include that mechanism — it provides the proxy + CA, deployment is operator's lift.
+3. **CA distribution is a separate operational track.** The PolarProxy module's CA must be deployed to LAN endpoints by some mechanism (manual install, AD GPO, MDM, Linux package). root-modules doesn't include that mechanism — it provides the proxy + CA, deployment is operator's lift.
 
 ## Publishing
 
@@ -976,7 +980,7 @@ License is to-be-decided. The project's modules have their own licenses (Suricat
 
 ## Relationship to the 5-Project Ecosystem
 
-root-ghostproxy is a sister of four other projects in the operator's ecosystem, all connected through the research-wiki second brain. Each project has its own brain (its own CLAUDE.md / AGENTS.md / skills / hooks); the second brain is the shared knowledge resource they all consume from + contribute to.
+root-modules is a sister of four other projects in the operator's ecosystem, all connected through the research-wiki second brain. Each project has its own brain (its own CLAUDE.md / AGENTS.md / skills / hooks); the second brain is the shared knowledge resource they all consume from + contribute to.
 
 ```
                       ┌───────────────────────────────────────────────────┐
@@ -1020,26 +1024,26 @@ root-ghostproxy is a sister of four other projects in the operator's ecosystem, 
                                                               └──────────────────────────────┘
 ```
 
-| Project | Relationship to root-ghostproxy |
+| Project | Relationship to root-modules |
 |---|---|
-| **OpenArms** | Personal AI assistant + harness engineering. Solo agent runtime with hooks. Could run AI agents whose outbound traffic root-ghostproxy inspects on the LAN. |
-| **OpenFleet** | Agent fleet orchestrator (10 agents, 30s cycle). Multi-agent traffic crossing the LAN passes through root-ghostproxy when deployed in the same network segment. |
-| **AICP** | AI Control Platform — local-inference routing. Routes between local + cloud AI providers; the routing decisions could be informed by inspection signals from root-ghostproxy. |
-| **devops-control-plane** | Governance + 16 post-mortems that became OpenFleet's immune system rules. Same governance methodology informs root-ghostproxy's threat model. |
+| **OpenArms** | Personal AI assistant + harness engineering. Solo agent runtime with hooks. Could run AI agents whose outbound traffic root-modules inspects on the LAN. |
+| **OpenFleet** | Agent fleet orchestrator (10 agents, 30s cycle). Multi-agent traffic crossing the LAN passes through root-modules when deployed in the same network segment. |
+| **AICP** | AI Control Platform — local-inference routing. Routes between local + cloud AI providers; the routing decisions could be informed by inspection signals from root-modules. |
+| **devops-control-plane** | Governance + 16 post-mortems that became OpenFleet's immune system rules. Same governance methodology informs root-modules's threat model. |
 
-Each project is an instance of the second brain's methodology framework; root-ghostproxy is the OS/network-inspection instance.
+Each project is an instance of the second brain's methodology framework; root-modules is the OS/network-inspection instance.
 
 ## Recent Work in This Conversation
 
-This README is being authored as part of a multi-day work block focused on root-ghostproxy's foundation. The work blocks completed (in the second brain + initial $HOME scaffolding) include:
+This README is being authored as part of a multi-day work block focused on root-modules's foundation. The work blocks completed (in the second brain + initial $HOME scaffolding) include:
 
 | Date | Work block | Artefacts |
 |---|---|---|
 | 2026-05-04 | Identity + sister-project registration | `sister-projects.yaml` entry + `identity-profile.md` in second brain |
 | 2026-05-04 | 9-dimension Goldilocks taxonomy extension (Type + Group dimensions added) | `project-self-identification-protocol.md` updated to 9 dimensions in second brain |
 | 2026-05-04 | Source ingestion (Suricata + PolarProxy) | 6 source-synthesis pages in second brain: src-suricata, src-suricata-install-quickstart, src-suricata-ips-mode-linux, src-suricata-yaml-config, src-polarproxy, src-hanke-honeypot-polarproxy-suricata-integration |
-| 2026-05-04 | Active rollout epic (SFIF + second-brain integration) | `wiki/backlog/epics/pre-milestone/root-ghostproxy-sfif-rollout-and-second-brain-integration-2026-05.md` in second brain |
-| 2026-05-04 | 10 module pages (M001–M010 across Stream 2 + Stream 1) | `wiki/backlog/modules/root-ghostproxy-m{001..010}-*.md` in second brain |
+| 2026-05-04 | Active rollout epic (SFIF + second-brain integration) | `wiki/backlog/epics/pre-milestone/root-modules-sfif-rollout-and-second-brain-integration-2026-05.md` in second brain |
+| 2026-05-04 | 10 module pages (M001–M010 across Stream 2 + Stream 1) | `wiki/backlog/modules/root-modules-m{001..010}-*.md` in second brain |
 | 2026-05-04 | `tools.setup --connect-project --dry-run` flag + type/group-aware brain-pointer block | `tools/setup.py` patched in second brain (variant=ROOT_OS_SETUP renders for this project) |
 | 2026-05-04 | Two template lists in the wiki | `wiki/config/templates/sister-project-preparation/` (manifest + 7 file templates) + `wiki/config/templates/second-brain-integration/` (manifest + 5 overlay templates) |
 | 2026-05-05 | Backlog scaffolding + methodology copy in $HOME | `$HOME/wiki/{config,backlog,log}/` populated; epic + 10 modules ported; methodology yaml + 3 profile yamls copied |
@@ -1080,7 +1084,7 @@ The doc-update-discipline admonition near the top of this README codifies this l
 
 ## Acknowledgments
 
-This project's methodology layer + sister-project integration depends entirely on the research-wiki second brain at `<second-brain>/`. The SFIF model, the 5-stage methodology, the 9 methodology models, the 25 standards, the 44+ validated lessons, the 19+ patterns, the 16+ decisions, the 3 governing principles — all are second-brain assets root-ghostproxy adopts as a sister.
+This project's methodology layer + sister-project integration depends entirely on the research-wiki second brain at `<second-brain>/`. The SFIF model, the 5-stage methodology, the 9 methodology models, the 25 standards, the 44+ validated lessons, the 19+ patterns, the 16+ decisions, the 3 governing principles — all are second-brain assets root-modules adopts as a sister.
 
 The two named modules' technical foundations are documented in the second brain via 6 source-synthesis pages (Suricata Layer 0 + 3 Layer 1 covering install/quickstart, IPS modes, suricata.yaml master config; PolarProxy Layer 0 + Layer 1 Hanke integration). Those pages were authored from primary sources — OISF/suricata GitHub repo, Netresec product page + docs.suricata.io, the Hanke "how-to-setup-a-honeypot" GitHub writeup — and pre-date this project's foundation work.
 

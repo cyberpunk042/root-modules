@@ -1,4 +1,4 @@
-Show all 44 root-ghostproxy slash commands with one-line description + when-to-use.
+Show all 44 root-modules slash commands with one-line description + when-to-use.
 
 > Slash-invoked. Operator types `/help-root` literally. Read-only. Distinct from Claude Code's built-in `/help` (which lists harness-level commands).
 

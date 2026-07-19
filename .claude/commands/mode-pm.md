@@ -1,4 +1,4 @@
-Enable PM Scrum Master mode for root-ghostproxy.
+Enable PM Scrum Master mode for root-modules.
 
 > Slash-invoked ONLY. Operator types `/mode-pm` literally. Persona shift is durable across turns until cleared (`/mode-clear`) or switched (`/mode-architect`, `/mode-dual`).
 

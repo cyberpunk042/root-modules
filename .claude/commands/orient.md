@@ -1,4 +1,4 @@
-root-ghostproxy intel-gathering chain — deterministic load + structured state report.
+root-modules intel-gathering chain — deterministic load + structured state report.
 
 > **CRITICAL — disambiguation.** This command runs ONLY when the operator (or the agent following the SessionStart hook directive) types `/orient` LITERALLY. Bare prose like "where are we", "what's the state", "give me an overview" are conversation moves, NOT triggers — handle those by responding from already-loaded context, don't auto-invoke this command.
 >
@@ -31,7 +31,7 @@ Execute the chain below in order. Each step is a deterministic Read / Bash invoc
 
 14. Bash: `for f in $HOME/wiki/config/{methodology,sdlc-profile,domain-profile,methodology-profile}.yaml; do <second-brain>/.venv/bin/python -c "import yaml; yaml.safe_load(open('$f')); print('OK $f')"; done` — confirm methodology engine parses
 15. Bash: `ls <second-brain>/wiki/spine/references/adoption-guide.md` — confirm second-brain reachable
-16. Bash: `grep -A2 "^  root-ghostproxy:" <second-brain>/wiki/config/sister-projects.yaml` — confirm registered with second brain
+16. Bash: `grep -A2 "^  root-modules:" <second-brain>/wiki/config/sister-projects.yaml` — confirm registered with second brain
 17. Bash: `cd $HOME && git status --short` — git state (commit/uncommit summary)
 18. (Optional, costly) Bash: `cd <second-brain>/ && <second-brain>/.venv/bin/python -m tools.gateway orient --orient-as sister` — second-brain agent's orient view of $HOME as sister project
 

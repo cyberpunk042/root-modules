@@ -78,7 +78,7 @@ def main() -> None:
         except Exception:
             pass
 
-    # Self-gate: only orient if this IS a root-ghostproxy session
+    # Self-gate: only orient if this IS a root-modules session
     if not (PROJECT_ROOT / "BOOTSTRAP.md").exists():
         _trace_exit("bootstrap-missing")
         sys.exit(0)
@@ -114,7 +114,7 @@ def main() -> None:
 ROOT-GHOSTPROXY — NEW SESSION DETECTED
 ═══════════════════════════════════════════════════════════════════════════
 
-You are inside root-ghostproxy. system AI safety setup IaC at OS root level.
+You are inside root-modules. system AI safety setup IaC at OS root level.
 type=root, group=operating-system-setup. Operating doctrine: spec-driven
 development. Sister of <second-brain>/.
 

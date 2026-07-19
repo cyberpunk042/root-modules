@@ -45,7 +45,7 @@ The COMPOUND axis answers "what is in operator's view RIGHT NOW".
 |---|---|---|---|---|
 | Mode | `$HOME/.claude/active-mode` | SessionStart + per-prompt (mode-enforcement) | persona | `dual-expert` |
 | **Priorities** | `$HOME/.claude/active-priorities` | per-prompt + stamp | imminent-work (above PM) | `P1: compound+waterfall coherence` |
-| Mission | `$HOME/.claude/active-mission` | per-prompt + stamp | strategic objective | `ship root-ghostproxy MVP — close systemic-bug audit` |
+| Mission | `$HOME/.claude/active-mission` | per-prompt + stamp | strategic objective | `ship root-modules MVP — close systemic-bug audit` |
 | Focus | `$HOME/.claude/active-focus` | per-prompt + stamp | sub-objective | `iterate hooks/context/engineering quality` |
 | Impediment | `$HOME/.claude/active-impediment` | per-prompt + stamp | block on focus | `(none — focus unblocked)` OR specific block |
 | Live state | tracker + progress.md | per-prompt (mode-enforcement) | observability | `open SBs: SB-049, SB-105, ...` |

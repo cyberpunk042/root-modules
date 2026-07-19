@@ -3,7 +3,7 @@ title: "T032 — Verify $HOME git state is clean (no uncommitted changes that wo
 type: task
 status: not-started
 priority: P0
-parent_module: "root-ghostproxy-m006-pre-connect-verification"
+parent_module: "root-modules-m006-pre-connect-verification"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: test
 readiness: 0
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m006-pre-connect-verification.md
+    file: wiki/backlog/modules/root-modules-m006-pre-connect-verification.md
 tags: [task, p0, t032, stream-1, pre-connect, git-state, m006]
 ---
 
@@ -35,5 +35,5 @@ tags: [task, p0, t032, stream-1, pre-connect, git-state, m006]
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m006-pre-connect-verification|M006]]
+- PART OF: [[root-modules-m006-pre-connect-verification|M006]]
 - BLOCKS: T037 (audit log), T038 (M007 connect)

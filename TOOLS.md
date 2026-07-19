@@ -1,4 +1,4 @@
-# TOOLS.md — root-ghostproxy tool reference
+# TOOLS.md — root-modules tool reference
 
 > Per-tool / per-script reference. What each tool does, when to use it, with concrete invocations. Reference, not narrative. Cross-referenced from [CLAUDE.md](CLAUDE.md)'s operator-intent routing table.
 >
@@ -74,7 +74,7 @@ The project's authoritative state at $HOME includes:
 
 ### `install.sh` (implemented, M003 — implement-stage 98% readiness)
 
-**Purpose.** Take a fresh Linux host and bring it to foundation-tier root-ghostproxy state. Idempotent: re-running on an already-installed host is a no-op (or cleanly applies any config drift). OS-family-aware (Debian/RHEL/Arch). Two install scopes: OS-root install (`--profile base|full`) and per-project agent-brain install (`--profile project`).
+**Purpose.** Take a fresh Linux host and bring it to foundation-tier root-modules state. Idempotent: re-running on an already-installed host is a no-op (or cleanly applies any config drift). OS-family-aware (Debian/RHEL/Arch). Two install scopes: OS-root install (`--profile base|full`) and per-project agent-brain install (`--profile project`).
 
 **Invocations:**
 
@@ -353,7 +353,7 @@ python3 -m tools.verify_policy --help
 
 ### Suricata module install scripts (planned, M005, operator-driven)
 
-**Purpose.** Install Suricata + configure it for root-ghostproxy's bridge topology.
+**Purpose.** Install Suricata + configure it for root-modules's bridge topology.
 
 **Planned invocations:**
 
@@ -499,7 +499,7 @@ python3 -m tools.gateway health                       # Health score (when appli
 python3 -m tools.gateway template <type>              # Get a page template
 
 python3 -m tools.gateway timeline --scope all --since 7d   # Cross-project temporal view
-python3 -m tools.gateway timeline --scope root-ghostproxy   # This project's events
+python3 -m tools.gateway timeline --scope root-modules   # This project's events
 
 python3 -m tools.gateway contribute --type lesson --title "..." --content "..."
 python3 -m tools.gateway contribute --type correction --title "..." --content "..."
@@ -511,7 +511,7 @@ python3 -m tools.gateway flow [--step N]              # Goldilocks step-by-step
 **Invariants:**
 - Forwarder is auto-generated (do NOT hand-edit; re-run `--connect-project` to regenerate).
 - `cwd=<second-brain>/` for the dispatched call.
-- `--wiki-root` is set to root-ghostproxy's path so the gateway knows which project called.
+- `--wiki-root` is set to root-modules's path so the gateway knows which project called.
 - Auto-generated marker comment at the top of the file.
 
 ### `tools/view.py` forwarder (lands via M007)
@@ -540,7 +540,7 @@ python3 -m tools.view model <name> --full    # Complete page (no truncation)
 
 **Invariants:**
 - Same auto-generated forwarder pattern as gateway.py.
-- `WIKI_VIEW_CALLER_DIR` env var set to root-ghostproxy's CWD for the dispatched call.
+- `WIKI_VIEW_CALLER_DIR` env var set to root-modules's CWD for the dispatched call.
 
 ## Operator-Intent → Tool (summary)
 
@@ -742,7 +742,7 @@ Cross-tool universal — every AI tool's cycle skill maps action types to tools 
 | Methodology engine | [wiki/config/methodology.yaml](wiki/config/methodology.yaml) |
 | Active epic (foundational) | [wiki/backlog/epics/sfif-rollout-and-second-brain-integration.md](wiki/backlog/epics/sfif-rollout-and-second-brain-integration.md) |
 | Active milestone v0.2 + 4 epics structure | [wiki/backlog/milestones/](wiki/backlog/milestones/) + [wiki/backlog/epics/](wiki/backlog/epics/) |
-| Module M005 (first specialized feature module) | [wiki/backlog/modules/root-ghostproxy-m005-first-specialized-feature-module.md](wiki/backlog/modules/root-ghostproxy-m005-first-specialized-feature-module.md) |
+| Module M005 (first specialized feature module) | [wiki/backlog/modules/root-modules-m005-first-specialized-feature-module.md](wiki/backlog/modules/root-modules-m005-first-specialized-feature-module.md) |
 | Decisions logbook (40 entries D001-D040) | [wiki/governance/decisions.md](wiki/governance/decisions.md) |
 | Systemic-bugs tracker (138-row register) | [wiki/governance/systemic-bugs.md](wiki/governance/systemic-bugs.md) |
 | Blockers + progress | [wiki/governance/blockers.md](wiki/governance/blockers.md) + [wiki/governance/progress.md](wiki/governance/progress.md) |

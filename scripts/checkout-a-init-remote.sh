@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # checkout-a-init-remote.sh
 # ----------------------------------------------------------------------
-# PATH A: checkout root-ghostproxy directly INTO $HOME via git init + remote.
+# PATH A: checkout root-modules directly INTO $HOME via git init + remote.
 # For: operators wanting their $HOME == repo working tree (active dev mode).
 #
 # Run on TARGET MACHINE, FROM $HOME:

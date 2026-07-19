@@ -3,7 +3,7 @@ title: "T057 — M009 stable for ≥1 week before M010 decision (cooling-off per
 type: task
 status: not-started
 priority: P2
-parent_module: "root-ghostproxy-m010-sister-projects-yaml-flip"
+parent_module: "root-modules-m010-sister-projects-yaml-flip"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: design
 readiness: 0
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m010-sister-projects-yaml-flip.md
+    file: wiki/backlog/modules/root-modules-m010-sister-projects-yaml-flip.md
 tags: [task, p2, t057, stream-1, m010, cooling-off]
 ---
 
@@ -37,6 +37,6 @@ Per M010's cooling-off principle: M009 must be complete + stable for at least 1 
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m010-sister-projects-yaml-flip|M010]]
+- PART OF: [[root-modules-m010-sister-projects-yaml-flip|M010]]
 - BLOCKED BY: T056
 - BLOCKS: T058 (operator decides)

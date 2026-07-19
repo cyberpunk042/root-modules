@@ -3,7 +3,7 @@ title: "T001 — Define $HOME/AGENTS.md scope (what content vs what pointer)"
 type: task
 status: done
 priority: P0
-parent_module: "root-ghostproxy-m001-author-claude-md-and-agents-md"
+parent_module: "root-modules-m001-author-claude-md-and-agents-md"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: scaffold
 readiness: 100
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m001-author-claude-md-and-agents-md.md
+    file: wiki/backlog/modules/root-modules-m001-author-claude-md-and-agents-md.md
 tags: [task, p0, t001, scaffold, agents-md, scope-definition, m001]
 ---
 
@@ -41,6 +41,6 @@ Scope decision applied to $HOME/AGENTS.md authored 2026-05-05 (168 lines). Cross
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m001-author-claude-md-and-agents-md|M001]]
+- PART OF: [[root-modules-m001-author-claude-md-and-agents-md|M001]]
 - BLOCKS: T002 (AGENTS.md authoring), T003 (CLAUDE.md scope), T004 (CLAUDE.md authoring)
 - ENABLES: every subsequent agent-context-file task

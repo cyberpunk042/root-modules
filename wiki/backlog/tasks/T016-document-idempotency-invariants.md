@@ -3,7 +3,7 @@ title: "T016 — Document idempotency invariants of install.sh + post-install st
 type: task
 status: review
 priority: P1
-parent_module: "root-ghostproxy-m003-foundation-hardening"
+parent_module: "root-modules-m003-foundation-hardening"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: test
 readiness: 95
@@ -13,7 +13,7 @@ updated: 2026-07-03
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m003-foundation-hardening.md
+    file: wiki/backlog/modules/root-modules-m003-foundation-hardening.md
   - id: tools-md-deliverable
     type: file
     file: TOOLS.md
@@ -63,7 +63,7 @@ Document explicitly what install.sh creates, overwrites, and leaves alone — an
 **Verification output (inline, per CLAUDE.md rule 7)**:
 
 ```
-$ cd ~/root-ghostproxy && for dw in \
+$ cd ~/root-modules && for dw in \
     "^\*\*Files install.sh CREATES\*\*" \
     "Files install.sh OVERWRITES on re-run" \
     "Files install.sh LEAVES UNTOUCHED" \
@@ -107,7 +107,7 @@ $ ./install.sh --dry-run 2>&1 | tail -2
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m003-foundation-hardening|M003]]
+- PART OF: [[root-modules-m003-foundation-hardening|M003]]
 - BLOCKED BY: ~~T012~~ — author-complete, empirical-execute deferred but does not block T016 doc-closure
 - ENABLES: clear contract for operator + future-session about install.sh behavior
 - DEMONSTRATES: per-tool reference section as canonical idempotency-invariant location (vs. separate `docs/foundation-invariants.md` literal in original module text — co-location with tool's own page chosen per F46 design decision)

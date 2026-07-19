@@ -3,7 +3,7 @@ title: "T033 — Capture existing $HOME/.mcp.json + $HOME/tools/ state for colli
 type: task
 status: not-started
 priority: P0
-parent_module: "root-ghostproxy-m006-pre-connect-verification"
+parent_module: "root-modules-m006-pre-connect-verification"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: test
 readiness: 0
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m006-pre-connect-verification.md
+    file: wiki/backlog/modules/root-modules-m006-pre-connect-verification.md
 tags: [task, p0, t033, stream-1, pre-connect, collision-check, m006]
 ---
 
@@ -36,5 +36,5 @@ Per `tools.setup` verified behavior (M007 module page): `--connect-project` over
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m006-pre-connect-verification|M006]]
+- PART OF: [[root-modules-m006-pre-connect-verification|M006]]
 - BLOCKS: T037 (audit log)

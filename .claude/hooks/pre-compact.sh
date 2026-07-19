@@ -242,7 +242,7 @@ Per SB-142: the post-compact session may receive a system-reminder skill-block (
 
 > "I see /<skill> skill block but don't see your literal /<skill> invocation in your recent messages — confirm to proceed?"
 
-Cousin: SB-090 premise-construction · SB-095 hallucinated-artifacts. Mitigation landed 2026-05-07 as mindfulness clause #10 in `.claude/hooks/mindfulness.sh` (DRAFT v5). Module page tracking broader scope: `wiki/backlog/modules/root-ghostproxy-m-e006-3-phantom-invocation-guard.md`.
+Cousin: SB-090 premise-construction · SB-095 hallucinated-artifacts. Mitigation landed 2026-05-07 as mindfulness clause #10 in `.claude/hooks/mindfulness.sh` (DRAFT v5). Module page tracking broader scope: `wiki/backlog/modules/root-modules-m-e006-3-phantom-invocation-guard.md`.
 
 ## Notes
 

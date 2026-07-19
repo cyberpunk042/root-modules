@@ -93,7 +93,7 @@ def run_one(path: Path) -> dict:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Run all root-ghostproxy regression tests")
+    parser = argparse.ArgumentParser(description="Run all root-modules regression tests")
     parser.add_argument("--json", action="store_true", help="emit JSON")
     args = parser.parse_args()
 
@@ -127,7 +127,7 @@ def main() -> int:
         return 0 if all_ok else 1
 
     # Pretty output
-    print(f"=== root-ghostproxy regression test run ===")
+    print(f"=== root-modules regression test run ===")
     print()
     for r in results:
         marker = "✓" if r["ok"] else "✗"

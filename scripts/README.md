@@ -1,5 +1,5 @@
 ---
-title: "scripts/ — root-ghostproxy deployment + maintenance toolkit"
+title: "scripts/ — root-modules deployment + maintenance toolkit"
 type: reference
 subtype: subdir-readme
 domain: cross-domain
@@ -15,21 +15,21 @@ sources:
 tags: [readme, scripts, deployment, install, maintenance]
 ---
 
-# `scripts/` — root-ghostproxy deployment + maintenance toolkit
+# `scripts/` — root-modules deployment + maintenance toolkit
 
 ## Summary
 
-This directory holds the bash scripts that ship with root-ghostproxy and the shared library functions they depend on. Two checkout modes (MODE=A in-place at `$HOME` for advanced operators, MODE=B safe subdir clone for typical users), a one-shot bootstrap (`install-from-curl.sh` curl-bash entry point), and a surgical post-Path-A reconciliation tool (`merge-from-backup.sh`) with full governance (security scanning + audit log + follow-up review task auto-generation per operator directive 2026-05-05). The `lib/` subdirectory holds re-source-guarded shared helpers — `common.sh` for logging + TTY detection + ask/confirm, `conflict-points.sh` as the single-source-of-truth for which files are at risk during MODE=A overwrite, `backup.sh` for backup-before-checkout, `json-merge.sh` for atomic stage-then-swap with JSON validation, `security-scan.sh` for HIGH/MED/LOW flag detection on candidate-merge content, and `merge-manifest.sh` for governance-artifact authoring.
+This directory holds the bash scripts that ship with root-modules and the shared library functions they depend on. Two checkout modes (MODE=A in-place at `$HOME` for advanced operators, MODE=B safe subdir clone for typical users), a one-shot bootstrap (`install-from-curl.sh` curl-bash entry point), and a surgical post-Path-A reconciliation tool (`merge-from-backup.sh`) with full governance (security scanning + audit log + follow-up review task auto-generation per operator directive 2026-05-05). The `lib/` subdirectory holds re-source-guarded shared helpers — `common.sh` for logging + TTY detection + ask/confirm, `conflict-points.sh` as the single-source-of-truth for which files are at risk during MODE=A overwrite, `backup.sh` for backup-before-checkout, `json-merge.sh` for atomic stage-then-swap with JSON validation, `security-scan.sh` for HIGH/MED/LOW flag detection on candidate-merge content, and `merge-manifest.sh` for governance-artifact authoring.
 
 This README is the operator-facing guide; the actual scripts have their own usage/flags/examples in their headers. After install, ongoing host configuration is handled by `install.sh` (at repo root, distinct from this directory's bootstrap-only scripts).
 
 > **Looking for a one-liner install?** From an ALREADY-PUBLISHED repo:
 >
 > ```bash
-> curl -fsSL https://raw.githubusercontent.com/<owner>/root-ghostproxy/main/scripts/install-from-curl.sh | bash
+> curl -fsSL https://raw.githubusercontent.com/<owner>/root-modules/main/scripts/install-from-curl.sh | bash
 > ```
 >
-> Defaults to **MODE=B** (clone to `$HOME/root-ghostproxy/`, your `$HOME` is UNTOUCHED). Read [Modes](#modes) below before choosing MODE=A.
+> Defaults to **MODE=B** (clone to `$HOME/root-modules/`, your `$HOME` is UNTOUCHED). Read [Modes](#modes) below before choosing MODE=A.
 
 ---
 
@@ -59,7 +59,7 @@ The `install-from-curl.sh` is mostly self-contained (must run via `curl … | ba
 
 | Script | Audience | When to run | Default behavior |
 |---|---|---|---|
-| **`install-from-curl.sh`** | new operator (typical user) | first-time setup of root-ghostproxy on a target machine | TTY → ask MODE; no TTY → MODE=B safe |
+| **`install-from-curl.sh`** | new operator (typical user) | first-time setup of root-modules on a target machine | TTY → ask MODE; no TTY → MODE=B safe |
 | **`checkout-b-clone-subdir.sh`** | operator who wants explicit Path B without prompts | when scripting Path B around custom orchestration | dry-run; pass `--execute` to clone |
 | **`checkout-a-init-remote.sh`** | operator who wants explicit Path A without the install-from-curl wrapper | when fine-grained control over the Path A flow is needed | dry-run; `--execute` to apply |
 | **`merge-from-backup.sh`** | operator OR AI agent reconciling after Path A checkout | after `.pre-ghostproxy.bak/` has been created | diff-only; `--apply` for per-change confirmation |
@@ -68,11 +68,11 @@ The `install-from-curl.sh` is mostly self-contained (must run via `curl … | ba
 
 ## Modes
 
-root-ghostproxy supports two checkout modes for getting the repo onto a target machine. Pick based on intent.
+root-modules supports two checkout modes for getting the repo onto a target machine. Pick based on intent.
 
 ### MODE=B — clone to subdirectory (safe default)
 
-- Repo lands at `$TARGET/` (default `$HOME/root-ghostproxy/`)
+- Repo lands at `$TARGET/` (default `$HOME/root-modules/`)
 - `$HOME` is **completely untouched**
 - No conflict handling needed
 - `install.sh` handles deployment via `--profile {base|full|project|interactive}` (implement-stage; `--dry-run` + `--check` available)
@@ -263,7 +263,7 @@ Collects merge manifest as state during apply, then writes audit log + creates f
 
 ```bash
 # Pick whichever fits:
-curl -fsSL https://raw.githubusercontent.com/<owner>/root-ghostproxy/main/scripts/install-from-curl.sh | bash
+curl -fsSL https://raw.githubusercontent.com/<owner>/root-modules/main/scripts/install-from-curl.sh | bash
 curl -fsSL .../scripts/install-from-curl.sh | MODE=A bash         # advanced
 ```
 
@@ -271,25 +271,25 @@ curl -fsSL .../scripts/install-from-curl.sh | MODE=A bash         # advanced
 
 ```bash
 # 1. Clone or download the script first
-git clone <repo-url> $HOME/root-ghostproxy && cd $HOME
+git clone <repo-url> $HOME/root-modules && cd $HOME
 
 # 2. Run the standalone Path A script
-bash $HOME/root-ghostproxy/scripts/checkout-a-init-remote.sh           # dry-run
-bash $HOME/root-ghostproxy/scripts/checkout-a-init-remote.sh --execute <repo-url>
+bash $HOME/root-modules/scripts/checkout-a-init-remote.sh           # dry-run
+bash $HOME/root-modules/scripts/checkout-a-init-remote.sh --execute <repo-url>
 
 # 3. Run the surgical merge
-bash $HOME/root-ghostproxy/scripts/merge-from-backup.sh                # diff
-bash $HOME/root-ghostproxy/scripts/merge-from-backup.sh --apply        # apply
+bash $HOME/root-modules/scripts/merge-from-backup.sh                # diff
+bash $HOME/root-modules/scripts/merge-from-backup.sh --apply        # apply
 
 # 4. Validate
-bash $HOME/root-ghostproxy/scripts/merge-from-backup.sh --validate
+bash $HOME/root-modules/scripts/merge-from-backup.sh --validate
 ```
 
 ### AI agent automating MODE=B
 
 ```bash
 curl -fsSL .../scripts/install-from-curl.sh | bash -s -- --auto
-# MODE=B, no prompts, repo at $HOME/root-ghostproxy/
+# MODE=B, no prompts, repo at $HOME/root-modules/
 ```
 
 ---

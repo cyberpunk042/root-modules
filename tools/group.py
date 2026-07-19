@@ -13,7 +13,7 @@ Three composition modes (operator-stated 2026-05-06):
 Per E003 multi-group component — Q1 self-elevation 2026-05-06.
 
 ----------------------------------------------------------------------
-USAGE EXAMPLES — 5 root-ghostproxy pipeline candidates (DRAFT, agent-proposed)
+USAGE EXAMPLES — 5 root-modules pipeline candidates (DRAFT, agent-proposed)
 ----------------------------------------------------------------------
 
 # Example 1: task-complete-cascade — chain

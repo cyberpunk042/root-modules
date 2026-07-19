@@ -3,7 +3,7 @@ title: "T045 — Time-to-orient: agent reads context + orients within 60 seconds
 type: task
 status: not-started
 priority: P0
-parent_module: "root-ghostproxy-m008-smoke-test-from-inside"
+parent_module: "root-modules-m008-smoke-test-from-inside"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: test
 readiness: 0
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m008-smoke-test-from-inside.md
+    file: wiki/backlog/modules/root-modules-m008-smoke-test-from-inside.md
 tags: [task, p0, t045, stream-1, smoke-test, time-to-orient, m008]
 ---
 
@@ -35,6 +35,6 @@ Per the parent epic's cross-cutting verification: a fresh Claude Code session op
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m008-smoke-test-from-inside|M008]]
+- PART OF: [[root-modules-m008-smoke-test-from-inside|M008]]
 - BLOCKED BY: T044
 - BLOCKS: T050 (M008 module exit)

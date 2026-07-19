@@ -3,7 +3,7 @@ title: "T052 — Execute the chosen bidirectional flow demo (per T051 reframe)"
 type: task
 status: not-started
 priority: P1
-parent_module: "root-ghostproxy-m009-worked-example-readme-ingest"
+parent_module: "root-modules-m009-worked-example-readme-ingest"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: implement
 readiness: 0
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m009-worked-example-readme-ingest.md
+    file: wiki/backlog/modules/root-modules-m009-worked-example-readme-ingest.md
 tags: [task, p1, t052, stream-1, worked-example, demo, m009]
 ---
 
@@ -22,7 +22,7 @@ tags: [task, p1, t052, stream-1, worked-example, demo, m009]
 ## Description
 
 Per T051 chosen reframe, execute the demo:
-- **Option A:** Run queries to verify second brain has root-ghostproxy as a queryable entity (`wiki_search root-ghostproxy`, `wiki_sister_project root-ghostproxy`, `gateway timeline --scope root-ghostproxy`).
+- **Option A:** Run queries to verify second brain has root-modules as a queryable entity (`wiki_search root-modules`, `wiki_sister_project root-modules`, `gateway timeline --scope root-modules`).
 - **Option B:** Operator authors a lesson; runs `gateway contribute --type lesson --title "..." --content "..."`; lesson lands in second brain's lessons inbox; verify it appears.
 - **Option C:** Operator picks a $HOME artefact (NOT $HOME/README.md per operator's rejection); ingests it via the second brain's pipeline (`wiki_fetch file://$HOME/<path>`).
 
@@ -40,6 +40,6 @@ Per T051 chosen reframe, execute the demo:
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m009-worked-example-readme-ingest|M009]]
+- PART OF: [[root-modules-m009-worked-example-readme-ingest|M009]]
 - BLOCKED BY: T051
 - BLOCKS: T053 through T056

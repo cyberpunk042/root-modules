@@ -3,7 +3,7 @@ title: "T047 — Run `python3 -m tools.view spine` from inside $HOME, capture ou
 type: task
 status: not-started
 priority: P0
-parent_module: "root-ghostproxy-m008-smoke-test-from-inside"
+parent_module: "root-modules-m008-smoke-test-from-inside"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: test
 readiness: 0
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m008-smoke-test-from-inside.md
+    file: wiki/backlog/modules/root-modules-m008-smoke-test-from-inside.md
 tags: [task, p0, t047, stream-1, smoke-test, view-spine, m008]
 ---
 
@@ -35,6 +35,6 @@ tags: [task, p0, t047, stream-1, smoke-test, view-spine, m008]
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m008-smoke-test-from-inside|M008]]
+- PART OF: [[root-modules-m008-smoke-test-from-inside|M008]]
 - BLOCKED BY: T044, T041
 - BLOCKS: T050

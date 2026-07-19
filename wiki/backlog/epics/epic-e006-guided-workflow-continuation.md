@@ -110,7 +110,7 @@ Per-week or per-N-fire snapshot of guided-workflow discipline maturation: which 
 
 ## Done When (Epic-level)
 
-- [ ] All 9 modules created at `wiki/backlog/modules/root-ghostproxy-m-e006-*.md` with operator-revised scope
+- [ ] All 9 modules created at `wiki/backlog/modules/root-modules-m-e006-*.md` with operator-revised scope
 - [ ] M-E006-3 phantom-invocation guard mitigation landed (closes SB-142)
 - [ ] Empirical evidence: 5+ consecutive autopilot loop runs show right-continuation pattern (operator-empirical-confirmed)
 - [ ] Operator says: "the AI feels guided, each interaction continues the right way" (or revises this success criterion)

@@ -3,7 +3,7 @@ title: "T060 — If T058 decides keep-false: document rationale (likely permanen
 type: task
 status: not-started
 priority: P2
-parent_module: "root-ghostproxy-m010-sister-projects-yaml-flip"
+parent_module: "root-modules-m010-sister-projects-yaml-flip"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: document
 readiness: 0
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m010-sister-projects-yaml-flip.md
+    file: wiki/backlog/modules/root-modules-m010-sister-projects-yaml-flip.md
 tags: [task, p2, t060, stream-1, m010, documentation]
 ---
 
@@ -35,5 +35,5 @@ Conditional task. Only executes if T058 decides keep-false.
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m010-sister-projects-yaml-flip|M010]]
+- PART OF: [[root-modules-m010-sister-projects-yaml-flip|M010]]
 - BLOCKED BY: T058

@@ -3,7 +3,7 @@ title: "T022 — Document verify-policy invocation in CLAUDE.md operator-intent 
 type: task
 status: not-started
 priority: P1
-parent_module: "root-ghostproxy-m004-infrastructure-tooling"
+parent_module: "root-modules-m004-infrastructure-tooling"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: document
 readiness: 0
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m004-infrastructure-tooling.md
+    file: wiki/backlog/modules/root-modules-m004-infrastructure-tooling.md
 tags: [task, p1, t022, infrastructure, claude-md, documentation, m004]
 ---
 
@@ -40,6 +40,6 @@ Add verify-policy invocations to $HOME/CLAUDE.md's operator-intent routing table
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m004-infrastructure-tooling|M004]]
+- PART OF: [[root-modules-m004-infrastructure-tooling|M004]]
 - BLOCKED BY: T019, T020, T021
 - ENABLES: future-session operator-intent recognition for verify operations

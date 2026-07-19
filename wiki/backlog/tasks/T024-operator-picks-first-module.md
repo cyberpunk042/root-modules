@@ -4,7 +4,7 @@ type: task
 status: not-started
 reclassified_2026-05-05: "from pending-operator-decision — BLOCKED BY T017+T023 (M003+M004 prerequisites); operator decides AFTER those, not now"
 priority: P0
-parent_module: "root-ghostproxy-m005-first-specialized-feature-module"
+parent_module: "root-modules-m005-first-specialized-feature-module"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: design
 readiness: 25
@@ -14,7 +14,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m005-first-specialized-feature-module.md
+    file: wiki/backlog/modules/root-modules-m005-first-specialized-feature-module.md
   - id: src-suricata-ips-mode
     type: file
     file: /opt/devops-solutions-information-hub/wiki/sources/src-suricata-ips-mode-linux.md
@@ -55,6 +55,6 @@ Both Suricata + PolarProxy are facultative modules per operator's verbatim. Oper
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m005-first-specialized-feature-module|M005]]
+- PART OF: [[root-modules-m005-first-specialized-feature-module|M005]]
 - BLOCKED BY: T017 (M003 Foundation gate), T023 (M004 no-regression check)
 - BLOCKS: T025 through T030 (subsequent module work scoped per choice)

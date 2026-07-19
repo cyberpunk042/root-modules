@@ -1,5 +1,5 @@
 ---
-title: "root-ghostproxy tasks"
+title: "root-modules tasks"
 type: index
 status: active
 created: 2026-05-04
@@ -43,7 +43,7 @@ Schema-only at this point. No tools/commands consume them yet. Future task-creat
 | **M006 — Pre-connect verification** | T031-T037 | 7 | AGENTS.md exists check; clean git state; capture pre-connect state; read setup.py collision behavior; dry-run from second brain; pre-connect snapshot; assemble audit log |
 | **M007 — Connect to second brain** | T038-T043 | 6 | Read setup.py impl; verify type=root handling (done — patched); run --connect-project for real; inspect 4 artefacts; commit atomic; rollback policy on failure |
 | **M008 — Smoke test from inside** | T044-T050 | 7 | Open fresh session; time-to-orient ≤ 60s; gateway orient; view spine; MCP tool; failure-mode test (brain unreachable); document M008 results |
-| **M009 — Worked example** | T051-T056 | 6 | Reframe operator-decision; execute chosen flow demo; verify second brain knows root-ghostproxy (done); MCP sister-project tool; gateway timeline --scope; document proof |
+| **M009 — Worked example** | T051-T056 | 6 | Reframe operator-decision; execute chosen flow demo; verify second brain knows root-modules (done); MCP sister-project tool; gateway timeline --scope; document proof |
 | **M010 — auto_connect flip decision** | T057-T061 | 5 | Cooling-off period (≥1 week); operator decides flip; apply if yes; document if no; close SFIF rollout epic |
 
 ## Status snapshot

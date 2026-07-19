@@ -115,7 +115,7 @@ This composition fits per M-E007-8 S1 criterion 3 (composes with existing tools)
 ## Connects to
 
 - Epic E007 (parent): `wiki/backlog/epics/epic-e007-driver-empowerment-and-input-intent-disambiguation.md`
-- Sister M-E007-8 (gating quality standards): `wiki/backlog/modules/root-ghostproxy-m-e007-8-anti-pollution-quality-standards.md`
+- Sister M-E007-8 (gating quality standards): `wiki/backlog/modules/root-modules-m-e007-8-anti-pollution-quality-standards.md`
 - Sister M-E007-3 (group + chain primitives — composition target)
 - Sister M-E007-4 (master manual)
 - Sister M-E007-6 (cross-reference graph)

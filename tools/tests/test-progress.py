@@ -67,9 +67,9 @@ def build_backlog() -> Path:
     (d / "epics").mkdir()
     (d / "log").mkdir()
     # modules — mix of status + sfif_stage
-    (d / "modules" / "root-ghostproxy-m001-a.md").write_text(fm(title="A", status="done", current_stage="test", readiness="100", sfif_stage="Scaffold"))
-    (d / "modules" / "root-ghostproxy-m002-b.md").write_text(fm(title="B", status="in-progress", current_stage="implement", readiness="80", sfif_stage="Foundation"))
-    (d / "modules" / "root-ghostproxy-m003-c.md").write_text(fm(title="C", status="in-progress", current_stage="scaffold", readiness="50", sfif_stage="Foundation"))
+    (d / "modules" / "root-modules-m001-a.md").write_text(fm(title="A", status="done", current_stage="test", readiness="100", sfif_stage="Scaffold"))
+    (d / "modules" / "root-modules-m002-b.md").write_text(fm(title="B", status="in-progress", current_stage="implement", readiness="80", sfif_stage="Foundation"))
+    (d / "modules" / "root-modules-m003-c.md").write_text(fm(title="C", status="in-progress", current_stage="scaffold", readiness="50", sfif_stage="Foundation"))
     # tasks — status distribution
     (d / "tasks" / "T001-a.md").write_text(fm(title="T1", status="done"))
     (d / "tasks" / "T002-b.md").write_text(fm(title="T2", status="not-started"))
@@ -84,7 +84,7 @@ def build_backlog() -> Path:
 
 
 def with_backlog(d: Path) -> None:
-    pr.MODULES_GLOB = str(d / "modules" / "root-ghostproxy-m*.md")
+    pr.MODULES_GLOB = str(d / "modules" / "root-modules-m*.md")
     pr.TASKS_GLOB = str(d / "tasks" / "T*.md")
     pr.LOG_GLOB = str(d / "log" / "*.md")
     pr.EPIC_PATH = str(d / "epics" / "sfif.md")

@@ -1,4 +1,4 @@
-# $HOME/.claude/rules/routing.md — Operator intent → tool routing for root-ghostproxy
+# $HOME/.claude/rules/routing.md — Operator intent → tool routing for root-modules
 
 > Loaded on demand when operator intent is ambiguous. CLAUDE.md has the summary delta; this file has the routing table for THIS project (OS-setup IaC at $HOME).
 >
@@ -6,7 +6,7 @@
 
 ## Mechanism Selection (8 mechanisms — full universal framing at `trigger-model.md`)
 
-Per [`.claude/rules/trigger-model.md`](trigger-model.md) the unified signal→action→recovery model covers 8 mechanisms. Below is the routing-relevant subset for root-ghostproxy specifically (counts empirically verified 2026-05-06 evening):
+Per [`.claude/rules/trigger-model.md`](trigger-model.md) the unified signal→action→recovery model covers 8 mechanisms. Below is the routing-relevant subset for root-modules specifically (counts empirically verified 2026-05-06 evening):
 
 | Mechanism | Determinism | Trigger | Project state (2026-05-06) |
 |---|---|---|---|

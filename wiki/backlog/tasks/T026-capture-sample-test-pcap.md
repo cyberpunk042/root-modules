@@ -3,7 +3,7 @@ title: "T026 — Capture sample test pcap (canary threat for Suricata, benign HT
 type: task
 status: not-started
 priority: P0
-parent_module: "root-ghostproxy-m005-first-specialized-feature-module"
+parent_module: "root-modules-m005-first-specialized-feature-module"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: design
 readiness: 0
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m005-first-specialized-feature-module.md
+    file: wiki/backlog/modules/root-modules-m005-first-specialized-feature-module.md
 tags: [task, p0, t026, features, test-pcap, design-input, m005]
 ---
 
@@ -37,6 +37,6 @@ Module design needs a known-good test artefact. For Suricata-first: a pcap conta
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m005-first-specialized-feature-module|M005]]
+- PART OF: [[root-modules-m005-first-specialized-feature-module|M005]]
 - BLOCKED BY: T024
 - BLOCKS: T027 (design doc references the test pcap), T029 (smoke test uses it)

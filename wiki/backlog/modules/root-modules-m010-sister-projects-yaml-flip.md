@@ -1,5 +1,5 @@
 ---
-title: "root-ghostproxy M010 — sister-projects.yaml auto_connect Decision"
+title: "root-modules M010 — sister-projects.yaml auto_connect Decision"
 aliases:
   - "M010 — auto_connect flip decision"
 type: module
@@ -24,22 +24,22 @@ sources:
   - id: sister-projects-registry
     type: file
     file: wiki/config/sister-projects.yaml
-    description: "Current root-ghostproxy entry: type=root, group=operating-system-setup, auto_connect=false"
-tags: [module, p2, root-ghostproxy, second-brain-integration, stream-1, operator-decision, auto-connect, m010]
+    description: "Current root-modules entry: type=root, group=operating-system-setup, auto_connect=false"
+tags: [module, p2, root-modules, second-brain-integration, stream-1, operator-decision, auto-connect, m010]
 ---
 
 # M010 — sister-projects.yaml auto_connect Decision
 
 ## Summary
 
-After M007–M009 prove the second-brain integration works end-to-end and the connection is stable, the operator decides whether to flip root-ghostproxy's `auto_connect` field in `wiki/config/sister-projects.yaml` from `false` to `true`. Flipping to `true` means subsequent `python3 -m tools.setup` runs (no args) will hook root-ghostproxy automatically when the path resolves locally — convenient for multi-host scenarios but also reduces the operator's explicit-authorization point. For a project of type=root + group=operating-system-setup that gates the security envelope of the host, the operator may prefer to keep `auto_connect: false` permanently as a friction-by-design measure. M010 is short — it's an operator decision logged with rationale.
+After M007–M009 prove the second-brain integration works end-to-end and the connection is stable, the operator decides whether to flip root-modules's `auto_connect` field in `wiki/config/sister-projects.yaml` from `false` to `true`. Flipping to `true` means subsequent `python3 -m tools.setup` runs (no args) will hook root-modules automatically when the path resolves locally — convenient for multi-host scenarios but also reduces the operator's explicit-authorization point. For a project of type=root + group=operating-system-setup that gates the security envelope of the host, the operator may prefer to keep `auto_connect: false` permanently as a friction-by-design measure. M010 is short — it's an operator decision logged with rationale.
 
 ## Done When
 
 - [ ] M009 is complete (worked example proven; connection demonstrated bidirectional)
 - [ ] Operator decision recorded: keep `auto_connect: false` (manual --connect-project always required) OR flip to `true` (auto-hookup on tools.setup runs)
 - [ ] Decision and rationale documented in this module page (or as an ADR-style page in second brain)
-- [ ] If flipped to true: `wiki/config/sister-projects.yaml` updated; `pipeline post` passes; downstream behaviour smoke-tested (re-run tools.setup and verify root-ghostproxy re-connects without --connect-project flag)
+- [ ] If flipped to true: `wiki/config/sister-projects.yaml` updated; `pipeline post` passes; downstream behaviour smoke-tested (re-run tools.setup and verify root-modules re-connects without --connect-project flag)
 - [ ] If kept false: rationale captured (likely: type=root projects gate the security envelope and warrant explicit authorization gates)
 
 ## Dependencies
@@ -70,10 +70,10 @@ After M007–M009 prove the second-brain integration works end-to-end and the co
 
 ## Relationships
 
-- PART OF: [[sfif-rollout-and-second-brain-integration|Epic — root-ghostproxy SFIF Rollout]]
-- BLOCKED BY: [[root-ghostproxy-m009-worked-example-readme-ingest|M009 — Worked example]]
+- PART OF: [[sfif-rollout-and-second-brain-integration|Epic — root-modules SFIF Rollout]]
+- BLOCKED BY: [[root-modules-m009-worked-example-readme-ingest|M009 — Worked example]]
 
 ## Backlinks
 
-[[Epic — root-ghostproxy SFIF Rollout]]
+[[Epic — root-modules SFIF Rollout]]
 [[M009 — Worked example]]

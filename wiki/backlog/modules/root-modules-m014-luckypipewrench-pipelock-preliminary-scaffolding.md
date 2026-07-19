@@ -1,5 +1,5 @@
 ---
-title: "root-ghostproxy M014 — luckyPipewrench/pipelock integration scaffolding"
+title: "root-modules M014 — luckyPipewrench/pipelock integration scaffolding"
 aliases:
   - "M014 — pipelock integration"
 type: module
@@ -31,7 +31,7 @@ sources:
   - id: pipelock-homepage
     type: external
     url: https://pipelab.org
-tags: [module, root-ghostproxy, m014, pipelock, ai-agent-firewall, mcp-security, agent-egress-control, dlp, ssrf, prompt-injection-defense, complementary-layer]
+tags: [module, root-modules, m014, pipelock, ai-agent-firewall, mcp-security, agent-egress-control, dlp, ssrf, prompt-injection-defense, complementary-layer]
 ---
 
 # M014 — luckyPipewrench/pipelock integration scaffolding
@@ -57,17 +57,17 @@ tags: [module, root-ghostproxy, m014, pipelock, ai-agent-firewall, mcp-security,
 
 **Works with**: Claude Code, Cursor, VS Code, JetBrains, OpenAI Agents SDK, Google ADK, AutoGen, CrewAI, LangGraph.
 
-## Relationship to root-ghostproxy
+## Relationship to root-modules
 
 **Complementary layers of AI agent safety**:
 
 | Layer | Project | Boundary enforced |
 |---|---|---|
 | Agent process boundary | **pipelock** (M014, this module) | Outbound HTTP/WS/MCP from the agent process; sandboxes the process; signs receipts |
-| Network L2 boundary | root-ghostproxy bridge + Suricata + PolarProxy (M005) | Transparent L2 inspection between OPNsense edge and LAN switch |
-| OS-level safety envelope | root-ghostproxy foundation (M003) | Claude Code + opencode hardening at OS root level (settings.json deny + 7 hooks) |
+| Network L2 boundary | root-modules bridge + Suricata + PolarProxy (M005) | Transparent L2 inspection between OPNsense edge and LAN switch |
+| OS-level safety envelope | root-modules foundation (M003) | Claude Code + opencode hardening at OS root level (settings.json deny + 7 hooks) |
 
-The three layers cover different attack surfaces. pipelock adds the agent-process layer to root-ghostproxy's network + OS layers.
+The three layers cover different attack surfaces. pipelock adds the agent-process layer to root-modules's network + OS layers.
 
 ## Scope (preliminary — module page authoring complete cycle 19)
 
@@ -99,9 +99,9 @@ Per operator directive 2026-05-05 *"the skaffolding of the luckyPipewrench/pipel
 
 - pipelock runs as a process-level proxy/sandbox. Installation typically: `brew install luckyPipewrench/tap/pipelock` OR `docker pull ghcr.io/luckypipewrench/pipelock:latest` OR Go install from source.
 - Configuration via `pipelock.yaml`. `pipelock init` discovers IDE configs.
-- Could be wrapped by root-ghostproxy's install.sh as a facultative module (similar to M005's Suricata/PolarProxy facultative pattern).
+- Could be wrapped by root-modules's install.sh as a facultative module (similar to M005's Suricata/PolarProxy facultative pattern).
 - License: Apache 2.0 core compatible; ELv2 enterprise tier available.
-- Topics tagged: agent-security, ai-agent-security, mcp-security, prompt-injection, ssrf-protection — directly aligned with root-ghostproxy's safety-envelope mission.
+- Topics tagged: agent-security, ai-agent-security, mcp-security, prompt-injection, ssrf-protection — directly aligned with root-modules's safety-envelope mission.
 
 ## Tasks
 
@@ -109,10 +109,10 @@ Per operator directive 2026-05-05 *"the skaffolding of the luckyPipewrench/pipel
 
 ## Relationships
 
-- PART OF: [[sfif-rollout-and-second-brain-integration|Epic — root-ghostproxy SFIF Rollout]]
-- COMPLEMENTS: [[root-ghostproxy-m003-foundation-hardening|M003]] (OS-level safety envelope) + [[root-ghostproxy-m005-first-specialized-feature-module|M005]] (network IPS bridge layer)
+- PART OF: [[sfif-rollout-and-second-brain-integration|Epic — root-modules SFIF Rollout]]
+- COMPLEMENTS: [[root-modules-m003-foundation-hardening|M003]] (OS-level safety envelope) + [[root-modules-m005-first-specialized-feature-module|M005]] (network IPS bridge layer)
 - AWAITS: operator decisions on stage / ordering / synthesis-ingestion
 
 ## Backlinks
 
-[[Epic — root-ghostproxy SFIF Rollout]]
+[[Epic — root-modules SFIF Rollout]]

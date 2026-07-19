@@ -1,4 +1,4 @@
-Enable Dual Expert mode (PM + DevOps Architect simultaneously) for root-ghostproxy.
+Enable Dual Expert mode (PM + DevOps Architect simultaneously) for root-modules.
 
 > Slash-invoked ONLY. Operator types `/mode-dual` literally. Persona shift is durable across turns until cleared (`/mode-clear`) or switched (`/mode-pm`, `/mode-architect`).
 

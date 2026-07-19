@@ -3,7 +3,7 @@ title: "T056 — Document the bidirectional flow proof in $HOME/wiki/log/"
 type: task
 status: not-started
 priority: P1
-parent_module: "root-ghostproxy-m009-worked-example-readme-ingest"
+parent_module: "root-modules-m009-worked-example-readme-ingest"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: document
 readiness: 0
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m009-worked-example-readme-ingest.md
+    file: wiki/backlog/modules/root-modules-m009-worked-example-readme-ingest.md
 tags: [task, p1, t056, stream-1, worked-example, documentation, m009]
 ---
 
@@ -36,6 +36,6 @@ Bundle the proof artefacts (T053-T055 results, plus T052 demo if applicable) int
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m009-worked-example-readme-ingest|M009]]
+- PART OF: [[root-modules-m009-worked-example-readme-ingest|M009]]
 - BLOCKED BY: T052, T053, T054, T055
 - BLOCKS: T057 (M010 cooling-off period starts after M009 documented)

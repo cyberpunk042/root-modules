@@ -1,5 +1,5 @@
 ---
-title: "root-ghostproxy M006 — Pre-Connect Verification"
+title: "root-modules M006 — Pre-Connect Verification"
 aliases:
   - "M006 — Stream 1 pre-connect"
 type: module
@@ -24,21 +24,21 @@ sources:
   - id: sister-projects-registry
     type: file
     file: wiki/config/sister-projects.yaml
-    description: "root-ghostproxy entry: type=root, group=operating-system-setup, auto_connect=false"
-tags: [module, p0, root-ghostproxy, second-brain-integration, stream-1, pre-connect-verification, m006]
+    description: "root-modules entry: type=root, group=operating-system-setup, auto_connect=false"
+tags: [module, p0, root-modules, second-brain-integration, stream-1, pre-connect-verification, m006]
 ---
 
 # M006 — Pre-Connect Verification
 
 ## Summary
 
-Before running `tools.setup --connect-project $HOME` (which lands as M007), verify the prerequisites are in place: Stream 2 M001 (AGENTS.md) is complete in $HOME because the connect script writes the `## Second Brain Connection` block INTO an existing AGENTS.md or CLAUDE.md; root-ghostproxy is at a clean git state so the connect script's mutations are reviewable as a single diff; operator authorizes the connection (the auto_connect=false flag in sister-projects.yaml is the explicit gate). M006 is short — checklist + sign-off — but skipping it is what causes connect-script failures and partial-state cleanups in $HOME.
+Before running `tools.setup --connect-project $HOME` (which lands as M007), verify the prerequisites are in place: Stream 2 M001 (AGENTS.md) is complete in $HOME because the connect script writes the `## Second Brain Connection` block INTO an existing AGENTS.md or CLAUDE.md; root-modules is at a clean git state so the connect script's mutations are reviewable as a single diff; operator authorizes the connection (the auto_connect=false flag in sister-projects.yaml is the explicit gate). M006 is short — checklist + sign-off — but skipping it is what causes connect-script failures and partial-state cleanups in $HOME.
 
 ## Done When
 
 - [ ] $HOME/AGENTS.md exists (M001 dependency satisfied) — verified by file existence + line count
 - [ ] $HOME/.git status is clean: no uncommitted changes that would be overwritten or that mix with the connect-script's diff
-- [ ] sister-projects.yaml entry for root-ghostproxy verified: type=root, group=operating-system-setup, path=~/, auto_connect=false (current state) — and operator explicitly authorizes the manual --connect-project run
+- [ ] sister-projects.yaml entry for root-modules verified: type=root, group=operating-system-setup, path=~/, auto_connect=false (current state) — and operator explicitly authorizes the manual --connect-project run
 - [ ] Operator captures: any prior $HOME/.mcp.json content (so connect-script's MCP entry is added, not overwriting unknown state)
 - [ ] Operator captures: any prior $HOME/tools/ Python content (so gateway.py + view.py forwarders are added without colliding)
 - [ ] Pre-connect snapshot taken (git commit or tar) so M007 can be rolled back atomically if needed
@@ -77,12 +77,12 @@ Before running `tools.setup --connect-project $HOME` (which lands as M007), veri
 
 ## Relationships
 
-- PART OF: [[sfif-rollout-and-second-brain-integration|Epic — root-ghostproxy SFIF Rollout]]
-- BLOCKED BY: [[root-ghostproxy-m001-author-claude-md-and-agents-md|M001]] (AGENTS.md must exist)
-- ENABLES: [[root-ghostproxy-m007-connect-second-brain|M007 — Connect (--connect-project)]]
+- PART OF: [[sfif-rollout-and-second-brain-integration|Epic — root-modules SFIF Rollout]]
+- BLOCKED BY: [[root-modules-m001-author-claude-md-and-agents-md|M001]] (AGENTS.md must exist)
+- ENABLES: [[root-modules-m007-connect-second-brain|M007 — Connect (--connect-project)]]
 
 ## Backlinks
 
-[[Epic — root-ghostproxy SFIF Rollout]]
+[[Epic — root-modules SFIF Rollout]]
 [[M001]]
 [[M007 — Connect (--connect-project)]]

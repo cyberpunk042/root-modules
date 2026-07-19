@@ -1,6 +1,6 @@
-# CONTEXT.md — root-ghostproxy operational state
+# CONTEXT.md — root-modules operational state
 
-> Current operational state of the project. Distinct from [README.md](README.md) (project description — what root-ghostproxy IS) and [CLAUDE.md](CLAUDE.md) / [AGENTS.md](AGENTS.md) (operating rules — how AI tools behave here). CONTEXT.md = "what's currently true, what's active, what's next." Updates turn-to-turn as state evolves.
+> Current operational state of the project. Distinct from [README.md](README.md) (project description — what root-modules IS) and [CLAUDE.md](CLAUDE.md) / [AGENTS.md](AGENTS.md) (operating rules — how AI tools behave here). CONTEXT.md = "what's currently true, what's active, what's next." Updates turn-to-turn as state evolves.
 
 > **Agent doc-update discipline (operator directive 2026-05-06, sacrosanct, applies to operational-state files too)**: when refreshing CONTEXT.md, **adding ≠ discarding**. Recent Operator Directives table is **APPEND-ONLY** (verbatim quotes are sacrosanct — never modify existing rows). Recent Work Completed table is **APPEND-ONLY** (historical log, append new rows; never rewrite past entries). Drift-fix on count values is inline-update with empirical-verification timestamp; structural sections (Quick Identity / Active Objective Layer / SFIF Stage / Active Epic / Cross-References) refresh values, never replace structure. Going-to-extremes (SB-082/093 family) recurs when an agent rewrites instead of revises.
 
@@ -28,7 +28,7 @@ Full identity profile (canonical): `<second-brain>/wiki/ecosystem/project_profil
 
 | Layer | State file | Current value (2026-05-06 evening) |
 |---|---|---|
-| **Mission** (multi-cycle objective) | `$HOME/.claude/active-mission` | *ship root-ghostproxy MVP — close systemic-bug audit + advance M003 Foundation gate* |
+| **Mission** (multi-cycle objective) | `$HOME/.claude/active-mission` | *ship root-modules MVP — close systemic-bug audit + advance M003 Foundation gate* |
 | **Focus** (sub-objective within mission) | `$HOME/.claude/active-focus` | *iterate hooks/context/engineering quality + mission+focus build (SB-118)* |
 | **Impediment** (block on focus, comes-and-goes) | `$HOME/.claude/active-impediment` | *(none — focus unblocked; file empty/absent)* |
 | **Priorities** (imminent-work tier ABOVE PM blockers — SB-127) | `$HOME/.claude/active-priorities` | P1: STOP standby/bug behavior — substantive work per cycle · P2: agent-actionable items deferred as "operator-domain" that aren't (statusline draft / profile-variants schema / deeper mode-enforcement engineering) · P3: compound+waterfall integration substantive complete; statusline draft + profile-variants design within authority · P4: Modes proper support with hook + all engineering (SB-117 deeper Epic) · P5: T012 install.sh advance to implement-stage real-execute (D024 GREENLIT pending operator-driven future-session run) |
@@ -68,24 +68,24 @@ Slash commands for each layer: `/mission` · `/focus` · `/impediment` · `/prio
 
 | Order | Module | Stage | Status | Notes |
 |---|---|---|---|---|
-| 1 | **[M001 — CLAUDE.md + AGENTS.md authoring](wiki/backlog/modules/root-ghostproxy-m001-author-claude-md-and-agents-md.md)** | Scaffold | Done (effective) | All 8 brain files authored + iterating; cycle 41-58 substantive evolutions captured in those files. |
-| 2 | **[M002 — Methodology layer decision](wiki/backlog/modules/root-ghostproxy-m002-methodology-layer-decision.md)** | Scaffold/Design | Decided (local copy chosen — methodology.yaml + 3 profiles in `$HOME/wiki/config/`) | Operator's directive to copy the second brain's methodology + profiles confirmed this choice. |
-| 3 | **[M003 — Foundation hardening](wiki/backlog/modules/root-ghostproxy-m003-foundation-hardening.md)** | Foundation | In progress (scaffold-gate met; advance pending) | install.sh authored + dry-run passes both `--profile base` and `--profile full`; STUBS for integrity-sentinel + nftables + wpa_supplicant + --check verification — operator decides scaffold→implement advance. |
-| 4 | **[M004 — Infrastructure tooling](wiki/backlog/modules/root-ghostproxy-m004-infrastructure-tooling.md)** | Infrastructure | Not started | Project-internal verifier (`tools/verify-policy.py` or similar) — gated on M003. |
-| 5 | **[M011 — ccstatusline custom widget](wiki/backlog/modules/root-ghostproxy-m011-ccstatusline-statusline-widget.md)** | Features | In progress (~80% effective) | 3 profiles deployed (base/intermediary/full-aidlc); 9 custom AIDLC widgets at $HOME/.local/share/ccstatusline-widgets/; install.sh op_install_ccstatusline functional; OPERATOR VISUALLY VERIFIED cycle 43 ("looking much better"). 4 atomic tasks T062-T065 in-progress 60-80%. |
-| 6 | **[M005 — First specialized feature module](wiki/backlog/modules/root-ghostproxy-m005-first-specialized-feature-module.md)** | Features | Not started | Operator picks Suricata-first OR PolarProxy-first. Operator-driven future-session work. |
-| 7 | **[M013 — Agent modes (PM / Architect / Dual)](wiki/backlog/modules/root-ghostproxy-m013-agent-modes-and-mode-aware-loops.md)** | Features | Implemented (effective) | 3 modes at `.claude/modes/*.md`, /cycle skill for autopilot, /loop /cycle composition — used continuously cycles 41-58. |
-| 8 | **[M014 — luckyPipewrench/pipelock preliminary](wiki/backlog/modules/root-ghostproxy-m014-luckypipewrench-pipelock-preliminary-scaffolding.md)** | Features | Preliminary scope complete | Module page authored cycle 19; SFIF + ordering decisions resolved; atomic task pages gated on M007 connect. |
+| 1 | **[M001 — CLAUDE.md + AGENTS.md authoring](wiki/backlog/modules/root-modules-m001-author-claude-md-and-agents-md.md)** | Scaffold | Done (effective) | All 8 brain files authored + iterating; cycle 41-58 substantive evolutions captured in those files. |
+| 2 | **[M002 — Methodology layer decision](wiki/backlog/modules/root-modules-m002-methodology-layer-decision.md)** | Scaffold/Design | Decided (local copy chosen — methodology.yaml + 3 profiles in `$HOME/wiki/config/`) | Operator's directive to copy the second brain's methodology + profiles confirmed this choice. |
+| 3 | **[M003 — Foundation hardening](wiki/backlog/modules/root-modules-m003-foundation-hardening.md)** | Foundation | In progress (scaffold-gate met; advance pending) | install.sh authored + dry-run passes both `--profile base` and `--profile full`; STUBS for integrity-sentinel + nftables + wpa_supplicant + --check verification — operator decides scaffold→implement advance. |
+| 4 | **[M004 — Infrastructure tooling](wiki/backlog/modules/root-modules-m004-infrastructure-tooling.md)** | Infrastructure | Not started | Project-internal verifier (`tools/verify-policy.py` or similar) — gated on M003. |
+| 5 | **[M011 — ccstatusline custom widget](wiki/backlog/modules/root-modules-m011-ccstatusline-statusline-widget.md)** | Features | In progress (~80% effective) | 3 profiles deployed (base/intermediary/full-aidlc); 9 custom AIDLC widgets at $HOME/.local/share/ccstatusline-widgets/; install.sh op_install_ccstatusline functional; OPERATOR VISUALLY VERIFIED cycle 43 ("looking much better"). 4 atomic tasks T062-T065 in-progress 60-80%. |
+| 6 | **[M005 — First specialized feature module](wiki/backlog/modules/root-modules-m005-first-specialized-feature-module.md)** | Features | Not started | Operator picks Suricata-first OR PolarProxy-first. Operator-driven future-session work. |
+| 7 | **[M013 — Agent modes (PM / Architect / Dual)](wiki/backlog/modules/root-modules-m013-agent-modes-and-mode-aware-loops.md)** | Features | Implemented (effective) | 3 modes at `.claude/modes/*.md`, /cycle skill for autopilot, /loop /cycle composition — used continuously cycles 41-58. |
+| 8 | **[M014 — luckyPipewrench/pipelock preliminary](wiki/backlog/modules/root-modules-m014-luckypipewrench-pipelock-preliminary-scaffolding.md)** | Features | Preliminary scope complete | Module page authored cycle 19; SFIF + ordering decisions resolved; atomic task pages gated on M007 connect. |
 
 ### Stream 1 — Second-Brain Integration (M006–M010)
 
 | Module | Status | Notes |
 |---|---|---|
-| **[M006 — Pre-connect verification](wiki/backlog/modules/root-ghostproxy-m006-pre-connect-verification.md)** | Not started | Verify AGENTS.md present, $HOME state captured, dry-run reviewed. |
-| **[M007 — Connect to second brain](wiki/backlog/modules/root-ghostproxy-m007-connect-second-brain.md)** | Not started | Run `python3 -m tools.setup --connect-project $HOME` from second brain. |
-| **[M008 — Smoke test from inside](wiki/backlog/modules/root-ghostproxy-m008-smoke-test-from-inside.md)** | Not started | Fresh Claude Code session in $HOME, gateway orient + view spine + research-wiki MCP. |
-| **[M009 — Worked example](wiki/backlog/modules/root-ghostproxy-m009-worked-example-readme-ingest.md)** | Not started | Bidirectional flow proof. |
-| **[M010 — sister-projects.yaml auto_connect decision](wiki/backlog/modules/root-ghostproxy-m010-sister-projects-yaml-flip.md)** | Not started | Operator decision after M009 stability. Currently `auto_connect: false`. |
+| **[M006 — Pre-connect verification](wiki/backlog/modules/root-modules-m006-pre-connect-verification.md)** | Not started | Verify AGENTS.md present, $HOME state captured, dry-run reviewed. |
+| **[M007 — Connect to second brain](wiki/backlog/modules/root-modules-m007-connect-second-brain.md)** | Not started | Run `python3 -m tools.setup --connect-project $HOME` from second brain. |
+| **[M008 — Smoke test from inside](wiki/backlog/modules/root-modules-m008-smoke-test-from-inside.md)** | Not started | Fresh Claude Code session in $HOME, gateway orient + view spine + research-wiki MCP. |
+| **[M009 — Worked example](wiki/backlog/modules/root-modules-m009-worked-example-readme-ingest.md)** | Not started | Bidirectional flow proof. |
+| **[M010 — sister-projects.yaml auto_connect decision](wiki/backlog/modules/root-modules-m010-sister-projects-yaml-flip.md)** | Not started | Operator decision after M009 stability. Currently `auto_connect: false`. |
 
 ## Recent Operator Directives (This Work Block)
 
@@ -187,7 +187,7 @@ In priority order:
 6. **Operator authorizes M007 connect** — runs `python3 -m tools.setup --connect-project $HOME --dry-run` first (preview), then for real. Adds 4 artefacts (research-wiki MCP entry, gateway/view forwarders, brain-pointer block in AGENTS.md).
 7. **Operator-driven M005 module work** — Suricata or PolarProxy first; module design + integration. Operator-driven future-session work.
 8. **M008 smoke test from inside $HOME** — fresh Claude Code session in $HOME, gateway orient + view spine + MCP tool invocation.
-9. **M009 worked example** — proves bidirectional flow (second brain has root-ghostproxy queryable, root-ghostproxy contributes back).
+9. **M009 worked example** — proves bidirectional flow (second brain has root-modules queryable, root-modules contributes back).
 10. **M010 auto_connect decision** — operator decision after M009 stability.
 11. **8 sub-READMEs DRAFT v1 → promotion review** — operator reviews fresh-pickup-agent navigability; promotes `status: draft` → `status: active` + `maturity: seed` → `growing` per file.
 
@@ -236,7 +236,7 @@ In priority order:
 | 2026-05-06 | Systemic-bugs thorough audit Phase A/B/C closures (D026) | 14 SB-status transitions: 8 recurrence-downgrades + 16 verified-upgrades + 7 new SB authored (SB-107 through SB-113). Open went 18→4. Verified went 1→17. SB-116 placeholder for future UX redesign Epic. |
 | 2026-05-06 | Stamp tooling DRAFT redesign (SB-115/SB-114) | `tools/stamp.py` config tool + 6 slash commands + persistent `.claude/stamp-config.json` + horizontal/vertical layouts + on/off/auto modes; ansi-fence/diff-fence rendering. |
 | 2026-05-06 | Agent-discipline-gate detection hook (SB-108) | `output-discipline-guard.sh` UserPromptSubmit hook with combined detection: PREMISE-RISK (SB-090) + ESCALATION (SB-094); high-confidence triggers; single-line concise banner. |
-| 2026-05-06 | $HOME ↔ /opt second-brain inheritance documented (SB-115) | `self-reference.md` "Bidirectional inheritance" section: $HOME source-of-truth for operational tooling; /opt second-brain INHERITS / adapts. Knowledge flows the OTHER direction (root-ghostproxy → second brain via gateway contribute). |
+| 2026-05-06 | $HOME ↔ /opt second-brain inheritance documented (SB-115) | `self-reference.md` "Bidirectional inheritance" section: $HOME source-of-truth for operational tooling; /opt second-brain INHERITS / adapts. Knowledge flows the OTHER direction (root-modules → second brain via gateway contribute). |
 | 2026-05-06 | 7 brain-doc drift fixes | TOOLS.md / hook-architecture.md / CLAUDE.md / BOOTSTRAP.md / orient.md / help-root.md / README.md / AGENTS.md / progress.md drift fixes per audit closures. |
 | 2026-05-06 | Mission/focus/impediment 3-layer state files BUILT (SB-118 closure D027) | `tools/objective.py` set/clear/show × 3 layers + state files `$HOME/.claude/active-{mission,focus,impediment}` + `/mission` `/focus` `/impediment` slash commands + mode-enforcement.sh extension surfaces all 3 layers. |
 | 2026-05-06 | Compound + waterfall SRP rule (SB-123 closure D028) | `.claude/rules/compound-and-waterfall.md` authored: two orthogonal axes (compound = additive layers at-a-moment; waterfall = state flows event-to-event); failure modes (collide / truncation); design implications + anti-patterns table. |

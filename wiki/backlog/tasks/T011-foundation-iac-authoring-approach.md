@@ -3,7 +3,7 @@ title: "T011 — Operator decides Foundation IaC authoring approach (greenfield 
 type: task
 status: done
 priority: P0
-parent_module: "root-ghostproxy-m003-foundation-hardening"
+parent_module: "root-modules-m003-foundation-hardening"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: design
 readiness: 100
@@ -15,7 +15,7 @@ decision: "GREENFIELD — operator verbatim 'imagine virgin' + 'build from botto
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m003-foundation-hardening.md
+    file: wiki/backlog/modules/root-modules-m003-foundation-hardening.md
   - id: prior-debris-task
     type: wiki
     file: wiki/backlog/tasks/T006-prior-debris-reconciliation.md
@@ -72,6 +72,6 @@ These are sacrosanct decisions. Build virgin; do not extend prior $HOME debris.
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m003-foundation-hardening|M003]]
+- PART OF: [[root-modules-m003-foundation-hardening|M003]]
 - RELATES TO: [[T006-prior-debris-reconciliation|T006]]
 - BLOCKS: T012, T013, T014, T015, T016, T017

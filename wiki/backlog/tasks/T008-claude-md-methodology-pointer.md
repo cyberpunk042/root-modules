@@ -3,7 +3,7 @@ title: "T008 — CLAUDE.md routing references the methodology layer (per Adoptio
 type: task
 status: done
 priority: P0
-parent_module: "root-ghostproxy-m002-methodology-layer-decision"
+parent_module: "root-modules-m002-methodology-layer-decision"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: scaffold
 readiness: 100
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m002-methodology-layer-decision.md
+    file: wiki/backlog/modules/root-modules-m002-methodology-layer-decision.md
 tags: [task, p0, t008, scaffold, claude-md, methodology, m002]
 ---
 
@@ -43,6 +43,6 @@ CLAUDE.md authored 2026-05-05 with a Methodology section that meets all the abov
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m002-methodology-layer-decision|M002]]
+- PART OF: [[root-modules-m002-methodology-layer-decision|M002]]
 - BLOCKED BY: T007, T004
 - ENABLES: methodology-driven work loop in future sessions

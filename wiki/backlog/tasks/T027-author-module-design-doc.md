@@ -3,7 +3,7 @@ title: "T027 — Author module design doc at $HOME/docs/<module>-module-design.m
 type: task
 status: not-started
 priority: P0
-parent_module: "root-ghostproxy-m005-first-specialized-feature-module"
+parent_module: "root-modules-m005-first-specialized-feature-module"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: design
 readiness: 0
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m005-first-specialized-feature-module.md
+    file: wiki/backlog/modules/root-modules-m005-first-specialized-feature-module.md
 tags: [task, p0, t027, features, design-doc, m005]
 ---
 
@@ -42,7 +42,7 @@ Author the design doc for the first feature module per operator's choice (T024).
 
 | Section | Content |
 |---|---|
-| Mode | Transparent Forward Proxy (default for root-ghostproxy bridge topology) |
+| Mode | Transparent Forward Proxy (default for root-modules bridge topology) |
 | CA management | Per-instance dynamic CA OR operator-supplied .p12; CA distribution mechanism (manual install / AD GPO / MDM) |
 | Bypass list | Banking, healthcare, cert-pinned domains (chrome-bypass list as starting point) |
 | Output | `--pcapoverip 4430` for live consumption + rotated `-o` directory for forensics |
@@ -70,6 +70,6 @@ Per methodology: design stage ALLOWS design-document, ADR, tech-spec, type sketc
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m005-first-specialized-feature-module|M005]]
+- PART OF: [[root-modules-m005-first-specialized-feature-module|M005]]
 - BLOCKED BY: T024, T026
 - BLOCKS: T028 (install integration), T029 (smoke test), T030 (operator validation)

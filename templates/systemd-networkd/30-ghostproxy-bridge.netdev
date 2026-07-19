@@ -1,14 +1,14 @@
 # /etc/systemd/network/30-ghostproxy-bridge.netdev
-# root-ghostproxy transparent L2 bridge interface definition.
+# root-modules transparent L2 bridge interface definition.
 # Deployed by $HOME/install.sh op_install_network_bridge (T013 — systemd-networkd).
 #
-# Bridge name fixed: gpbr0 (root-ghostproxy bridge 0). Members assigned by
+# Bridge name fixed: gpbr0 (root-modules bridge 0). Members assigned by
 # matching .network files (see 30-ghostproxy-bridge.network).
 
 [NetDev]
 Name=gpbr0
 Kind=bridge
-Description=root-ghostproxy transparent L2 IPS bridge
+Description=root-modules transparent L2 IPS bridge
 
 [Bridge]
 # Disable STP — passive bridge, no spanning tree needed for IPS pass-through

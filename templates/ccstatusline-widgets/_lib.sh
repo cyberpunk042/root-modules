@@ -40,14 +40,14 @@ rgp_resolve_python() {
     command -v python3 || printf 'python3'
 }
 
-# Check if the calling session is operating in root-ghostproxy's project context.
+# Check if the calling session is operating in root-modules's project context.
 # Returns 0 (true) if yes, 1 (false) if not. Used by /root-specific widgets to
 # gate their rendering — when called from a sister-project session (e.g. /opt
 # second-brain), the widget should exit silently rather than render $HOME state
 # (which would be wrong-context per operator directive 2026-05-05).
 #
 # Detection: CLAUDE_PROJECT_DIR set by Claude Code per session. If it matches
-# root-ghostproxy's home (== $HOME or starts with $HOME + "/"), we're in $HOME.
+# root-modules's home (== $HOME or starts with $HOME + "/"), we're in $HOME.
 # If unset (legacy / non-Claude-Code invoker), default to true (preserve
 # pre-fix behavior).
 rgp_is_in_root_context() {

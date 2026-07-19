@@ -1,5 +1,5 @@
 ---
-title: "root-ghostproxy M012 — Vendor mapping, fresh-machine install path, and auto-detect features"
+title: "root-modules M012 — Vendor mapping, fresh-machine install path, and auto-detect features"
 aliases:
   - "M012 — vendor manifest + install + auto-detect"
 type: module
@@ -25,14 +25,14 @@ sources:
   - id: parent-epic
     type: wiki
     file: wiki/backlog/epics/sfif-rollout-and-second-brain-integration.md
-tags: [module, p1, root-ghostproxy, sfif-infrastructure, m012, vendor-mapping, install-on-fresh-machine, auto-detect, spec-driven-development, gitignore-completeness]
+tags: [module, p1, root-modules, sfif-infrastructure, m012, vendor-mapping, install-on-fresh-machine, auto-detect, spec-driven-development, gitignore-completeness]
 ---
 
 # M012 — Vendor mapping, fresh-machine install, auto-detect
 
 ## Summary
 
-Three related concerns that fall out of the spec-driven-development doctrine: (1) **fresh-machine install path** — `git clone` + `./install.sh` on a clean host reconstitutes a working root-ghostproxy state, including the host-context files at `~/.claude/` and `~/.config/opencode/`; (2) **vendor mapping** — for vendors (Suricata, PolarProxy, future IDS rule sources, etc.), the spec records identity + version + integrity hash + install method; vendor binaries/sources are NOT stored in the repo; (3) **auto-detect features** — runtime detection that flags large-file downloads or new-vendor introductions before they enter the repo by accident.
+Three related concerns that fall out of the spec-driven-development doctrine: (1) **fresh-machine install path** — `git clone` + `./install.sh` on a clean host reconstitutes a working root-modules state, including the host-context files at `~/.claude/` and `~/.config/opencode/`; (2) **vendor mapping** — for vendors (Suricata, PolarProxy, future IDS rule sources, etc.), the spec records identity + version + integrity hash + install method; vendor binaries/sources are NOT stored in the repo; (3) **auto-detect features** — runtime detection that flags large-file downloads or new-vendor introductions before they enter the repo by accident.
 
 ## Operator directive (verbatim, 2026-05-05)
 
@@ -121,16 +121,16 @@ Operator's framing: *"possibly have the auto features"* — Phase D is research 
 
 ## Relationships
 
-- PART OF: [[sfif-rollout-and-second-brain-integration|Epic — root-ghostproxy SFIF Rollout]]
-- BUILDS ON: [[root-ghostproxy-m003-foundation-hardening|M003 — Foundation hardening]] (install.sh skeleton)
-- BUILDS ON: [[root-ghostproxy-m004-infrastructure-tooling|M004 — Infrastructure tooling]] (verifier / --check)
-- RELATES TO: [[root-ghostproxy-m005-first-specialized-feature-module|M005]] (Suricata/PolarProxy as the first vendors entering the manifest)
+- PART OF: [[sfif-rollout-and-second-brain-integration|Epic — root-modules SFIF Rollout]]
+- BUILDS ON: [[root-modules-m003-foundation-hardening|M003 — Foundation hardening]] (install.sh skeleton)
+- BUILDS ON: [[root-modules-m004-infrastructure-tooling|M004 — Infrastructure tooling]] (verifier / --check)
+- RELATES TO: [[root-modules-m005-first-specialized-feature-module|M005]] (Suricata/PolarProxy as the first vendors entering the manifest)
 - RELATES TO: T006 — prior-debris reconciliation; the existing `$HOME/install.sh` is M012's starting-or-replacement point
 - IMPLEMENTS: Spec-Driven Development doctrine (per operator directive 2026-05-05)
 
 ## Backlinks
 
-[[Epic — root-ghostproxy SFIF Rollout]]
+[[Epic — root-modules SFIF Rollout]]
 [[M003 — Foundation hardening]]
 [[M004 — Infrastructure tooling]]
 [[M005 — First specialized feature module]]

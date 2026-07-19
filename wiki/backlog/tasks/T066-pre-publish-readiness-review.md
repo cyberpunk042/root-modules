@@ -6,7 +6,7 @@ priority: P1
 current_stage: document
 readiness: 60
 from: second-brain
-for: root-ghostproxy
+for: root-modules
 created: 2026-05-05
 updated: 2026-05-05
 tags: [task, p1, t066, from-second-brain, cross-project, document]
@@ -17,13 +17,13 @@ tags: [task, p1, t066, from-second-brain, cross-project, document]
 ## Cross-project metadata
 
 - **From**: /opt second-brain (devops-solutions-information-hub)
-- **For**: root-ghostproxy
+- **For**: root-modules
 - **Channel**: tools.cross_project_task (operator-granted, 2026-05-05)
 - **Companion note** (if exists): see most-recent `wiki/log/<date>-from-second-brain-*.md`
 
 ## Description
 
-Pre-publish readiness review for root-ghostproxy + post-publish workflow verification. The /opt second-brain agent has prepared the publish tooling (one-shot at `/tmp/`) and the project-deliverable checkout/bootstrap scripts (committed at `$HOME/scripts/`). This task captures what operator should verify / do.
+Pre-publish readiness review for root-modules + post-publish workflow verification. The /opt second-brain agent has prepared the publish tooling (one-shot at `/tmp/`) and the project-deliverable checkout/bootstrap scripts (committed at `$HOME/scripts/`). This task captures what operator should verify / do.
 
 This task is delivered via the operator-granted cross-project channel (tools.cross_project_task at /opt). Companion narrative note: see most-recent `wiki/log/<date>-from-second-brain-pre-publish-handoff.md`.
 
@@ -34,15 +34,15 @@ This task is delivered via the operator-granted cross-project channel (tools.cro
 - [x] Confirmed pre-flight checks pass (cwd=$HOME ✓, gh authenticated as cyberpunk042 ✓, core files present ✓, no pre-staged changes ✓, no existing commits ✓, sensitive files correctly gitignored ✓, repo name `cyberpunk042/root-ghostproxy` available on GitHub ✓; ✗ git config user.name+email NOT set — operator action required per work-mode "NEVER update the git config")
 - [ ] Operator-decision: VISIBILITY (private vs public) — recommend private first, flip later
 - [ ] Operator-decision: LICENSE_TYPE (apache-2.0 default) — confirm or override
-- [ ] Operator-decision: REPO_NAME (root-ghostproxy default) — confirm or override
+- [ ] Operator-decision: REPO_NAME (root-modules default) — confirm or override
 - [ ] Operator runs `bash /tmp/publish-root-ghostproxy.sh --execute` (or with env-var overrides). Publish script auto-patches `.gitignore` to whitelist `/tools/` + `/templates/`. `/scripts/` is already whitelisted (manually patched 2026-05-05).
 - [ ] Publish succeeds — repo URL printed; pushed to origin/main
 - [ ] Verify `.gitignore` now includes `/tools/`, `/templates/`, and `/scripts/` whitelist sections
 - [ ] Verify `LICENSE` file present + correctly stamped with year + author
 - [ ] Verify `$HOME/scripts/{install-from-curl,checkout-a-init-remote,checkout-b-clone-subdir}.sh` got committed + are visible on the GitHub repo
-- [ ] Update `REPO_URL` default in `$HOME/scripts/install-from-curl.sh` if needed (currently `https://github.com/cyberpunk042/root-ghostproxy.git`); commit + push the update
+- [ ] Update `REPO_URL` default in `$HOME/scripts/install-from-curl.sh` if needed (currently `https://github.com/cyberpunk042/root-modules.git`); commit + push the update
 - [ ] On the OTHER machine: pick the right path
-  - [ ] Easiest (curl-bash one-liner): `curl -fsSL https://raw.githubusercontent.com/<owner>/root-ghostproxy/main/scripts/install-from-curl.sh | bash` (defaults to MODE=B clone-to-subdir, $HOME untouched)
+  - [ ] Easiest (curl-bash one-liner): `curl -fsSL https://raw.githubusercontent.com/<owner>/root-modules/main/scripts/install-from-curl.sh | bash` (defaults to MODE=B clone-to-subdir, $HOME untouched)
   - [ ] Path A (init+remote into $HOME): `MODE=A` env var on the curl-bash one-liner, OR run `bash <repo>/scripts/checkout-a-init-remote.sh --execute <repo-url>` directly
   - [ ] Path B explicit (clone to subdir): `bash <repo>/scripts/checkout-b-clone-subdir.sh --execute <repo-url>` directly
 - [ ] Post-checkout (Path A only): run `bash scripts/merge-from-backup.sh` (default = diff mode, NO changes). Review the diffs carefully.

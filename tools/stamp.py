@@ -165,7 +165,7 @@ def cmd_clear(args: argparse.Namespace) -> int:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Manage root-ghostproxy stamp render config")
+    parser = argparse.ArgumentParser(description="Manage root-modules stamp render config")
     sub = parser.add_subparsers(dest="cmd", required=True)
 
     p_set = sub.add_parser("configure", help="configure layout and/or enabled fields")

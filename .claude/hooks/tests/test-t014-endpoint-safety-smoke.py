@@ -2,7 +2,7 @@
 """T014 endpoint-safety smoke test — source-path-independent.
 
 Verifies T014 (Author endpoint AI agent safety policy) Done When items
-against the ROOT-GHOSTPROXY SOURCE tree (~/root-ghostproxy/.claude/),
+against the ROOT-GHOSTPROXY SOURCE tree (~/root-modules/.claude/),
 NOT the deployed ~/.claude/. This avoids the systemic test-vs-deployment
 coupling bug that prevents other hook tests from running in source-only
 mode (see T014 Resolution NC-4).

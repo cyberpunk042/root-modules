@@ -3,7 +3,7 @@ title: "T031 — Verify $HOME/AGENTS.md exists (M001 dependency)"
 type: task
 status: done
 priority: P0
-parent_module: "root-ghostproxy-m006-pre-connect-verification"
+parent_module: "root-modules-m006-pre-connect-verification"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: test
 readiness: 100
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m006-pre-connect-verification.md
+    file: wiki/backlog/modules/root-modules-m006-pre-connect-verification.md
 tags: [task, p0, t031, stream-1, pre-connect, agents-md-check, m006]
 ---
 
@@ -35,6 +35,6 @@ AGENTS.md exists at $HOME/AGENTS.md (168 lines, project-specific) per T002 + T00
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m006-pre-connect-verification|M006]]
+- PART OF: [[root-modules-m006-pre-connect-verification|M006]]
 - BLOCKED BY: T002 (M001 AGENTS.md authored)
 - BLOCKS: T037 (M006 audit log assembly), T038 (M007 connect)

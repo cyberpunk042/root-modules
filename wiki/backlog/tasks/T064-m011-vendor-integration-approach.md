@@ -3,7 +3,7 @@ title: "T064 — M011 vendor research + integration approach (sirmalloc/ccstatus
 type: task
 status: in-progress
 priority: P1
-parent_module: "root-ghostproxy-m011-ccstatusline-statusline-widget"
+parent_module: "root-modules-m011-ccstatusline-statusline-widget"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: design
 readiness: 80
@@ -55,7 +55,7 @@ ccstatusline's own data sources:
 | **B: Vendored npm in $HOME** | `npm install` locally to `$HOME/vendor/ccstatusline` + invoke via `node` path | Per-project isolation but adds maintenance |
 | **C: Vendor manifest + install.sh integration** | M012 (vendor mapping) tracks ccstatusline as a vendor; install.sh runs the npm install during foundation setup | Methodology-aligned with M012 vendor pattern |
 
-Recommend **C** (composes with M012 — vendor manifest + install.sh integration). Aligns with root-ghostproxy's IaC discipline.
+Recommend **C** (composes with M012 — vendor manifest + install.sh integration). Aligns with root-modules's IaC discipline.
 
 ## Custom widget data sources (ties to T062)
 
@@ -84,7 +84,7 @@ Custom Text widget invokes a shell command. For project-aware fields:
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m011-ccstatusline-statusline-widget|M011]]
+- PART OF: [[root-modules-m011-ccstatusline-statusline-widget|M011]]
 - BLOCKED BY: T062, T063
 - BLOCKS: T065 (operator decisions)
-- RELATES TO: [[root-ghostproxy-m012-vendor-mapping-install-and-auto-detect|M012]]
+- RELATES TO: [[root-modules-m012-vendor-mapping-install-and-auto-detect|M012]]

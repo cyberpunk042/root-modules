@@ -3,7 +3,7 @@ title: "T013 — Author network bridge configuration (br0 + ethernet members + m
 type: task
 status: in-progress
 priority: P0
-parent_module: "root-ghostproxy-m003-foundation-hardening"
+parent_module: "root-modules-m003-foundation-hardening"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: scaffold
 readiness: 78
@@ -13,7 +13,7 @@ updated: 2026-05-07
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m003-foundation-hardening.md
+    file: wiki/backlog/modules/root-modules-m003-foundation-hardening.md
   - id: architecture-md
     type: wiki
     file: ARCHITECTURE.md
@@ -57,7 +57,7 @@ Per methodology stage `scaffold`: type-definitions / schema / config-files allow
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m003-foundation-hardening|M003]]
+- PART OF: [[root-modules-m003-foundation-hardening|M003]]
 - BLOCKED BY: T011
 - RELATES TO: [[T012-author-install-sh|T012]] (install.sh deploys this config)
 - BLOCKS: T015 (post-install verification of bridge state)

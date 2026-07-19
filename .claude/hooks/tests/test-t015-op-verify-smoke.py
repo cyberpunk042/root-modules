@@ -3,7 +3,7 @@
 
 Verifies T015 (Author post-install verification — integrity + bridge + opencode
 bridge + git audit) Done When items against the ROOT-GHOSTPROXY SOURCE tree
-(~/root-ghostproxy/install.sh), NOT a deployed state. Mirrors the T014 smoke
+(~/root-modules/install.sh), NOT a deployed state. Mirrors the T014 smoke
 test pattern (source-path-independent; locates PROJECT_ROOT from __file__).
 
 T015 Done When mapping (8 items):

@@ -3,7 +3,7 @@ title: "T015 — Author post-install verification (integrity check + bridge stat
 type: task
 status: review
 priority: P0
-parent_module: "root-ghostproxy-m003-foundation-hardening"
+parent_module: "root-modules-m003-foundation-hardening"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: test
 readiness: 95
@@ -13,11 +13,11 @@ updated: 2026-05-16
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m003-foundation-hardening.md
+    file: wiki/backlog/modules/root-modules-m003-foundation-hardening.md
   - id: smoke-test
     type: code
     file: .claude/hooks/tests/test-t015-op-verify-smoke.py
-    description: "Source-path-independent smoke test (T1-T12) verifying op_verify implementation covers all 8 DW items. Authored 2026-05-16 by root-ghostproxy-rollout worker."
+    description: "Source-path-independent smoke test (T1-T12) verifying op_verify implementation covers all 8 DW items. Authored 2026-05-16 by root-modules-rollout worker."
 tags: [task, p0, t015, foundation, verification, smoke-test, m003]
 ---
 
@@ -52,7 +52,7 @@ Per methodology: test stage allows test-implementation + test-results; FORBIDS n
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m003-foundation-hardening|M003]]
+- PART OF: [[root-modules-m003-foundation-hardening|M003]]
 - BLOCKED BY: T012, T013, T014
 - BLOCKS: T017 (foundation gate)
 - DEMONSTRATES: source-path-independent test pattern (T014 NC-4 reference)
@@ -82,7 +82,7 @@ implementation).
 | T11 | DW#6 | live `--check --profile base` exits in defined set {0,1,3}; emits `verify: N/M passed` summary line; does not crash |
 | T12 | DW#1 | hook-script presence sub-step covers policy-block.sh + malware-block.sh + leak-detector.sh |
 
-## Resolution (2026-05-16 by root-ghostproxy-rollout worker / cron:aeacb3e4 driven-worker tick)
+## Resolution (2026-05-16 by root-modules-rollout worker / cron:aeacb3e4 driven-worker tick)
 
 **Status transition**: `in-progress` (current_stage:implement, readiness:90) →
 `review` (current_stage:test, readiness:95). Operator validates → `done`.
@@ -118,8 +118,8 @@ obvious (per OpenArms T117 evidence).
 
 ```
 $ python3 .claude/hooks/tests/test-t015-op-verify-smoke.py
-[T015-smoke] PROJECT_ROOT: /home/jfortin/root-ghostproxy
-[T015-smoke] INSTALL_SH:   /home/jfortin/root-ghostproxy/install.sh
+[T015-smoke] PROJECT_ROOT: /home/jfortin/root-modules
+[T015-smoke] INSTALL_SH:   /home/jfortin/root-modules/install.sh
 
 [T015-smoke] PASS  T1 install.sh exists
 [T015-smoke] PASS  T1 install.sh parses (bash -n)
@@ -159,7 +159,7 @@ host — project NOT deployed to `~/.claude/` per NC-5 RESOLVED):
 ```
 
 4 FAILs above are EXPECTED on un-deployed dev host (deployed `~/.claude/` is a
-27-byte stub from 2025-04-24, unrelated to root-ghostproxy). Exit code
+27-byte stub from 2025-04-24, unrelated to root-modules). Exit code
 structure + summary line both correct. Per NC-5: live `./install.sh` deploy is
 operator-territory.
 

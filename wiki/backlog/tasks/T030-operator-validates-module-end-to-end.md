@@ -3,7 +3,7 @@ title: "T030 — Operator validates first feature module end-to-end"
 type: task
 status: not-started
 priority: P0
-parent_module: "root-ghostproxy-m005-first-specialized-feature-module"
+parent_module: "root-modules-m005-first-specialized-feature-module"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: test
 readiness: 0
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m005-first-specialized-feature-module.md
+    file: wiki/backlog/modules/root-modules-m005-first-specialized-feature-module.md
 tags: [task, p0, t030, features, operator-validation, m005]
 ---
 
@@ -41,6 +41,6 @@ Operator approval marks M005 complete. Module readiness reaches 100. The first f
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m005-first-specialized-feature-module|M005]]
+- PART OF: [[root-modules-m005-first-specialized-feature-module|M005]]
 - BLOCKED BY: T029
 - ENABLES: future second-feature-module epic (whichever wasn't picked first)

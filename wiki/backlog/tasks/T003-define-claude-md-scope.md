@@ -3,7 +3,7 @@ title: "T003 — Define $HOME/CLAUDE.md scope (Claude Code-specific delta)"
 type: task
 status: done
 priority: P0
-parent_module: "root-ghostproxy-m001-author-claude-md-and-agents-md"
+parent_module: "root-modules-m001-author-claude-md-and-agents-md"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: scaffold
 readiness: 100
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m001-author-claude-md-and-agents-md.md
+    file: wiki/backlog/modules/root-modules-m001-author-claude-md-and-agents-md.md
 tags: [task, p0, t003, scaffold, claude-md, scope-definition, m001]
 ---
 
@@ -39,6 +39,6 @@ Scope decision applied to $HOME/CLAUDE.md authored 2026-05-05 (175 lines). Routi
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m001-author-claude-md-and-agents-md|M001]]
+- PART OF: [[root-modules-m001-author-claude-md-and-agents-md|M001]]
 - BLOCKED BY: T001
 - BLOCKS: T004 (CLAUDE.md authoring)

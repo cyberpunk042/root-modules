@@ -8,7 +8,7 @@
 
 ## Summary
 
-Context engineering is the discipline of designing what information reaches an AI agent — at what timing, in what structure, at what depth. This rule defines four orthogonal injection modes (auto / pre / on-demand / facultative) that map content-types to delivery channels in root-ghostproxy. Pairs with `compound-and-waterfall.md` (compound axis = which layers coexist at-a-moment) and `trigger-model.md` (signal→action→recovery composition).
+Context engineering is the discipline of designing what information reaches an AI agent — at what timing, in what structure, at what depth. This rule defines four orthogonal injection modes (auto / pre / on-demand / facultative) that map content-types to delivery channels in root-modules. Pairs with `compound-and-waterfall.md` (compound axis = which layers coexist at-a-moment) and `trigger-model.md` (signal→action→recovery composition).
 
 ## Key Insights
 

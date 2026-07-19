@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # scripts/lib/conflict-points.sh — single source of truth for conflict points.
 #
-# When root-ghostproxy is checked out into an existing $HOME (Path A flow),
+# When root-modules is checked out into an existing $HOME (Path A flow),
 # certain files in the repo's whitelist may collide with files the operator
 # already has. These arrays enumerate exactly which paths matter.
 #

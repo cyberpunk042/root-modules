@@ -1,4 +1,4 @@
-# ARCHITECTURE.md — root-ghostproxy system architecture
+# ARCHITECTURE.md — root-modules system architecture
 
 > Deep system topology + component inventory + data flow + hook architecture + module integration interfaces + failure modes. Distinct from [README.md](README.md)'s architecture summary (high-level project description); ARCHITECTURE.md is the technical depth file. Distinct from [DESIGN.md](DESIGN.md) (pattern rationale); ARCHITECTURE.md is the *what + how*, DESIGN.md is the *why*.
 
@@ -6,11 +6,11 @@
 
 ## Summary
 
-This file documents the technical depth of root-ghostproxy's two architectural halves — a **transparent L2 inspection bridge** (between OPNsense edge and LAN switch; module slots for Suricata IDS/IPS + PolarProxy TLS termination) AND an **OS-level AI agent safety envelope** (shared safety policy at OS root level; all installed AI tools obey via canonical envelope contract). Topology + Interface Roles + Component Inventory + 4 Data Flow subsections + 2-Layer Hook Architecture (machine-level fires before project-level) + Module Integration Interfaces (Suricata NFQUEUE/AF_PACKET paths · PolarProxy transparent forward + dummy-interface Suricata pairing) + Failure Modes + Recovery + Performance Characteristics (aspirational) + Scalability boundaries + External integration points + Architectural Decisions (ADRs with operator-verbatim) + Glossary. **Empirical state verified 2026-05-06 evening**: 30 slash commands · 10 wired hook matchers across 8 events (17 .sh + 1 .py on disk; archived hooks retained per operator directive) · 15 Python tools + MCP server (10 root_* tools) · 11 rules · 138-row systemic-bugs tracker · 40 decisions D001-D040 · milestone v0.2 + 4 epics + 14 modules + 66 atomic tasks (4-level hierarchy). Brain-improvement mandate Phase 2 in flight (per [wiki/log/2026-05-06-194730-brain-improvement-mandate-readme-first.md](wiki/log/2026-05-06-194730-brain-improvement-mandate-readme-first.md)).
+This file documents the technical depth of root-modules's two architectural halves — a **transparent L2 inspection bridge** (between OPNsense edge and LAN switch; module slots for Suricata IDS/IPS + PolarProxy TLS termination) AND an **OS-level AI agent safety envelope** (shared safety policy at OS root level; all installed AI tools obey via canonical envelope contract). Topology + Interface Roles + Component Inventory + 4 Data Flow subsections + 2-Layer Hook Architecture (machine-level fires before project-level) + Module Integration Interfaces (Suricata NFQUEUE/AF_PACKET paths · PolarProxy transparent forward + dummy-interface Suricata pairing) + Failure Modes + Recovery + Performance Characteristics (aspirational) + Scalability boundaries + External integration points + Architectural Decisions (ADRs with operator-verbatim) + Glossary. **Empirical state verified 2026-05-06 evening**: 30 slash commands · 10 wired hook matchers across 8 events (17 .sh + 1 .py on disk; archived hooks retained per operator directive) · 15 Python tools + MCP server (10 root_* tools) · 11 rules · 138-row systemic-bugs tracker · 40 decisions D001-D040 · milestone v0.2 + 4 epics + 14 modules + 66 atomic tasks (4-level hierarchy). Brain-improvement mandate Phase 2 in flight (per [wiki/log/2026-05-06-194730-brain-improvement-mandate-readme-first.md](wiki/log/2026-05-06-194730-brain-improvement-mandate-readme-first.md)).
 
 ## System Overview
 
-root-ghostproxy turns a Linux host into two things at once:
+root-modules turns a Linux host into two things at once:
 
 1. **A transparent L2 inspection bridge** — physically positioned between an OPNsense edge firewall and the LAN switch, forwarding Ethernet frames in both directions without announcing itself at L3.
 2. **An OS-level AI agent safety envelope** — a shared safety policy at the OS root level that all installed AI tools (Claude Code, opencode, future tools) obey through their respective extension mechanisms.
@@ -25,7 +25,7 @@ The host is single-purpose: every system service on it serves one of these two r
 
 ```
    ┌──────────┐    ┌────────────┐         ┌────────────────────────────────────┐         ┌────────────────┐
-   │ Internet │ ─→ │ OPNsense   │ ──────→ │  root-ghostproxy host              │ ──────→ │  first switch  │ ─→ LAN endpoints
+   │ Internet │ ─→ │ OPNsense   │ ──────→ │  root-modules host              │ ──────→ │  first switch  │ ─→ LAN endpoints
    │          │    │ edge FW    │         │                                    │         │                │   (workstations,
    │          │    │            │         │  ┌──────────┐    ┌──────────┐     │         │                │    AI agents,
    └──────────┘    └────────────┘         │  │ upstream │    │   LAN    │     │         └────────────────┘    services)
@@ -203,7 +203,7 @@ Hooks live at two layers; both fire on every tool call:
 
 | Layer | Path | Scope | Owner |
 |---|---|---|---|
-| Machine-level | `~/.claude/settings.json` + `~/.claude/hooks/*` | Fires on every tool call from every Claude-Code-protocol tool on the host, in every project | **root-ghostproxy** |
+| Machine-level | `~/.claude/settings.json` + `~/.claude/hooks/*` | Fires on every tool call from every Claude-Code-protocol tool on the host, in every project | **root-modules** |
 | Project-level | `$HOME/.claude/settings.json` + `$HOME/.claude/hooks/*` | Fires on tool calls in sessions opened in `<project>` only | The project itself (each sister project may have its own) |
 
 Order: **machine-level fires before project-level**. The machine-level layer cannot be overridden by a project-level layer's allow rules. Project-level can ADD restrictions but not subtract from the machine-level set.
@@ -306,16 +306,16 @@ These are starting-point estimates from the source-syntheses; actual values are 
 
 The current architecture is **single-host single-segment**. Scale boundaries:
 
-- **Multi-segment** (multiple LAN switches) — would require either multi-host deployment (one root-ghostproxy per segment) or multi-bridge config (multiple `br0`-equivalent bridges per host, each pair of ethernet ports a separate bridge). Each bridge is independent.
-- **Multi-host** (operator's portability intent: *"this machine or another [new] one"*) — multiple root-ghostproxy hosts deployed independently. No shared state between hosts; each is a self-contained appliance.
-- **High-availability** (active-passive failover between two root-ghostproxy hosts) — out of scope; would require a shared-state mechanism + bridge-level failover (VRRP, etc.) not in current architecture.
+- **Multi-segment** (multiple LAN switches) — would require either multi-host deployment (one root-modules per segment) or multi-bridge config (multiple `br0`-equivalent bridges per host, each pair of ethernet ports a separate bridge). Each bridge is independent.
+- **Multi-host** (operator's portability intent: *"this machine or another [new] one"*) — multiple root-modules hosts deployed independently. No shared state between hosts; each is a self-contained appliance.
+- **High-availability** (active-passive failover between two root-modules hosts) — out of scope; would require a shared-state mechanism + bridge-level failover (VRRP, etc.) not in current architecture.
 
 ## Integration Points (with other systems)
 
 | External system | Integration shape |
 |---|---|
-| **OPNsense edge firewall** (upstream) | root-ghostproxy is downstream from OPNsense; OPNsense remains the L3 routing/firewall device. OPNsense does NOT need to know root-ghostproxy exists (the bridge is L3-invisible). |
-| **LAN switch** (downstream) | root-ghostproxy is upstream from the first switch; the switch sees a direct connection to the OPNsense-side. No switch reconfiguration needed. |
+| **OPNsense edge firewall** (upstream) | root-modules is downstream from OPNsense; OPNsense remains the L3 routing/firewall device. OPNsense does NOT need to know root-modules exists (the bridge is L3-invisible). |
+| **LAN switch** (downstream) | root-modules is upstream from the first switch; the switch sees a direct connection to the OPNsense-side. No switch reconfiguration needed. |
 | **LAN endpoints** | Endpoints see what looks like a direct connection through the segment. No endpoint reconfiguration needed UNLESS PolarProxy is installed (then endpoints need the proxy's CA in their trust store). |
 | **Operator network** (via management wifi) | Outbound-only. Host fetches apt updates, threat-intel feeds, AI APIs, etc. No inbound services on the wifi interface. |
 | **Research-wiki second brain** (`<second-brain>/`) | Sister-project relationship. Registered in `sister-projects.yaml`. Connection installs MCP entry + forwarders + brain-pointer block. Bidirectional flow (consume methodology + standards + lessons; contribute lessons learned). |
@@ -333,9 +333,9 @@ The current architecture is **single-host single-segment**. Scale boundaries:
 | 2026-05-04 | SDLC profile = `simplified` | Goldilocks: micro scale + solo execution + scaffold/foundation phase. Avoids ceremony that suits team-scale projects. |
 | 2026-05-04 | Methodology profile = `stage-gated` | OS-setup work has security cost on stage-leakage; hard ALLOWED/FORBIDDEN per stage suits the threat model. |
 | 2026-05-05 | Prior $HOME files (README, install.sh, hooks, integrity.py, opencode bridge plugin, memory folder) are AI-debris from prior session, not authoritative | Operator: *"I DIDNT WRITE ANYTHING.. JUST FORGFET EVERYTHING FUCING EXIST."* Project's authoritative implementation will be re-authored by methodology-driven flow. |
-| 2026-05-05 | Two-layer hook architecture is invariant | Machine-level (root-ghostproxy) fires before project-level (sister projects). Machine-level deny is final. Project-level can add restrictions but not subtract. |
+| 2026-05-05 | Two-layer hook architecture is invariant | Machine-level (root-modules) fires before project-level (sister projects). Machine-level deny is final. Project-level can add restrictions but not subtract. |
 | 2026-05-05 | `auto_connect: false` permanent default for type=root | Type=root projects gate the security envelope; explicit-authorization gate via `--connect-project` is the friction-by-design. M010 may revisit per operator. |
-| 2026-05-06 | **SB-115 brain-inheritance pattern** (codified as Hard Rule 12) | $HOME source-of-truth for **operational tooling** (hooks, slash commands, tools/*.py, settings.json wiring conventions, ANSI-fence rendering patterns, statusline widgets, mode-enforcement banner shape). /opt second-brain INHERITS / adapts these patterns. **Knowledge** flows OTHER direction (root-ghostproxy → second brain via `gateway contribute`). Operator verbatim 2026-05-06: *"WTF WHY WOULD YOU SAY second-brain is different ?? you are the root retart... second-brain take everything from you...."* |
+| 2026-05-06 | **SB-115 brain-inheritance pattern** (codified as Hard Rule 12) | $HOME source-of-truth for **operational tooling** (hooks, slash commands, tools/*.py, settings.json wiring conventions, ANSI-fence rendering patterns, statusline widgets, mode-enforcement banner shape). /opt second-brain INHERITS / adapts these patterns. **Knowledge** flows OTHER direction (root-modules → second brain via `gateway contribute`). Operator verbatim 2026-05-06: *"WTF WHY WOULD YOU SAY second-brain is different ?? you are the root retart... second-brain take everything from you...."* |
 | 2026-05-06 | **SB-118 objective layer state files** (mission/focus/impediment) | Multi-cycle objective tracking ABOVE active-task cursor — `$HOME/.claude/active-{mission,focus,impediment}` state files + `tools/objective.py` set/clear/show + `/mission` `/focus` `/impediment` slash commands + mode-enforcement.sh banner surfacing + cycle.py stamp render + mcp_server root_objective MCP tool. Operator directive 2026-05-06: *"this make me think if we dont also need a current mission and a current focus... we can even add impediment.. this is another sub-level from a focus that is blocked for example"*. |
 | 2026-05-06 | **SB-127 priorities tier** (imminent-work hot-queue ABOVE PM blockers) | `$HOME/.claude/active-priorities` state file + `tools/priorities.py` (verbs: add/show/clear/remove/promote/demote/set/insert/update — insert+update added per SB-130) + `/priorities` slash command + mode-enforcement banner section + both stamp layouts. Operator directive 2026-05-06: *"my new STP file which would contain a list with task-and/or-focus combo with priotities that should be identified as the imminent work, even before the PM work"*. |
 | 2026-05-06 | **SB-123 compound + waterfall** unified rule | `.claude/rules/compound-and-waterfall.md` formalizes two orthogonal design axes — **compound** (additive layers at-a-moment: mode + priorities + mission + focus + impediment + live state visible simultaneously) + **waterfall** (state flows event-to-event: SessionStart → UserPromptSubmit hooks → Stop → PreCompact → PostCompact → /orient). Operator directive 2026-05-06: *"This also make me think of the compound and waterfall strategy... it should be compounding"*. |
@@ -360,16 +360,16 @@ ADR detail lives at [`wiki/governance/decisions.md`](wiki/governance/decisions.m
 | **Failopen** | A failure mode where the system continues to forward traffic when an inspection layer is down — inspection silently degrades, network keeps working. Operator's threat-model decision. |
 | **Failclosed** | A failure mode where the system stops forwarding when an inspection layer is down — network downtime, no traffic without inspection. Operator's threat-model decision. |
 | **Hook script** | An executable script (typically `.sh` or `.py`) called by an AI tool runtime at a specific lifecycle event (PreToolUse, PostToolUse, SessionStart, etc.). Receives the canonical envelope on stdin; returns a JSON decision on stdout. |
-| **Machine-level layer** | The OS-root level safety policy at `~/.claude/settings.json` + `~/.claude/hooks/*`. Owned by root-ghostproxy. Fires on every tool call from every Claude-Code-protocol tool on the host. |
+| **Machine-level layer** | The OS-root level safety policy at `~/.claude/settings.json` + `~/.claude/hooks/*`. Owned by root-modules. Fires on every tool call from every Claude-Code-protocol tool on the host. |
 | **Module slot** | An architectural position where a facultative inspection module can be installed. Suricata fills the IDS/IPS slot; PolarProxy fills the TLS-termination slot; future modules can fill new slots. |
 | **NFQUEUE** | Linux netfilter mechanism that hands off packets from kernel space to userspace for verdicts. Suricata uses NFQUEUE for one of its IPS modes. |
 | **PCAP-over-IP** | A protocol where PCAP data is streamed over a TCP connection. PolarProxy emits PCAP-over-IP for live downstream consumption (typically by Suricata via tcpreplay → dummy interface). |
-| **Project-level layer** | A project-specific `.claude/` config that adds further restrictions on top of the machine-level layer. Sister projects may have one; root-ghostproxy itself may also have one. |
+| **Project-level layer** | A project-specific `.claude/` config that adds further restrictions on top of the machine-level layer. Sister projects may have one; root-modules itself may also have one. |
 | **Project-level vs machine-level (precedence)** | Machine-level fires BEFORE project-level. Machine deny is final. Project-level can ADD restrictions but cannot subtract from machine. |
-| **Stealth bridge** | A transparent L2 bridge configured so the host has no IP on the inspected segment — endpoints don't see "an extra hop"; they see what looks like a direct connection. The "ghost" half of root-ghostproxy. |
+| **Stealth bridge** | A transparent L2 bridge configured so the host has no IP on the inspected segment — endpoints don't see "an extra hop"; they see what looks like a direct connection. The "ghost" half of root-modules. |
 | **Tamper sentinel** | The integrity-check pre-tool-call hook that verifies the safety envelope is intact before honoring any tool call. Fail-CLOSED — refuses every subsequent call when tampering is detected. |
-| **Transparent forward proxy** | The PolarProxy operating mode for root-ghostproxy: connects to external TLS servers on behalf of LAN clients, decrypting + re-encrypting in flight. The "proxy" half of root-ghostproxy (when PolarProxy is installed). |
-| **Two-layer hook architecture** | The OS-root + project-level hook arrangement. Machine-level fires first (root-ghostproxy's domain); project-level fires second (each project's own). |
+| **Transparent forward proxy** | The PolarProxy operating mode for root-modules: connects to external TLS servers on behalf of LAN clients, decrypting + re-encrypting in flight. The "proxy" half of root-modules (when PolarProxy is installed). |
+| **Two-layer hook architecture** | The OS-root + project-level hook arrangement. Machine-level fires first (root-modules's domain); project-level fires second (each project's own). |
 
 ## Agent personal-learning notes (operator-allowed, per directive 2026-05-06)
 

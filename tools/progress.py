@@ -70,7 +70,7 @@ def collect_modules() -> list:
     for path in sorted(glob.glob(MODULES_GLOB)):
         modules.append({
             "path": path,
-            "id": Path(path).stem.split("-author-")[0].split("-")[1] if "root-ghostproxy-" in path else "?",
+            "id": Path(path).stem.split("-author-")[0].split("-")[1] if "root-modules-" in path else "?",
             "title": parse_frontmatter_field(path, "title"),
             "status": parse_frontmatter_field(path, "status"),
             "current_stage": parse_frontmatter_field(path, "current_stage"),
@@ -179,7 +179,7 @@ def print_callout(p: dict) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Compute current progress for root-ghostproxy")
+    parser = argparse.ArgumentParser(description="Compute current progress for root-modules")
     parser.add_argument("--json", action="store_true")
     parser.add_argument("--callout", action="store_true", help="just the current-position callout")
     args = parser.parse_args()

@@ -1,7 +1,7 @@
 ---
-title: "root-ghostproxy M001 — Author CLAUDE.md + AGENTS.md"
+title: "root-modules M001 — Author CLAUDE.md + AGENTS.md"
 aliases:
-  - "M001 — root-ghostproxy CLAUDE.md + AGENTS.md"
+  - "M001 — root-modules CLAUDE.md + AGENTS.md"
 type: module
 domain: backlog
 status: draft
@@ -28,14 +28,14 @@ sources:
     type: wiki
     file: wiki/spine/models/agent-config/model-skills-commands-hooks.md
     description: "Three-layer agent context — AGENTS.md universal cross-tool, CLAUDE.md Claude Code-specific routing, skills auto-trigger"
-tags: [module, p0, root-ghostproxy, sfif-scaffold, claude-md, agents-md, three-layer-context, m001]
+tags: [module, p0, root-modules, sfif-scaffold, claude-md, agents-md, three-layer-context, m001]
 ---
 
-# M001 — Author CLAUDE.md + AGENTS.md for root-ghostproxy
+# M001 — Author CLAUDE.md + AGENTS.md for root-modules
 
 ## Summary
 
-Author the two top-level agent-context files for the root-ghostproxy repo: AGENTS.md (universal cross-tool context, < 100 lines) and CLAUDE.md (Claude Code-specific routing table, < 200 lines). These are the load-bearing documents a fresh agent reads when opening the repo, and they must be authored FROM the second brain's templates, not improvised. AGENTS.md is the dependency for M007 (the `tools.setup --connect-project` script writes the `## Second Brain Connection` block INTO an existing AGENTS.md or CLAUDE.md — the file must exist first). Goldilocks identity: type=root, group=operating-system-setup, simplified profile, scaffold phase, micro scale, solo execution mode, L1 PM, operator-supervised trust.
+Author the two top-level agent-context files for the root-modules repo: AGENTS.md (universal cross-tool context, < 100 lines) and CLAUDE.md (Claude Code-specific routing table, < 200 lines). These are the load-bearing documents a fresh agent reads when opening the repo, and they must be authored FROM the second brain's templates, not improvised. AGENTS.md is the dependency for M007 (the `tools.setup --connect-project` script writes the `## Second Brain Connection` block INTO an existing AGENTS.md or CLAUDE.md — the file must exist first). Goldilocks identity: type=root, group=operating-system-setup, simplified profile, scaffold phase, micro scale, solo execution mode, L1 PM, operator-supervised trust.
 
 ## Done When
 
@@ -76,16 +76,16 @@ Author the two top-level agent-context files for the root-ghostproxy repo: AGENT
 
 ## Relationships
 
-- PART OF: [[sfif-rollout-and-second-brain-integration|Epic — root-ghostproxy SFIF Rollout]]
-- BLOCKS: [[root-ghostproxy-m007-connect-second-brain|M007 — Connect (--connect-project script needs AGENTS.md)]]
-- BUILDS ON: [[identity-profile|root-ghostproxy Identity Profile]]
+- PART OF: [[sfif-rollout-and-second-brain-integration|Epic — root-modules SFIF Rollout]]
+- BLOCKS: [[root-modules-m007-connect-second-brain|M007 — Connect (--connect-project script needs AGENTS.md)]]
+- BUILDS ON: [[identity-profile|root-modules Identity Profile]]
 - BUILDS ON: [[model-skills-commands-hooks|Model — Skills, Commands, and Hooks]]
-- RELATES TO: [[root-ghostproxy-m002-methodology-layer-decision|M002 — Methodology layer decision]]
+- RELATES TO: [[root-modules-m002-methodology-layer-decision|M002 — Methodology layer decision]]
 
 ## Backlinks
 
-[[Epic — root-ghostproxy SFIF Rollout]]
+[[Epic — root-modules SFIF Rollout]]
 [[M007 — Connect (--connect-project script needs AGENTS.md)]]
-[[root-ghostproxy Identity Profile]]
+[[root-modules Identity Profile]]
 [[model-skills-commands-hooks|Model — Skills, Commands, and Hooks]]
 [[M002 — Methodology layer decision]]

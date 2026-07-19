@@ -15,10 +15,10 @@
 #   }
 #
 # Path policy: every path is $HOME-relative or env-var-overridable. No hardcoded
-# absolute paths to $HOME. The wrapper renders root-ghostproxy's statusline
+# absolute paths to $HOME. The wrapper renders root-modules's statusline
 # content unconditionally — when invoked from any session (including sister
 # project sessions where this wrapper is the user-level fallback), it shows
-# root-ghostproxy state. Sister projects that want their own statusLine should
+# root-modules state. Sister projects that want their own statusLine should
 # author one in their project-level settings.json (overrides this fallback).
 
 set -euo pipefail

@@ -3,7 +3,7 @@ title: "T043 — Rollback policy: revert + re-run if M007 reveals issues"
 type: task
 status: not-started
 priority: P0
-parent_module: "root-ghostproxy-m007-connect-second-brain"
+parent_module: "root-modules-m007-connect-second-brain"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: test
 readiness: 0
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m007-connect-second-brain.md
+    file: wiki/backlog/modules/root-modules-m007-connect-second-brain.md
 tags: [task, p0, t043, stream-1, connect, rollback, m007]
 ---
 
@@ -39,6 +39,6 @@ If T041 inspection or M008 smoke test reveals problems, the connect-script's mut
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m007-connect-second-brain|M007]]
+- PART OF: [[root-modules-m007-connect-second-brain|M007]]
 - BLOCKED BY: T036, T042 (rollback only meaningful after artefacts committed)
 - ENABLES: M007 module exit (passes when no rollback needed; fails-fast when one is)

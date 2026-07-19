@@ -3,7 +3,7 @@ title: "T042 — Commit $HOME mutations atomically with descriptive message"
 type: task
 status: not-started
 priority: P0
-parent_module: "root-ghostproxy-m007-connect-second-brain"
+parent_module: "root-modules-m007-connect-second-brain"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: implement
 readiness: 0
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m007-connect-second-brain.md
+    file: wiki/backlog/modules/root-modules-m007-connect-second-brain.md
 tags: [task, p0, t042, stream-1, connect, git-commit, m007]
 ---
 
@@ -38,6 +38,6 @@ After artefact inspection (T041) confirms correctness, commit the 4 changes as a
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m007-connect-second-brain|M007]]
+- PART OF: [[root-modules-m007-connect-second-brain|M007]]
 - BLOCKED BY: T041
 - BLOCKS: T043 (rollback policy depends on this commit being the rollback target)

@@ -3,7 +3,7 @@ title: "T061 — Close the SFIF Rollout epic (mark all 10 modules done; update e
 type: task
 status: not-started
 priority: P0
-parent_module: "root-ghostproxy-m010-sister-projects-yaml-flip"
+parent_module: "root-modules-m010-sister-projects-yaml-flip"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: test
 readiness: 0
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m010-sister-projects-yaml-flip.md
+    file: wiki/backlog/modules/root-modules-m010-sister-projects-yaml-flip.md
 tags: [task, p0, t061, stream-1, m010, epic-close]
 ---
 
@@ -38,6 +38,6 @@ After M010 decision lands, all 10 modules of the active epic are complete. Close
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m010-sister-projects-yaml-flip|M010]]
+- PART OF: [[root-modules-m010-sister-projects-yaml-flip|M010]]
 - BLOCKED BY: T059 OR T060
 - ENABLES: future epic(s) for second feature module + scale-out work

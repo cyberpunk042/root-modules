@@ -506,7 +506,7 @@ def main() -> int:
         print(json.dumps(report, indent=2))
         return 0 if report["drift"]["in_sync"] or not args.check else 1
 
-    print("=== root-ghostproxy blockers report ===")
+    print("=== root-modules blockers report ===")
     print()
     print("Task status counts (live frontmatter):")
     for status, count in sorted(report["task_status_counts"].items()):

@@ -1,5 +1,5 @@
 ---
-title: "root-ghostproxy M011 — ccstatusline custom widget for Claude Code interface"
+title: "root-modules M011 — ccstatusline custom widget for Claude Code interface"
 aliases:
   - "M011 — ccstatusline statusline widget"
 type: module
@@ -25,7 +25,7 @@ sources:
   - id: parent-epic
     type: wiki
     file: wiki/backlog/epics/sfif-rollout-and-second-brain-integration.md
-tags: [module, p1, root-ghostproxy, sfif-features, m011, ccstatusline, claude-code, statusline, custom-widget, profile-loadable, ordering-before-m005]
+tags: [module, p1, root-modules, sfif-features, m011, ccstatusline, claude-code, statusline, custom-widget, profile-loadable, ordering-before-m005]
 ---
 
 # M011 — ccstatusline custom widget for Claude Code interface
@@ -133,11 +133,11 @@ Remaining for M011 closure (operator-driven future-session):
 
 ## Relationships
 
-- PART OF: [[sfif-rollout-and-second-brain-integration|Epic — root-ghostproxy SFIF Rollout]]
-- ORDERED BEFORE: [[root-ghostproxy-m005-first-specialized-feature-module|M005 — Suricata/PolarProxy first feature]]
-- RELATES TO: [[root-ghostproxy-m003-foundation-hardening|M003 — Foundation hardening]] (statusline reads project state, which the foundation must keep stable)
+- PART OF: [[sfif-rollout-and-second-brain-integration|Epic — root-modules SFIF Rollout]]
+- ORDERED BEFORE: [[root-modules-m005-first-specialized-feature-module|M005 — Suricata/PolarProxy first feature]]
+- RELATES TO: [[root-modules-m003-foundation-hardening|M003 — Foundation hardening]] (statusline reads project state, which the foundation must keep stable)
 
 ## Backlinks
 
-[[Epic — root-ghostproxy SFIF Rollout]]
+[[Epic — root-modules SFIF Rollout]]
 [[M005 — First specialized feature module]]

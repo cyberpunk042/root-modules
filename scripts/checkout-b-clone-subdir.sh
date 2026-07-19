@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # checkout-b-clone-subdir.sh
 # ----------------------------------------------------------------------
-# PATH B: clone root-ghostproxy into a SUBDIRECTORY of $HOME (or anywhere).
+# PATH B: clone root-modules into a SUBDIRECTORY of $HOME (or anywhere).
 # Doesn't touch $HOME files. Repo is its own workspace; install.sh
 # (when ready) handles the actual deployment into $HOME.
 #
@@ -13,7 +13,7 @@
 #
 # Defaults:
 #   REPO_URL    : (none — must provide as $1)
-#   TARGET_DIR  : $HOME/root-ghostproxy
+#   TARGET_DIR  : $HOME/root-modules
 #
 # What this does:
 #   1. Pre-flight: REPO_URL provided, TARGET_DIR doesn't already exist
@@ -47,7 +47,7 @@ for arg in "$@"; do
   esac
 done
 
-[ -z "$TARGET_DIR" ] && TARGET_DIR="$HOME/root-ghostproxy"
+[ -z "$TARGET_DIR" ] && TARGET_DIR="$HOME/root-modules"
 
 say()  { printf "  %s\n" "$*"; }
 hdr()  { printf "\n──── %s ────\n" "$*"; }

@@ -1,4 +1,4 @@
-Enable DevOps Software Engineer & Architect mode for root-ghostproxy.
+Enable DevOps Software Engineer & Architect mode for root-modules.
 
 > Slash-invoked ONLY. Operator types `/mode-architect` literally. Persona shift is durable across turns until cleared (`/mode-clear`) or switched (`/mode-pm`, `/mode-dual`).
 

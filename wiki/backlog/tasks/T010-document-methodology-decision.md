@@ -3,7 +3,7 @@ title: "T010 — Document the methodology-layer decision (which + why + escape h
 type: task
 status: done
 priority: P0
-parent_module: "root-ghostproxy-m002-methodology-layer-decision"
+parent_module: "root-modules-m002-methodology-layer-decision"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: document
 readiness: 100
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m002-methodology-layer-decision.md
+    file: wiki/backlog/modules/root-modules-m002-methodology-layer-decision.md
 tags: [task, p0, t010, scaffold, methodology, documentation, m002]
 ---
 
@@ -42,6 +42,6 @@ Decision documented across CLAUDE.md (Methodology section, ~30 lines), DESIGN.md
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m002-methodology-layer-decision|M002]]
+- PART OF: [[root-modules-m002-methodology-layer-decision|M002]]
 - BLOCKED BY: T007, T009
 - ENABLES: methodology-driven work loop with operator-clear rationale

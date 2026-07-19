@@ -1,4 +1,4 @@
-"""root-ghostproxy MCP Server — exposes governance operations as native MCP tools.
+"""root-modules MCP Server — exposes governance operations as native MCP tools.
 
 Read-only surface. Lets sub-agents, the second brain, and any AI tool consuming
 $HOME query the project's governance state (active mode, blockers, progress,
@@ -17,7 +17,7 @@ Wiring (operator action):
     Add to $HOME/.mcp.json (or ~/.claude.json):
         {
           "mcpServers": {
-            "root-ghostproxy": {
+            "root-modules": {
               "command": "python3",
               "args": ["-m", "tools.mcp_server"],
               "cwd": "$HOME"
@@ -87,9 +87,9 @@ from tools.decisions import parse_entries, get_entry, next_id, verify
 # ---------------------------------------------------------------------------
 
 server = FastMCP(
-    name="root-ghostproxy",
+    name="root-modules",
     instructions=(
-        "root-ghostproxy governance tools. Read-only surface for active mode + "
+        "root-modules governance tools. Read-only surface for active mode + "
         "blockers + progress + decisions. Use root_orient first if uncertain "
         "about project state. All tools backed by <project>/tools/<module>.py CLI "
         "scripts (composable: command can call CLI; MCP equivalent here for "

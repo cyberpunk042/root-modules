@@ -3,7 +3,7 @@ title: "T023 — Re-run M003 Foundation gate to confirm no regression after Infr
 type: task
 status: not-started
 priority: P0
-parent_module: "root-ghostproxy-m004-infrastructure-tooling"
+parent_module: "root-modules-m004-infrastructure-tooling"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: test
 readiness: 0
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m004-infrastructure-tooling.md
+    file: wiki/backlog/modules/root-modules-m004-infrastructure-tooling.md
   - id: m003-task
     type: wiki
     file: wiki/backlog/tasks/T017-foundation-gate-verification.md
@@ -48,6 +48,6 @@ Passing this task marks M004 module complete. Module readiness reaches 100. Addi
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m004-infrastructure-tooling|M004]]
+- PART OF: [[root-modules-m004-infrastructure-tooling|M004]]
 - BLOCKED BY: T019, T020, T021, T022, T017
 - ENABLES: M005 (first feature module — gated on Foundation + Infrastructure both green)

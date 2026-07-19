@@ -3,7 +3,7 @@ title: "T014 — Author endpoint AI agent safety policy (deny-set + hooks + inte
 type: task
 status: review
 priority: P0
-parent_module: "root-ghostproxy-m003-foundation-hardening"
+parent_module: "root-modules-m003-foundation-hardening"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: test
 readiness: 90
@@ -13,7 +13,7 @@ updated: 2026-05-16
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m003-foundation-hardening.md
+    file: wiki/backlog/modules/root-modules-m003-foundation-hardening.md
   - id: agents-md
     type: wiki
     file: AGENTS.md
@@ -60,7 +60,7 @@ Author the endpoint half of the system AI safety setup per operator's verbatim: 
 
 ## Test Plan (SDD constitution + TDD test_list)
 
-Per methodology engine + `wiki/config/methodology-profiles/spec-driven.yaml` constitution_first + `wiki/config/methodology-profiles/test-driven.yaml` test_list_before_scaffold: each Done When item maps to one or more verifiable test cases. Tests are **source-path-independent** (test the artifacts in `~/root-ghostproxy/.claude/`, NOT the deployed `~/.claude/`) to avoid the systemic test-vs-deployment coupling bug (see C09 / surfaced as decision-queue item NC-4).
+Per methodology engine + `wiki/config/methodology-profiles/spec-driven.yaml` constitution_first + `wiki/config/methodology-profiles/test-driven.yaml` test_list_before_scaffold: each Done When item maps to one or more verifiable test cases. Tests are **source-path-independent** (test the artifacts in `~/root-modules/.claude/`, NOT the deployed `~/.claude/`) to avoid the systemic test-vs-deployment coupling bug (see C09 / surfaced as decision-queue item NC-4).
 
 | # | Behavior under test | Done When | Status |
 |---|---|---|---|
@@ -77,7 +77,7 @@ Per methodology engine + `wiki/config/methodology-profiles/spec-driven.yaml` con
 | 11 | install.sh deploys settings.json + hooks (grep verification) | DW#1 | ✓ verified |
 | 12 | install.sh --check verifies hooks (grep + line refs) | DW#1 | ✓ verified |
 
-**Verification command set** (run from `~/root-ghostproxy/`):
+**Verification command set** (run from `~/root-modules/`):
 ```
 python3 .claude/hooks/tests/test-t014-endpoint-safety-smoke.py
 ```
@@ -105,14 +105,14 @@ Multiple stages — per ALLOWED/FORBIDDEN per stage:
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m003-foundation-hardening|M003]]
+- PART OF: [[root-modules-m003-foundation-hardening|M003]]
 - BLOCKED BY: T011
 - RELATES TO: [[T006-prior-debris-reconciliation|T006]]
 - BLOCKS: T015 (post-install verification: integrity check OK), T017 (foundation gate)
 - DERIVED FROM: [[2026-05-08-pain-points-inventory-from-root-failed-conversation-master-aggregate#C14 — Catastrophic events|audit cluster C14]] + [[2026-05-08-pain-points-inventory-from-root-failed-conversation-master-aggregate#C06|C06 fabrication/hallucination]]
 - IMPLEMENTS: forward-anchor proposed-solutions P-C14.1 (pre-action sensitive-material exposure gate), P-C14.3 (OS-impact awareness for Bash), P-C14.5 (policy-block false-positive refinement)
 
-## Resolution (2026-05-16, root-ghostproxy-rollout worker, cron:5f3287ee BOOTSTRAP-EXECUTE)
+## Resolution (2026-05-16, root-modules-rollout worker, cron:5f3287ee BOOTSTRAP-EXECUTE)
 
 **Audit anchor:** C14 (Catastrophic events — operator-OS-impact severity) + C06 (Fabrication/hallucination), per `raw/notes/2026-05-08-pain-points-inventory-from-root-failed-conversation-master-aggregate.md`. Operator-verbatim msg#163: *"did you just fucking break my fucking Operating system ????"* + msg#37: *"complete days of constant systemic failures start with catastrophic action that l[ea]ked critical sensitive material and costed a ton of money"*.
 
@@ -129,10 +129,10 @@ Multiple stages — per ALLOWED/FORBIDDEN per stage:
 **Verification evidence (inline per Hard Rule 7):**
 
 ```
-$ cd ~/root-ghostproxy && python3 .claude/hooks/tests/test-t014-endpoint-safety-smoke.py
+$ cd ~/root-modules && python3 .claude/hooks/tests/test-t014-endpoint-safety-smoke.py
 T014 endpoint-safety smoke test — source-path-independent
-PROJECT_ROOT: /home/jfortin/root-ghostproxy
-CLAUDE_DIR:   /home/jfortin/root-ghostproxy/.claude
+PROJECT_ROOT: /home/jfortin/root-modules
+CLAUDE_DIR:   /home/jfortin/root-modules/.claude
 
   PASS  T01 settings.json parses as valid JSON
   PASS  T02 deny-set count >= integrity threshold (100)
@@ -152,13 +152,13 @@ Result: 12/12 passed
 
 **TDD red→green loop captured:** initial smoke-test run reported `T09 FAIL — missing shapes: ['ghp_']`. Investigation showed leak-detector.sh uses character-class regex `\bgh[pousr]_[A-Za-z0-9]{30,}\b` (covers ghp_/gho_/ghu_/ghs_/ghr_ in one rule). The literal-substring test was wrong; the implementation was correct. Fixed test to accept either literal or character-class equivalent. Re-run: 12/12 PASS. This is the SDD+TDD discipline in action — the test reveals truth, then test or implementation gets corrected.
 
-**Live-deployed verification deferred (operator-territory):** `./install.sh --check` reported 11 missing hooks at `/home/jfortin/.claude/hooks/` because root-ghostproxy has not been DEPLOYED to this host (the `.claude/` source tree at `~/root-ghostproxy/` is complete, but `~/.claude/hooks/` is empty — `~/.claude/settings.json` is a 27-byte stub from 2025-04-24). Running `./install.sh` would mutate the operator's `~/.claude/` — C14 OS-impact territory + R20. Worker defers deployment to operator.
+**Live-deployed verification deferred (operator-territory):** `./install.sh --check` reported 11 missing hooks at `/home/jfortin/.claude/hooks/` because root-modules has not been DEPLOYED to this host (the `.claude/` source tree at `~/root-modules/` is complete, but `~/.claude/hooks/` is empty — `~/.claude/settings.json` is a 27-byte stub from 2025-04-24). Running `./install.sh` would mutate the operator's `~/.claude/` — C14 OS-impact territory + R20. Worker defers deployment to operator.
 
-**Surfacings to operator-decision-queue (cascade:root-ghostproxy):**
+**Surfacings to operator-decision-queue (cascade:root-modules):**
 - NC-1: Deny-set audit — 169 patterns present; operator may want to add/remove specific shapes (current set covers AWS / Anthropic / OpenAI / GitHub / GitLab / Stripe / SendGrid / npm / Telegram / JWT / DB / Authorization-header / private-key)
 - NC-2: M003 module references "151+ deny patterns required" but `integrity.py` `REQUIRED_DENY_RULES_MIN = 100`. Stale doc-vs-code drift. Reconcile: bump integrity.py threshold to 150 OR update M003 wording.
 - NC-3: opencode bridge runtime verification requires deployed `opencode` binary on host; T014's DW#4 mixes source-existence + deployed-runtime gates. Recommend splitting into source-side DW (file exists + parses) and deployment-gate DW (binary returns non-empty grep).
 - NC-4: Existing hook test suite under `.claude/hooks/tests/` hardcodes `~/.claude/hooks/` paths — tests require deployment to pass. Source-path independence is a TDD red-before-green prerequisite; the new T014 smoke test demonstrates the source-path-independent pattern. Recommend module-level decision (or new task) to refactor existing tests to accept `--hooks-dir` argument.
 - NC-5: Worker did NOT execute `./install.sh` end-to-end (would mutate `~/.claude/` on operator's host — R20 + audit C14 OS-impact territory). Live-deployed verification commands documented in Test Plan but execution gated on operator.
 
-**R20 attestation:** No `git commit`. No `git rm` on tracked files. Edits limited to `~/root-ghostproxy/`. No cross-sister edits. All changes staged for operator commit.
+**R20 attestation:** No `git commit`. No `git rm` on tracked files. Edits limited to `~/root-modules/`. No cross-sister edits. All changes staged for operator commit.

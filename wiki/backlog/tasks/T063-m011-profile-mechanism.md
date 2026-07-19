@@ -3,7 +3,7 @@ title: "T063 — M011 profile mechanism design (config-file-per-profile + switch
 type: task
 status: in-progress
 priority: P1
-parent_module: "root-ghostproxy-m011-ccstatusline-statusline-widget"
+parent_module: "root-modules-m011-ccstatusline-statusline-widget"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: design
 readiness: 80
@@ -50,6 +50,6 @@ Profile mechanism options:
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m011-ccstatusline-statusline-widget|M011]]
+- PART OF: [[root-modules-m011-ccstatusline-statusline-widget|M011]]
 - BLOCKED BY: T062
 - BLOCKS: T064 (vendor integration), T065 (operator decisions)

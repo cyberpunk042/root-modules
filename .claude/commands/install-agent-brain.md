@@ -1,11 +1,11 @@
 ---
-description: Deploy the root-ghostproxy agent brain (settings + hooks + rules + commands + agents + modes + skills + tools) into a sister project, so it inherits the same hook envelope + slash commands + tooling. Opt-in per operator directive 2026-05-06.
+description: Deploy the root-modules agent brain (settings + hooks + rules + commands + agents + modes + skills + tools) into a sister project, so it inherits the same hook envelope + slash commands + tooling. Opt-in per operator directive 2026-05-06.
 argument-hint: <target-path> [--dry-run]
 ---
 
 # /install-agent-brain — install agent brain into a sister project
 
-Deploys the root-ghostproxy agent brain into `<target-path>/.claude/` + `<target-path>/tools/` so the target project inherits:
+Deploys the root-modules agent brain into `<target-path>/.claude/` + `<target-path>/tools/` so the target project inherits:
 
 - All security hooks (policy-block, malware-block, leak-detector, etc.)
 - All slash commands (/orient, /handoff, /cycle, /stamp-*, /mode-*, etc.)

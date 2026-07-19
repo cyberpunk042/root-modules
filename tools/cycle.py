@@ -812,7 +812,7 @@ def emit_status_block(result: dict, use_color: bool = False, diff_fence: bool = 
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Cycle dispatch tool for root-ghostproxy")
+    parser = argparse.ArgumentParser(description="Cycle dispatch tool for root-modules")
     parser.add_argument("--json", action="store_true")
     parser.add_argument("--status-block", action="store_true", help="emit end-of-cycle status block (SB-061)")
     parser.add_argument("--color", action="store_true", help="use ANSI color codes (terminal mode)")

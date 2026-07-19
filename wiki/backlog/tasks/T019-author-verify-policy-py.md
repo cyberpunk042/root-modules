@@ -3,7 +3,7 @@ title: "T019 — Author $HOME/tools/verify-policy.py (project-internal verifier)
 type: task
 status: not-started
 priority: P0
-parent_module: "root-ghostproxy-m004-infrastructure-tooling"
+parent_module: "root-modules-m004-infrastructure-tooling"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: scaffold
 readiness: 0
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m004-infrastructure-tooling.md
+    file: wiki/backlog/modules/root-modules-m004-infrastructure-tooling.md
   - id: tools-md
     type: wiki
     file: TOOLS.md
@@ -51,6 +51,6 @@ Per methodology stage `implement`: code compiles + lint passes + ≥1 existing f
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m004-infrastructure-tooling|M004]]
+- PART OF: [[root-modules-m004-infrastructure-tooling|M004]]
 - BLOCKED BY: T018, T012, T014
 - BLOCKS: T020 (CI/pre-commit wiring), T021 (smoke test), T022 (CLAUDE.md routing entry), T023 (foundation re-gate)

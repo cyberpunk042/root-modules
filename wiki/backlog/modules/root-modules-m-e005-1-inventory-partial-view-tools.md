@@ -121,7 +121,7 @@ tags: [agent-drafted, m-e002-1-create-verb, e005, inventory, big-picture-vision,
 - [x] 7 gap categories named (decision-point grounding · cross-Epic visibility · Wiki-LLM consumption · drift composite · recent-cycle distribution · continuation-readiness · operator-directive-recency)
 - [ ] Operator review of inventory + gap analysis (operator-revisable)
 - [ ] Promote selected gap candidates to dedicated M-E005-N modules (ranked by operator)
-- [ ] Cross-reference to second-brain `<second-brain>/wiki/sources/` for prior-art (ANY existing big-picture-vision tool patterns in second brain that root-ghostproxy can adapt)
+- [ ] Cross-reference to second-brain `<second-brain>/wiki/sources/` for prior-art (ANY existing big-picture-vision tool patterns in second brain that root-modules can adapt)
 - [ ] Operator-confirmed scope of M-E005-2 (probably "build the bigview composer" — depends on operator pick)
 - [ ] Empirical: agent uses bigview composer per-fire and reports continuation quality improves (operator-empirical)
 

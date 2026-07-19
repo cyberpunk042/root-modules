@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # install-from-curl.sh
 # ----------------------------------------------------------------------
-# One-liner bootstrap for root-ghostproxy. Designed for `curl … | bash`.
+# One-liner bootstrap for root-modules. Designed for `curl … | bash`.
 #
 # Naturally does the right thing:
 #   • TTY detected (interactive possible) → asks mode + target upfront, then
@@ -27,7 +27,7 @@
 #   -h, --help
 #
 # Environment overrides (skip prompts for that field):
-#   REPO_URL    https://github.com/cyberpunk042/root-ghostproxy.git
+#   REPO_URL    https://github.com/cyberpunk042/root-modules.git
 #   BRANCH      main
 #   MODE        B | A    (skip mode prompt)
 #   TARGET      <path>   (only used in MODE=B; skip target prompt)
@@ -44,7 +44,7 @@
 set -euo pipefail
 
 # ---------- Defaults ----------
-REPO_URL="${REPO_URL:-https://github.com/cyberpunk042/root-ghostproxy.git}"
+REPO_URL="${REPO_URL:-https://github.com/cyberpunk042/root-modules.git}"
 BRANCH="${BRANCH:-main}"
 MODE="${MODE:-}"
 TARGET="${TARGET:-}"
@@ -186,7 +186,7 @@ run_install_and_statusline() {
 cat <<'EOF'
 
 ╔══════════════════════════════════════════════════════════════════════╗
-║          root-ghostproxy — curl-bash bootstrap (one-shot)            ║
+║          root-modules — curl-bash bootstrap (one-shot)            ║
 ╚══════════════════════════════════════════════════════════════════════╝
 EOF
 
@@ -227,7 +227,7 @@ if [ -z "$MODE" ]; then
     cat <<'EOF'
   Two installation modes:
 
-    [B] safe default  — clone repo to a subdirectory ($HOME/root-ghostproxy/).
+    [B] safe default  — clone repo to a subdirectory ($HOME/root-modules/).
                         $HOME UNTOUCHED. Read + test the repo there.
                         install.sh handles deployment when ready.
 
@@ -254,9 +254,9 @@ ok "MODE = $MODE"
 # ---------- Choose TARGET (MODE=B only) ----------
 if [ "$MODE" = "B" ] && [ -z "$TARGET" ]; then
   if [ "$INTERACTIVE" = "1" ]; then
-    TARGET=$(ask "Clone target dir" "$HOME/root-ghostproxy")
+    TARGET=$(ask "Clone target dir" "$HOME/root-modules")
   else
-    TARGET="$HOME/root-ghostproxy"
+    TARGET="$HOME/root-modules"
   fi
 fi
 

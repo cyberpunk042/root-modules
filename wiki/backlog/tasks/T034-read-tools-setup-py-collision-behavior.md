@@ -3,7 +3,7 @@ title: "T034 — Read tools/setup.py to confirm --connect-project collision beha
 type: task
 status: done
 priority: P0
-parent_module: "root-ghostproxy-m006-pre-connect-verification"
+parent_module: "root-modules-m006-pre-connect-verification"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: test
 readiness: 100
@@ -13,10 +13,10 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m006-pre-connect-verification.md
+    file: wiki/backlog/modules/root-modules-m006-pre-connect-verification.md
   - id: m007-module-verified-behavior
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m007-connect-second-brain.md
+    file: wiki/backlog/modules/root-modules-m007-connect-second-brain.md
     description: "M007 has the verified-behavior section authored from reading tools/setup.py 2026-05-04"
 tags: [task, p0, t034, stream-1, pre-connect, code-review, done, m006]
 ---
@@ -37,7 +37,7 @@ Before running --connect-project, the operator/agent must know how the script ha
 | `target/tools/__init__.py` | Auto-created if missing. |
 | AGENTS.md / CLAUDE.md brain-pointer block | Uses `<!-- SECOND-BRAIN-CONNECTION -->` marker. Replaces between markers if present, appends if file exists without marker, logs warn + skips if neither file exists. |
 
-Documented in $HOME/wiki/backlog/modules/root-ghostproxy-m007-connect-second-brain.md § "Verified behavior."
+Documented in $HOME/wiki/backlog/modules/root-modules-m007-connect-second-brain.md § "Verified behavior."
 
 ## Done When
 
@@ -50,5 +50,5 @@ Documented in $HOME/wiki/backlog/modules/root-ghostproxy-m007-connect-second-bra
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m006-pre-connect-verification|M006]]
+- PART OF: [[root-modules-m006-pre-connect-verification|M006]]
 - BLOCKS: T037 (audit log uses these facts)

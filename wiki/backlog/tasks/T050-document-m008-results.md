@@ -3,7 +3,7 @@ title: "T050 — Document M008 results in module page (mark Done When checkboxes
 type: task
 status: not-started
 priority: P0
-parent_module: "root-ghostproxy-m008-smoke-test-from-inside"
+parent_module: "root-modules-m008-smoke-test-from-inside"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: test
 readiness: 0
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m008-smoke-test-from-inside.md
+    file: wiki/backlog/modules/root-modules-m008-smoke-test-from-inside.md
 tags: [task, p0, t050, stream-1, smoke-test, documentation, m008]
 ---
 
@@ -40,6 +40,6 @@ Bundle the smoke test results from T044-T049 into a single completion record. Ma
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m008-smoke-test-from-inside|M008]]
+- PART OF: [[root-modules-m008-smoke-test-from-inside|M008]]
 - BLOCKED BY: T045, T046, T047, T048, T049
 - BLOCKS: T051 (M009 worked example)

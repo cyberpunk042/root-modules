@@ -3,7 +3,7 @@ title: "T006 — Decide reconciliation for prior $HOME debris files"
 type: task
 status: done
 priority: P1
-parent_module: "root-ghostproxy-m001-author-claude-md-and-agents-md"
+parent_module: "root-modules-m001-author-claude-md-and-agents-md"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: document
 readiness: 100
@@ -15,7 +15,7 @@ decision: "LEAVE-IN-PLACE — prior debris is non-authoritative per operator (pe
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m001-author-claude-md-and-agents-md.md
+    file: wiki/backlog/modules/root-modules-m001-author-claude-md-and-agents-md.md
   - id: operator-directive-forget-everything
     type: directive
     description: "Operator 2026-05-05: 'I DIDNT WRITE ANYTHING.. JUST FORGFET EVERYTHING FUCING EXIST'"
@@ -79,5 +79,5 @@ These are now formalized in CLAUDE.md Hard Rule #8 + AGENTS.md Hard Rule #5 + Ha
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m001-author-claude-md-and-agents-md|M001]]
-- RELATES TO: [[root-ghostproxy-m003-foundation-hardening|M003]] — M003 authors the project's own implementation; reconciliation policy informs whether to extend or replace prior files
+- PART OF: [[root-modules-m001-author-claude-md-and-agents-md|M001]]
+- RELATES TO: [[root-modules-m003-foundation-hardening|M003]] — M003 authors the project's own implementation; reconciliation policy informs whether to extend or replace prior files

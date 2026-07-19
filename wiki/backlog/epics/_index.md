@@ -1,5 +1,5 @@
 ---
-title: "root-ghostproxy epics"
+title: "root-modules epics"
 type: index
 status: active
 created: 2026-05-04

@@ -3,7 +3,7 @@ title: "T020 — Wire validation pipeline (pre-commit hook OR CI workflow)"
 type: task
 status: not-started
 priority: P0
-parent_module: "root-ghostproxy-m004-infrastructure-tooling"
+parent_module: "root-modules-m004-infrastructure-tooling"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: implement
 readiness: 0
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m004-infrastructure-tooling.md
+    file: wiki/backlog/modules/root-modules-m004-infrastructure-tooling.md
 tags: [task, p0, t020, infrastructure, validation-pipeline, pre-commit, ci, m004]
 ---
 
@@ -45,6 +45,6 @@ Implement stage: pipeline files authored + verified to fire. Test stage: deliber
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m004-infrastructure-tooling|M004]]
+- PART OF: [[root-modules-m004-infrastructure-tooling|M004]]
 - BLOCKED BY: T019
 - BLOCKS: T021 (smoke test exercises the pipeline), T023 (foundation re-gate)

@@ -3,7 +3,7 @@ title: "T005 — Operator reviews + approves CLAUDE.md and AGENTS.md drafts (one
 type: task
 status: done
 priority: P0
-parent_module: "root-ghostproxy-m001-author-claude-md-and-agents-md"
+parent_module: "root-modules-m001-author-claude-md-and-agents-md"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: scaffold
 readiness: 100
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m001-author-claude-md-and-agents-md.md
+    file: wiki/backlog/modules/root-modules-m001-author-claude-md-and-agents-md.md
 tags: [task, p0, t005, scaffold, operator-review, m001]
 ---
 
@@ -40,6 +40,6 @@ Approved iteratively via the /loop cycle 2026-05-05. The operator did not reject
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m001-author-claude-md-and-agents-md|M001]]
+- PART OF: [[root-modules-m001-author-claude-md-and-agents-md|M001]]
 - BLOCKED BY: T002, T004
 - BLOCKS: T006 (final landing) — partially redundant with T002/T004 since drafts were authored directly into $HOME, not staged elsewhere

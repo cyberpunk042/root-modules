@@ -1,6 +1,6 @@
-# DESIGN.md — root-ghostproxy design pattern rationale
+# DESIGN.md — root-modules design pattern rationale
 
-> **Why this shape.** For each major architectural choice in root-ghostproxy, the rationale: alternatives considered, why this choice was made, what it costs, what it gains. Distinct from [ARCHITECTURE.md](ARCHITECTURE.md) (the *what + how*) and [SECURITY.md](SECURITY.md) (specific threat protections). DESIGN.md is the *why this and not something else*.
+> **Why this shape.** For each major architectural choice in root-modules, the rationale: alternatives considered, why this choice was made, what it costs, what it gains. Distinct from [ARCHITECTURE.md](ARCHITECTURE.md) (the *what + how*) and [SECURITY.md](SECURITY.md) (specific threat protections). DESIGN.md is the *why this and not something else*.
 
 This file is canonical reference material. When operator or future-session agent asks "why is X this way," the answer should be derivable from this file. When making changes that contradict a documented design choice, the change requires re-deriving the rationale here — not silently overriding it.
 
@@ -8,7 +8,7 @@ This file is canonical reference material. When operator or future-session agent
 
 ## Summary
 
-This file documents the design rationale for root-ghostproxy's architectural choices. **4 cross-cutting Design Principles** (deny-by-default at every layer · fail-closed where stakes are high / fail-open where stakes are low · markdown-as-IaC · same policy + different runtimes — no-policy-duplication invariant) form the doctrinal frame. **7 specific Specific Design Choices** (stealth bridge · facultative modules · two-layer hooks · methodology copy-and-adapt · auto_connect false · wifi outbound-only · git init at $HOME) realize the principles in concrete shape. **9 Recent design subsections** capture iterations from cycles 41-49 (unified trigger model · verbosity calibration · end-of-cycle stamp · agent-discipline-gate) plus 2026-05-06 additions (brain-inheritance pattern SB-115 · compound+waterfall axes SB-123 · productive-cycle taxonomy M-E001-1 + Hard Rule 14 · Active Objective Layer SB-118+SB-127+SB-124d · doc-update-discipline as design pattern Hard Rule 11). **Anti-Patterns Deliberately Avoided** + **Trade-offs Taken** tables provide negative-space framing. **Open Design Questions** tracks unresolved decisions with D-ID references for closed ones (preserving provenance). Cross-tool universal — every AI tool consuming this project obeys the same design principles via thin adapters.
+This file documents the design rationale for root-modules's architectural choices. **4 cross-cutting Design Principles** (deny-by-default at every layer · fail-closed where stakes are high / fail-open where stakes are low · markdown-as-IaC · same policy + different runtimes — no-policy-duplication invariant) form the doctrinal frame. **7 specific Specific Design Choices** (stealth bridge · facultative modules · two-layer hooks · methodology copy-and-adapt · auto_connect false · wifi outbound-only · git init at $HOME) realize the principles in concrete shape. **9 Recent design subsections** capture iterations from cycles 41-49 (unified trigger model · verbosity calibration · end-of-cycle stamp · agent-discipline-gate) plus 2026-05-06 additions (brain-inheritance pattern SB-115 · compound+waterfall axes SB-123 · productive-cycle taxonomy M-E001-1 + Hard Rule 14 · Active Objective Layer SB-118+SB-127+SB-124d · doc-update-discipline as design pattern Hard Rule 11). **Anti-Patterns Deliberately Avoided** + **Trade-offs Taken** tables provide negative-space framing. **Open Design Questions** tracks unresolved decisions with D-ID references for closed ones (preserving provenance). Cross-tool universal — every AI tool consuming this project obeys the same design principles via thin adapters.
 
 ## Design Principles in Force
 
@@ -85,7 +85,7 @@ Cross-AI-tool consistency is structural, not coincidental. The agent-safety poli
 **Alternatives considered:** L3 router/firewall (the box has IPs on both sides + does L3 NAT/forwarding); transparent proxy at L7 only (no L2/L3 control, just proxies HTTP-like protocols); span-port mirroring (passive; cannot block, only observe).
 
 **Why stealth bridge:**
-- Endpoints don't see "an extra hop" — networks behave as if root-ghostproxy weren't there. Reduces operator-side configuration ripple (no DHCP changes, no gateway changes, no L3 route changes).
+- Endpoints don't see "an extra hop" — networks behave as if root-modules weren't there. Reduces operator-side configuration ripple (no DHCP changes, no gateway changes, no L3 route changes).
 - Provides inline control (drop/reject) in addition to inline observation. Span-port mirroring gives observation but not control.
 - L3 routing/firewall would require IPs on both sides + would announce the box's presence. The "ghost" half of the project name commits to the L3-invisibility property.
 
@@ -115,10 +115,10 @@ Cross-AI-tool consistency is structural, not coincidental. The agent-safety poli
 
 **Why two-layer:**
 - The operator's safety policy is **about the host**, not about any one project. Endpoints on the LAN are protected regardless of which project a Claude Code session is opened in. A project-only safety policy would only protect that project's sessions.
-- Sister projects on the same host inherit root-ghostproxy's machine-level policy uniformly. This is *the point* of root-ghostproxy as a system-AI-safety setup — the host's policy posture is consistent across all AI agent sessions.
+- Sister projects on the same host inherit root-modules's machine-level policy uniformly. This is *the point* of root-modules as a system-AI-safety setup — the host's policy posture is consistent across all AI agent sessions.
 - Project-level layers can ADD restrictions (a project can say "in addition to machine-level, also deny X for sessions in this project"). They cannot WEAKEN the machine-level set. This preserves operator's safety-floor while giving projects flexibility to be stricter.
 
-**What it costs:** a session in any sister project is constrained by root-ghostproxy's deny-set. If the operator works in another project on the same host and a tool call is denied by root-ghostproxy's machine-level rules, that sister project's work is constrained.
+**What it costs:** a session in any sister project is constrained by root-modules's deny-set. If the operator works in another project on the same host and a tool call is denied by root-modules's machine-level rules, that sister project's work is constrained.
 
 **What it gains:** uniform safety floor across the host. The threat model is enforced regardless of which project the operator is currently working in.
 
@@ -126,12 +126,12 @@ Cross-AI-tool consistency is structural, not coincidental. The agent-safety poli
 
 **Choice:** copy + adapt. The methodology engine + 3 chosen profiles are local copies in `$HOME/wiki/config/`.
 
-**Alternatives considered:** pointer-only (root-ghostproxy references the second brain's methodology config without copying); per-project local engine with no second-brain link.
+**Alternatives considered:** pointer-only (root-modules references the second brain's methodology config without copying); per-project local engine with no second-brain link.
 
 **Why copy + adapt:**
 - The Adoption Guide step 1 prescribes copy + adapt: artifacts, gate commands, commit scope, directory paths are project-specific variables; stage names + ordering + readiness ranges + hierarchy are ecosystem-wide invariants. Copying enables adaptation; pointer-only freezes the project to the second brain's exact gate commands.
 - Operator-stated build order: *"all this and the wiki LLM and methodology goes before the modules."* The methodology layer needs to be in place + adaptable per project before module work begins. Pointer-only would require ongoing second-brain availability for every methodology operation.
-- root-ghostproxy is type=root + group=operating-system-setup; some methodology gates (e.g. "lint passes" as a stage gate) need translation into infrastructure-specific equivalents (e.g. `./install.sh --dry-run` returns `unchanged` per file). Copy + adapt enables these translations.
+- root-modules is type=root + group=operating-system-setup; some methodology gates (e.g. "lint passes" as a stage gate) need translation into infrastructure-specific equivalents (e.g. `./install.sh --dry-run` returns `unchanged` per file). Copy + adapt enables these translations.
 
 **What it costs:** drift risk — the local methodology may fall behind the second brain's evolution. Mitigation: re-copy the engine + profiles when the second brain publishes a methodology update; only adaptations remain project-local.
 
@@ -139,7 +139,7 @@ Cross-AI-tool consistency is structural, not coincidental. The agent-safety poli
 
 ### Sister-project registration with `auto_connect: false`
 
-**Choice:** root-ghostproxy is registered in the second brain's `sister-projects.yaml` with `auto_connect: false`. Connection requires explicit `--connect-project $HOME` invocation by the operator.
+**Choice:** root-modules is registered in the second brain's `sister-projects.yaml` with `auto_connect: false`. Connection requires explicit `--connect-project $HOME` invocation by the operator.
 
 **Alternatives considered:** `auto_connect: true` (auto-hookup on `tools.setup` runs); not registered at all (no integration, no methodology-driven cross-project flow).
 
@@ -148,7 +148,7 @@ Cross-AI-tool consistency is structural, not coincidental. The agent-safety poli
 - The friction-by-design of `auto_connect: false` is intentional: integration requires a deliberate operator command. This is appropriate for a project that owns the machine-level safety policy.
 - M010 (the auto_connect flip decision module) provides the operator-decision point to revisit this default after M009 stability is proven.
 
-**What it costs:** operator must run `--connect-project` explicitly per host. Multi-host deployments require N explicit runs (one per host). This is acceptable given root-ghostproxy is currently single-host.
+**What it costs:** operator must run `--connect-project` explicitly per host. Multi-host deployments require N explicit runs (one per host). This is acceptable given root-modules is currently single-host.
 
 **What it gains:** explicit-authorization gate; consistent with the project's deny-by-default principle (the connection is a state change to $HOME, so it requires explicit operator input).
 
@@ -156,7 +156,7 @@ Cross-AI-tool consistency is structural, not coincidental. The agent-safety poli
 
 **Choice:** the management wifi interface is configured as outbound-only — wifi client to operator's existing secure SSID, no inbound services bind.
 
-**Alternatives considered:** wifi as inbound management (SSH on the wifi); wifi as access point (root-ghostproxy serves a wireless network alongside the inspection bridge); no management interface (console-only).
+**Alternatives considered:** wifi as inbound management (SSH on the wifi); wifi as access point (root-modules serves a wireless network alongside the inspection bridge); no management interface (console-only).
 
 **Why outbound-only:**
 - The bridge is L3-invisible to inspected-segment endpoints. The wifi gives the box itself internet access (apt updates, threat-intel feeds, AI APIs, outbound web) without exposing services on the inspected segment.
@@ -172,7 +172,7 @@ Cross-AI-tool consistency is structural, not coincidental. The agent-safety poli
 
 **Choice:** the repo is structured to be `git init`'d at `$HOME` itself. The `.gitignore` is deny-all + whitelist — only curated config files visible to git; everything else in $HOME stays local.
 
-**Alternatives considered:** repo at `$HOME/<projectname>` (conventional sub-directory); repo at `/etc/root-ghostproxy` (system-level, not user-level).
+**Alternatives considered:** repo at `$HOME/<projectname>` (conventional sub-directory); repo at `/etc/root-modules` (system-level, not user-level).
 
 **Why git init at $HOME:**
 - Files installed by the project live in `$HOME/.claude/` and `$HOME/.config/opencode/` — these are SUB-PATHS of `$HOME`. A repo at `$HOME/<projectname>` would not naturally contain them; the install would have to copy from one location to another.
@@ -246,7 +246,7 @@ Per cycles 41-43 statusline UX iterations + SB-082 (extremes pendulum recurring)
 
 ### Brain-inheritance pattern ($HOME source-of-truth + /opt INHERITS for operational tooling; knowledge flows OTHER direction)
 
-**Choice (SB-115 closure 2026-05-06):** `$HOME` (root-ghostproxy) is the source-of-truth for **operational tooling** — hooks, slash commands, tools/*.py, settings.json wiring conventions, ANSI-fence rendering patterns, statusline widgets, mode-enforcement banner shape. `/opt` second-brain INHERITS / adapts these patterns. **Knowledge** (lessons, sources, sister-project profiles, methodology updates, decisions, principles) flows the OTHER direction (root-ghostproxy → second brain via `gateway contribute` after M007 connect).
+**Choice (SB-115 closure 2026-05-06):** `$HOME` (root-modules) is the source-of-truth for **operational tooling** — hooks, slash commands, tools/*.py, settings.json wiring conventions, ANSI-fence rendering patterns, statusline widgets, mode-enforcement banner shape. `/opt` second-brain INHERITS / adapts these patterns. **Knowledge** (lessons, sources, sister-project profiles, methodology updates, decisions, principles) flows the OTHER direction (root-modules → second brain via `gateway contribute` after M007 connect).
 
 **Alternatives considered:** $HOME and /opt as independent peers (each maintains own operational tooling — drift inevitable); /opt as source-of-truth + $HOME inherits (inverts the type=root scope-not-path property — operational tooling lives where the operating-system-setup project IS, not at the second-brain hub).
 
@@ -297,7 +297,7 @@ Per cycles 41-43 statusline UX iterations + SB-082 (extremes pendulum recurring)
 **Alternatives considered:** active-task cursor only (single-layer — operator can't track multi-cycle objective beyond current task); embedded objective in every doc (drift across docs); single state file with multiple sections (hard to update per-layer).
 
 **Why 5 separate state files at increasing granularity:**
-- **Mission** (multi-cycle objective): operator-set; survives across many cycles; e.g. "ship root-ghostproxy MVP — close systemic-bug audit + advance M003 Foundation gate"
+- **Mission** (multi-cycle objective): operator-set; survives across many cycles; e.g. "ship root-modules MVP — close systemic-bug audit + advance M003 Foundation gate"
 - **Focus** (sub-objective within mission): operator-set; survives across cycles; e.g. "iterate hooks/context/engineering quality + mission+focus build"
 - **Impediment** (block on focus, comes-and-goes): comes-and-goes per cycle; e.g. "(none — focus unblocked)" or specific blocker
 - **Priorities** (imminent-work tier ABOVE PM blockers — SB-127): operator's hot-queue; verbs add/show/clear/remove/promote/demote/set/insert/update for fluid management
@@ -326,7 +326,7 @@ Per cycles 41-43 statusline UX iterations + SB-082 (extremes pendulum recurring)
 
 ## Trade-offs Taken (vs Alternatives)
 
-| Choice | Alternative considered | Why this one wins for root-ghostproxy |
+| Choice | Alternative considered | Why this one wins for root-modules |
 |---|---|---|
 | Deny-by-default | Allow-by-default | AI safety context: cost of undetected dangerous action >> cost of false-positive friction |
 | Fail-closed (tamper) + Fail-open (Suricata bypass option) | Uniform fail-mode | Different layers have different cost asymmetries; matched per-layer is correct |
@@ -369,7 +369,7 @@ Per cycles 41-43 statusline UX iterations + SB-082 (extremes pendulum recurring)
 | First module choice | M005 | Suricata-first ("passive before active") vs PolarProxy-first ("de-risk cert distribution first"). Operator decides per priority. |
 | PolarProxy bypass list policy | M005 (PolarProxy path) | Default chrome-bypass list + operator additions vs operator-curated from scratch. |
 | eBPF integration | Phase-2 | If/when AF_PACKET multi-thread + eBPF load balancing is needed for throughput beyond ~Gigabit. |
-| Active response capability | Phase-3 | Operator-decision: should root-ghostproxy be able to actively respond (rewrite flows, inject responses, honeypot specific destinations)? |
+| Active response capability | Phase-3 | Operator-decision: should root-modules be able to actively respond (rewrite flows, inject responses, honeypot specific destinations)? |
 | Multi-host deployment shape | Phase-2 | How many hosts? Each independent or coordinated? Configuration-management mechanism (Ansible / Salt / NixOS / direct git pull)? |
 | FORWARD/OUTPUT nftables policy (T013) | M003 bridge data path closure | Default-accept vs default-drop FORWARD on the bridge; threat-model question. |
 | Line-1 widget restoration shape (SB-104/105) | ccstatusline UX | Revert SB-103/SB-104 OR different shape (drafted aidlc-context-header.sh widget pending operator direction) |

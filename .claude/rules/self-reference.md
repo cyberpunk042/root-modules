@@ -4,7 +4,7 @@
 
 ## What this project IS
 
-**`root-ghostproxy`** is a system-AI-safety-setup project at the OS-root level. Operator's verbatim framing (2026-05-04):
+**`root-modules`** (renamed from `root-ghostproxy` on 2026-07-19) is, per the operator's rename directive verbatim, *"at first and by default a root or home folder upgrader, evolver and secondly you can install supplementary modules like the ghostproxy combo"*. The system-AI-safety-setup scope at the OS-root level remains. Operator's original verbatim framing (2026-05-04):
 
 > "its a new type of project but its IAC and its basically a IPS sitting in between the Edge firewall (OPNSense) and the first switch / the local network. its aiming to **secure an OS and configure claude code and opencode at the root with all the safety needed**. it will do this and it will also offer in the future to for instance we use this machine or another [new] one. So its not just an IPS its a system AI safety setup project and the IPS tools (suricata and [polarproxy]) as modules."
 
@@ -30,7 +30,7 @@ Identity: **type=root, group=operating-system-setup**. Scope, not path. The proj
 Operator directive 2026-04-24 (from second brain raw notes):
 > "A PROJECT IS THE EXTENSION OF A BRAIN AND YOU NEED TO BEHAVE FROM IT NOT OVER IT... THE PROJECT IS INTELLIGENT... THE INTELLIGENCE COMES FROM USING THE PROJECT"
 
-For root-ghostproxy specifically:
+For root-modules specifically:
 
 | ❌ Behaving OVER the project | ✅ Behaving FROM the project |
 |---|---|
@@ -51,7 +51,7 @@ For root-ghostproxy specifically:
 | **AICP** | Local-AI complexity-routed inference | Sister project — may eventually run AI workloads on /root-protected hosts. |
 | **devops-control-plane** | Infrastructure governance | Sister project — pattern source for IaC discipline. |
 
-When operator addresses you in $HOME, they're addressing root-ghostproxy's AI. Not the second brain's AI. Not a fleet agent.
+When operator addresses you in $HOME, they're addressing root-modules's AI. Not the second brain's AI. Not a fleet agent.
 
 ## Bidirectional inheritance — $HOME and the second brain (and sisters)
 
@@ -62,7 +62,7 @@ The relationship between $HOME and /opt second-brain is NOT peer-to-peer. It is 
 | $HOME **consumes** from second-brain | **Knowledge / authoritative resources** | source-syntheses (Suricata, PolarProxy), identity profile, methodology engine config, adoption guide, sister-projects.yaml, MCP tool catalog. (See "When to consume from the second brain" below.) |
 | $HOME **authors**; second-brain (and other sisters) **inherit/adapt** | **Operational tooling at root/host level** | hook patterns (session-orient, end-of-cycle-stamp, pre-compact, post-compact), slash-command patterns (/orient, /cycle, /handoff, /stamp-*), tool patterns (tools.cycle, tools.stamp, tools.state), settings.json hook-wiring conventions, ANSI-fence + diff-fence rendering patterns. $HOME is type=root + group=operating-system-setup — root-level tooling lives here as canonical. |
 
-**Anti-pattern (SB-115 instance)**: when investigating an inconsistency between $HOME's and /opt's hooks, agent framed them as independent peers ("/opt has its own hook, separate from $HOME's"). That obscured the fact that /opt's hook is a copy/adaptation of $HOME's pattern (per /opt's hook header comment: "Adapted from the parallel root-ghostproxy hook pattern"). When $HOME's hook evolves (e.g., SB-115 redesign of stamp config from prompt-marker to slash-command + persistent JSON), /opt should track the improvement, not maintain a divergent copy.
+**Anti-pattern (SB-115 instance)**: when investigating an inconsistency between $HOME's and /opt's hooks, agent framed them as independent peers ("/opt has its own hook, separate from $HOME's"). That obscured the fact that /opt's hook is a copy/adaptation of $HOME's pattern (per /opt's hook header comment: "Adapted from the parallel root-modules hook pattern"). When $HOME's hook evolves (e.g., SB-115 redesign of stamp config from prompt-marker to slash-command + persistent JSON), /opt should track the improvement, not maintain a divergent copy.
 
 **Operationally**: when $HOME authors a new operational pattern (hook, command, tool), the agent should note "candidate for sister-project inheritance" so the second-brain side can adapt or be informed. Cross-project propagation is NOT automatic; it's a deliberate sync the operator coordinates.
 

@@ -1,5 +1,5 @@
 ---
-title: ".claude/agents/ — root-ghostproxy brain-loaded subagents"
+title: ".claude/agents/ — root-modules brain-loaded subagents"
 type: reference
 subtype: subdir-readme
 domain: cross-domain
@@ -35,7 +35,7 @@ Indexes the 3 brain-loaded subagents in `$HOME/.claude/agents/` (root-explorer, 
 
 Per SB-081 (operator directive 2026-05-05): *"this is another sidenotes but we can do that the sub-agents are not brainless too"*.
 
-When a parent agent spawns a subagent via the `Agent` tool, the subagent starts with **no project context** by default. For root-ghostproxy work (where the project's intelligence lives in CLAUDE.md + AGENTS.md + .claude/rules/), a brainless subagent produces output that drifts from project doctrine — wrong path conventions, wrong tool invocations, wrong methodology framing.
+When a parent agent spawns a subagent via the `Agent` tool, the subagent starts with **no project context** by default. For root-modules work (where the project's intelligence lives in CLAUDE.md + AGENTS.md + .claude/rules/), a brainless subagent produces output that drifts from project doctrine — wrong path conventions, wrong tool invocations, wrong methodology framing.
 
 These 3 subagents have **mandatory brain-load prompts** in their frontmatter — when spawned, the first thing they do is read the project's brain pieces. The subagent then operates FROM the project, not OVER it (per `self-reference.md` framing).
 
@@ -101,7 +101,7 @@ When you author a new subagent:
 1. Place at `.claude/agents/<name>.md` with the frontmatter convention
 2. Define mandatory brain-load (3-5 brain pieces per subagent's specialization)
 3. Define tool subset (Read minimal; Edit/Write/Bash if it produces artifacts)
-4. Author system prompt body with project framing ("you are operating from root-ghostproxy, behave FROM the project not OVER it")
+4. Author system prompt body with project framing ("you are operating from root-modules, behave FROM the project not OVER it")
 5. **Operator must restart session** for Claude Code to discover the new subagent
 6. Update this README's "3 subagents" table
 7. Update root README brain-piece counts (subagents count)

@@ -1,5 +1,5 @@
 ---
-title: "root-ghostproxy M008 — Smoke Test from Inside"
+title: "root-modules M008 — Smoke Test from Inside"
 aliases:
   - "M008 — Verify second-brain connection works from $HOME"
 type: module
@@ -21,7 +21,7 @@ sources:
   - id: parent-epic
     type: wiki
     file: wiki/backlog/epics/sfif-rollout-and-second-brain-integration.md
-tags: [module, p0, root-ghostproxy, second-brain-integration, stream-1, smoke-test, m008]
+tags: [module, p0, root-modules, second-brain-integration, stream-1, smoke-test, m008]
 ---
 
 # M008 — Smoke Test the Second-Brain Connection from Inside $HOME
@@ -70,14 +70,14 @@ Open a fresh Claude Code session in $HOME and verify the second-brain connection
 
 ## Relationships
 
-- PART OF: [[sfif-rollout-and-second-brain-integration|Epic — root-ghostproxy SFIF Rollout]]
-- BLOCKED BY: [[root-ghostproxy-m007-connect-second-brain|M007 — Connect]]
-- ENABLES: [[root-ghostproxy-m009-worked-example-readme-ingest|M009 — Worked example]]
+- PART OF: [[sfif-rollout-and-second-brain-integration|Epic — root-modules SFIF Rollout]]
+- BLOCKED BY: [[root-modules-m007-connect-second-brain|M007 — Connect]]
+- ENABLES: [[root-modules-m009-worked-example-readme-ingest|M009 — Worked example]]
 - DEMONSTRATES: [[declarations-are-aspirational-until-infrastructure-verifies-them|Principle 4]] (connection isn't real until the smoke test passes)
 
 ## Backlinks
 
-[[Epic — root-ghostproxy SFIF Rollout]]
+[[Epic — root-modules SFIF Rollout]]
 [[M007 — Connect]]
 [[M009 — Worked example]]
 [[declarations-are-aspirational-until-infrastructure-verifies-them|Principle 4]]

@@ -1,4 +1,4 @@
-# $HOME/.claude/rules/hook-architecture.md — Hook design + 2-layer architecture for root-ghostproxy
+# $HOME/.claude/rules/hook-architecture.md — Hook design + 2-layer architecture for root-modules
 
 > Loaded on demand when hooks are designed, debugged, or invoked. CLAUDE.md + AGENTS.md have summaries; this file has the project-specific detail.
 >

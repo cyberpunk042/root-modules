@@ -1,5 +1,5 @@
 ---
-title: ".claude/commands/ — root-ghostproxy slash commands"
+title: ".claude/commands/ — root-modules slash commands"
 type: reference
 subtype: subdir-readme
 domain: cross-domain

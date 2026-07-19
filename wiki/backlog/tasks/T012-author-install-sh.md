@@ -3,7 +3,7 @@ title: "T012 — Author $HOME/install.sh (idempotent, --dry-run, --check, --dest
 type: task
 status: in-progress
 priority: P0
-parent_module: "root-ghostproxy-m003-foundation-hardening"
+parent_module: "root-modules-m003-foundation-hardening"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: implement
 readiness: 98
@@ -13,7 +13,7 @@ updated: 2026-05-06
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m003-foundation-hardening.md
+    file: wiki/backlog/modules/root-modules-m003-foundation-hardening.md
   - id: tools-md
     type: wiki
     file: TOOLS.md
@@ -25,7 +25,7 @@ tags: [task, p0, t012, foundation, install-sh, scaffold, m003]
 
 ## Description
 
-Author the foundation's idempotent installer. Takes a fresh Linux host (target: Debian 13) and brings it to foundation-tier root-ghostproxy state: endpoint AI agent safety policy installed at `~/.claude/`, bridge topology configured, management wifi configured, opencode bridge plugin installed.
+Author the foundation's idempotent installer. Takes a fresh Linux host (target: Debian 13) and brings it to foundation-tier root-modules state: endpoint AI agent safety policy installed at `~/.claude/`, bridge topology configured, management wifi configured, opencode bridge plugin installed.
 
 ## Done When
 
@@ -69,7 +69,7 @@ Per CLAUDE.md methodology section: stage `implement` requires the code compiles 
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m003-foundation-hardening|M003]]
+- PART OF: [[root-modules-m003-foundation-hardening|M003]]
 - BLOCKED BY: T011
 - RELATES TO: [[T006-prior-debris-reconciliation|T006]]
 - BLOCKS: T015 (post-install verification), T017 (foundation gate verification)

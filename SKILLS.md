@@ -1,4 +1,4 @@
-# SKILLS.md — root-ghostproxy skills directory
+# SKILLS.md — root-modules skills directory
 
 > Skills directory context for this project. Where skills live, conventions for authoring, when skills are appropriate vs other extension mechanisms (commands, hooks, sub-agents, tools, MCP, scheduled-tasks, modes — see [`.claude/rules/trigger-model.md`](.claude/rules/trigger-model.md) for the unified 8-mechanism signal→action→recovery framing). **Phase-2 has begun** for this project — 2 project-authored skills exist (`surface-state` + `surface-blockers`); the canonical per-skill index lives at [`.claude/skills/README.md`](.claude/skills/README.md) (DRAFT v1, agent-authored 2026-05-06 evening). This SKILLS.md is the operator-facing usage view + cross-mechanism design context.
 
@@ -6,7 +6,7 @@
 
 ## Summary
 
-This file documents the skills layer of root-ghostproxy's extension architecture. Skills are **~70-95% deterministic** workflows that auto-trigger when operator prose matches the skill's description (per Claude Code's description-match dispatch — and similar mechanisms in opencode / Codex / Cursor / Gemini per cross-tool AGENTS.md framing). Less reliable than slash commands (100% on literal `/<name>` invoke) but useful for high-level workflows that should fire automatically on conversational language. The project currently has **2 committed skills** (`surface-state`, `surface-blockers`) at `.claude/skills/<name>/SKILL.md`, plus user-level harness-provided skills (loop, schedule, claude-api, etc.). The canonical per-skill index is [`.claude/skills/README.md`](.claude/skills/README.md); this SKILLS.md provides decision matrix (when to author skill vs command vs hook vs sub-agent), authoring conventions, conflation-pattern lessons (slash-vs-prose), and future-skill candidates. **Skills compose with active-mode** (per SB-117 + mode-enforcement.sh) and **emit M-E001-1 productive-cycle action types** (per Hard Rule 14) — see Mode-enforcement vs Skill section below.
+This file documents the skills layer of root-modules's extension architecture. Skills are **~70-95% deterministic** workflows that auto-trigger when operator prose matches the skill's description (per Claude Code's description-match dispatch — and similar mechanisms in opencode / Codex / Cursor / Gemini per cross-tool AGENTS.md framing). Less reliable than slash commands (100% on literal `/<name>` invoke) but useful for high-level workflows that should fire automatically on conversational language. The project currently has **2 committed skills** (`surface-state`, `surface-blockers`) at `.claude/skills/<name>/SKILL.md`, plus user-level harness-provided skills (loop, schedule, claude-api, etc.). The canonical per-skill index is [`.claude/skills/README.md`](.claude/skills/README.md); this SKILLS.md provides decision matrix (when to author skill vs command vs hook vs sub-agent), authoring conventions, conflation-pattern lessons (slash-vs-prose), and future-skill candidates. **Skills compose with active-mode** (per SB-117 + mode-enforcement.sh) and **emit M-E001-1 productive-cycle action types** (per Hard Rule 14) — see Mode-enforcement vs Skill section below.
 
 ## Skills, Commands, Hooks, Sub-agents (4 of 8 extension mechanisms)
 
@@ -21,11 +21,11 @@ Per the second brain's `model-skills-commands-hooks.md` + this project's [`.clau
 
 The full 8-mechanism universal framing — adding **modes** (`.claude/modes/*.md` — durable state-file per active-mode setting), **tools** (15 .py modules at `tools/` — see [TOOLS.md](TOOLS.md) + [tools/README.md](tools/README.md)), **MCP tools** (10 root_* tools via `tools/mcp_server.py` — programmatic transport), **scheduled-tasks** (cron + ScheduleWakeup wrapping any of the above) — lives at [`.claude/rules/trigger-model.md`](.claude/rules/trigger-model.md). Skills are 1 of 8; this file focuses on skills with cross-references to the rest.
 
-For root-ghostproxy:
+For root-modules:
 - **Hooks** are the foundation's safety envelope + project-priming + compaction lifecycle + per-prompt compound stack. **10 wired matchers across 8 events** (UserPromptSubmit hosts 4-hook compound stack per SB-126: context-warning + output-discipline-guard + mode-enforcement + mindfulness). 8 hook regression test files at `.claude/hooks/tests/` + 5 tools test files = 13 test files / 215/234 aggregate. Per-hook inventory at [`.claude/hooks/README.md`](.claude/hooks/README.md).
 - **Commands** are operator-typed slash commands for project workflows. **30 commands** (`/orient`, `/cycle`, `/mode-{pm,architect,dual,status,clear}`, `/blockers`, `/progress`, `/decisions`, `/log`, `/audit`, `/sync-progress`, `/help-root`, `/handoff`, `/stamp-{horizontal,vertical,on,off,auto,status}` SB-115, `/install-agent-brain`, `/mission`, `/focus`, `/impediment` SB-118, `/priorities` SB-127, `/terminate`, `/finish-smoothly`, `/task` SB-124d, `/questions` SB-134). Per-category index at [`.claude/commands/README.md`](.claude/commands/README.md).
 - **Skills** are auto-triggered workflows. **`surface-state`** (auto-fires on "where are we" prose → `/orient`) + **`surface-blockers`** (auto-fires on "what's blocking" prose → `/blockers`) at `.claude/skills/<name>/SKILL.md`. Plus user-level harness-provided skills (loop, schedule, etc.). Per-skill index at [`.claude/skills/README.md`](.claude/skills/README.md).
-- **Sub-agents** are **brain-loaded** delegated workers (project-specific per SB-081 — root-ghostproxy's 3 sub-agents have mandatory brain-load prompts; distinct from generic cold-context Agent-tool framing). 3 at `.claude/agents/*.md`. Runtime gap: session-restart required for Claude Code to discover newly-authored sub-agents (per SB-081 runtime test 2026-05-05).
+- **Sub-agents** are **brain-loaded** delegated workers (project-specific per SB-081 — root-modules's 3 sub-agents have mandatory brain-load prompts; distinct from generic cold-context Agent-tool framing). 3 at `.claude/agents/*.md`. Runtime gap: session-restart required for Claude Code to discover newly-authored sub-agents (per SB-081 runtime test 2026-05-05).
 
 ## Currently Available Skills
 
@@ -69,7 +69,7 @@ Decision matrix:
 | Does the workflow have variable shape that the agent should reason about? | Skill | Command |
 | Does the rule MUST hold at this point (not "should remember")? | Hook | Skill or command |
 
-For root-ghostproxy specifically:
+For root-modules specifically:
 
 | Workflow | Mechanism | Why |
 |---|---|---|
@@ -82,7 +82,7 @@ For root-ghostproxy specifically:
 | Auto-triggered "ingest a Suricata-related URL" workflow when operator says "ingest <url>" | **Skill** (none planned for this project — ingestion is a second-brain concern, not this project's) | (n/a here — would route through second brain after M007) |
 | Auto-triggered "audit deny-set" when operator says "audit" or "is the policy intact" | **Skill** (potentially, M004+) | Auto-trigger gives low-friction operator UX; description-match is reliable for these terms |
 
-The current verdict (refreshed 2026-05-06 evening): most-leveraged workflows for root-ghostproxy at the current implement-stage tier are **hooks** (10 wired matchers in foundation safety envelope + per-prompt compound stack) and **commands** (30 operator-driven slash commands across orient/cycle/modes/stamp/objective/backlog/audit/install categories). **Skills Phase-2 has begun** — 2 committed (surface-state, surface-blockers) validate the auto-trigger-from-operator-prose value proposition. Future skills (4 illustrative candidates below) are operator-decision Phase-2+ additions where auto-trigger adds low-friction operator UX — for example, methodology-routing skills that auto-trigger when operator references a specific workflow shape.
+The current verdict (refreshed 2026-05-06 evening): most-leveraged workflows for root-modules at the current implement-stage tier are **hooks** (10 wired matchers in foundation safety envelope + per-prompt compound stack) and **commands** (30 operator-driven slash commands across orient/cycle/modes/stamp/objective/backlog/audit/install categories). **Skills Phase-2 has begun** — 2 committed (surface-state, surface-blockers) validate the auto-trigger-from-operator-prose value proposition. Future skills (4 illustrative candidates below) are operator-decision Phase-2+ additions where auto-trigger adds low-friction operator UX — for example, methodology-routing skills that auto-trigger when operator references a specific workflow shape.
 
 ## Skill Authoring Conventions (when skills are added)
 
@@ -149,7 +149,7 @@ Per `<second-brain>/raw/notes/2026-05-04-rename-continue-conflation-bug-and-simi
 - **Bare prose** ("continue", "evolve", "review") is **trajectory language** for the agent's current track, NOT a workflow trigger. Don't conflate these.
 - **Skills** auto-trigger on description-match. Their descriptions should NOT match prose words that have established trajectory-language meaning. A skill description like "trigger on 'continue'" would conflate with the operator's bare "continue" trajectory-language.
 
-For root-ghostproxy: if + when skills are added, their descriptions are written carefully to avoid matching trajectory-language phrases. The second brain has renamed three slash commands (`/continue` → `/checkin`, `/review` → `/healthcheck`, `/evolve` → `/distill`) precisely to break this conflation. Future root-ghostproxy slash commands + skills should follow the same discipline.
+For root-modules: if + when skills are added, their descriptions are written carefully to avoid matching trajectory-language phrases. The second brain has renamed three slash commands (`/continue` → `/checkin`, `/review` → `/healthcheck`, `/evolve` → `/distill`) precisely to break this conflation. Future root-modules slash commands + skills should follow the same discipline.
 
 ## Mode-enforcement vs Skill (compose, don't conflict)
 
@@ -173,7 +173,7 @@ For root-ghostproxy: if + when skills are added, their descriptions are written 
 
 > Skills mechanism is **cross-tool universal** per AGENTS.md framing. Every AI tool (Claude Code, opencode, Codex, Cursor, Gemini + future AGENTS.md-standard tools) supports skill-equivalent description-match dispatch via its own extension SDK. The `.claude/skills/<name>/SKILL.md` format is Claude Code's surface; opencode + others have parallel mechanisms with different file conventions but same semantic role.
 
-For root-ghostproxy specifically:
+For root-modules specifically:
 - **Skill files at `.claude/skills/`** are read by Claude Code natively.
 - **opencode bridge plugin** (`$HOME/.config/opencode/plugin/claude-bridge.ts`) maps opencode's plugin-trigger events to the same canonical envelope; skill-equivalent dispatch in opencode would route through its plugin SDK with the bridge translating.
 - **Cross-tool consistency invariant** (per AGENTS.md Hard Rule 3): skill descriptions are written to be tool-agnostic (no Claude-Code-specific phrasing) so the same skill conceptually applies regardless of which AI tool fires it.

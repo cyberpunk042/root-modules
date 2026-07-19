@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# $HOME/install.sh — root-ghostproxy foundation installer (SCAFFOLD STAGE — T012).
+# $HOME/install.sh — root-modules foundation installer (SCAFFOLD STAGE — T012).
 #
 # OS scope: Linux, Debian-family supported (Debian 11+, Ubuntu 20.04+, derivatives).
 # Broader Linux (Fedora/RHEL/Arch) — TBD per operator.
@@ -68,7 +68,7 @@ readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly VERSION="0.0.3-implement-partial"
 
 # Source of policy files = the directory containing install.sh (i.e., a
-# checkout of the root-ghostproxy repo). Destination defaults to $HOME.
+# checkout of the root-modules repo). Destination defaults to $HOME.
 # When SRC == DEST_HOME (e.g., installing on the dev host itself),
 # install_file() treats matching files as unchanged + skips.
 readonly SRC="${SCRIPT_DIR}"
@@ -154,7 +154,7 @@ log_check() { printf '[install.sh][CHECK] %s: %s\n' "$1" "$2" >&2; }
 
 print_help() {
     cat <<EOF
-${SCRIPT_NAME} ${VERSION} — root-ghostproxy foundation installer (greenfield, implement-stage)
+${SCRIPT_NAME} ${VERSION} — root-modules foundation installer (greenfield, implement-stage)
 
 USAGE:
     ${SCRIPT_NAME} [FLAGS]
@@ -257,7 +257,7 @@ NOTES:
       T013 threat model); shellcheck pass; idempotency invariant test (T016).
 
 REFERENCES:
-    - Foundation hardening module: wiki/backlog/modules/root-ghostproxy-m003-*.md
+    - Foundation hardening module: wiki/backlog/modules/root-modules-m003-*.md
     - Methodology stage gates:     wiki/config/methodology.yaml
     - Brain files:                 README.md, CLAUDE.md, AGENTS.md, ARCHITECTURE.md
 EOF
@@ -1726,7 +1726,7 @@ frame_position() {
     local bar="═══════════════════════════════════════════════════════════════════════"
     echo
     echo "${bar}"
-    echo "INSTALL WIZARD · root-ghostproxy · type=root + group=operating-system-setup"
+    echo "INSTALL WIZARD · root-modules · type=root + group=operating-system-setup"
     echo "${bar}"
     echo
     echo "Where you are: route=${WIZARD_ROUTE}"

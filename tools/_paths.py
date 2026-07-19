@@ -1,7 +1,7 @@
 """tools/_paths.py — project-root + second-brain path resolution.
 
 Resolves all project + cross-project paths DYNAMICALLY so $HOME/tools/*.py
-modules work regardless of where root-ghostproxy is cloned ($HOME, $HOME,
+modules work regardless of where root-modules is cloned ($HOME, $HOME,
 or anywhere). No `$HOME/...` or `/opt/devops-solutions-information-hub/...`
 literals appear elsewhere in tools/.
 
@@ -77,7 +77,7 @@ EPIC_DOC = WIKI_BACKLOG_EPICS / "sfif-rollout-and-second-brain-integration.md"
 
 # Glob patterns (string form for glob.glob() callers)
 TASKS_GLOB = str(WIKI_BACKLOG_TASKS / "T*.md")
-MODULES_GLOB = str(WIKI_BACKLOG_MODULES / "root-ghostproxy-m*.md")
+MODULES_GLOB = str(WIKI_BACKLOG_MODULES / "root-modules-m*.md")
 LOG_GLOB = str(WIKI_LOG / "*.md")
 
 

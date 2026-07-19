@@ -3,7 +3,7 @@ title: "T039 — Verify --connect-project handles type=root + group=operating-sy
 type: task
 status: done
 priority: P0
-parent_module: "root-ghostproxy-m007-connect-second-brain"
+parent_module: "root-modules-m007-connect-second-brain"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: test
 readiness: 100
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m007-connect-second-brain.md
+    file: wiki/backlog/modules/root-modules-m007-connect-second-brain.md
   - id: setup-py-patch
     type: file
     file: /opt/devops-solutions-information-hub/tools/setup.py
@@ -29,7 +29,7 @@ The connect script must honor the type/group fields added to sister-projects.yam
 
 ## Resolution
 
-Patched in `tools/setup.py` 2026-05-04. Verified via dry-run against $HOME: output confirms `Sister entry resolved: name=root-ghostproxy type=root group=operating-system-setup` and `variant=ROOT_OS_SETUP`. Backwards-compatible: sisters without type/group fields fall back to the generic block.
+Patched in `tools/setup.py` 2026-05-04. Verified via dry-run against $HOME: output confirms `Sister entry resolved: name=root-modules type=root group=operating-system-setup` and `variant=ROOT_OS_SETUP`. Backwards-compatible: sisters without type/group fields fall back to the generic block.
 
 ## Done When
 
@@ -40,5 +40,5 @@ Patched in `tools/setup.py` 2026-05-04. Verified via dry-run against $HOME: outp
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m007-connect-second-brain|M007]]
+- PART OF: [[root-modules-m007-connect-second-brain|M007]]
 - ENABLES: T040 (real connect run with correct variant)

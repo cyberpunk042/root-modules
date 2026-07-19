@@ -3,7 +3,7 @@ title: "T025 — Follow-up source-syntheses for Suricata + PolarProxy (already a
 type: task
 status: done
 priority: P0
-parent_module: "root-ghostproxy-m005-first-specialized-feature-module"
+parent_module: "root-modules-m005-first-specialized-feature-module"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: document
 readiness: 100
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m005-first-specialized-feature-module.md
+    file: wiki/backlog/modules/root-modules-m005-first-specialized-feature-module.md
 tags: [task, p0, t025, features, source-syntheses, done, m005]
 ---
 
@@ -44,5 +44,5 @@ Authored 2026-05-04 during the preparation session. Total ~600 lines of source-s
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m005-first-specialized-feature-module|M005]]
+- PART OF: [[root-modules-m005-first-specialized-feature-module|M005]]
 - ENABLES: T026 (sample test pcap), T027 (design doc)

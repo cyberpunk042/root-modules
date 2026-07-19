@@ -86,7 +86,7 @@ def read_state() -> dict:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Read project state for root-ghostproxy")
+    parser = argparse.ArgumentParser(description="Read project state for root-modules")
     parser.add_argument("--json", action="store_true", help="output as JSON")
     parser.add_argument("--field", type=str, help="output a single field")
     args = parser.parse_args()
@@ -104,7 +104,7 @@ def main() -> int:
         print(json.dumps(state, indent=2))
         return 0
 
-    print("=== root-ghostproxy state ===")
+    print("=== root-modules state ===")
     for key, value in state.items():
         print(f"  {key:<24}  {value}")
     return 0

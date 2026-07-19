@@ -26,7 +26,7 @@ readonly DEFAULT_PROFILE="standard"
 
 usage() {
     cat <<EOF
-ccstatusline profile switcher (root-ghostproxy M011)
+ccstatusline profile switcher (root-modules M011)
 
 Usage:
     $(basename "$0")                  show current profile

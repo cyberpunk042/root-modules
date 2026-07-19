@@ -3,7 +3,7 @@ title: "T038 — Read tools/setup.py --connect-project implementation (already d
 type: task
 status: done
 priority: P0
-parent_module: "root-ghostproxy-m007-connect-second-brain"
+parent_module: "root-modules-m007-connect-second-brain"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: test
 readiness: 100
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m007-connect-second-brain.md
+    file: wiki/backlog/modules/root-modules-m007-connect-second-brain.md
   - id: m006-task
     type: wiki
     file: wiki/backlog/tasks/T034-read-tools-setup-py-collision-behavior.md
@@ -32,5 +32,5 @@ Done 2026-05-04. Behavior documented in M007 module page § "Verified behavior" 
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m007-connect-second-brain|M007]]
+- PART OF: [[root-modules-m007-connect-second-brain|M007]]
 - DUPLICATE OF: [[T034-read-tools-setup-py-collision-behavior|T034]] (kept as separate task page for module-traceability; status=done since same work)

@@ -1,4 +1,4 @@
-# root-ghostproxy: deny-all then whitelist publishable, curated config.
+# root-modules: deny-all then whitelist publishable, curated config.
 # When this directory is `git init`'d, only the entries below the
 # whitelist section are tracked. Everything else stays local.
 
@@ -22,7 +22,7 @@
 # ---------------------------------------------------------------------------
 # 2.5 Whitelist top-level brain files (agent-context spec)
 #     These define how every AI tool (Claude Code, opencode, etc.) operates
-#     on a host where root-ghostproxy is installed. Spec, not state.
+#     on a host where root-modules is installed. Spec, not state.
 #     Added 2026-05-05 per operator approval (M012 Phase A).
 # ---------------------------------------------------------------------------
 !/CLAUDE.md
@@ -161,7 +161,7 @@
 !/scripts/lib/*.sh
 # Bulletproof Claude Code user-environment bundle (canonical source in
 # cyberpunk042/devops-solutions-information-hub/scripts/claude-code-env/;
-# mirrored here so fresh containers landing in root-ghostproxy can self-heal
+# mirrored here so fresh containers landing in root-modules can self-heal
 # ~/.claude/ via `bash scripts/claude-code-env/apply.sh`. Operator directive
 # 2026-05-19: "we need to put the fixes everwhere... otherwise the
 # conversation keep dying".)

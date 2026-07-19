@@ -1,5 +1,5 @@
 # /etc/systemd/network/30-ghostproxy-bridge.network
-# root-ghostproxy bridge interface — no IP, just L2 forwarding.
+# root-modules bridge interface — no IP, just L2 forwarding.
 # Deployed by $HOME/install.sh op_install_network_bridge (T013).
 
 [Match]

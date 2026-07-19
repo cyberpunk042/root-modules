@@ -1,4 +1,4 @@
-"""tools — root-ghostproxy autopilot toolkit (15 modules).
+"""tools — root-modules autopilot toolkit (15 modules).
 
 Per operator directive 2026-05-05: tools are deterministic non-LLM Python
 modules that empower / interact with / exploit the project. Commands compose

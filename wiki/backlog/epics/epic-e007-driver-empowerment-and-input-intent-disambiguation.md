@@ -108,7 +108,7 @@ Per-week or per-N-fire quality check: which commands underused? overused? misnam
 
 ## Done When (Epic-level)
 
-- [ ] All 10 modules created at `wiki/backlog/modules/root-ghostproxy-m-e007-*.md` with operator-revised scope
+- [ ] All 10 modules created at `wiki/backlog/modules/root-modules-m-e007-*.md` with operator-revised scope
 - [ ] M-E007-1 through M-E007-3 slash commands authored + tested + wired
 - [ ] M-E007-4 master manual authored + cross-referenced from CLAUDE.md / AGENTS.md / BOOTSTRAP.md
 - [ ] M-E007-7 assistance surface authored

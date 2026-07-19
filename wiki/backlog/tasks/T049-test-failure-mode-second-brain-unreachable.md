@@ -3,7 +3,7 @@ title: "T049 — Test failure mode: second brain unreachable, verify clear error
 type: task
 status: not-started
 priority: P1
-parent_module: "root-ghostproxy-m008-smoke-test-from-inside"
+parent_module: "root-modules-m008-smoke-test-from-inside"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: test
 readiness: 0
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m008-smoke-test-from-inside.md
+    file: wiki/backlog/modules/root-modules-m008-smoke-test-from-inside.md
 tags: [task, p1, t049, stream-1, smoke-test, failure-mode, m008]
 ---
 
@@ -39,5 +39,5 @@ If `/opt/devops-solutions-information-hub` becomes unreachable (e.g. unmounted o
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m008-smoke-test-from-inside|M008]]
+- PART OF: [[root-modules-m008-smoke-test-from-inside|M008]]
 - BLOCKED BY: T044, T041

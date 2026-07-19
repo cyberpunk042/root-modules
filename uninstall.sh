@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# $HOME/uninstall.sh — root-ghostproxy foundation uninstaller (SCAFFOLD STAGE).
+# $HOME/uninstall.sh — root-modules foundation uninstaller (SCAFFOLD STAGE).
 #
 # Companion to install.sh. Reverses operations install.sh applied — by mode + profile,
 # with same orthogonal axes (per SB-074):
@@ -64,7 +64,7 @@ log_dry()   { printf '[uninstall.sh][DRY-RUN] would: %s\n' "$*" >&2; }
 
 print_help() {
     cat <<EOF
-${SCRIPT_NAME} ${VERSION} — root-ghostproxy foundation uninstaller (greenfield, scaffold-stage)
+${SCRIPT_NAME} ${VERSION} — root-modules foundation uninstaller (greenfield, scaffold-stage)
 
 USAGE:
     ${SCRIPT_NAME} [FLAGS]

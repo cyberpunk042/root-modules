@@ -3,7 +3,7 @@ title: "T007 — Operator confirms the trade-off table and chooses pointer or lo
 type: task
 status: done
 priority: P0
-parent_module: "root-ghostproxy-m002-methodology-layer-decision"
+parent_module: "root-modules-m002-methodology-layer-decision"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: design
 readiness: 100
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m002-methodology-layer-decision.md
+    file: wiki/backlog/modules/root-modules-m002-methodology-layer-decision.md
   - id: adoption-guide
     type: file
     file: /opt/devops-solutions-information-hub/wiki/spine/references/adoption-guide.md
@@ -25,7 +25,7 @@ tags: [task, p0, t007, scaffold-design, methodology, decision, m002]
 
 ## Description
 
-Decide whether root-ghostproxy uses local methodology engine (copy + adapt) OR pointer-only (reference second brain's methodology) OR hybrid. Per Goldilocks (simplified profile, micro scale, solo mode), pointer-only is the minimum-overhead default. Per Adoption Guide step 1, copy + adapt is the strictly-defined adoption process.
+Decide whether root-modules uses local methodology engine (copy + adapt) OR pointer-only (reference second brain's methodology) OR hybrid. Per Goldilocks (simplified profile, micro scale, solo mode), pointer-only is the minimum-overhead default. Per Adoption Guide step 1, copy + adapt is the strictly-defined adoption process.
 
 ## Done When
 
@@ -45,5 +45,5 @@ Decision: **local copy + adapt**. Implemented 2026-05-05 by copying methodology.
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m002-methodology-layer-decision|M002]]
+- PART OF: [[root-modules-m002-methodology-layer-decision|M002]]
 - BLOCKS: T008, T009, T010

@@ -1,4 +1,4 @@
-# $HOME/.claude/rules/methodology.md — Methodology engine for root-ghostproxy
+# $HOME/.claude/rules/methodology.md — Methodology engine for root-modules
 
 > Loaded on demand when stage or model selection comes up. CLAUDE.md has the summary; this file is the project-specific delta.
 >
@@ -29,7 +29,7 @@ All four parse cleanly via `.venv/bin/python -c "import yaml; yaml.safe_load(ope
 
 ## Methodology models (selection conditions)
 
-For root-ghostproxy specifically:
+For root-modules specifically:
 
 | task_type | Model | Selected when |
 |---|---|---|

@@ -3,7 +3,7 @@ title: "T062 — M011 scope ccstatusline widget set (built-in standard + custom 
 type: task
 status: done
 priority: P1
-parent_module: "root-ghostproxy-m011-ccstatusline-statusline-widget"
+parent_module: "root-modules-m011-ccstatusline-statusline-widget"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: document
 readiness: 100
@@ -19,7 +19,7 @@ sources:
     url: https://www.npmjs.com/package/ccstatusline
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m011-ccstatusline-statusline-widget.md
+    file: wiki/backlog/modules/root-modules-m011-ccstatusline-statusline-widget.md
 tags: [task, p1, t062, m011, ccstatusline, widget-scope, document-stage]
 ---
 
@@ -78,5 +78,5 @@ Per operator directive: M011 needs widgets for two profiles: project-aware (sele
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m011-ccstatusline-statusline-widget|M011]]
+- PART OF: [[root-modules-m011-ccstatusline-statusline-widget|M011]]
 - BLOCKS: T063 (profile mechanism), T064 (vendor integration), T065 (operator decisions)

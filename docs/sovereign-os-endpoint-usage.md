@@ -1,4 +1,4 @@
-# Sovereign-OS usage — root-ghostproxy in endpoint mode (proxy disabled)
+# Sovereign-OS usage — root-modules in endpoint mode (proxy disabled)
 
 > **Status: DRAFT v1 — agent-authored 2026-07-03** per operator directive (verbatim, sacrosanct):
 > *"Lets prepare root-ghostproxy for sovereign-os usage, we will use use the repo without the proxy mode enabled."*
@@ -7,9 +7,9 @@
 
 ## Summary
 
-This document is the canonical guide for consuming root-ghostproxy from the **sovereign-os arc**
+This document is the canonical guide for consuming root-modules from the **sovereign-os arc**
 (the SAIN-01 sovereign node that `cyberpunk042/sovereign-os` builds). The consumption posture is
-**endpoint mode**: the proxy/IPS half of root-ghostproxy — the transparent L2 bridge, the
+**endpoint mode**: the proxy/IPS half of root-modules — the transparent L2 bridge, the
 outbound-only management wifi, and the facultative inspection modules (Suricata, PolarProxy) —
 stays **disabled**. What sovereign-os consumes is the other half: the **endpoint AI agent safety
 foundation** (machine-level Claude Code + opencode safety envelope, agent brain, tools, integrity
@@ -19,7 +19,7 @@ and facultative for other hosts.
 
 ## What "proxy mode disabled" maps to
 
-root-ghostproxy has two capability halves (per README.md + `.claude/rules/self-reference.md`):
+root-modules has two capability halves (per README.md + `.claude/rules/self-reference.md`):
 
 | Half | Contents | On a sovereign-os node |
 |---|---|---|
@@ -34,8 +34,8 @@ installed iff *(profile says yes) AND (mode_includes(op))*.
 
 ```bash
 # On the sovereign-os node (Debian-family; SAIN-01 target):
-git clone <root-ghostproxy-url> /tmp/root-ghostproxy
-cd /tmp/root-ghostproxy
+git clone <root-modules-url> /tmp/root-modules
+cd /tmp/root-modules
 
 # 1. Preview — endpoint mode, base profile (foundation only, no Features modules)
 ./install.sh --dry-run --profile base --mode endpoint
@@ -99,15 +99,15 @@ Two layers, both runnable on the node and in CI:
 
 ## Cross-repo boundary (per sovereign-os SDD-001)
 
-- sovereign-os **CONSUMES FROM** root-ghostproxy only through this repo's install surface
+- sovereign-os **CONSUMES FROM** root-modules only through this repo's install surface
   (`install.sh` + this doc). It does not re-derive or fork the safety envelope.
-- root-ghostproxy stays authoritative for the endpoint safety policy content (hooks, deny-sets,
+- root-modules stays authoritative for the endpoint safety policy content (hooks, deny-sets,
   integrity mechanism). sovereign-os stays authoritative for the OS image pipeline + profile
   schema; where in the image lifecycle (pre-install / during-install / post-install) the
-  root-ghostproxy install step runs is a sovereign-os decision.
+  root-modules install step runs is a sovereign-os decision.
 - runtime security policy on the node beyond the AI-agent envelope (Tetragon daemon, notifier
   channels, escalation engine) is **selfdef**'s surface — not this repo's. The two compose:
-  root-ghostproxy governs the AI-agent tool-call surface; selfdef governs the OS runtime-defense
+  root-modules governs the AI-agent tool-call surface; selfdef governs the OS runtime-defense
   surface.
 - sovereign-os-side doc updates (its SDD-001 "dormant" row, ARCHITECTURE/README tables) are that
   repo's own artifacts to evolve — deliberately not edited from this repo (reverse flows are

@@ -1,7 +1,7 @@
 ---
-title: "root-ghostproxy M004 — Infrastructure Tooling"
+title: "root-modules M004 — Infrastructure Tooling"
 aliases:
-  - "M004 — root-ghostproxy Infrastructure"
+  - "M004 — root-modules Infrastructure"
 type: module
 domain: backlog
 status: draft
@@ -24,14 +24,14 @@ sources:
   - id: model-sfif-architecture
     type: wiki
     file: wiki/spine/models/quality/model-sfif-architecture.md
-tags: [module, p0, root-ghostproxy, sfif-infrastructure, tooling, validation, ci, pre-commit, m004]
+tags: [module, p0, root-modules, sfif-infrastructure, tooling, validation, ci, pre-commit, m004]
 ---
 
-# M004 — Infrastructure Tooling for root-ghostproxy
+# M004 — Infrastructure Tooling for root-modules
 
 ## Summary
 
-Bring root-ghostproxy from Foundation tier to Infrastructure tier by adding project-internal tooling: at minimum a verifier script that wraps integrity_check + deny-list count + hook permissions, and a validation pipeline (CI workflow OR local pre-commit hook) that runs the verifier on every change. SFIF Infrastructure means: the project enforces its own quality gates programmatically, not via prose. For a micro-scale OS-setup project, "infrastructure tooling" can be lean: one Python file under tools/ + one shell-level pre-commit hook is sufficient at this stage; full CI on a multi-host fleet is Phase-2.
+Bring root-modules from Foundation tier to Infrastructure tier by adding project-internal tooling: at minimum a verifier script that wraps integrity_check + deny-list count + hook permissions, and a validation pipeline (CI workflow OR local pre-commit hook) that runs the verifier on every change. SFIF Infrastructure means: the project enforces its own quality gates programmatically, not via prose. For a micro-scale OS-setup project, "infrastructure tooling" can be lean: one Python file under tools/ + one shell-level pre-commit hook is sufficient at this stage; full CI on a multi-host fleet is Phase-2.
 
 ## Done When
 
@@ -78,15 +78,15 @@ Bring root-ghostproxy from Foundation tier to Infrastructure tier by adding proj
 
 ## Relationships
 
-- PART OF: [[sfif-rollout-and-second-brain-integration|Epic — root-ghostproxy SFIF Rollout]]
+- PART OF: [[sfif-rollout-and-second-brain-integration|Epic — root-modules SFIF Rollout]]
 - BUILDS ON: [[model-sfif-architecture|Model — SFIF and Architecture]]
-- BLOCKED BY: [[root-ghostproxy-m003-foundation-hardening|M003 — Foundation hardening]]
-- ENABLES: [[root-ghostproxy-m005-first-specialized-feature-module|M005 — First specialized feature module (Suricata or PolarProxy)]]
+- BLOCKED BY: [[root-modules-m003-foundation-hardening|M003 — Foundation hardening]]
+- ENABLES: [[root-modules-m005-first-specialized-feature-module|M005 — First specialized feature module (Suricata or PolarProxy)]]
 - DEMONSTRATES: [[infrastructure-over-instructions-for-process-enforcement|Principle 1]] (validation pipeline > prose-only "remember to check this")
 
 ## Backlinks
 
-[[Epic — root-ghostproxy SFIF Rollout]]
+[[Epic — root-modules SFIF Rollout]]
 [[model-sfif-architecture|Model — SFIF and Architecture]]
 [[M003 — Foundation hardening]]
 [[M005 — First specialized feature module (Suricata or PolarProxy)]]

@@ -3,7 +3,7 @@ title: "T065 — M011 surface decisions for operator (after T062-T064 preliminar
 type: task
 status: in-progress
 priority: P1
-parent_module: "root-ghostproxy-m011-ccstatusline-statusline-widget"
+parent_module: "root-modules-m011-ccstatusline-statusline-widget"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: document
 readiness: 60
@@ -40,6 +40,6 @@ After T062 (widget scope), T063 (profile mechanism), T064 (vendor research) — 
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m011-ccstatusline-statusline-widget|M011]]
+- PART OF: [[root-modules-m011-ccstatusline-statusline-widget|M011]]
 - BLOCKED BY: T062, T063, T064
 - BLOCKS: M011 transition from draft to active feature work

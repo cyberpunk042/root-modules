@@ -1,9 +1,9 @@
 ---
-title: "T055 — Verify `gateway timeline --scope root-ghostproxy` returns this project's events"
+title: "T055 — Verify `gateway timeline --scope root-modules` returns this project's events"
 type: task
 status: not-started
 priority: P2
-parent_module: "root-ghostproxy-m009-worked-example-readme-ingest"
+parent_module: "root-modules-m009-worked-example-readme-ingest"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: test
 readiness: 0
@@ -13,19 +13,19 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m009-worked-example-readme-ingest.md
+    file: wiki/backlog/modules/root-modules-m009-worked-example-readme-ingest.md
 tags: [task, p2, t055, stream-1, worked-example, timeline, m009]
 ---
 
-# T055 — gateway timeline --scope root-ghostproxy
+# T055 — gateway timeline --scope root-modules
 
 ## Description
 
-`gateway timeline` provides cross-project temporal view. Scoped to root-ghostproxy, it should show: 2026-05-04 sister-projects.yaml entry registration, identity-profile authoring, source-syntheses for Suricata + PolarProxy, epic + 10 module pages, setup.py patches; 2026-05-05 brain files authored, methodology layer copied, backlog scaffolded.
+`gateway timeline` provides cross-project temporal view. Scoped to root-modules, it should show: 2026-05-04 sister-projects.yaml entry registration, identity-profile authoring, source-syntheses for Suricata + PolarProxy, epic + 10 module pages, setup.py patches; 2026-05-05 brain files authored, methodology layer copied, backlog scaffolded.
 
 ## Done When
 
-- [ ] From $HOME: `python3 -m tools.gateway timeline --scope root-ghostproxy --since 7d`.
+- [ ] From $HOME: `python3 -m tools.gateway timeline --scope root-modules --since 7d`.
 - [ ] Output includes events from this conversation's preparation work block.
 - [ ] Output captured.
 
@@ -36,5 +36,5 @@ tags: [task, p2, t055, stream-1, worked-example, timeline, m009]
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m009-worked-example-readme-ingest|M009]]
+- PART OF: [[root-modules-m009-worked-example-readme-ingest|M009]]
 - BLOCKED BY: T044

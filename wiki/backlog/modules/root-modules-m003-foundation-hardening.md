@@ -1,7 +1,7 @@
 ---
-title: "root-ghostproxy M003 — Foundation Hardening"
+title: "root-modules M003 — Foundation Hardening"
 aliases:
-  - "M003 — root-ghostproxy Foundation"
+  - "M003 — root-modules Foundation"
 type: module
 domain: backlog
 status: draft
@@ -25,22 +25,22 @@ sources:
     type: wiki
     file: wiki/spine/models/quality/model-sfif-architecture.md
     description: "Foundation tier definition and gates"
-  - id: root-ghostproxy-readme
+  - id: root-modules-readme
     type: file
     file: $HOME/README.md
     description: "Existing README — install steps, v1 limitations"
-  - id: root-ghostproxy-install-script
+  - id: root-modules-install-script
     type: file
     file: $HOME/install.sh
     description: "Existing bootstrap script — classified as not-IaC per prior session"
-tags: [module, p0, root-ghostproxy, sfif-foundation, install, idempotency, integrity-check, m003]
+tags: [module, p0, root-modules, sfif-foundation, install, idempotency, integrity-check, m003]
 ---
 
-# M003 — Foundation Hardening for root-ghostproxy
+# M003 — Foundation Hardening for root-modules
 
 ## Summary
 
-Move root-ghostproxy from current scaffold-plus-partial-foundation state to a clean SFIF Foundation tier. Foundation = the project installs reliably from a clean host into a working state, with idempotent re-runs, dry-run preview, and explicit integrity verification. Concrete gates: `./install.sh --dry-run` must succeed cleanly, `./install.sh --check` must succeed cleanly, `integrity_check()` must continue to return None (OK), README must document install steps + verification commands explicitly. install.sh's prior-session classification as not-IaC is preserved (it's a bootstrap, not a desired-state declarator) — this module hardens what's there, not converts to IaC.
+Move root-modules from current scaffold-plus-partial-foundation state to a clean SFIF Foundation tier. Foundation = the project installs reliably from a clean host into a working state, with idempotent re-runs, dry-run preview, and explicit integrity verification. Concrete gates: `./install.sh --dry-run` must succeed cleanly, `./install.sh --check` must succeed cleanly, `integrity_check()` must continue to return None (OK), README must document install steps + verification commands explicitly. install.sh's prior-session classification as not-IaC is preserved (it's a bootstrap, not a desired-state declarator) — this module hardens what's there, not converts to IaC.
 
 ## Done When
 
@@ -83,14 +83,14 @@ Move root-ghostproxy from current scaffold-plus-partial-foundation state to a cl
 
 ## Relationships
 
-- PART OF: [[sfif-rollout-and-second-brain-integration|Epic — root-ghostproxy SFIF Rollout]]
+- PART OF: [[sfif-rollout-and-second-brain-integration|Epic — root-modules SFIF Rollout]]
 - BUILDS ON: [[model-sfif-architecture|Model — SFIF and Architecture]]
-- BLOCKED BY: [[root-ghostproxy-m001-author-claude-md-and-agents-md|M001]], [[root-ghostproxy-m002-methodology-layer-decision|M002]]
-- ENABLES: [[root-ghostproxy-m004-infrastructure-tooling|M004 — Infrastructure tooling (depends on Foundation gate)]]
+- BLOCKED BY: [[root-modules-m001-author-claude-md-and-agents-md|M001]], [[root-modules-m002-methodology-layer-decision|M002]]
+- ENABLES: [[root-modules-m004-infrastructure-tooling|M004 — Infrastructure tooling (depends on Foundation gate)]]
 
 ## Backlinks
 
-[[Epic — root-ghostproxy SFIF Rollout]]
+[[Epic — root-modules SFIF Rollout]]
 [[model-sfif-architecture|Model — SFIF and Architecture]]
 [[M001]]
 [[M002]]

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # aidlc-context-header.sh — context-aware header for line 1.
 #
-# When the calling session is root-ghostproxy → exit empty (let the existing
+# When the calling session is root-modules → exit empty (let the existing
 # /root-specific widgets fill line 1: Mode / Task / SFIF / Stage / Bugs / etc).
 #
 # When the calling session is a sister project (e.g. /opt second-brain) →

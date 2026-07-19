@@ -3,7 +3,7 @@ title: "T017 — Verify Foundation gate (install + integrity + bridge + opencode
 type: task
 status: not-started
 priority: P0
-parent_module: "root-ghostproxy-m003-foundation-hardening"
+parent_module: "root-modules-m003-foundation-hardening"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: test
 readiness: 0
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m003-foundation-hardening.md
+    file: wiki/backlog/modules/root-modules-m003-foundation-hardening.md
 tags: [task, p0, t017, foundation, gate-verification, test, m003]
 ---
 
@@ -21,7 +21,7 @@ tags: [task, p0, t017, foundation, gate-verification, test, m003]
 
 ## Description
 
-Per the methodology engine's stage `test` gate: 0 test failures, health check clean. For Foundation tier in root-ghostproxy: install.sh + integrity check + bridge state + opencode bridge + git audit all green. This task is M003's terminal verification — when it passes, M003 is complete.
+Per the methodology engine's stage `test` gate: 0 test failures, health check clean. For Foundation tier in root-modules: install.sh + integrity check + bridge state + opencode bridge + git audit all green. This task is M003's terminal verification — when it passes, M003 is complete.
 
 ## Done When
 
@@ -51,7 +51,7 @@ Passing this task marks M003 module complete. M003's stage transitions document 
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m003-foundation-hardening|M003]]
+- PART OF: [[root-modules-m003-foundation-hardening|M003]]
 - BLOCKED BY: T012, T013, T014, T015, T016
 - ENABLES: M004 (Infrastructure tooling — gated on Foundation green)
 - ENABLES: Stream 1 M006-M010 (second-brain integration on a stable foundation)

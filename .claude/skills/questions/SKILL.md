@@ -71,7 +71,7 @@ Run in parallel at the start (same detection as `/view`):
 
 1. `ls docs/handoff/*.md docs/review/phase-*/99-findings-ledger.md docs/sdd/*.md`
 2. `git log --oneline -10`, `git status --short`
-3. `~/.claude/active-questions` (root-ghostproxy-style queue if present)
+3. `~/.claude/active-questions` (root-modules-style queue if present)
 
 Sources for the queue, by precedence:
 
@@ -79,7 +79,7 @@ Sources for the queue, by precedence:
   not marked answered/closed/shipped/confirmed.
 - **SDD impl-status rows** marked `deferred` / `open` / `pending`.
 - **Latest handoff doc** — items the handoff flagged as needing user input.
-- **`~/.claude/active-questions/<repo>`** if the operator runs the root-ghostproxy
+- **`~/.claude/active-questions/<repo>`** if the operator runs the root-modules
   pattern in this repo too.
 - **Open GitHub issues** labelled `question` if MCP scope permits.
 
@@ -89,7 +89,7 @@ is *derived*, not maintained.
 
 ## Coexistence with this repo's existing `/questions` command
 
-`cyberpunk042/root-ghostproxy` already ships its own slash command at
+`cyberpunk042/root-modules` already ships its own slash command at
 `.claude/commands/questions.md` — a state-file-backed agent-pending-questions
 queue (`$HOME/.claude/active-questions`, Python-tool-driven). That is a
 **different SRP** from this skill:

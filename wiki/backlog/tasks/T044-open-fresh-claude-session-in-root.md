@@ -3,7 +3,7 @@ title: "T044 — Open a fresh Claude Code session in $HOME"
 type: task
 status: not-started
 priority: P0
-parent_module: "root-ghostproxy-m008-smoke-test-from-inside"
+parent_module: "root-modules-m008-smoke-test-from-inside"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: test
 readiness: 0
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m008-smoke-test-from-inside.md
+    file: wiki/backlog/modules/root-modules-m008-smoke-test-from-inside.md
 tags: [task, p0, t044, stream-1, smoke-test, fresh-session, m008]
 ---
 
@@ -36,6 +36,6 @@ Operator opens a brand-new Claude Code session inside `$HOME` after M007 connect
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m008-smoke-test-from-inside|M008]]
+- PART OF: [[root-modules-m008-smoke-test-from-inside|M008]]
 - BLOCKED BY: T040, T041
 - BLOCKS: T045 through T050

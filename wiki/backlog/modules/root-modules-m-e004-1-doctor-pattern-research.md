@@ -23,7 +23,7 @@ tags: [agent-drafted, m-e002-1-create-verb, e004, doctor-pattern, research-modul
 
 ## Mission
 
-Research the "doctor" notion as it exists in **second-brain** (`/opt/devops-solutions-information-hub/`) and **openfleet** (sister project). Surface: what doctor-pattern they implement, which surfaces it watches, which signals it acts on, which actions it takes (alert / pause / retarget / cancel), how it composes with mode-enforcement / cycle steps / hook envelope. Output: a single research-synthesis doc operator can review to decide which doctor-elements to adopt as-is, adapt for root-ghostproxy, or ignore.
+Research the "doctor" notion as it exists in **second-brain** (`/opt/devops-solutions-information-hub/`) and **openfleet** (sister project). Surface: what doctor-pattern they implement, which surfaces it watches, which signals it acts on, which actions it takes (alert / pause / retarget / cancel), how it composes with mode-enforcement / cycle steps / hook envelope. Output: a single research-synthesis doc operator can review to decide which doctor-elements to adopt as-is, adapt for root-modules, or ignore.
 
 ## Research targets (in-scope)
 
@@ -33,7 +33,7 @@ Research the "doctor" notion as it exists in **second-brain** (`/opt/devops-solu
 | **Openfleet doctor-pattern** | `~/openfleet/` (if accessible) — `.claude/`, `docs/`, `lib/` | Implementation specifics: how the doctor watches agents in fleet, what it pages on, which actions it autonomously takes vs operator-pending. |
 | **Cross-references** | Both projects' brain files (CLAUDE.md / AGENTS.md / mode-files) | Mentions of "doctor" / "physician" / "stuck-loop-detector" / similar concepts. |
 | **Identity-profile relevance** | `<second-brain>/wiki/ecosystem/project_profiles/` | Whether identity-profile dimensions affect whether/how doctor applies (e.g., type=root vs type=tool difference). |
-| **Relationship to existing root-ghostproxy mechanisms** | `mode-enforcement.sh` · `mindfulness.sh` · `agent-output-scan.sh` (just landed F31) · `loop-cron-lifecycle.md` rule | Which existing mechanisms ALREADY perform doctor-shaped work; which gaps a new doctor would fill. |
+| **Relationship to existing root-modules mechanisms** | `mode-enforcement.sh` · `mindfulness.sh` · `agent-output-scan.sh` (just landed F31) · `loop-cron-lifecycle.md` rule | Which existing mechanisms ALREADY perform doctor-shaped work; which gaps a new doctor would fill. |
 
 ## Research targets (out-of-scope for THIS module)
 
@@ -81,8 +81,8 @@ Per work-mode.md research-first principle (#5) + sub-agent dispatch convention:
 - [ ] Sub-agent dispatched to openfleet (if accessible; if not, document gap)
 - [ ] Research findings aggregated at `wiki/log/<ts>-doctor-pattern-research-findings.md` with verbatim-quoted source content + file paths
 - [ ] Synthesis doc authored at `wiki/concepts/doctor-pattern-synthesis.md` distinguishing (a) explicit doctor-pattern / (b) implicit doctor-shaped / (c) absence per project
-- [ ] Gap analysis: which doctor-elements root-ghostproxy LACKS that second-brain or openfleet have
-- [ ] Adaptation opportunities: which root-ghostproxy mechanisms could compose with adopted doctor-pattern (mode-enforcement / mindfulness / agent-output-scan / loop-cron-lifecycle)
+- [ ] Gap analysis: which doctor-elements root-modules LACKS that second-brain or openfleet have
+- [ ] Adaptation opportunities: which root-modules mechanisms could compose with adopted doctor-pattern (mode-enforcement / mindfulness / agent-output-scan / loop-cron-lifecycle)
 - [ ] Operator review of synthesis + adoption decision (decision logbook entry)
 - [ ] Epic E004 scope refined per adoption decision (M-E004-2..7 refined or scope-changed)
 
@@ -100,7 +100,7 @@ Per work-mode.md research-first principle (#5) + sub-agent dispatch convention:
 |---|---|
 | Sub-agent dispatch lands generative noise (false-positives, paraphrased rather than verbatim) | Sub-agent prompt MUST require verbatim-quote-with-path format; reject paraphrased-only output |
 | "Doctor" concept may not exist by that label in second-brain/openfleet | Sub-agent prompt covers cousin terms (watchdog / health-check / stuck-detector); absence is itself a finding |
-| Research finds rich pattern that doesn't translate to root-ghostproxy identity (type=root, group=operating-system-setup) | Synthesis must explicitly check identity-profile fit before recommending adoption |
+| Research finds rich pattern that doesn't translate to root-modules identity (type=root, group=operating-system-setup) | Synthesis must explicitly check identity-profile fit before recommending adoption |
 | Sub-agent dispatch under autopilot loop is heavier than per-fire substance — may not complete in single fire | Treat as multi-fire arc; per-fire surface progress (Phase A start → Phase A complete → Phase B → Phase C) |
 | Operator pending review during loop produces stall | Acceptable: sub-agent kicks off, operator reviews when ready, agent continues other modules in interim per Hard Rule 13 chain |
 
@@ -109,9 +109,9 @@ Per work-mode.md research-first principle (#5) + sub-agent dispatch convention:
 - Epic E004 (parent): `wiki/backlog/epics/epic-e004-ai-modes-assistant-doctor.md`
 - Epic E005 (cousin — proactive grounding): `wiki/backlog/epics/epic-e005-big-picture-vision-tool.md`
 - Epic E006 (cousin — guided continuation): `wiki/backlog/epics/epic-e006-guided-workflow-continuation.md`
-- M-E006-3 (sister — phantom-invocation guard, also a behavioral-bug catcher): `wiki/backlog/modules/root-ghostproxy-m-e006-3-phantom-invocation-guard.md`
+- M-E006-3 (sister — phantom-invocation guard, also a behavioral-bug catcher): `wiki/backlog/modules/root-modules-m-e006-3-phantom-invocation-guard.md`
 - D044 iterative-evolution-pathway rule (D8 SDD/SFIF/methodology/Wiki-LLM): `.claude/rules/iterative-evolution-pathway.md`
-- Existing doctor-shaped mechanisms in root-ghostproxy: `agent-output-scan.sh` (reactive Stop-hook), `mindfulness.sh` (proactive UserPromptSubmit), `mode-enforcement.sh` (banner state), `loop-cron-lifecycle.md` (autonomous cancel rule)
+- Existing doctor-shaped mechanisms in root-modules: `agent-output-scan.sh` (reactive Stop-hook), `mindfulness.sh` (proactive UserPromptSubmit), `mode-enforcement.sh` (banner state), `loop-cron-lifecycle.md` (autonomous cancel rule)
 - `<second-brain>/raw/notes/` (research target — read-only access)
 - `~/openfleet/` (research target — if accessible)
 - Three-layer mitigation pattern (cousin doctrine — proactive + reactive + tests): `wiki/patterns/01_drafts/three-layer-mitigation-for-agent-behavioral-bugs.md`

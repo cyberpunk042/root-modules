@@ -3,7 +3,7 @@ title: "T002 — Author $HOME/AGENTS.md (cross-tool agent contract)"
 type: task
 status: done
 priority: P0
-parent_module: "root-ghostproxy-m001-author-claude-md-and-agents-md"
+parent_module: "root-modules-m001-author-claude-md-and-agents-md"
 parent_epic: "sfif-rollout-and-second-brain-integration"
 current_stage: scaffold
 readiness: 100
@@ -13,7 +13,7 @@ updated: 2026-05-05
 sources:
   - id: parent-module
     type: wiki
-    file: wiki/backlog/modules/root-ghostproxy-m001-author-claude-md-and-agents-md.md
+    file: wiki/backlog/modules/root-modules-m001-author-claude-md-and-agents-md.md
 tags: [task, p0, t002, scaffold, agents-md, authoring, m001]
 ---
 
@@ -46,6 +46,6 @@ $HOME/AGENTS.md authored 2026-05-05 (168 lines). Multiple iterations driven by o
 
 ## Relationships
 
-- PART OF: [[root-ghostproxy-m001-author-claude-md-and-agents-md|M001]]
+- PART OF: [[root-modules-m001-author-claude-md-and-agents-md|M001]]
 - BLOCKED BY: T001 (scope decision)
 - BLOCKS: T005 (operator review of AGENTS.md), T006 (M007 connect dependency on AGENTS.md existing)

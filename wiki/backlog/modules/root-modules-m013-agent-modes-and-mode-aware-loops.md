@@ -1,5 +1,5 @@
 ---
-title: "root-ghostproxy M013 — Agent modes (PM Scrum Master / DevOps Architect / Dual Expert) + mode-aware /loop sequences"
+title: "root-modules M013 — Agent modes (PM Scrum Master / DevOps Architect / Dual Expert) + mode-aware /loop sequences"
 aliases:
   - "M013 — agent modes + mode-aware /loop"
 type: module
@@ -29,7 +29,7 @@ sources:
     type: wiki
     file: /opt/devops-solutions-information-hub/wiki/spine/models/agent-config/model-skills-commands-hooks.md
     description: "5-mechanism determinism ladder (commands 100%, skills ~70-95%, hooks ~70-85%, MCP/CLI 100% on invoke)"
-tags: [module, p1, root-ghostproxy, sfif-infrastructure, m013, modes, agent-modes, pm-scrum-master, devops-architect, dual-expert, loop-sequences, mode-aware, sub-agent-profiles, brain-pieces]
+tags: [module, p1, root-modules, sfif-infrastructure, m013, modes, agent-modes, pm-scrum-master, devops-architect, dual-expert, loop-sequences, mode-aware, sub-agent-profiles, brain-pieces]
 ---
 
 # M013 — Agent modes + mode-aware /loop sequences
@@ -57,7 +57,7 @@ When a mode is enabled + `/loop` is triggered, a desired sequence (or group of s
 ### Phase A — design the modes architecture
 
 Decide:
-- Where mode-state lives (env var `ROOT_GHOSTPROXY_MODE=pm` ? config file `~/.root-ghostproxy-mode`? slash-command `/mode-pm`?)
+- Where mode-state lives (env var `ROOT_GHOSTPROXY_MODE=pm` ? config file `~/.root-modules-mode`? slash-command `/mode-pm`?)
 - How agents discover the active mode (Read of state-file? hook outputs current mode in additionalContext?)
 - How mode persists across sessions (config-file is durable; env var session-only)
 - Default mode (none / Dual / operator-pick)
@@ -106,7 +106,7 @@ Realize modes via Claude Code's agent + sub-agent system:
 ## Open questions
 
 > [!question] How does mode-state live across sessions?
-> Options: (a) `~/.root-ghostproxy-mode` plain-text file persisted; (b) env var `ROOT_GHOSTPROXY_MODE` session-only; (c) entry in CONTEXT.md updated by `/mode-set <name>` command. Operator decides. Lean toward (a) for durability + (c) for traceability — store in CONTEXT.md so it's also auditable.
+> Options: (a) `~/.root-modules-mode` plain-text file persisted; (b) env var `ROOT_GHOSTPROXY_MODE` session-only; (c) entry in CONTEXT.md updated by `/mode-set <name>` command. Operator decides. Lean toward (a) for durability + (c) for traceability — store in CONTEXT.md so it's also auditable.
 
 > [!question] What's a "sequence group" vs a "sequence"?
 > Operator's verbatim: "a desired sequence or group of sequence". A sequence = one chain of commands (e.g., orient → status → decisions). A group of sequences = multiple chains tagged for the mode. /loop firing in PM mode might pick which sequence to fire based on time-of-day, day-of-week, or rotate through the group. Operator confirms semantics.
@@ -126,15 +126,15 @@ Realize modes via Claude Code's agent + sub-agent system:
 
 ## Relationships
 
-- PART OF: [[sfif-rollout-and-second-brain-integration|Epic — root-ghostproxy SFIF Rollout]]
-- BUILDS ON: [[root-ghostproxy-m001-author-claude-md-and-agents-md|M001 — CLAUDE.md + AGENTS.md]] (mode personas extend the cross-tool agent contract)
-- BUILDS ON: [[root-ghostproxy-m002-methodology-layer-decision|M002 — Methodology layer]] (modes are orthogonal to stages but operate atop them)
-- RELATES TO: [[root-ghostproxy-m011-ccstatusline-statusline-widget|M011 — ccstatusline]] (active mode shown in statusline)
+- PART OF: [[sfif-rollout-and-second-brain-integration|Epic — root-modules SFIF Rollout]]
+- BUILDS ON: [[root-modules-m001-author-claude-md-and-agents-md|M001 — CLAUDE.md + AGENTS.md]] (mode personas extend the cross-tool agent contract)
+- BUILDS ON: [[root-modules-m002-methodology-layer-decision|M002 — Methodology layer]] (modes are orthogonal to stages but operate atop them)
+- RELATES TO: [[root-modules-m011-ccstatusline-statusline-widget|M011 — ccstatusline]] (active mode shown in statusline)
 - IMPLEMENTS: Per operator directive 2026-05-05 — modes + mode-aware /loop sequences
 
 ## Backlinks
 
-[[Epic — root-ghostproxy SFIF Rollout]]
+[[Epic — root-modules SFIF Rollout]]
 [[M001 — CLAUDE.md + AGENTS.md]]
 [[M002 — Methodology layer]]
 [[M011 — ccstatusline]]

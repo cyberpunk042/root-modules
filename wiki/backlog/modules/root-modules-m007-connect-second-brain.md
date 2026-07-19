@@ -1,5 +1,5 @@
 ---
-title: "root-ghostproxy M007 — Connect to Second Brain"
+title: "root-modules M007 — Connect to Second Brain"
 aliases:
   - "M007 — Run --connect-project"
 type: module
@@ -25,14 +25,14 @@ sources:
     type: file
     file: tools/setup.py
     description: "Second brain's setup module — implements --connect-project; writes .mcp.json entry, gateway/view forwarders, AGENTS.md ## Second Brain Connection block"
-tags: [module, p0, root-ghostproxy, second-brain-integration, stream-1, connect, mcp, m007]
+tags: [module, p0, root-modules, second-brain-integration, stream-1, connect, mcp, m007]
 ---
 
-# M007 — Connect Second Brain to root-ghostproxy
+# M007 — Connect Second Brain to root-modules
 
 ## Summary
 
-Run `python3 -m tools.setup --connect-project $HOME` from inside the second brain. This single command (the canonical mechanism) wires root-ghostproxy as a sister project of the second brain by writing four artefacts INTO $HOME: a `research-wiki` MCP server entry in $HOME/.mcp.json, a `tools/gateway.py` forwarder, a `tools/view.py` forwarder, and a `## Second Brain Connection` block appended to $HOME/AGENTS.md. M007 is the load-bearing step of Stream 1 — it's what makes the second brain queryable from inside $HOME. M006 is the prerequisite (clean state, AGENTS.md exists, operator authorizes); M008 is the verification (smoke test from inside).
+Run `python3 -m tools.setup --connect-project $HOME` from inside the second brain. This single command (the canonical mechanism) wires root-modules as a sister project of the second brain by writing four artefacts INTO $HOME: a `research-wiki` MCP server entry in $HOME/.mcp.json, a `tools/gateway.py` forwarder, a `tools/view.py` forwarder, and a `## Second Brain Connection` block appended to $HOME/AGENTS.md. M007 is the load-bearing step of Stream 1 — it's what makes the second brain queryable from inside $HOME. M006 is the prerequisite (clean state, AGENTS.md exists, operator authorizes); M008 is the verification (smoke test from inside).
 
 ## Done When
 
@@ -65,7 +65,7 @@ Run `python3 -m tools.setup --connect-project $HOME` from inside the second brai
 **Type/group handling (CLOSED 2026-05-04):**
 - ~~The connect script does NOT read the target's entry in sister-projects.yaml.~~ **Patched 2026-05-04**: `_load_sister_entry()` resolves the target path against sister-projects.yaml entries; matched entry's `type` and `group` are honored.
 - ~~The injected `_BRAIN_POINTER_BLOCK` is hardcoded.~~ **Patched 2026-05-04**: a second variant `_BRAIN_POINTER_BLOCK_ROOT_OS_SETUP` is rendered when `type=root` and `group=operating-system-setup`. Generic block remains the default for all other (or unmatched) projects — backwards compatible.
-- For root-ghostproxy: the OS-setup-specialized block will be injected (when $HOME/AGENTS.md or $HOME/CLAUDE.md exists). Content reframes around: OS-level IaC, second brain as methodology + verification source, SFIF stage awareness, OS-setup-relevant model + lesson queries.
+- For root-modules: the OS-setup-specialized block will be injected (when $HOME/AGENTS.md or $HOME/CLAUDE.md exists). Content reframes around: OS-level IaC, second brain as methodology + verification source, SFIF stage awareness, OS-setup-relevant model + lesson queries.
 
 **Dry-run support (CLOSED 2026-05-04):**
 - ~~No `--dry-run` flag exists for `--connect-project`.~~ **Patched 2026-05-04**: `--dry-run` flag added to `connect_second_brain` and surfaced in argparse. Verified by dry-running against $HOME (would write 4 artefacts, brain pointer skipped because $HOME/AGENTS.md doesn't exist) and against the hub itself (generic variant selected, gateway/view forwarders skipped because real ones exist, brain pointer would be added to AGENTS.md). No files modified by either dry-run.
@@ -105,14 +105,14 @@ Expected output before M001 lands: brain-pointer injection SKIPPED (no AGENTS.md
 
 ## Relationships
 
-- PART OF: [[sfif-rollout-and-second-brain-integration|Epic — root-ghostproxy SFIF Rollout]]
-- BLOCKED BY: [[root-ghostproxy-m006-pre-connect-verification|M006 — Pre-connect verification]]
-- ENABLES: [[root-ghostproxy-m008-smoke-test-from-inside|M008 — Smoke test from inside]]
+- PART OF: [[sfif-rollout-and-second-brain-integration|Epic — root-modules SFIF Rollout]]
+- BLOCKED BY: [[root-modules-m006-pre-connect-verification|M006 — Pre-connect verification]]
+- ENABLES: [[root-modules-m008-smoke-test-from-inside|M008 — Smoke test from inside]]
 - DEMONSTRATES: [[infrastructure-over-instructions-for-process-enforcement|Principle 1]] (sister-project hookup is one command, not a multi-step prose checklist)
 
 ## Backlinks
 
-[[Epic — root-ghostproxy SFIF Rollout]]
+[[Epic — root-modules SFIF Rollout]]
 [[M006 — Pre-connect verification]]
 [[M008 — Smoke test from inside]]
 [[infrastructure-over-instructions-for-process-enforcement|Principle 1]]

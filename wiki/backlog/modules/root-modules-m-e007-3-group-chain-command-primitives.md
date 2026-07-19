@@ -132,8 +132,8 @@ Implementation: `--intent <intent>` flag is parsed AT command-dispatch level; pa
 ## Connects to
 
 - Epic E007 (parent): `wiki/backlog/epics/epic-e007-driver-empowerment-and-input-intent-disambiguation.md`
-- Sister M-E007-1 (input-intent — composition target): `wiki/backlog/modules/root-ghostproxy-m-e007-1-input-intent-commands-taxonomy.md`
-- Sister M-E007-8 (gating quality standards): `wiki/backlog/modules/root-ghostproxy-m-e007-8-anti-pollution-quality-standards.md`
+- Sister M-E007-1 (input-intent — composition target): `wiki/backlog/modules/root-modules-m-e007-1-input-intent-commands-taxonomy.md`
+- Sister M-E007-8 (gating quality standards): `wiki/backlog/modules/root-modules-m-e007-8-anti-pollution-quality-standards.md`
 - Sister M-E007-4 (master manual)
 - Sister M-E007-6 (cross-reference graph)
 - `tools/group.py` (existing primitive — Q1 Layer A canonical taxonomy)
