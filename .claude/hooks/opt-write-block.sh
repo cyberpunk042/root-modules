@@ -57,7 +57,7 @@ LOG_PATH = Path.home() / ".claude/hooks/opt-write-block.log"
 
 def _resolve_second_brain():
     """Resolve second-brain root: env var → $HOME default → /opt legacy."""
-    env = os.environ.get("RGP_SECOND_BRAIN_ROOT")
+    env = os.environ.get("RM_SECOND_BRAIN_ROOT") or os.environ.get("RGP_SECOND_BRAIN_ROOT")
     if env:
         return Path(env).expanduser().resolve()
     home_candidate = Path.home() / "devops-solutions-information-hub"

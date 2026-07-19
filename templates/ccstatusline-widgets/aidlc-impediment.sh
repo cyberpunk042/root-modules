@@ -11,8 +11,8 @@ source "$(dirname "$0")/_lib.sh"
 
 if ! rgp_is_in_root_context; then exit 0; fi
 
-PROJ="$(rgp_resolve_project)"
-IMPEDIMENT_FILE="${ROOT_GHOSTPROXY_ACTIVE_IMPEDIMENT:-${PROJ}/.claude/active-impediment}"
+PROJ="$(rm_resolve_project)"
+IMPEDIMENT_FILE="${ROOT_MODULES_ACTIVE_IMPEDIMENT:-${ROOT_GHOSTPROXY_ACTIVE_IMPEDIMENT:-${PROJ}}/.claude/active-impediment}"
 
 [[ -r "${IMPEDIMENT_FILE}" ]] || exit 0
 impediment="$(head -1 "${IMPEDIMENT_FILE}" | tr -d '\r')"

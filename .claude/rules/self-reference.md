@@ -12,7 +12,7 @@ Two distinct capability halves:
 1. **Endpoint AI agent safety (core).** Configure Claude Code + opencode at OS-root level with safety controls for AI agents on the host.
 2. **Network inspection (modules).** Transparent L2 bridge between OPNsense edge and LAN switch, with Suricata (IDS/IPS) + PolarProxy (TLS termination) as facultative modules.
 
-Identity: **type=root, group=operating-system-setup**. Scope, not path. The project remains type=root regardless of which user installs it (e.g., a future `jfortin` install). Canonical identity profile: `<second-brain>/wiki/ecosystem/project_profiles/root-ghostproxy/identity-profile.md`.
+Identity: **type=root, group=operating-system-setup**. Scope, not path. The project remains type=root regardless of which user installs it (e.g., a future `jfortin` install). Canonical identity profile: `<second-brain>/wiki/ecosystem/project_profiles/root-modules/identity-profile.md`.
 
 ## $HOME vs the second brain (don't conflate)
 
@@ -72,7 +72,7 @@ The relationship between $HOME and /opt second-brain is NOT peer-to-peer. It is 
 |---|---|
 | Suricata source-syntheses | `wiki/sources/src-suricata*.md` (4 pages) |
 | PolarProxy source-syntheses | `wiki/sources/src-polarproxy.md`, `wiki/sources/src-hanke-honeypot-polarproxy-suricata-integration.md` |
-| Identity profile (canonical) | `wiki/ecosystem/project_profiles/root-ghostproxy/identity-profile.md` |
+| Identity profile (canonical) | `wiki/ecosystem/project_profiles/root-modules/identity-profile.md` |
 | Adoption Guide (how to roll a methodology layer) | `wiki/spine/references/adoption-guide.md` |
 | Methodology engine config (master) | `.claude/rules/methodology.md` + `wiki/config/methodology.yaml` |
 | Sister-projects.yaml entry | `wiki/config/sister-projects.yaml` |

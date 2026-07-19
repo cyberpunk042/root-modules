@@ -143,7 +143,7 @@ Per the second brain's **Consumer-Property Doctrine** (`execution-mode-is-consum
 | **PM Level** | Consumer/Task (default) | L1 | Default is L1 (no harness, no fleet, single operator, markdown-tracked backlog). L0 = "no backlog at all"; L2 = cross-project coordination; L3 = full PM tooling. Consumer can override per session. |
 | **Trust tier** | Consumer/Task (default) | operator-supervised | Default is operator-supervised. Approval gates apply to: endpoint-safety configuration, hook configuration, network-bridge changes, anything touching the upstream OPNsense relationship. The PROJECT requires operator-supervised for any non-trivial change; the consumer can request narrower scopes per session (e.g. "for this task only, autonomous on the README"). |
 
-The full identity profile is the canonical source of truth for these dimensions and lives in the second brain at `<second-brain>/wiki/ecosystem/project_profiles/root-ghostproxy/identity-profile.md`.
+The full identity profile is the canonical source of truth for these dimensions and lives in the second brain at `<second-brain>/wiki/ecosystem/project_profiles/root-modules/identity-profile.md`.
 
 ### Path Semantics for type=root Projects
 
@@ -164,7 +164,7 @@ To keep docs portable across install users, two placeholders appear throughout:
 | Placeholder | Resolves to |
 |---|---|
 | `$HOME/` | The project root on your machine — `$HOME` for canonical `type=root` install (Path A), or wherever you cloned the repo (Path B). |
-| `<second-brain>/` | The research-wiki second brain on your machine — typically `$HOME/devops-solutions-information-hub/` for non-root install, or `/opt/devops-solutions-information-hub/` for the canonical dev-host install. The `RGP_SECOND_BRAIN_ROOT` env var overrides; auto-detection chain is documented in `$HOME/scripts/mcp-launcher.sh`. |
+| `<second-brain>/` | The research-wiki second brain on your machine — typically `$HOME/devops-solutions-information-hub/` for non-root install, or `/opt/devops-solutions-information-hub/` for the canonical dev-host install. The `RM_SECOND_BRAIN_ROOT` env var overrides (legacy `RGP_SECOND_BRAIN_ROOT` still honored, pre-2026-07-19 name); auto-detection chain is documented in `$HOME/scripts/mcp-launcher.sh`. |
 
 When you read `$HOME/wiki/log/<date>-<slug>.md` in a doc, mentally substitute the path that matches your install. Code/scripts already auto-resolve via `Path.home()` + env-var fallback chains — no manual substitution needed at runtime.
 
@@ -245,7 +245,7 @@ Foundation responsibilities:
 | **Methodology layer** | The second brain's stage-gate methodology copied into `wiki/config/`. Adapted per the Adoption Guide: artifacts, gate commands, commit scope, directory paths are project-specific variables; stage names, ordering, readiness ranges, hierarchy rules are kept as ecosystem-wide invariants. |
 | **Backlog + log scaffold** | The directory structure for epics, modules, tasks, and operator log entries. Indexed and ready to receive work. |
 | **Sister-project integration capability** | The agent-context files (this README, CLAUDE.md, AGENTS.md, CONTEXT.md, ARCHITECTURE.md, TOOLS.md, DESIGN.md, SECURITY.md, SKILLS.md) populated with project-real content so the connection mechanism (`tools.setup --connect-project $HOME` from the second brain) finds a target it can integrate with. |
-| **Identity declaration** | `<second-brain>/wiki/config/sister-projects.yaml` has the entry. `<second-brain>/wiki/ecosystem/project_profiles/root-ghostproxy/identity-profile.md` has the full Goldilocks profile. The project is registered with the second brain. |
+| **Identity declaration** | `<second-brain>/wiki/config/sister-projects.yaml` has the entry. `<second-brain>/wiki/ecosystem/project_profiles/root-modules/identity-profile.md` has the full Goldilocks profile. The project is registered with the second brain. |
 
 What the foundation does **not** include (and what is therefore not part of the always-required base):
 
@@ -319,8 +319,8 @@ The project is at the **scaffold + partial-implement** SFIF stage. Concretely, t
 
 | Artefact | Status | Where |
 |---|---|---|
-| Identity registered with the second brain | Complete | `<second-brain>/wiki/config/sister-projects.yaml` → `projects.root-ghostproxy` (type=root, group=operating-system-setup, auto_connect=false) |
-| Identity profile in the second brain | Complete | `<second-brain>/wiki/ecosystem/project_profiles/root-ghostproxy/identity-profile.md` (full Goldilocks 9-dimension) |
+| Identity registered with the second brain | Complete | `<second-brain>/wiki/config/sister-projects.yaml` → `projects.root-modules` (type=root, group=operating-system-setup, auto_connect=false) |
+| Identity profile in the second brain | Complete | `<second-brain>/wiki/ecosystem/project_profiles/root-modules/identity-profile.md` (full Goldilocks 9-dimension) |
 | Methodology engine | Copied from second brain | `$HOME/wiki/config/methodology.yaml` |
 | SDLC profile | `simplified` | `$HOME/wiki/config/sdlc-profile.yaml` |
 | Domain profile | `infrastructure` | `$HOME/wiki/config/domain-profile.yaml` |
@@ -449,8 +449,8 @@ This project is registered as a sister of the research-wiki second brain located
 
 | Field | Value |
 |---|---|
-| Sister-projects.yaml entry | `<second-brain>/wiki/config/sister-projects.yaml` → `projects.root-ghostproxy` |
-| Identity profile (canonical) | `<second-brain>/wiki/ecosystem/project_profiles/root-ghostproxy/identity-profile.md` |
+| Sister-projects.yaml entry | `<second-brain>/wiki/config/sister-projects.yaml` → `projects.root-modules` |
+| Identity profile (canonical) | `<second-brain>/wiki/ecosystem/project_profiles/root-modules/identity-profile.md` |
 | `auto_connect` | `false` (operator-authorized manual connection only) |
 | `type` | `root` |
 | `group` | `operating-system-setup` |
@@ -859,8 +859,8 @@ Per operator directive 2026-05-06 ("we might even create new files... for the ne
 | Module pages | [wiki/backlog/modules/](wiki/backlog/modules/) |
 | Atomic tasks | [wiki/backlog/tasks/](wiki/backlog/tasks/) |
 | Operator directives + session logs | [wiki/log/](wiki/log/) |
-| Identity profile (Goldilocks 9-dimension full) | `<second-brain>/wiki/ecosystem/project_profiles/root-ghostproxy/identity-profile.md` |
-| Sister-projects.yaml entry (in second brain) | `<second-brain>/wiki/config/sister-projects.yaml` → `projects.root-ghostproxy` |
+| Identity profile (Goldilocks 9-dimension full) | `<second-brain>/wiki/ecosystem/project_profiles/root-modules/identity-profile.md` |
+| Sister-projects.yaml entry (in second brain) | `<second-brain>/wiki/config/sister-projects.yaml` → `projects.root-modules` |
 | Suricata source-syntheses (4 pages, in second brain) | `<second-brain>/wiki/sources/src-suricata*.md` |
 | PolarProxy source-syntheses (2 pages, in second brain) | `<second-brain>/wiki/sources/src-polarproxy.md`, `src-hanke-honeypot-polarproxy-suricata-integration.md` |
 | Adoption Guide (the strictly-defined adoption process) | `<second-brain>/wiki/spine/references/adoption-guide.md` |

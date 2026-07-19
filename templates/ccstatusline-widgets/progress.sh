@@ -12,8 +12,8 @@ set -euo pipefail
 source "$(dirname "$0")/_lib.sh"
 
 
-readonly TOOLS_PYTHON="$(rgp_resolve_python)"
-readonly TOOLS_DIR="$(rgp_resolve_project)"
+readonly TOOLS_PYTHON="$(rm_resolve_python)"
+readonly TOOLS_DIR="$(rm_resolve_project)"
 
 if [[ -x "${TOOLS_PYTHON}" ]] && [[ -f "${TOOLS_DIR}/tools/progress.py" ]]; then
     cd "${TOOLS_DIR}" || exit 0

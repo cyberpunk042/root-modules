@@ -10,8 +10,8 @@ source "$(dirname "$0")/_lib.sh"
 
 if ! rgp_is_in_root_context; then exit 0; fi
 
-PROJ="$(rgp_resolve_project)"
-FOCUS_FILE="${ROOT_GHOSTPROXY_ACTIVE_FOCUS:-${PROJ}/.claude/active-focus}"
+PROJ="$(rm_resolve_project)"
+FOCUS_FILE="${ROOT_MODULES_ACTIVE_FOCUS:-${ROOT_GHOSTPROXY_ACTIVE_FOCUS:-${PROJ}}/.claude/active-focus}"
 
 [[ -r "${FOCUS_FILE}" ]] || exit 0
 focus="$(head -1 "${FOCUS_FILE}" | tr -d '\r')"

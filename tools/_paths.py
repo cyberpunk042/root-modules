@@ -10,7 +10,7 @@ PROJECT_ROOT       — derived from __file__; the directory containing tools/.
                       = $TARGET on Path B install.
 
 SECOND_BRAIN_ROOT  — resolved at import time:
-                      1. $RGP_SECOND_BRAIN_ROOT env var (operator override)
+                      1. $RM_SECOND_BRAIN_ROOT env var (operator override; legacy $RGP_SECOND_BRAIN_ROOT honored)
                       2. $HOME/devops-solutions-information-hub  (default)
                       3. /opt/devops-solutions-information-hub  (legacy)
                       4. fallback to $HOME default even if missing
@@ -44,7 +44,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 
 def _resolve_second_brain() -> Path:
-    env = os.environ.get("RGP_SECOND_BRAIN_ROOT")
+    env = os.environ.get("RM_SECOND_BRAIN_ROOT") or os.environ.get("RGP_SECOND_BRAIN_ROOT")
     if env:
         return Path(env).expanduser().resolve()
     home_candidate = Path.home() / "devops-solutions-information-hub"

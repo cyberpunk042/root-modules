@@ -66,14 +66,14 @@ def _resolve_python() -> str:
     """Resolve a Python interpreter that has the project's tools.* importable.
 
     Tries (in order):
-      1. RGP_PROJECT_PYTHON env var (operator override)
+      1. RM_PROJECT_PYTHON env var (operator override; legacy RGP_PROJECT_PYTHON honored)
       2. <second-brain>/.venv/bin/python (where tools.* deps live)
       3. system python3 (last resort)
     """
-    env = os.environ.get("RGP_PROJECT_PYTHON", "").strip()
+    env = (os.environ.get("RM_PROJECT_PYTHON") or os.environ.get("RGP_PROJECT_PYTHON") or "").strip()
     if env and os.path.exists(env):
         return env
-    sb = os.environ.get("RGP_SECOND_BRAIN_ROOT", "").strip()
+    sb = (os.environ.get("RM_SECOND_BRAIN_ROOT") or os.environ.get("RGP_SECOND_BRAIN_ROOT") or "").strip()
     if sb:
         candidate = Path(sb).expanduser() / ".venv" / "bin" / "python"
         if candidate.exists():

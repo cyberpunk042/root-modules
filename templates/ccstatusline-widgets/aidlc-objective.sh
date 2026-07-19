@@ -7,11 +7,11 @@ set -euo pipefail
 # shellcheck disable=SC1091
 source "$(dirname "$0")/_lib.sh"
 
-PROJ="$(rgp_resolve_project)"
-MISSION_FILE="${ROOT_GHOSTPROXY_ACTIVE_MISSION:-${PROJ}/.claude/active-mission}"
-FOCUS_FILE="${ROOT_GHOSTPROXY_ACTIVE_FOCUS:-${PROJ}/.claude/active-focus}"
-IMPEDIMENT_FILE="${ROOT_GHOSTPROXY_ACTIVE_IMPEDIMENT:-${PROJ}/.claude/active-impediment}"
-PRIORITIES_FILE="${ROOT_GHOSTPROXY_ACTIVE_PRIORITIES:-${PROJ}/.claude/active-priorities}"
+PROJ="$(rm_resolve_project)"
+MISSION_FILE="${ROOT_MODULES_ACTIVE_MISSION:-${ROOT_GHOSTPROXY_ACTIVE_MISSION:-${PROJ}}/.claude/active-mission}"
+FOCUS_FILE="${ROOT_MODULES_ACTIVE_FOCUS:-${ROOT_GHOSTPROXY_ACTIVE_FOCUS:-${PROJ}}/.claude/active-focus}"
+IMPEDIMENT_FILE="${ROOT_MODULES_ACTIVE_IMPEDIMENT:-${ROOT_GHOSTPROXY_ACTIVE_IMPEDIMENT:-${PROJ}}/.claude/active-impediment}"
+PRIORITIES_FILE="${ROOT_MODULES_ACTIVE_PRIORITIES:-${ROOT_GHOSTPROXY_ACTIVE_PRIORITIES:-${PROJ}}/.claude/active-priorities}"
 
 shorten() {
     local txt="$1" max="${2:-30}"

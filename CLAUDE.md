@@ -24,7 +24,7 @@ This file is auto-loaded by Claude Code at session start. It defines the operato
 | PM Level | L1 (default) | Consumer/Task |
 | Trust tier | operator-supervised (default) | Consumer/Task |
 
-Stable rows are project-level invariants. State rows track SFIF stage. Consumer/Task rows are session-overridable defaults — a consumer (the agent in a given session) can pick different ones per task. Full identity profile (canonical): `<second-brain>/wiki/ecosystem/project_profiles/root-ghostproxy/identity-profile.md`.
+Stable rows are project-level invariants. State rows track SFIF stage. Consumer/Task rows are session-overridable defaults — a consumer (the agent in a given session) can pick different ones per task. Full identity profile (canonical): `<second-brain>/wiki/ecosystem/project_profiles/root-modules/identity-profile.md`.
 
 ## Methodology
 
@@ -166,7 +166,7 @@ For high-impact changes (anything touching the foundation, the modules, the meth
 | Design pattern rationale (why deny-by-default, why fail-closed, why two layers, why facultative modules, why methodology adoption) | [DESIGN.md](DESIGN.md) |
 | Security policy (threat model, layer-by-layer protections, fail-closed invariants, escalation, audit, limitations) | [SECURITY.md](SECURITY.md) |
 | Skills directory context | [SKILLS.md](SKILLS.md) |
-| Identity profile (Goldilocks 9-dimension full) | `<second-brain>/wiki/ecosystem/project_profiles/root-ghostproxy/identity-profile.md` |
+| Identity profile (Goldilocks 9-dimension full) | `<second-brain>/wiki/ecosystem/project_profiles/root-modules/identity-profile.md` |
 | Methodology engine | [wiki/config/methodology.yaml](wiki/config/methodology.yaml) |
 | Active epic | [wiki/backlog/epics/sfif-rollout-and-second-brain-integration.md](wiki/backlog/epics/sfif-rollout-and-second-brain-integration.md) |
 | Modules M001–M010 | [wiki/backlog/modules/](wiki/backlog/modules/) |

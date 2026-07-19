@@ -20,7 +20,7 @@
 
 Stable rows are project-level invariants. State rows track SFIF stage. Consumer/Task rows are session-overridable defaults.
 
-Full identity profile (canonical): `<second-brain>/wiki/ecosystem/project_profiles/root-ghostproxy/identity-profile.md`.
+Full identity profile (canonical): `<second-brain>/wiki/ecosystem/project_profiles/root-modules/identity-profile.md`.
 
 ## Active Objective Layer (per SB-118 + SB-127 + SB-124d)
 
@@ -364,8 +364,8 @@ All 10 top-level brain files are project-specific authoring (no longer verbatim 
 
 ### Second brain (canonical sources)
 
-- `<second-brain>/wiki/ecosystem/project_profiles/root-ghostproxy/identity-profile.md` — full identity profile (canonical Goldilocks 9-dim)
-- `<second-brain>/wiki/config/sister-projects.yaml` → `projects.root-ghostproxy` — sister-project registration entry
+- `<second-brain>/wiki/ecosystem/project_profiles/root-modules/identity-profile.md` — full identity profile (canonical Goldilocks 9-dim)
+- `<second-brain>/wiki/config/sister-projects.yaml` → `projects.root-modules` — sister-project registration entry
 - `<second-brain>/raw/notes/2026-05-04-*.md` — operator-verbatim directive logs (historical reference, sacrosanct, primary source for original project intent)
 - `<second-brain>/wiki/sources/src-{suricata*,polarproxy,hanke-honeypot-polarproxy-suricata-integration}.md` — module design source-syntheses
 - `<second-brain>/wiki/spine/references/adoption-guide.md` — strictly-defined sister-project adoption process

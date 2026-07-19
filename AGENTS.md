@@ -110,7 +110,7 @@ Every AI tool obeys this two-layer architecture. **It is a property of the host,
 | PM Level | L1 | Consumer/Task default |
 | Trust tier | operator-supervised | Consumer/Task default |
 
-Full identity profile (canonical): `<second-brain>/wiki/ecosystem/project_profiles/root-ghostproxy/identity-profile.md`.
+Full identity profile (canonical): `<second-brain>/wiki/ecosystem/project_profiles/root-modules/identity-profile.md`.
 
 ## Mission (operator verbatim)
 
@@ -139,8 +139,8 @@ Source: `<second-brain>/raw/notes/2026-05-04-prepare-root-ghostproxy-as-sister-t
 | **Backlog (4-level hierarchy: Milestone → Epic → Module → Task — introduced 2026-05-06)** | [wiki/backlog/](wiki/backlog/) | Active milestone v0.2 ai-natural-task-management (alongside v0.1) + 4 active epics (sfif-rollout + E001 auto-pilot rework + E002 piling-tasks + E003 compound-retention-and-multi-group) + 14 modules + 66 atomic tasks. |
 | **Governance — SRP-separated docs** | [wiki/governance/](wiki/governance/) | `blockers.md` (operator-decision-pending), `decisions.md` (40 entries D001-D040, full audit trail), `progress.md` (live-state callout refreshed via `/sync-progress`), `systemic-bugs.md` (138-row tracker; max ID SB-138; 1 historical duplicate; per-bug status + verification evidence). |
 | **Log** | [wiki/log/](wiki/log/) | Operator directives verbatim, session logs, completion notes, decision packages, design notes. |
-| **Identity profile (canonical)** | `<second-brain>/wiki/ecosystem/project_profiles/root-ghostproxy/identity-profile.md` | Full Goldilocks 9-dimension profile. |
-| **Sister-projects.yaml entry** | `<second-brain>/wiki/config/sister-projects.yaml` → `projects.root-ghostproxy` | Registration with second brain. |
+| **Identity profile (canonical)** | `<second-brain>/wiki/ecosystem/project_profiles/root-modules/identity-profile.md` | Full Goldilocks 9-dimension profile. |
+| **Sister-projects.yaml entry** | `<second-brain>/wiki/config/sister-projects.yaml` → `projects.root-modules` | Registration with second brain. |
 | **Source-syntheses (in second brain)** | `<second-brain>/wiki/sources/src-{suricata,polarproxy,suricata-install-quickstart,suricata-ips-mode-linux,suricata-yaml-config,hanke-honeypot-polarproxy-suricata-integration}.md` | Module design references. |
 | **Adoption Guide** | `<second-brain>/wiki/spine/references/adoption-guide.md` | The strictly-defined sister-project adoption process. |
 | **Second brain (when --connect-project has been run)** | `.mcp.json` `mcpServers.research-wiki` + `tools/gateway.py` + `tools/view.py` forwarders | Programmatic + CLI access to second-brain methodology + standards + lessons + patterns. |

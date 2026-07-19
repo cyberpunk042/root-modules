@@ -21,7 +21,7 @@ sources:
     file: raw/notes/2026-05-04-prepare-root-ghostproxy-as-sister-type-root-group-operating-system-setup.md
   - id: root-modules-identity-profile
     type: wiki
-    file: wiki/ecosystem/project_profiles/root-ghostproxy/identity-profile.md
+    file: wiki/ecosystem/project_profiles/root-modules/identity-profile.md
   - id: root-modules-readme
     type: file
     file: $HOME/README.md
@@ -143,7 +143,7 @@ cat /opt/devops-solutions-information-hub/wiki/backlog/epics/pre-milestone/root-
 cat /opt/devops-solutions-information-hub/raw/notes/2026-05-04-prepare-root-ghostproxy-as-sister-type-root-group-operating-system-setup.md
 
 # 4. Read the identity profile (the brain's understanding of root-modules)
-cat /opt/devops-solutions-information-hub/wiki/ecosystem/project_profiles/root-ghostproxy/identity-profile.md
+cat /opt/devops-solutions-information-hub/wiki/ecosystem/project_profiles/root-modules/identity-profile.md
 
 # 5. Read the SFIF model
 cat /opt/devops-solutions-information-hub/wiki/spine/models/quality/model-sfif-architecture.md

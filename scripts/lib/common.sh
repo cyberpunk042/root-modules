@@ -7,8 +7,8 @@
 # functions + lightweight variables.
 #
 # Re-source guard:
-[ -n "${RGP_LIB_COMMON_SOURCED:-}" ] && return 0
-RGP_LIB_COMMON_SOURCED=1
+[ -n "${RM_LIB_COMMON_SOURCED:-}" ] && return 0
+RM_LIB_COMMON_SOURCED=1
 
 # ---------- Logging ----------
 say()  { printf "  %s\n" "$*"; }
@@ -19,12 +19,15 @@ fail() { printf "  ✗ %s\n" "$*" >&2; exit 1; }
 info() { printf "  i %s\n" "$*"; }
 
 # ---------- Interactive detection ----------
-# Detect once, cache. Override by setting RGP_INTERACTIVE before sourcing.
-if [ -z "${RGP_INTERACTIVE:-}" ]; then
+# Detect once, cache. Override by setting RM_INTERACTIVE (legacy RGP_INTERACTIVE honored) before sourcing.
+if [ -z "${RM_INTERACTIVE:-}" ] && [ -n "${RGP_INTERACTIVE:-}" ]; then
+  RM_INTERACTIVE="$RGP_INTERACTIVE"
+fi
+if [ -z "${RM_INTERACTIVE:-}" ]; then
   if [ -r /dev/tty ]; then
-    RGP_INTERACTIVE=1
+    RM_INTERACTIVE=1
   else
-    RGP_INTERACTIVE=0
+    RM_INTERACTIVE=0
   fi
 fi
 
@@ -33,7 +36,7 @@ fi
 #   Reads from /dev/tty (works under curl|bash). Returns default if non-interactive.
 ask() {
   local prompt="$1" default="${2:-}" ans
-  if [ "$RGP_INTERACTIVE" = "1" ]; then
+  if [ "$RM_INTERACTIVE" = "1" ]; then
     read -r -p "  $prompt [$default]: " ans </dev/tty || ans="$default"
     [ -z "$ans" ] && ans="$default"
     echo "$ans"
@@ -46,7 +49,7 @@ ask() {
 #   Returns 0 (yes) / 1 (no). Non-interactive defaults to NO (safety-first).
 confirm() {
   local ans
-  if [ "$RGP_INTERACTIVE" = "1" ]; then
+  if [ "$RM_INTERACTIVE" = "1" ]; then
     read -r -p "  $1 (y/N): " ans </dev/tty || ans="N"
     case "$ans" in y|Y|yes) return 0 ;; *) return 1 ;; esac
   else

@@ -12,8 +12,8 @@ source "$(dirname "$0")/_lib.sh"
 
 if ! rgp_is_in_root_context; then exit 0; fi
 
-PROJ="$(rgp_resolve_project)"
-MISSION_FILE="${ROOT_GHOSTPROXY_ACTIVE_MISSION:-${PROJ}/.claude/active-mission}"
+PROJ="$(rm_resolve_project)"
+MISSION_FILE="${ROOT_MODULES_ACTIVE_MISSION:-${ROOT_GHOSTPROXY_ACTIVE_MISSION:-${PROJ}}/.claude/active-mission}"
 
 [[ -r "${MISSION_FILE}" ]] || exit 0
 mission="$(head -1 "${MISSION_FILE}" | tr -d '\r')"

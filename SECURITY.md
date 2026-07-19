@@ -309,7 +309,7 @@ These hot-path rules complement the design-time principles in DESIGN.md (4 cross
 |---|---|
 | Suricata source-syntheses (Layer 0 README + Layer 1 install/quickstart, IPS modes for Linux, suricata.yaml master config) | `<second-brain>/wiki/sources/src-suricata*.md` |
 | PolarProxy source-syntheses (Layer 0 product page + Layer 1 Hanke integration via dummy interface + tcpreplay) | `<second-brain>/wiki/sources/src-polarproxy.md`, `src-hanke-honeypot-polarproxy-suricata-integration.md` |
-| Identity profile (canonical Goldilocks 9-dim) | `<second-brain>/wiki/ecosystem/project_profiles/root-ghostproxy/identity-profile.md` |
+| Identity profile (canonical Goldilocks 9-dim) | `<second-brain>/wiki/ecosystem/project_profiles/root-modules/identity-profile.md` |
 | Adoption Guide canonical | `<second-brain>/wiki/spine/references/adoption-guide.md` |
 
 ## Acknowledgments

@@ -14,7 +14,7 @@ This project runs under **spec-driven development with strong methodology and st
 
 ## What this project IS (one sentence)
 
-`root-modules` (renamed from `root-ghostproxy` 2026-07-19 — *"at first and by default a root or home folder upgrader, evolver and secondly you can install supplementary modules like the ghostproxy combo"*, operator verbatim) is the system-AI-safety-setup project at the OS root level: first and by default it upgrades/evolves a root or home folder — secures a Debian 13 host AND configures Claude Code + opencode at root — and secondly it can install supplementary modules like the **ghostproxy combo**: a transparent L2 IPS bridge (Suricata + PolarProxy as facultative modules) between the OPNsense edge and the LAN switch. **type=root, group=operating-system-setup** — scope, not path. Identity is canonical at `<second-brain>/wiki/ecosystem/project_profiles/root-ghostproxy/identity-profile.md` (second-brain path retains the pre-rename key until renamed there).
+`root-modules` (renamed from `root-ghostproxy` 2026-07-19 — *"at first and by default a root or home folder upgrader, evolver and secondly you can install supplementary modules like the ghostproxy combo"*, operator verbatim) is the system-AI-safety-setup project at the OS root level: first and by default it upgrades/evolves a root or home folder — secures a Debian 13 host AND configures Claude Code + opencode at root — and secondly it can install supplementary modules like the **ghostproxy combo**: a transparent L2 IPS bridge (Suricata + PolarProxy as facultative modules) between the OPNsense edge and the LAN switch. **type=root, group=operating-system-setup** — scope, not path. Identity is canonical at `<second-brain>/wiki/ecosystem/project_profiles/root-modules/identity-profile.md` (renamed on the second-brain side 2026-07-19; old `root-ghostproxy` name kept as a sister-projects.yaml alias).
 
 ## Read order (cold pickup, ~10 minutes)
 
@@ -74,7 +74,7 @@ ls <second-brain>/wiki/spine/references/adoption-guide.md
 grep -A2 "^  root-modules:" <second-brain>/wiki/config/sister-projects.yaml
 
 # 4. confirm identity profile resolves
-ls <second-brain>/wiki/ecosystem/project_profiles/root-ghostproxy/identity-profile.md
+ls <second-brain>/wiki/ecosystem/project_profiles/root-modules/identity-profile.md
 
 # 5. confirm second-brain agent can orient as sister project
 cd <second-brain>/ && \
@@ -138,7 +138,7 @@ Stage boundaries are hard. Document → design → scaffold → implement → te
 
 The second brain at `<second-brain>/` holds the canonical identity profile, source-syntheses (Suricata + PolarProxy), super-model, methodology engine, and 16 named models. This project consumes from it; this project contributes back via `gateway contribute`.
 
-- Sister-projects.yaml entry: `<second-brain>/wiki/config/sister-projects.yaml` → `projects.root-ghostproxy` (type=root, group=operating-system-setup, auto_connect=false). `auto_connect=false` is intentional friction — type=root projects gate the security envelope, so connection is explicit.
+- Sister-projects.yaml entry: `<second-brain>/wiki/config/sister-projects.yaml` → `projects.root-modules` (type=root, group=operating-system-setup, auto_connect=false). `auto_connect=false` is intentional friction — type=root projects gate the security envelope, so connection is explicit.
 - Adoption Guide: `<second-brain>/wiki/spine/references/adoption-guide.md`. Read it when designing how a methodology layer is rolled into this project.
 
 ## Gotchas (will save 30 minutes each)
@@ -283,8 +283,8 @@ Per operator directive 2026-05-06 (sacrosanct verbatim at [wiki/log/2026-05-06-1
 
 | For… | Read |
 |---|---|
-| Identity profile (canonical Goldilocks 9-dim) | `<second-brain>/wiki/ecosystem/project_profiles/root-ghostproxy/identity-profile.md` |
-| Sister-projects.yaml entry | `<second-brain>/wiki/config/sister-projects.yaml` → `projects.root-ghostproxy` |
+| Identity profile (canonical Goldilocks 9-dim) | `<second-brain>/wiki/ecosystem/project_profiles/root-modules/identity-profile.md` |
+| Sister-projects.yaml entry | `<second-brain>/wiki/config/sister-projects.yaml` → `projects.root-modules` |
 | Suricata + PolarProxy source-syntheses | `<second-brain>/wiki/sources/src-{suricata*,polarproxy,hanke-honeypot-polarproxy-suricata-integration}.md` |
 | Adoption Guide | `<second-brain>/wiki/spine/references/adoption-guide.md` |
 | Wiki-schema (9 required fields + per-type required sections) | `<second-brain>/wiki/config/wiki-schema.yaml` |

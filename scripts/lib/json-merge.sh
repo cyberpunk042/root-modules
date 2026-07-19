@@ -10,8 +10,8 @@
 # Requires: lib/common.sh sourced first (uses ok/warn/info/fail).
 #
 # Re-source guard:
-[ -n "${RGP_LIB_JSON_MERGE_SOURCED:-}" ] && return 0
-RGP_LIB_JSON_MERGE_SOURCED=1
+[ -n "${RM_LIB_JSON_MERGE_SOURCED:-}" ] && return 0
+RM_LIB_JSON_MERGE_SOURCED=1
 
 # validate_json <file>
 #   Returns 0 if valid JSON, non-zero otherwise.

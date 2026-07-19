@@ -5,7 +5,7 @@ set -euo pipefail
 # shellcheck disable=SC1091
 source "$(dirname "$0")/_lib.sh"
 
-readonly MODE_FILE="${ROOT_GHOSTPROXY_ACTIVE_MODE:-$(rgp_resolve_project)/.claude/active-mode}"
+readonly MODE_FILE="${ROOT_MODULES_ACTIVE_MODE:-${ROOT_GHOSTPROXY_ACTIVE_MODE:-$(rm_resolve_project)/.claude/active-mode}}"
 if [[ -r "${MODE_FILE}" ]]; then
     m=$(head -1 "${MODE_FILE}" | tr -d '[:space:]')
     case "${m}" in

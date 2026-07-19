@@ -72,7 +72,7 @@ hdr "Pre-flight"
 [ "$(pwd)" = "$HOME" ] || fail "Must run from \$HOME (cwd=$(pwd))"
 ok "cwd is \$HOME ($HOME)"
 
-BACKUP_DIR="$RGP_BACKUP_DIR_DEFAULT"
+BACKUP_DIR="$RM_BACKUP_DIR_DEFAULT"
 if [ "$MODE" != "validate" ]; then
   [ -d "$BACKUP_DIR" ] || fail "$BACKUP_DIR not found — nothing to merge"
   ok "backup dir present: $BACKUP_DIR"

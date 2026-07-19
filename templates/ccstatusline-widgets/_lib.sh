@@ -7,23 +7,28 @@
 #
 # Usage:
 #   source "$(dirname "$0")/_lib.sh"
-#   TOOLS_PYTHON="$(rgp_resolve_python)"
-#   TOOLS_DIR="$(rgp_resolve_project)"
+#   TOOLS_PYTHON="$(rm_resolve_python)"
+#   TOOLS_DIR="$(rm_resolve_project)"
 
 # Resolve the Python interpreter that has the project's tools.* importable.
 # Order:
-#   1. ROOT_GHOSTPROXY_PYTHON — operator override
-#   2. RGP_SECOND_BRAIN_ROOT/.venv/bin/python — env-var-resolved second brain
+#   1. ROOT_MODULES_PYTHON — operator override (legacy ROOT_GHOSTPROXY_PYTHON honored)
+#   2. RM_SECOND_BRAIN_ROOT/.venv/bin/python — env-var-resolved second brain (legacy RGP_SECOND_BRAIN_ROOT honored)
 #   3. $HOME/devops-solutions-information-hub/.venv/bin/python — default new install
 #   4. /opt/devops-solutions-information-hub/.venv/bin/python — legacy fallback
 #   5. python3 — last-resort system python (may lack venv-only deps)
-rgp_resolve_python() {
+rm_resolve_python() {
+    if [[ -n "${ROOT_MODULES_PYTHON:-}" && -x "${ROOT_MODULES_PYTHON}" ]]; then
+        printf '%s' "${ROOT_MODULES_PYTHON}"
+        return 0
+    fi
     if [[ -n "${ROOT_GHOSTPROXY_PYTHON:-}" && -x "${ROOT_GHOSTPROXY_PYTHON}" ]]; then
         printf '%s' "${ROOT_GHOSTPROXY_PYTHON}"
         return 0
     fi
-    if [[ -n "${RGP_SECOND_BRAIN_ROOT:-}" ]]; then
-        local cand="${RGP_SECOND_BRAIN_ROOT%/}/.venv/bin/python"
+    local sb_root="${RM_SECOND_BRAIN_ROOT:-${RGP_SECOND_BRAIN_ROOT:-}}"
+    if [[ -n "${sb_root}" ]]; then
+        local cand="${sb_root%/}/.venv/bin/python"
         if [[ -x "${cand}" ]]; then
             printf '%s' "${cand}"
             return 0
@@ -74,7 +79,7 @@ rgp_is_in_root_context() {
 #   2. CLAUDE_PROJECT_DIR — Claude Code's per-session project root (PRIMARY:
 #      this is what makes widgets context-aware)
 #   3. $HOME — fallback for non-Claude-Code invokers / legacy sessions
-rgp_resolve_project() {
+rm_resolve_project() {
     if [[ -n "${ROOT_GHOSTPROXY_DIR:-}" ]]; then
         printf '%s' "${ROOT_GHOSTPROXY_DIR}"
         return 0

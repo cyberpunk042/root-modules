@@ -14,8 +14,8 @@ if ! rgp_is_in_root_context; then
     exit 0
 fi
 
-readonly TOOLS_PYTHON="$(rgp_resolve_python)"
-readonly TOOLS_DIR="$(rgp_resolve_project)"
+readonly TOOLS_PYTHON="$(rm_resolve_python)"
+readonly TOOLS_DIR="$(rm_resolve_project)"
 
 # Path 1: tools.questions show — read line-count from queue-file path.
 if [[ -x "${TOOLS_PYTHON}" ]] && [[ -f "${TOOLS_DIR}/tools/questions.py" ]]; then
@@ -35,7 +35,7 @@ except Exception:
 fi
 
 # Path 2: direct read of queue-file (no Python).
-QFILE="${ROOT_GHOSTPROXY_ACTIVE_QUESTIONS:-${TOOLS_DIR}/.claude/active-questions}"
+QFILE="${ROOT_MODULES_ACTIVE_QUESTIONS:-${ROOT_GHOSTPROXY_ACTIVE_QUESTIONS:-${TOOLS_DIR}}/.claude/active-questions}"
 if [[ -r "${QFILE}" ]]; then
     n=$(grep -c -v '^[[:space:]]*$' "${QFILE}" 2>/dev/null || echo 0)
     printf 'Q:%s' "${n}"

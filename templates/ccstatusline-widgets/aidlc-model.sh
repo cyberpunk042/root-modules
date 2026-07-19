@@ -5,9 +5,9 @@ set -euo pipefail
 # shellcheck disable=SC1091
 source "$(dirname "$0")/_lib.sh"
 
-readonly STATE_FILE="${ROOT_GHOSTPROXY_ACTIVE_TASK:-$(rgp_resolve_project)/.claude/active-task}"
-readonly TASKS_DIR="${ROOT_GHOSTPROXY_TASKS_DIR:-$(rgp_resolve_project)/wiki/backlog/tasks}"
-readonly MODULES_DIR="${ROOT_GHOSTPROXY_MODULES_DIR:-$(rgp_resolve_project)/wiki/backlog/modules}"
+readonly STATE_FILE="${ROOT_MODULES_ACTIVE_TASK:-${ROOT_GHOSTPROXY_ACTIVE_TASK:-$(rm_resolve_project)/.claude/active-task}}"
+readonly TASKS_DIR="${ROOT_MODULES_TASKS_DIR:-${ROOT_GHOSTPROXY_TASKS_DIR:-$(rm_resolve_project)/wiki/backlog/tasks}}"
+readonly MODULES_DIR="${ROOT_MODULES_MODULES_DIR:-${ROOT_GHOSTPROXY_MODULES_DIR:-$(rm_resolve_project)/wiki/backlog/modules}}"
 
 task=""
 [[ -r "${STATE_FILE}" ]] && task=$(head -1 "${STATE_FILE}" | tr -d '[:space:]') || true

@@ -464,6 +464,6 @@ ADR detail lives at [`wiki/governance/decisions.md`](wiki/governance/decisions.m
 | SFIF model canonical | `<second-brain>/wiki/spine/models/quality/model-sfif-architecture.md` |
 | Suricata source-syntheses (4 pages) | `<second-brain>/wiki/sources/src-suricata*.md` |
 | PolarProxy source-syntheses (2 pages) | `<second-brain>/wiki/sources/src-polarproxy.md` + `src-hanke-honeypot-polarproxy-suricata-integration.md` |
-| Identity profile canonical | `<second-brain>/wiki/ecosystem/project_profiles/root-ghostproxy/identity-profile.md` |
+| Identity profile canonical | `<second-brain>/wiki/ecosystem/project_profiles/root-modules/identity-profile.md` |
 | Adoption Guide canonical | `<second-brain>/wiki/spine/references/adoption-guide.md` |
 | Wiki-schema (9 required fields + per-type required sections) | `<second-brain>/wiki/config/wiki-schema.yaml` |

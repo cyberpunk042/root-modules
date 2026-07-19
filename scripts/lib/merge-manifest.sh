@@ -19,28 +19,28 @@
 # Requires: lib/common.sh + lib/security-scan.sh sourced first.
 #
 # Re-source guard:
-[ -n "${RGP_LIB_MERGE_MANIFEST_SOURCED:-}" ] && return 0
-RGP_LIB_MERGE_MANIFEST_SOURCED=1
+[ -n "${RM_LIB_MERGE_MANIFEST_SOURCED:-}" ] && return 0
+RM_LIB_MERGE_MANIFEST_SOURCED=1
 
 # ---------- Internal state ----------
-RGP_MANIFEST_APPLIED=()
-RGP_MANIFEST_SURFACED=()
-RGP_MANIFEST_FLAGGED=()
-RGP_MANIFEST_SKIPPED=()
-RGP_MANIFEST_TIMESTAMP=""
-RGP_MANIFEST_HOSTNAME=""
+RM_MANIFEST_APPLIED=()
+RM_MANIFEST_SURFACED=()
+RM_MANIFEST_FLAGGED=()
+RM_MANIFEST_SKIPPED=()
+RM_MANIFEST_TIMESTAMP=""
+RM_MANIFEST_HOSTNAME=""
 
 # ---------- API ----------
 
 # manifest_init
 #   Resets manifest state. Call once at the start of an --apply session.
 manifest_init() {
-  RGP_MANIFEST_APPLIED=()
-  RGP_MANIFEST_SURFACED=()
-  RGP_MANIFEST_FLAGGED=()
-  RGP_MANIFEST_SKIPPED=()
-  RGP_MANIFEST_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-  RGP_MANIFEST_HOSTNAME="$(hostname -s 2>/dev/null || echo unknown-host)"
+  RM_MANIFEST_APPLIED=()
+  RM_MANIFEST_SURFACED=()
+  RM_MANIFEST_FLAGGED=()
+  RM_MANIFEST_SKIPPED=()
+  RM_MANIFEST_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  RM_MANIFEST_HOSTNAME="$(hostname -s 2>/dev/null || echo unknown-host)"
 }
 
 # manifest_record <category> <key> <detail>
@@ -50,10 +50,10 @@ manifest_record() {
   local entry
   entry="${key}|${detail}"
   case "$cat" in
-    applied)  RGP_MANIFEST_APPLIED+=("$entry") ;;
-    surfaced) RGP_MANIFEST_SURFACED+=("$entry") ;;
-    flagged)  RGP_MANIFEST_FLAGGED+=("$entry") ;;
-    skipped)  RGP_MANIFEST_SKIPPED+=("$entry") ;;
+    applied)  RM_MANIFEST_APPLIED+=("$entry") ;;
+    surfaced) RM_MANIFEST_SURFACED+=("$entry") ;;
+    flagged)  RM_MANIFEST_FLAGGED+=("$entry") ;;
+    skipped)  RM_MANIFEST_SKIPPED+=("$entry") ;;
     *)        warn "manifest_record: unknown category '$cat'" ;;
   esac
 }
@@ -61,7 +61,7 @@ manifest_record() {
 # manifest_has_high_flags
 #   Returns 0 if any flag entry starts with "HIGH:"
 manifest_has_high_flags() {
-  for entry in "${RGP_MANIFEST_FLAGGED[@]:-}"; do
+  for entry in "${RM_MANIFEST_FLAGGED[@]:-}"; do
     case "$entry" in HIGH:*) return 0 ;; esac
   done
   return 1
@@ -71,10 +71,10 @@ manifest_has_high_flags() {
 manifest_count() {
   local cat="$1"
   case "$cat" in
-    applied)  echo ${#RGP_MANIFEST_APPLIED[@]} ;;
-    surfaced) echo ${#RGP_MANIFEST_SURFACED[@]} ;;
-    flagged)  echo ${#RGP_MANIFEST_FLAGGED[@]} ;;
-    skipped)  echo ${#RGP_MANIFEST_SKIPPED[@]} ;;
+    applied)  echo ${#RM_MANIFEST_APPLIED[@]} ;;
+    surfaced) echo ${#RM_MANIFEST_SURFACED[@]} ;;
+    flagged)  echo ${#RM_MANIFEST_FLAGGED[@]} ;;
+    skipped)  echo ${#RM_MANIFEST_SKIPPED[@]} ;;
     *)        echo 0 ;;
   esac
 }
@@ -110,7 +110,7 @@ manifest_finalize() {
 
   local date_iso
   date_iso="$(date -u +%Y-%m-%d)"
-  local short_host="$RGP_MANIFEST_HOSTNAME"
+  local short_host="$RM_MANIFEST_HOSTNAME"
 
   # Resolve project root: $HOME if there's a wiki/ there (Path A), else cwd
   local proj_root
@@ -141,10 +141,10 @@ tags: [log, merge-audit, security-review, governance, $short_host, post-path-a]
 
 ## Run metadata
 
-- **Timestamp (UTC)**: $RGP_MANIFEST_TIMESTAMP
-- **Host**: $RGP_MANIFEST_HOSTNAME
+- **Timestamp (UTC)**: $RM_MANIFEST_TIMESTAMP
+- **Host**: $RM_MANIFEST_HOSTNAME
 - **Mode**: \`merge-from-backup.sh --apply\` (post-Path-A reconciliation)
-- **Backup source**: \`\$HOME/$RGP_BACKUP_DIR_DEFAULT/\`
+- **Backup source**: \`\$HOME/$RM_BACKUP_DIR_DEFAULT/\`
 
 ## Summary
 
@@ -159,11 +159,11 @@ tags: [log, merge-audit, security-review, governance, $short_host, post-path-a]
 
 EOF
 )
-  if [ ${#RGP_MANIFEST_APPLIED[@]} -eq 0 ]; then
+  if [ ${#RM_MANIFEST_APPLIED[@]} -eq 0 ]; then
     log_content+=$'\nNone.\n'
   else
     log_content+=$'\n| Key | Detail |\n|---|---|\n'
-    for entry in "${RGP_MANIFEST_APPLIED[@]}"; do
+    for entry in "${RM_MANIFEST_APPLIED[@]}"; do
       local k="${entry%%|*}"
       local d="${entry#*|}"
       log_content+="| \`$k\` | $d |"$'\n'
@@ -171,11 +171,11 @@ EOF
   fi
 
   log_content+=$'\n## Surfaced for manual review\n'
-  if [ ${#RGP_MANIFEST_SURFACED[@]} -eq 0 ]; then
+  if [ ${#RM_MANIFEST_SURFACED[@]} -eq 0 ]; then
     log_content+=$'\nNone.\n'
   else
     log_content+=$'\n| Key | Detail |\n|---|---|\n'
-    for entry in "${RGP_MANIFEST_SURFACED[@]}"; do
+    for entry in "${RM_MANIFEST_SURFACED[@]}"; do
       local k="${entry%%|*}"
       local d="${entry#*|}"
       log_content+="| \`$k\` | $d |"$'\n'
@@ -183,11 +183,11 @@ EOF
   fi
 
   log_content+=$'\n## Security flags\n'
-  if [ ${#RGP_MANIFEST_FLAGGED[@]} -eq 0 ]; then
+  if [ ${#RM_MANIFEST_FLAGGED[@]} -eq 0 ]; then
     log_content+=$'\nNone.\n'
   else
     log_content+=$'\n| Severity | Category | Detail |\n|---|---|---|\n'
-    for entry in "${RGP_MANIFEST_FLAGGED[@]}"; do
+    for entry in "${RM_MANIFEST_FLAGGED[@]}"; do
       local k="${entry%%|*}"
       local d="${entry#*|}"
       local sev="${k%%:*}"
@@ -197,18 +197,18 @@ EOF
   fi
 
   log_content+=$'\n## Skipped\n'
-  if [ ${#RGP_MANIFEST_SKIPPED[@]} -eq 0 ]; then
+  if [ ${#RM_MANIFEST_SKIPPED[@]} -eq 0 ]; then
     log_content+=$'\nNone.\n'
   else
     log_content+=$'\n'
-    for entry in "${RGP_MANIFEST_SKIPPED[@]}"; do
+    for entry in "${RM_MANIFEST_SKIPPED[@]}"; do
       local k="${entry%%|*}"
       local d="${entry#*|}"
       log_content+="- \`$k\`: $d"$'\n'
     done
   fi
 
-  log_content+=$'\n## Recovery\n\n- Backup directory (prior config): `$HOME/'"$RGP_BACKUP_DIR_DEFAULT"$'/`\n- Per-file pre-swap backups: `*.pre-merge.bak` in-place\n- Restore single file: `cp -a $HOME/'"$RGP_BACKUP_DIR_DEFAULT"$'/<file> $HOME/<file>`\n- Re-validate: `bash scripts/merge-from-backup.sh --validate`\n'
+  log_content+=$'\n## Recovery\n\n- Backup directory (prior config): `$HOME/'"$RM_BACKUP_DIR_DEFAULT"$'/`\n- Per-file pre-swap backups: `*.pre-merge.bak` in-place\n- Restore single file: `cp -a $HOME/'"$RM_BACKUP_DIR_DEFAULT"$'/<file> $HOME/<file>`\n- Re-validate: `bash scripts/merge-from-backup.sh --validate`\n'
 
   log_content+=$'\n## Cross-references\n\n- Companion follow-up task (this run): see `wiki/backlog/tasks/T<NEXT>-post-merge-review-'"$date_iso"$'-'"$short_host"$'.md` (if generated)\n- Merge tool: `scripts/merge-from-backup.sh`\n- Security scanner: `scripts/lib/security-scan.sh`\n- Conflict-points source-of-truth: `scripts/lib/conflict-points.sh`\n- Scripts ecosystem: `scripts/README.md`\n'
 
@@ -239,7 +239,7 @@ EOF
 
       local high_count med_count
       high_count=0; med_count=0
-      for entry in "${RGP_MANIFEST_FLAGGED[@]:-}"; do
+      for entry in "${RM_MANIFEST_FLAGGED[@]:-}"; do
         case "$entry" in
           HIGH:*) high_count=$((high_count+1)) ;;
           MED:*)  med_count=$((med_count+1)) ;;
@@ -286,7 +286,7 @@ EOF
 
       if [ "$high_count" -gt 0 ]; then
         cat >> "$task_path" <<EOF
-- [ ] **HIGH-severity security flags resolved**: investigate each \`HIGH\` flag from the audit log; either confirm intentional + document rationale, OR revert via \`.pre-merge.bak\` / \`$RGP_BACKUP_DIR_DEFAULT/\`
+- [ ] **HIGH-severity security flags resolved**: investigate each \`HIGH\` flag from the audit log; either confirm intentional + document rationale, OR revert via \`.pre-merge.bak\` / \`$RM_BACKUP_DIR_DEFAULT/\`
 EOF
       fi
       if [ "$med_count" -gt 0 ]; then
@@ -318,7 +318,7 @@ EOF
 ## Anti-patterns to avoid
 
 - Don't auto-accept all merged changes without per-item security review
-- Don't delete \`$RGP_BACKUP_DIR_DEFAULT/\` until the full review is signed off
+- Don't delete \`$RM_BACKUP_DIR_DEFAULT/\` until the full review is signed off
 - Don't promote per-machine state into project spec without operator confirmation (drift accumulates fast)
 - Don't ignore HIGH flags — those block the apply by default; if you saw them applied via \`--accept-security-flags\`, they need explicit justification
 

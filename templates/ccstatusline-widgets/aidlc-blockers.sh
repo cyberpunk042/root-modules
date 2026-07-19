@@ -5,8 +5,8 @@ set -euo pipefail
 # shellcheck disable=SC1091
 source "$(dirname "$0")/_lib.sh"
 
-readonly TOOLS_PYTHON="$(rgp_resolve_python)"
-readonly TOOLS_DIR="$(rgp_resolve_project)"
+readonly TOOLS_PYTHON="$(rm_resolve_python)"
+readonly TOOLS_DIR="$(rm_resolve_project)"
 
 # Path 1: tools.blockers (works for $HOME)
 if [[ -x "${TOOLS_PYTHON}" ]] && [[ -f "${TOOLS_DIR}/tools/blockers.py" ]]; then

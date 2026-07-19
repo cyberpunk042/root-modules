@@ -13,8 +13,8 @@
 # Requires: lib/common.sh sourced first.
 #
 # Re-source guard:
-[ -n "${RGP_LIB_SECURITY_SCAN_SOURCED:-}" ] && return 0
-RGP_LIB_SECURITY_SCAN_SOURCED=1
+[ -n "${RM_LIB_SECURITY_SCAN_SOURCED:-}" ] && return 0
+RM_LIB_SECURITY_SCAN_SOURCED=1
 
 # scan_permission_entries <permission-list-as-jsonl-or-text>
 #   Reads from stdin: one permission entry per line.

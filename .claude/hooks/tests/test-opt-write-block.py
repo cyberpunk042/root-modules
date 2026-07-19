@@ -27,6 +27,8 @@ PROJECT = str(Path.home())
 # resolves the hook to a different prefix than this hardcoded default, and the
 # DENY case silently passes — an environment-coupling false-green.)
 SECOND_BRAIN_ROOT = os.environ.get(
+    # NOTE: deliberately pins the LEGACY env-var name (pre-2026-07-19 rename) so this
+    # test doubles as regression coverage for the RM_SECOND_BRAIN_ROOT->RGP_ fallback chain.
     "RGP_SECOND_BRAIN_ROOT", "/opt/devops-solutions-information-hub"
 ).rstrip("/")
 OPT = SECOND_BRAIN_ROOT + "/"

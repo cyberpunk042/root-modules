@@ -19,8 +19,8 @@
 # .gitconfig, .cache/, .local/, .npm/, etc. stay untouched on Path A.
 #
 # Re-source guard:
-[ -n "${RGP_LIB_CONFLICT_POINTS_SOURCED:-}" ] && return 0
-RGP_LIB_CONFLICT_POINTS_SOURCED=1
+[ -n "${RM_LIB_CONFLICT_POINTS_SOURCED:-}" ] && return 0
+RM_LIB_CONFLICT_POINTS_SOURCED=1
 
 CONFLICT_FILES=(
   ".claude/settings.json"
@@ -36,4 +36,4 @@ CONFLICT_DIRS_FOR_HOOKS_RULES=(
 )
 
 # Standard backup directory name.
-RGP_BACKUP_DIR_DEFAULT=".pre-ghostproxy.bak"
+RM_BACKUP_DIR_DEFAULT=".pre-ghostproxy.bak"

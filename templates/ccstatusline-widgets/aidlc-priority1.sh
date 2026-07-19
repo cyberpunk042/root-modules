@@ -11,8 +11,8 @@ source "$(dirname "$0")/_lib.sh"
 
 if ! rgp_is_in_root_context; then exit 0; fi
 
-PROJ="$(rgp_resolve_project)"
-PRIORITIES_FILE="${ROOT_GHOSTPROXY_ACTIVE_PRIORITIES:-${PROJ}/.claude/active-priorities}"
+PROJ="$(rm_resolve_project)"
+PRIORITIES_FILE="${ROOT_MODULES_ACTIVE_PRIORITIES:-${ROOT_GHOSTPROXY_ACTIVE_PRIORITIES:-${PROJ}}/.claude/active-priorities}"
 
 [[ -r "${PRIORITIES_FILE}" ]] || exit 0
 p1="$(head -1 "${PRIORITIES_FILE}" | tr -d '\r')"

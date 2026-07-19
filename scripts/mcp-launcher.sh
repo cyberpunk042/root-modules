@@ -10,7 +10,7 @@
 #   "args":    ["scripts/mcp-launcher.sh"]
 #
 # Resolution order for second-brain root (first hit wins):
-#   1. $RGP_SECOND_BRAIN_ROOT env var (operator override)
+#   1. $RM_SECOND_BRAIN_ROOT env var (operator override; legacy $RGP_SECOND_BRAIN_ROOT honored)
 #   2. $HOME/devops-solutions-information-hub  (default for non-root install)
 #   3. /opt/devops-solutions-information-hub  (legacy / dev-host location)
 #
@@ -22,7 +22,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 # Resolve second-brain root
-if [ -n "${RGP_SECOND_BRAIN_ROOT:-}" ]; then
+if [ -n "${RM_SECOND_BRAIN_ROOT:-}" ]; then
+  SECOND_BRAIN="$RM_SECOND_BRAIN_ROOT"
+elif [ -n "${RGP_SECOND_BRAIN_ROOT:-}" ]; then
   SECOND_BRAIN="$RGP_SECOND_BRAIN_ROOT"
 elif [ -d "$HOME/devops-solutions-information-hub" ]; then
   SECOND_BRAIN="$HOME/devops-solutions-information-hub"
@@ -30,8 +32,8 @@ elif [ -d "/opt/devops-solutions-information-hub" ]; then
   SECOND_BRAIN="/opt/devops-solutions-information-hub"
 else
   echo "ERROR: second-brain not found." >&2
-  echo "  Tried: \$RGP_SECOND_BRAIN_ROOT, \$HOME/devops-solutions-information-hub, /opt/devops-solutions-information-hub" >&2
-  echo "  Set RGP_SECOND_BRAIN_ROOT=<path> or install second-brain at default location" >&2
+  echo "  Tried: \$RM_SECOND_BRAIN_ROOT (and legacy \$RGP_SECOND_BRAIN_ROOT), \$HOME/devops-solutions-information-hub, /opt/devops-solutions-information-hub" >&2
+  echo "  Set RM_SECOND_BRAIN_ROOT=<path> or install second-brain at default location" >&2
   exit 1
 fi
 

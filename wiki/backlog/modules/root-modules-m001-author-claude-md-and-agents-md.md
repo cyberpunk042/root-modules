@@ -23,7 +23,7 @@ sources:
     file: wiki/backlog/epics/sfif-rollout-and-second-brain-integration.md
   - id: identity-profile
     type: wiki
-    file: wiki/ecosystem/project_profiles/root-ghostproxy/identity-profile.md
+    file: wiki/ecosystem/project_profiles/root-modules/identity-profile.md
   - id: model-skills-commands-hooks
     type: wiki
     file: wiki/spine/models/agent-config/model-skills-commands-hooks.md
@@ -48,7 +48,7 @@ Author the two top-level agent-context files for the root-modules repo: AGENTS.m
 ## Dependencies
 
 - Parent epic must be in document/scaffold stage (it is — readiness 10)
-- Identity profile must exist at `wiki/ecosystem/project_profiles/root-ghostproxy/identity-profile.md` (it does)
+- Identity profile must exist at `wiki/ecosystem/project_profiles/root-modules/identity-profile.md` (it does)
 - Templates for AGENTS.md and CLAUDE.md should be sourced from second brain's standards. The second brain's own CLAUDE.md and AGENTS.md serve as one reference point; lighter "simplified-profile" variants may be more appropriate for a micro-scale OS-setup project
 - Operator decision needed: which OS-setup-relevant scope should AGENTS.md cover? (security envelope, hooks, install.sh classified as not-IaC, two-layer hook architecture, integrity.py)
 

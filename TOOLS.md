@@ -768,5 +768,5 @@ Cross-tool universal — every AI tool's cycle skill maps action types to tools 
 |---|---|
 | Suricata source-syntheses | `<second-brain>/wiki/sources/src-suricata*.md` |
 | PolarProxy source-syntheses | `<second-brain>/wiki/sources/src-polarproxy.md`, `src-hanke-honeypot-polarproxy-suricata-integration.md` |
-| Identity profile (canonical Goldilocks 9-dim) | `<second-brain>/wiki/ecosystem/project_profiles/root-ghostproxy/identity-profile.md` |
+| Identity profile (canonical Goldilocks 9-dim) | `<second-brain>/wiki/ecosystem/project_profiles/root-modules/identity-profile.md` |
 | Adoption Guide | `<second-brain>/wiki/spine/references/adoption-guide.md` |
